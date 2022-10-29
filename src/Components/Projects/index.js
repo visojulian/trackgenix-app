@@ -4,7 +4,7 @@ import styles from './projects.module.css';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
-  const [selectedId, saveId] = useState('');
+  const [selectedProject, saveSelection] = useState({});
   const [showModal, saveShowModal] = useState(false);
 
   useEffect(() => {
@@ -22,9 +22,9 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (project) => {
+    saveSelection({ id: project._id, name: project.name });
     saveShowModal(true);
-    saveId(id);
   };
   return (
     <section className={styles.container}>
@@ -32,21 +32,23 @@ const Projects = () => {
         show={showModal}
         handleModal={saveShowModal}
         deleteProject={deleteProject}
-        id={selectedId}
+        project={selectedProject}
       />
-      <table>
-        <tbody>
+      <table className={styles.table}>
+        <thead>
           <tr>
             <th>Project</th>
             <th>Created</th>
           </tr>
+        </thead>
+        <tbody>
           {projects.map((project) => (
             <tr key={project._id}>
               <td>{project.name}</td>
-              <td>{project.startDate}</td>
-              <td>&hellip;</td>
-              <td>
-                <button onClick={() => handleDelete(project._id)}>&times;</button>
+              <td>{project.startDate.slice(0, 10)}</td>
+              <td className={styles.center}>&hellip;</td>
+              <td className={styles.center}>
+                <button onClick={() => handleDelete(project)}>&times;</button>
               </td>
             </tr>
           ))}

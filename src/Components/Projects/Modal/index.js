@@ -1,10 +1,10 @@
 import styles from './modal.module.css';
 
 const Modal = (props) => {
-  const { show, handleModal, deleteProject, id } = props;
+  const { show, handleModal, deleteProject, project } = props;
   const closeModal = () => handleModal(false);
   const confirmDelete = () => {
-    deleteProject(id);
+    deleteProject(project.id);
     closeModal();
   };
 
@@ -17,8 +17,14 @@ const Modal = (props) => {
         <button onClick={() => closeModal()} className={styles.close}>
           &times;
         </button>
-        <h3>Modal</h3>
-        <button onClick={() => confirmDelete()}>Confirm</button>
+        <h3>Alert!</h3>
+        <p>Are you sure you want to remove project: {project.name}?</p>
+        <button onClick={() => confirmDelete()} className={styles.confirm}>
+          Confirm
+        </button>
+        <button onClick={() => closeModal()} className={styles.cancel}>
+          Cancel
+        </button>
       </div>
     </div>
   );

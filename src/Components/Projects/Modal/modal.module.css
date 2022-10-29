@@ -9,16 +9,11 @@
 }
 
 .modal {
+  padding: 1%;
   margin: 15% auto;
-  width: fit-content;
   border: 1px solid #888;
+  border-radius: 2%;
   background-color: #fefefe;
-}
-
-.modalTitles {
-  margin: 5px 0;
-  color: red;
-  line-height: 1.5;
 }
 
 .close {
@@ -26,12 +21,45 @@
   float: right;
   font-size: 28px;
   font-weight: bold;
-  color: #aaa;
+  border: 0px;
+  background-color: #fefefe;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.cancel {
+  padding: 10px 20px;
+  float: right;
+  font-weight: bold;
+  border: 1px solid #888;
+  border-radius: 5%;
+  background-color: #fefefe;
+}
+
+.cancel:hover,
+.cancel:focus {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #888;
+}
+
+.confirm {
+  margin-left: 10px;
+  padding: 10px 20px;
+  float: right;
+  font-weight: bold;
+  border: 0px;
+  border-radius: 5%;
+  background-color: #EA335430;
+}
+
+.confirm:hover,
+.confirm:focus {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #EA3354;
 }
