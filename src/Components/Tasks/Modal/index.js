@@ -1,12 +1,9 @@
 import styles from './modal.module.css';
 
 function Modal(props) {
-  console.log(props);
   if (!props.show) {
     return null;
   }
-  console.log(props);
-
   const onCloseModal = () => {
     props.deleteTask(props.taskId);
     props.closeModal();
@@ -18,7 +15,7 @@ function Modal(props) {
         <h3>{props.title}</h3>
         <button
           onClick={() => {
-            onCloseModal(props.taskId);
+            onCloseModal();
           }}
         >
           Confirm

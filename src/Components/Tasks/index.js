@@ -9,14 +9,21 @@ function Tasks() {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
       const data = await response.json();
       saveTasks(data.data);
-      console.log(tasks);
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
     saveTasks([...tasks.filter((task) => task._id !== id)]);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
+    const data = await response.json();
+    console.log(data);
+    const responsev2 = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+      method: 'DELETE'
+    });
+    const datav2 = await responsev2.json();
+    console.log(datav2);
   };
 
   return (

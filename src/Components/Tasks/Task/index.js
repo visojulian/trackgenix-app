@@ -10,13 +10,11 @@ function Task({ task, deleteTask }) {
     setShowModal(false);
   };
 
-  console.log(deleteTask);
   return (
     <tr>
       <Modal
         show={showModal}
         closeModal={closeModal}
-        //onCloseModal={onCloseModal}
         deleteTask={deleteTask}
         taskId={taskId}
         title="Do you want to delete this task?"
