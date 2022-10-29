@@ -1,5 +1,5 @@
 .container {
-    position: absolute;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,10 +17,39 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: red;
-  background-color: rgba(0, 0, 0, 0.5);
-width: 634px;
-height: 336px;
+  width: 634px;
+  height: 336px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 6px rgb(0 0 0 / 25%);
+  border-radius: 2px;
+  color: #EA3354;
+}
 
+.modalTitle {
+    display: flex;
+    align-items: center;
+    height: 70%;
+}
 
+.buttonsDiv {
+    display: flex;
+    width: 30%;
+    align-self: flex-end;
+    margin-right: 40px;
+    justify-content: space-between;
+}
+
+.buttonConfirm {
+    width: 75.98px;
+    height: 31.26px;
+    background: #AACE9B;
+    border-radius: 5px;
+    border: 0px;
+    color: #000000;
+}
+
+.buttonCancel {
+    width: 75.98px;
+    height: 31.26px;
+    color: #000000;
 }
