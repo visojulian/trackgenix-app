@@ -15,17 +15,23 @@ function Tasks() {
     }
   }, []);
 
+  const deleteTask = (id) => {
+    saveTasks([...tasks.filter((task) => task._id !== id)]);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Tasks</h2>
       <table className={styles.table}>
-        <tbody>
+        <thead>
           <tr>
             <th>Description</th>
             <th>Action</th>
           </tr>
+        </thead>
+        <tbody>
           {tasks.map((task) => {
-            return <Task key={task._id} task={task} />;
+            return <Task key={task._id} task={task} deleteTask={deleteTask} />;
           })}
         </tbody>
       </table>
