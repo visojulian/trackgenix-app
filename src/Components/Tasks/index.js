@@ -3,7 +3,7 @@ import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
 
-function Tasks() {
+const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
@@ -56,6 +56,6 @@ function Tasks() {
       </table>
     </section>
   );
-}
+};
 
 export default Tasks;

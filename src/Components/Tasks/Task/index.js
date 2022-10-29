@@ -1,6 +1,6 @@
-import Logo from '../Logo/close_cross.png';
+import Logo from '../../../assets/close_cross.png';
 
-function Task({ task, setShowModal, setTaskId }) {
+const Task = ({ task, setShowModal, setTaskId }) => {
   return (
     <tr>
       <td>{task.description}</td>
@@ -16,6 +16,6 @@ function Task({ task, setShowModal, setTaskId }) {
       </td>
     </tr>
   );
-}
+};
 
 export default Task;
