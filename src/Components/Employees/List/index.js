@@ -1,9 +1,9 @@
 import React from 'react';
-// import styles from './list.module.css';
+import styles from './list.module.css';
 
 const EmployeesList = ({ list }) => {
   return (
-    <table>
+    <table className={styles.tableContent}>
       <thead>
         <tr>
           <th>Name</th>

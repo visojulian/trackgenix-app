@@ -1,0 +1,18 @@
+.tableContent {
+  min-width: 400px;
+  width: 80vw;
+  height: 20vw;
+  font-size: 1em;
+  border-collapse: collapse;
+}
+
+.tableContent thead tr {
+  background-color: #373867;
+  color: #ffffff;
+}
+
+.tableContent th, .tableContent td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 0.5px solid rgb(55, 56, 103, 0.40);
+}
