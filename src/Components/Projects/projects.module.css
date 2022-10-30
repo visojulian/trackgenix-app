@@ -4,3 +4,16 @@
   justify-content: center;
   align-items: center;
 }
+
+.button {
+  display: block;
+  text-decoration: none;
+  padding: 0.5%;
+  color: #ffffff;
+  border-radius: 5%;
+  background-color: #EA3354;
+}
+
+.button:hover {
+  opacity: 30%;
+}
