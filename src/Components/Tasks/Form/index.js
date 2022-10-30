@@ -1,51 +1,93 @@
 import { useState, useEffect } from 'react';
-//import Employee from './Employee';
 import styles from './form.module.css';
+import Modal from './Form Modal/index';
+import FormText from './Form Title';
 
 function Form() {
   const [taskName, setTaskName] = useState('');
-  const [estimatedHours, setEstimatedHours] = useState('');
-  const [employees, setEmployees] = useState([]);
-
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      console.log(data.data);
-      setEmployees(data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const [showModal, setShowModal] = useState(false);
+  const [serverError, setServerError] = useState('');
+  const [formMode, setFormMode] = useState(false);
+  const [formText, setFormText] = useState('Add task');
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
   };
 
-  const onChangeHoursInput = (event) => {
-    setEstimatedHours(event.target.value);
+  useEffect(async () => {
+    if (window.location.href !== `http://localhost:3001/tasks/form`) {
+      try {
+        const fullUrl = window.location.href; //fullUrl.slice(36)
+        const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+          method: 'GET'
+        });
+        const data = await response.json();
+        setFormMode(true);
+        setFormText('Edit task');
+        setTaskName(data.data.description);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
-  //   const onChangeEmployeeInput = (event) => {
-  //     setEmployee(event.target.value);
-  //   };
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    console.log(taskName);
-    console.log(estimatedHours);
+  const onSubmit = async (event) => {
+    if (!formMode) {
+      event.preventDefault();
+      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: taskName })
+      });
+      const content = await rawResponse.json();
+      if (!content.error) {
+        window.location.assign('/tasks');
+      } else {
+        setShowModal(true);
+        setServerError(content.message);
+      }
+    } else {
+      event.preventDefault();
+      const fullUrl = window.location.href; //fullUrl.slice(36)
+      const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: taskName })
+      });
+      const content = await rawResponse.json();
+      if (!content.error) {
+        window.location.assign('/tasks');
+      } else {
+        setShowModal(true);
+        setServerError(content.message);
+      }
+    }
   };
-  console.log(employees.map());
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
+      <Modal show={showModal} title={serverError} closeModal={closeModal} />
+      <form onSubmit={onSubmit} className={styles.formFlexBox}>
         <div>
-          <h3>Placeholder</h3>
+          <FormText title={formText} />
         </div>
-        <div className={styles.container}>
+        <div>
           <div>
-            <label>Task Name</label>
+            <label style={{ marginRight: '10px' }}>Task Description</label>
             <input
               id="taskName"
               name="taskName"
@@ -54,32 +96,20 @@ function Form() {
               onChange={onChangeTaskNameInput}
             />
           </div>
-          <div>
-            <label>Estimated Hours</label>
-            <input
-              id="estimatedHours"
-              name="estimatedHours"
-              required
-              value={estimatedHours}
-              onChange={onChangeHoursInput}
-            />
-          </div>
-          <div>
-            <label>Assign Employee</label>
-            <select>
-              <option></option>
-              {/* {employees.map((employee) => {
-                return <Employee key={employee._id} employee={employee} />;
-              })} */}
-            </select>
-          </div>
         </div>
-        <div>
+        <div className={styles.buttonsFlexBox}>
           <div>
-            <button>Cancel</button>
+            <button
+              onClick={() => window.location.assign('/tasks')}
+              className={styles.buttonCancel}
+            >
+              Cancel
+            </button>
           </div>
           <div>
-            <button type="submit">Confirm</button>
+            <button type="submit" className={styles.buttonConfirm}>
+              Confirm
+            </button>
           </div>
         </div>
       </form>
