@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SuperAdminsList = ({ superAdmins }) => {
+const SuperAdminsList = ({ superAdmins, deleteSuperAdmin }) => {
   return (
     <div>
       <h2>Super Admins</h2>
@@ -19,6 +19,9 @@ const SuperAdminsList = ({ superAdmins }) => {
                 <td>{superAdmin.name}</td>
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
+                <td>
+                  <button onClick={() => deleteSuperAdmin(superAdmin._id)}>X</button>
+                </td>
               </tr>
             );
           })}

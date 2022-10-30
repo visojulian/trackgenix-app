@@ -16,12 +16,17 @@ function SuperAdmins() {
     }
   }, []);
 
-  // const deleteItem = (id) => {}
+  const deleteSuperAdmin = async (id) => {
+    await fetch(`http://localhost:4000/super-admins/${id}`, {
+      method: 'DELETE'
+    });
+    setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== id)]);
+  };
 
   return (
     <section className={styles.container}>
       <div>
-        <SuperAdminsList superAdmins={superAdmins} />
+        <SuperAdminsList superAdmins={superAdmins} deleteSuperAdmin={deleteSuperAdmin} />
       </div>
     </section>
   );
