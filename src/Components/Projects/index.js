@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import Modal from './Modal';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 import styles from './projects.module.css';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
-  const [selectedProject, saveSelection] = useState({});
+  const [selectedProject, setSelectedProject] = useState({});
   const [showModal, saveShowModal] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}projects`)
+    fetch(`${process.env.REACT_APP_API_URL}/projects`)
       .then((response) => response.json())
       .then((response) => {
         saveProjects(response.data);
@@ -16,19 +16,19 @@ const Projects = () => {
   }, []);
 
   const deleteProject = async (id) => {
-    await fetch(`${process.env.REACT_APP_API_URL}projects/${id}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
       method: 'DELETE'
     });
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
   const handleDelete = (project) => {
-    saveSelection({ id: project._id, name: project.name });
+    setSelectedProject({ id: project._id, name: project.name });
     saveShowModal(true);
   };
   return (
     <section className={styles.container}>
-      <Modal
+      <DeleteConfirmationModal
         show={showModal}
         handleModal={saveShowModal}
         deleteProject={deleteProject}

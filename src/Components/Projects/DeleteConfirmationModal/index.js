@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-const Modal = (props) => {
+const DeleteConfirmationModal = (props) => {
   const { show, handleModal, deleteProject, project } = props;
   const closeModal = () => handleModal(false);
   const confirmDelete = () => {
@@ -30,4 +30,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default DeleteConfirmationModal;
