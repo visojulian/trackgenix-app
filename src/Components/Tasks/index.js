@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
-//import Form from './Form/index';
 import Modal from './Modal/index';
 
 function Tasks() {
@@ -30,6 +29,10 @@ function Tasks() {
     });
   };
 
+  const onClickTask = (id) => {
+    window.location.assign(`/tasks/form?id=${id}`);
+  };
+
   return (
     <section className={styles.container}>
       <Modal
@@ -39,13 +42,15 @@ function Tasks() {
         taskId={taskId}
         title="Do you want to delete this task?"
       />
-      <div>
-        <div>
+      <div className={styles.upperFlexBox}>
+        <div className={styles.titleFlexBox}>
           <h2>Tasks</h2>
         </div>
-        <div>
+        <div className={styles.buttonFlexBox}>
           <a href="/tasks/form">
-            <button className={styles.addTaskButton}>Add new task</button>
+            <button className={styles.addTaskButton} style={{ marginRight: '25px' }}>
+              Add new task
+            </button>
           </a>
         </div>
       </div>
@@ -59,7 +64,13 @@ function Tasks() {
         <tbody>
           {tasks.map((task) => {
             return (
-              <Task key={task._id} task={task} setShowModal={setShowModal} setTaskId={setTaskId} />
+              <Task
+                key={task._id}
+                task={task}
+                setShowModal={setShowModal}
+                setTaskId={setTaskId}
+                onClickTask={onClickTask}
+              />
             );
           })}
         </tbody>

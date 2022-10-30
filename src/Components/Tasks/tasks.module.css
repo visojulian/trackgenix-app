@@ -10,6 +10,25 @@
   border: solid 1px black;
 }
 
+.upperFlexBox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.titleFlexBox {
+  display: flex;
+  width: 60%;
+  justify-content: flex-end;
+}
+
+.buttonFlexBox {
+  display: flex;
+  width: 50%;
+  justify-content: flex-end;
+}
+
 .addTaskButton {
   width: 75.98px;
   height: 31.26px;
