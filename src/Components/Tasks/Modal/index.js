@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-function ConfirmationModal(props) {
+const ConfirmationModal = (props) => {
   if (!props.show) {
     return null;
   }
@@ -33,6 +33,6 @@ function ConfirmationModal(props) {
       </div>
     </div>
   );
-}
+};
 
 export default ConfirmationModal;
