@@ -1,9 +1,15 @@
-import Logo from '../Logo/close_cross.png';
+import Logo from '../../../assets/close_cross.png';
 
-function Task({ task, setShowModal, setTaskId }) {
+function Task({ task, setShowModal, setTaskId, onClickTask }) {
   return (
     <tr>
-      <td>{task.description}</td>
+      <td
+        onClick={() => {
+          onClickTask(task._id);
+        }}
+      >
+        {task.description}
+      </td>
       <td style={{ display: 'flex', justifyContent: 'center' }}>
         <img
           src={Logo}
