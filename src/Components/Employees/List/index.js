@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 
-const EmployeesList = ({ list, deleteEmployee }) => {
+const EmployeesList = (props) => {
   return (
     <table className={styles.tableContent}>
       <thead>
@@ -10,10 +10,11 @@ const EmployeesList = ({ list, deleteEmployee }) => {
           <th>Last name</th>
           <th>Phone</th>
           <th>Email</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        {list.map((employee) => {
+        {props.list.map((employee) => {
           return (
             <tr key={employee._id}>
               <td>{employee.name}</td>
@@ -21,7 +22,14 @@ const EmployeesList = ({ list, deleteEmployee }) => {
               <td>{employee.phone}</td>
               <td>{employee.email}</td>
               <td>
-                <button onClick={() => deleteEmployee(employee._id)}>X</button>
+                <button
+                  onClick={() => {
+                    props.deleteEmployeeId(employee._id);
+                    props.setShowModal(true);
+                  }}
+                >
+                  X
+                </button>
               </td>
             </tr>
           );

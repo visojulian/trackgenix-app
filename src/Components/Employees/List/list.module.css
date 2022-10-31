@@ -4,6 +4,7 @@
   height: 20vw;
   font-size: 1em;
   border-collapse: collapse;
+  border: 0.5px solid rgb(55, 56, 103, 0.40);
 }
 
 .tableContent thead tr {

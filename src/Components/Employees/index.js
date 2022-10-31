@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import EmployeesList from './List';
+import Modal from './Modal';
 
 function Employees() {
   const [employees, saveEmployees] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [employeeId, deleteEmployeeId] = useState();
 
   useEffect(async () => {
     try {
@@ -22,11 +25,30 @@ function Employees() {
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const onDelete = () => {
+    deleteEmployee(employeeId);
+    closeModal();
+  };
+
   return (
     <section className={styles.container}>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        onDelete={onDelete}
+        deleteEmployeeId={deleteEmployeeId}
+      />
       <h2>Employees</h2>
       <div>
-        <EmployeesList list={employees} deleteEmployee={deleteEmployee} />
+        <EmployeesList
+          list={employees}
+          deleteEmployeeId={deleteEmployeeId}
+          setShowModal={setShowModal}
+        />
       </div>
     </section>
   );

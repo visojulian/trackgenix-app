@@ -1,0 +1,44 @@
+.modal {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  width: 40%;
+  background-color: rgb(231, 231, 246);
+  border: 1px solid rgb(55, 56, 103, 0.40);
+  border-radius: 5px;
+}
+
+.modalText {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 30px;
+  margin-top: 5%;
+}
+
+.buttons button {
+  height: 30%;
+  padding: 10%;
+  align-self: center;
+}
+
+.buttons button:nth-child(1) {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.buttons button:nth-child(2) {
+  background-color: #F13312;
+  border: 1px solid black;
+  border-radius: 2px;
+  margin-left: 2px;
+}
+
