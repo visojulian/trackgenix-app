@@ -1,6 +1,37 @@
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.tableTitle {
+  padding: 0 50px;
+  height: 50px;
+}
+
+.tableContainer{
+  background: rgba(55, 56, 103, 0.9);
+  box-shadow: inset 0px -1px 0px #E0E0E0;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.row {
+  padding: 15px;
+  background-color: #fff;
+  text-align: center;
+  color: rgba(55, 56, 103, 0.9);
+  font-weight: bold;
+}
+
+.buttonDelete {
+  width: 96px;
+  height: 35px;
+  padding: 10px 24px;
+  border: none;
+  color: #fff;
+  background: #F13312;
+  border-radius: 5px;
 }
