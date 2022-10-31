@@ -11,7 +11,7 @@
   height: 50px;
 }
 
-.tableContainer{
+.tableContainer {
   background: rgba(55, 56, 103, 0.9);
   box-shadow: inset 0px -1px 0px #E0E0E0;
   color: #fff;
@@ -36,6 +36,30 @@
   border-radius: 5px;
 }
 
-.buttonDelete:hover {
+.buttonUpdate {
+  width: 96px;
+  height: 35px;
+  padding: 10px 24px;
+  font-size: 13px;
+  background: #AACE9B;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #373867;
+  font-weight: 600;
+}
+
+.buttonAddAdmin {
+  margin: 50px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #373867;
+  background-color: #fff;
+  border: 2px solid #373867;
+  border-radius: 5px;
+}
+
+.buttonDelete:hover, .buttonUpdate:hover, .buttonAddAdmin:hover {
   cursor: pointer;
 }

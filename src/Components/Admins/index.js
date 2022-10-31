@@ -41,7 +41,11 @@ const Admins = () => {
         <h1>Admins</h1>
         <AdminList adminList={admins} setModal={setModal} setAdminId={setAdminId} />
       </div>
-      <a href="/admins/addAdmin">AddAdmin</a>
+      <div className={styles.container}>
+        <a href="/admins/addAdmin" className={styles.buttonAddAdmin}>
+          ➕AddAdmin
+        </a>
+      </div>
     </>
   );
 };

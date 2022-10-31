@@ -20,6 +20,11 @@ const AdminItem = ({ admin, setModal, setAdminId }) => {
             Delete
           </button>
         </td>
+        <td className={styles.row}>
+          <a href="/admins/updateAdmin" className={styles.buttonUpdate}>
+            Update
+          </a>
+        </td>
       </tr>
     </>
   );

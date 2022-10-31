@@ -13,6 +13,7 @@ const AdminList = ({ adminList, setModal, setAdminId }) => {
             <th className={styles.tableTitle}>Email</th>
             <th className={styles.tableTitle}>Password</th>
             <th className={styles.tableTitle}></th>
+            <th className={styles.tableTitle}></th>
           </tr>
         </thead>
         <tbody>

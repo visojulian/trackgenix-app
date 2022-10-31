@@ -9,6 +9,7 @@ import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 import AddAdmin from '../Admins/AddAdmin/AddAdmin';
+import UpdateAdmin from '../Admins/UpdateAdmin/UpdateAdmin';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -18,6 +19,9 @@ function Layout() {
       break;
     case '/admins/addAdmin':
       currentScreen = <AddAdmin />;
+      break;
+    case '/admins/updateAdmin':
+      currentScreen = <UpdateAdmin />;
       break;
     case '/super-admins':
       currentScreen = <SuperAdmins />;
