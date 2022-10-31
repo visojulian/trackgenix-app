@@ -7,7 +7,7 @@ import Modal from './Modal';
 function SuperAdmins() {
   const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setModal] = useState(false);
-  const [superAdminId, setSuperAdminId] = useState();
+  const [superAdminId, setDeleteSuperAdmin] = useState();
 
   useEffect(async () => {
     try {
@@ -42,7 +42,7 @@ function SuperAdmins() {
         <SuperAdminsList
           superAdmins={superAdmins}
           setModal={setModal}
-          setSuperAdminId={setSuperAdminId}
+          setDeleteSuperAdmin={setDeleteSuperAdmin}
         />
       </div>
     </section>

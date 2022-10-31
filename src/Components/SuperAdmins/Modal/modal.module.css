@@ -3,6 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  background: rgba(55, 56, 103, 69%);
 }
 
 .box {

@@ -28,7 +28,7 @@ const SuperAdminsList = (props) => {
                   <button
                     className={styles.button}
                     onClick={() => {
-                      props.setSuperAdminId(superAdmin._id);
+                      props.setDeleteSuperAdmin(superAdmin._id);
                       props.setModal(true);
                     }}
                   >
