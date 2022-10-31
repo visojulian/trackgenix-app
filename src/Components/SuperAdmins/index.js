@@ -2,9 +2,12 @@ import React from 'react';
 import styles from './super-admins.module.css';
 import { useEffect, useState } from 'react';
 import SuperAdminsList from './List';
+import Modal from './Modal';
 
 function SuperAdmins() {
   const [superAdmins, setSuperAdmins] = useState([]);
+  const [showModal, setModal] = useState(false);
+  const [superAdminId, setSuperAdminId] = useState();
 
   useEffect(async () => {
     try {
@@ -16,6 +19,10 @@ function SuperAdmins() {
     }
   }, []);
 
+  const closeModal = () => {
+    setModal(false);
+  };
+
   const deleteSuperAdmin = async (id) => {
     await fetch(`http://localhost:4000/super-admins/${id}`, {
       method: 'DELETE'
@@ -25,8 +32,18 @@ function SuperAdmins() {
 
   return (
     <section className={styles.container}>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        deleteSuperAdmin={deleteSuperAdmin}
+        superAdminId={superAdminId}
+      />
       <div>
-        <SuperAdminsList superAdmins={superAdmins} deleteSuperAdmin={deleteSuperAdmin} />
+        <SuperAdminsList
+          superAdmins={superAdmins}
+          setModal={setModal}
+          setSuperAdminId={setSuperAdminId}
+        />
       </div>
     </section>
   );

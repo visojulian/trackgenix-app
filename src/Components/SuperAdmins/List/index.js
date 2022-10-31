@@ -1,10 +1,11 @@
 import React from 'react';
+import styles from './list.module.css';
 
-const SuperAdminsList = ({ superAdmins, deleteSuperAdmin }) => {
+const SuperAdminsList = (props) => {
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Super Admins</h2>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>Name</th>
@@ -13,14 +14,21 @@ const SuperAdminsList = ({ superAdmins, deleteSuperAdmin }) => {
           </tr>
         </thead>
         <tbody>
-          {superAdmins.map((superAdmin) => {
+          {props.superAdmins.map((superAdmin) => {
             return (
               <tr key={superAdmin._id}>
                 <td>{superAdmin.name}</td>
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
                 <td>
-                  <button onClick={() => deleteSuperAdmin(superAdmin._id)}>X</button>
+                  <button
+                    onClick={() => {
+                      props.setSuperAdminId(superAdmin._id);
+                      props.setModal(true);
+                    }}
+                  >
+                    X
+                  </button>
                 </td>
               </tr>
             );
