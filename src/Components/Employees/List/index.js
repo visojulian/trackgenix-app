@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 
-const EmployeesList = ({ list }) => {
+const EmployeesList = ({ list, deleteEmployee }) => {
   return (
     <table className={styles.tableContent}>
       <thead>
@@ -20,6 +20,9 @@ const EmployeesList = ({ list }) => {
               <td>{employee.lastName}</td>
               <td>{employee.phone}</td>
               <td>{employee.email}</td>
+              <td>
+                <button onClick={() => deleteEmployee(employee._id)}>X</button>
+              </td>
             </tr>
           );
         })}

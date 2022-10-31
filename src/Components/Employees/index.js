@@ -15,11 +15,18 @@ function Employees() {
     }
   }, []);
 
+  const deleteEmployee = async (id) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+      method: 'DELETE'
+    });
+    saveEmployees([...employees.filter((employee) => employee._id !== id)]);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Employees</h2>
       <div>
-        <EmployeesList list={employees} />
+        <EmployeesList list={employees} deleteEmployee={deleteEmployee} />
       </div>
     </section>
   );
