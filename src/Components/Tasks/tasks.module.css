@@ -29,6 +29,14 @@
   border-top: 1px solid #DFE4DE;
 }
 
+.tdHover {
+  color: #373867;
+  text-align: center;
+  height: 40px;
+  border-top: 1px solid #DFE4DE;
+  background-color: #F13312;
+}
+
 .upperFlexBox {
   display: flex;
   align-items: center;
@@ -57,4 +65,10 @@
   border-radius: 5px;
   background-color:#F13312;
   color: #fff;
+}
+
+.tableTd {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 }

@@ -1,17 +1,30 @@
+import { useState } from 'react';
 import styles from '../tasks.module.css';
 
 function Task({ task, setShowModal, setTaskId, onClickTask }) {
+  const [isHovering, setHover] = useState(false);
+
+  const handleMouseOver = () => {
+    setHover(true);
+  };
+
+  const handleMouseOut = () => {
+    setHover(false);
+  };
+
   return (
     <tr>
       <td
-        className={styles.tableData}
+        className={isHovering ? styles.tdHover : styles.tableData}
         onClick={() => {
           onClickTask(task._id);
         }}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseOut}
       >
         {task.description}
       </td>
-      <td style={{ display: 'flex', justifyContent: 'center', paddingTop: '10px' }}>
+      <td className={styles.tableTd}>
         <div>
           <button
             onClick={() => {
