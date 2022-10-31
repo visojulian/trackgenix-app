@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './list.module.css';
+import DeleteImg from '../Assets/trash.png';
 
 const EmployeesList = (props) => {
   return (
@@ -10,7 +11,9 @@ const EmployeesList = (props) => {
           <th>Last name</th>
           <th>Phone</th>
           <th>Email</th>
-          <th></th>
+          <th>
+            <img src={DeleteImg}></img>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +26,7 @@ const EmployeesList = (props) => {
               <td>{employee.email}</td>
               <td>
                 <button
+                  className={styles.button}
                   onClick={() => {
                     props.deleteEmployeeId(employee._id);
                     props.setShowModal(true);

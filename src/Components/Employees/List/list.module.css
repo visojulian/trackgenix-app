@@ -1,19 +1,42 @@
 .tableContent {
-  min-width: 400px;
-  width: 80vw;
-  height: 20vw;
-  font-size: 1em;
+  height: auto;
+  width: 916px;
+  margin: 50px;
+  border: 1px solid #DFE4DE;
+  border-radius: 5px;
   border-collapse: collapse;
-  border: 0.5px solid rgb(55, 56, 103, 0.40);
 }
+
 
 .tableContent thead tr {
   background-color: #373867;
   color: #ffffff;
 }
 
-.tableContent th, .tableContent td {
-  padding: 12px 15px;
-  text-align: center;
-  border-bottom: 0.5px solid rgb(55, 56, 103, 0.40);
+.tableContent th {
+  height: 50px;
+  font-weight: 500;
+  background-color: #373867;
+  color: #fff;
 }
+
+.tableContent td {
+  height: 40px;
+  color: #373867;
+  text-align: center;
+  border-top: 1px solid #DFE4DE;
+}
+
+.button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 100px;
+  color: #fff;
+  background-color: #606197;
+}
+
+.button:hover {
+  background-color: #373867;
+}
+
