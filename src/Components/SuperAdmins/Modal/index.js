@@ -1,3 +1,5 @@
+import styles from './modal.module.css';
+
 const Modal = (props) => {
   if (!props.showModal) {
     return null;
@@ -9,10 +11,21 @@ const Modal = (props) => {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={props.closeModal}>Cancel</button>
-        <button onClick={onCloseModal}>Delete</button>
+    <div className={styles.container}>
+      <div className={styles.box}>
+        <div className={styles.title}>
+          <h4>Remove Super Admin</h4>
+          <p>Do you want to remove this Super Admin?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+        <div className={styles.buttons}>
+          <button onClick={props.closeModal} className={styles.cancelButton}>
+            Cancel
+          </button>
+          <button onClick={onCloseModal} className={styles.confirmButton}>
+            Remove
+          </button>
+        </div>
       </div>
     </div>
   );

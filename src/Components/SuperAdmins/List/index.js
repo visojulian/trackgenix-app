@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './list.module.css';
+import Delete from '../assets/trash.png';
 
 const SuperAdminsList = (props) => {
   return (
@@ -11,6 +12,9 @@ const SuperAdminsList = (props) => {
             <th>Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>
+              <img src={Delete} />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -22,12 +26,13 @@ const SuperAdminsList = (props) => {
                 <td>{superAdmin.email}</td>
                 <td>
                   <button
+                    className={styles.button}
                     onClick={() => {
                       props.setSuperAdminId(superAdmin._id);
                       props.setModal(true);
                     }}
                   >
-                    X
+                    x
                   </button>
                 </td>
               </tr>
