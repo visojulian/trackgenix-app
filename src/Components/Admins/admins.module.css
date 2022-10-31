@@ -35,3 +35,7 @@
   background: #F13312;
   border-radius: 5px;
 }
+
+.buttonDelete:hover {
+  cursor: pointer;
+}

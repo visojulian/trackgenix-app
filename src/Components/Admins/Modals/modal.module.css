@@ -61,3 +61,7 @@
   border: 2px solid #373867;
   border-radius: 5px;
 }
+
+.buttonCancel:hover, .buttonConfirm:hover {
+  cursor: pointer;
+}

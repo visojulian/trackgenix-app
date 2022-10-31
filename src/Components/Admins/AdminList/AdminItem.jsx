@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../admins.module.css';
 
-function AdminItem({ admin, setModal, setAdminId }) {
+const AdminItem = ({ admin, setModal, setAdminId }) => {
   return (
     <>
       <tr>
@@ -23,6 +23,6 @@ function AdminItem({ admin, setModal, setAdminId }) {
       </tr>
     </>
   );
-}
+};
 
 export default AdminItem;

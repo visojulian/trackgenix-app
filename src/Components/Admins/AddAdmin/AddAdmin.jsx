@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AddAdmin = () => {
-  return <button onClick={() => alert('Created')}>AddAdmin</button>;
+  return <div>Form for adding a new admin</div>;
 };
 
 export default AddAdmin;
