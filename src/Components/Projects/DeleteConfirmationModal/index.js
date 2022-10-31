@@ -14,17 +14,18 @@ const DeleteConfirmationModal = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
-        <button onClick={() => closeModal()} className={styles.close}>
-          &times;
-        </button>
-        <h3>Alert!</h3>
-        <p>Are you sure you want to remove project: {project.name}?</p>
-        <button onClick={() => confirmDelete()} className={styles.confirm}>
-          Confirm
-        </button>
-        <button onClick={() => closeModal()} className={styles.cancel}>
-          Cancel
-        </button>
+        <div className={styles.title}>
+          <h4>Alert!</h4>
+          <p>Are you sure you want to remove project: {project.name}?</p>
+        </div>
+        <div className={styles.buttons}>
+          <button onClick={() => closeModal()} className={styles.cancelButton}>
+            Cancel
+          </button>
+          <button onClick={() => confirmDelete()} className={styles.confirmButton}>
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   );

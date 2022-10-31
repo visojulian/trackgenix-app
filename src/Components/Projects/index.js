@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import styles from './projects.module.css';
+import Delete from './assets/trash.png';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
@@ -39,6 +40,10 @@ const Projects = () => {
           <tr>
             <th>Project</th>
             <th>Created</th>
+            <th></th>
+            <th>
+              <img src={Delete}></img>
+            </th>
           </tr>
         </thead>
         <tbody>
