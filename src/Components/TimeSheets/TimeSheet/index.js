@@ -1,4 +1,5 @@
 import Trash from '../../../assets/trash.png';
+
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
   return (
     <tr style={{ display: 'flex', justifyContent: 'center' }}>
@@ -23,4 +24,5 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
     </tr>
   );
 };
+
 export default TimeSheet;

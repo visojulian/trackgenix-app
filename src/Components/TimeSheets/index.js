@@ -6,7 +6,7 @@ import Modal from './Modal/index';
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [timeSheetId, setTimeSheetId] = useState(undefined);
+  const [timeSheetId, setTimeSheetId] = useState();
 
   useEffect(async () => {
     try {
