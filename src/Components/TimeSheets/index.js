@@ -39,14 +39,14 @@ const TimeSheets = () => {
         timeSheetId={timeSheetId}
         title="Are you sure that you want to delete this time sheet?"
       />
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr style={{ display: 'flex', justifyContent: 'center' }}>
-            <th style={{ flexBasis: '10%' }}>Description</th>
-            <th style={{ flexBasis: '10%' }}>Date</th>
+            <th style={{ flexBasis: '25%' }}>Description</th>
+            <th style={{ flexBasis: '15%' }}>Date</th>
             <th style={{ flexBasis: '10%' }}>Hours</th>
             <th style={{ flexBasis: '10%' }}>Task</th>
-            <th style={{ flexBasis: '10%' }}>Employee</th>
+            <th style={{ flexBasis: '20%' }}>Employee</th>
             <th style={{ flexBasis: '10%' }}>Project</th>
             <th style={{ flexBasis: '10%' }}>Delete TimeSheet</th>
           </tr>
