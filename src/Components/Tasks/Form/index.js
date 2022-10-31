@@ -15,7 +15,7 @@ function Form() {
   };
 
   useEffect(async () => {
-    if (window.location.href !== `http://localhost:3001/tasks/form`) {
+    if (window.location.href !== `http://localhost:3000/tasks/form`) {
       try {
         const fullUrl = window.location.href; //fullUrl.slice(36)
         const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);

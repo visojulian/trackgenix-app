@@ -7,7 +7,26 @@
 }
 
 .table {
-  border: solid 1px black;
+  height: auto;
+  width: 800px;
+  margin: 50px;
+  border: 1px solid #DFE4DE;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  height: 50px;
+  font-weight: 500;
+  background-color: #373867;
+  color: #fff;
+}
+
+.tableData {
+  color: #373867;
+  text-align: center;
+  height: 40px;
+  border-top: 1px solid #DFE4DE;
 }
 
 .upperFlexBox {
@@ -35,5 +54,7 @@
   background: #AACE9B;
   border-radius: 5px;
   border: 0px;
-  color: #000000;
+  border-radius: 5px;
+  background-color:#F13312;
+  color: #fff;
 }

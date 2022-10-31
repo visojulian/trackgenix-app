@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
+import Logo from '../../assets/trash.png';
 
 function Tasks() {
   const [tasks, saveTasks] = useState([]);
@@ -54,11 +55,13 @@ function Tasks() {
           </a>
         </div>
       </div>
-      <table>
-        <thead>
+      <table className={styles.table}>
+        <thead className={styles.tableHead}>
           <tr>
             <th>Description</th>
-            <th>Delete Task</th>
+            <th>
+              <img src={Logo} />
+            </th>
           </tr>
         </thead>
         <tbody>
