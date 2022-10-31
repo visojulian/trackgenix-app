@@ -23,7 +23,7 @@ const TimeSheets = () => {
         <thead>
           <tr>
             <th>Description</th>
-            <th>Delete Task</th>
+            <th>Delete TimeSheet</th>
           </tr>
         </thead>
         <tbody>
