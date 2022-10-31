@@ -100,7 +100,10 @@ function Form() {
         <div className={styles.buttonsFlexBox}>
           <div>
             <button
-              onClick={() => window.location.assign('/tasks')}
+              type="button"
+              onClick={() => {
+                window.location.assign('/tasks');
+              }}
               className={styles.buttonCancel}
             >
               Cancel
