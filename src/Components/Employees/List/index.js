@@ -42,9 +42,13 @@ const EmployeesList = (props) => {
         </tbody>
       </table>
       <div>
-        <a href={'employees/form'}>
-          <button>Add employee</button>
-        </a>
+        <button
+          onClick={() => {
+            window.location.assign('employees/form');
+          }}
+        >
+          Add employee
+        </button>
       </div>
     </div>
   );

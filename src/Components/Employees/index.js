@@ -48,6 +48,7 @@ function Employees() {
           list={employees}
           deleteEmployeeId={deleteEmployeeId}
           setShowModal={setShowModal}
+          saveEmployees={saveEmployees}
         />
       </div>
     </section>
