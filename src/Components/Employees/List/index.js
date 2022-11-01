@@ -41,8 +41,9 @@ const EmployeesList = (props) => {
           })}
         </tbody>
       </table>
-      <div>
+      <div className={styles.div}>
         <button
+          className={styles.submitButton}
           onClick={() => {
             window.location.assign('employees/form');
           }}

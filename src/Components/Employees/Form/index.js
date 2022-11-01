@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './form.module.css';
 
 const Form = () => {
   const [employeeInput, setEmployeeInput] = useState({
@@ -45,42 +46,50 @@ const Form = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.box}>
         <h2>Add new employee</h2>
+        <form className={styles.form} onSubmit={onSubmit}>
+          <div className={styles.input}>
+            <label>Name</label>
+            <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
+          </div>
+          <div className={styles.input}>
+            <label>Last name</label>
+            <input type="text" name="lastName" value={employeeInput.lastName} onChange={onChange} />
+          </div>
+          <div className={styles.input}>
+            <label>Phone</label>
+            <input type="text" name="phone" value={employeeInput.phone} onChange={onChange} />
+          </div>
+          <div className={styles.input}>
+            <label>Email</label>
+            <input type="text" name="email" value={employeeInput.email} onChange={onChange} />
+          </div>
+          <div className={styles.input}>
+            <label>Password</label>
+            <input type="password" name="password" onChange={onChange} />
+          </div>
+          <div className={styles.button}>
+            <button
+              onClick={() => {
+                console.log(employeeInput);
+              }}
+              type="submit"
+            >
+              Submit
+            </button>
+            <button
+              onClick={() => {
+                window.location.assign('/employees');
+              }}
+              type="submit"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label>Name</label>
-          <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
-        </div>
-        <div>
-          <label>Last name</label>
-          <input type="text" name="lastName" value={employeeInput.lastName} onChange={onChange} />
-        </div>
-        <div>
-          <label>Phone</label>
-          <input type="text" name="phone" value={employeeInput.phone} onChange={onChange} />
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={employeeInput.email} onChange={onChange} />
-        </div>
-        <div>
-          <label>Password</label>
-          <input type="password" name="password" onChange={onChange} />
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              console.log(employeeInput);
-            }}
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
