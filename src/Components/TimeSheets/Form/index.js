@@ -1,9 +1,49 @@
+import { useState } from 'react';
 import styles from './form.module.css';
 
 const Form = () => {
+  const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
+    description: '',
+    date: '',
+    hours: '',
+    task: '',
+    employee: '',
+    project: ''
+  });
+
+  const onChangeInputValue = (e) => {
+    setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: inputTimeSheetValue.description,
+        date: inputTimeSheetValue.date,
+        hours: inputTimeSheetValue.hours,
+        task: inputTimeSheetValue.task,
+        employee: inputTimeSheetValue.employee,
+        project: inputTimeSheetValue.project
+      })
+    });
+
+    const content = await rawResponse.json();
+    if (!content.error) {
+      window.location.assign('/time-sheets');
+    }
+    console.log(rawResponse);
+  };
+
   return (
     <div className={styles.container}>
-      <form>
+      <form onSubmit={onSubmit}>
         <div>
           <div className={styles.box}>
             <label>Description</label>
@@ -11,7 +51,8 @@ const Form = () => {
               type="text"
               name="description"
               required
-              //value={timeSheetInput.description}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.description}
             />
           </div>
           <div className={styles.box}>
@@ -20,7 +61,8 @@ const Form = () => {
               type="date"
               name="date"
               required
-              //value={timeSheetInput.date}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.date}
             />
           </div>
           <div className={styles.box}>
@@ -29,7 +71,8 @@ const Form = () => {
               type="number"
               name="hours"
               required
-              //value={timeSheetInput.hours}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.hours}
             />
           </div>
           <div className={styles.box}>
@@ -38,7 +81,8 @@ const Form = () => {
               type="text"
               name="task"
               required
-              //value={timeSheetInput.task}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.task}
             />
           </div>
           <div className={styles.box}>
@@ -47,7 +91,8 @@ const Form = () => {
               type="text"
               name="employee"
               required
-              //value={timeSheetInput.employee}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.employee}
             />
           </div>
           <div className={styles.box}>
@@ -56,7 +101,8 @@ const Form = () => {
               type="text"
               name="project"
               required
-              //value={timeSheetInput.project}
+              onChange={onChangeInputValue}
+              value={inputTimeSheetValue.project}
             />
           </div>
           <div className={styles.buttons}>
