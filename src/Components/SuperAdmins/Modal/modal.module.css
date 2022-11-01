@@ -1,0 +1,56 @@
+.container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: rgba(55, 56, 103, 69%);
+}
+
+.box {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  width: 559px;
+  height: auto;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  background-color: #eeeeee;
+}
+
+.title h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #373867;
+}
+
+.title p {
+  color: hsl(239, 30%, 10%);
+  font-size: 15px;
+  color: #6a6b94;
+}
+
+.buttons {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+.cancelButton {
+  width: 70px;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #373867;
+  color: #373867;
+}
+
+.confirmButton {
+  width: 70px;
+  height: 36px;
+  margin-left: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color:#F13312;
+  color: #fff;
+}

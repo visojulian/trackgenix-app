@@ -5,3 +5,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.container div {
+  padding-bottom: 10%;
+  padding-top: 2%;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
