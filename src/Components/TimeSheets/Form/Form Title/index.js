@@ -1,5 +1,5 @@
-function FormText(props) {
+function FormTitle(props) {
   return <h3>{props.title}</h3>;
 }
 
-export default FormText;
+export default FormTitle;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Modal from './Form Modal/index';
-import FormText from './Form Title/index';
+import FormTitle from './Form Title/index';
 import styles from './form.module.css';
 
 function Form() {
@@ -15,7 +15,7 @@ function Form() {
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
   const [formMode, setFormMode] = useState(true);
-  const [formText, setFormText] = useState('Add timeSheet');
+  const [formTitle, setFormTitle] = useState('Add timeSheet');
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -31,7 +31,7 @@ function Form() {
         });
         const json = await response.json();
         setFormMode(false);
-        setFormText('Update TimeSheet');
+        setFormTitle('Update TimeSheet');
         setInputTimeSheetValue({
           description: json.data.description,
           date: correctDate(json.data.date),
@@ -117,7 +117,7 @@ function Form() {
       <form onSubmit={onSubmit}>
         <div>
           <div className={styles.cardTitle}>
-            <FormText title={formText} />
+            <FormTitle title={formTitle} />
           </div>
           <div className={styles.box}>
             <label>Description</label>
