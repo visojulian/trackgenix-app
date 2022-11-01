@@ -36,7 +36,6 @@ const TimeSheets = () => {
         className={styles.button}
         onClick={() => {
           window.location.assign(`/time-sheets/form`);
-          //window.location.assign(`/time-sheets/form?id=${timeSheets._id}`);
         }}
       >
         Update
