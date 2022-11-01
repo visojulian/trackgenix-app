@@ -13,7 +13,7 @@ const ConfirmationModal = (props) => {
     <div className={styles.container}>
       <div className={styles.box}>
         <h3 className={styles.title}>{props.title}</h3>
-        <div className={styles.buttonsDiv}>
+        <div>
           <button onClick={props.closeModal} className={styles.cancelButton}>
             Cancel
           </button>

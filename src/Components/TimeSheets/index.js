@@ -32,6 +32,15 @@ const TimeSheets = () => {
   return (
     <section className={styles.container}>
       <h2>TimeSheets</h2>
+      <button
+        className={styles.button}
+        onClick={() => {
+          window.location.assign(`/time-sheets/form`);
+          //window.location.assign(`/time-sheets/form?id=${timeSheets._id}`);
+        }}
+      >
+        Update
+      </button>
       <Modal
         show={showModal}
         closeModal={closeModal}
