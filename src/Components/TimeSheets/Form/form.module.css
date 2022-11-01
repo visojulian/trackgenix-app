@@ -4,3 +4,39 @@
     justify-content: center;
     align-items: center;
   }
+
+.box {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+input {
+  width: 300px;
+  padding-left: 20px;
+}
+
+.buttons {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cancelButton {
+  width: 70px;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #373867;
+  color: #373867;
+}
+
+.confirmButton {
+  width: 70px;
+  height: 36px;
+  margin-left: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color:#F13312;
+  color: #fff;
+}
