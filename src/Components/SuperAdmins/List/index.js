@@ -40,6 +40,16 @@ const SuperAdminsList = (props) => {
           })}
         </tbody>
       </table>
+      <div>
+        <button
+          className={styles.buttonAdd}
+          onClick={() => {
+            window.location.assign('super-admins/form');
+          }}
+        >
+          Add Super Admin
+        </button>
+      </div>
     </div>
   );
 };
