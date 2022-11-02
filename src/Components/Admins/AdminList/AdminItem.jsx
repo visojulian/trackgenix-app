@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../admins.module.css';
-import Delete from '../../../Assets/trash.png';
 
 const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
   return (
@@ -23,7 +22,7 @@ const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
             }}
             className={styles.buttonDelete}
           >
-            <img src={Delete} />
+            X
           </button>
         </td>
       </tr>

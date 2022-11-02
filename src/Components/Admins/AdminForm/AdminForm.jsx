@@ -62,12 +62,11 @@ const AddAdmin = () => {
       const content = await newAdmin.json();
       if (!content.error) {
         window.location.assign('/admins');
-        setServerError(content.message);
-        setEdit(false);
       } else {
-        window.location.assign('/admins');
+        // window.location.assign('/admins');
         setModal(true);
         setServerError(content.message);
+        console.log(content);
       }
     } else {
       const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
@@ -82,12 +81,14 @@ const AddAdmin = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
+        // window.location.assign('/admins');
         setModal(true);
         setServerError(content.message);
-        window.location.assign('/admins');
+        console.log(content);
       }
     }
   };
+  console.log(serverError);
   return (
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../admins.module.css';
 import AdminItem from './AdminItem';
+import Delete from '../../../Assets/trash.png';
 
 const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
   return (
@@ -12,7 +13,9 @@ const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
             <th>Last Name</th>
             <th>Email</th>
             <th>Password</th>
-            <th></th>
+            <th>
+              <img src={Delete} />
+            </th>
           </tr>
         </thead>
         <tbody>
