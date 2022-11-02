@@ -1,39 +1,43 @@
 .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .formFlexBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .buttonsFlexBox {
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    margin-top: 15px;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 15px;
 }
 
 .buttonCancel {
-    width: 75.98px;
-    height: 31.26px;
-    border-radius: 5px;
-    border: 1px solid #373867;
-    color: #373867;
+  width: 75.98px;
+  height: 31.26px;
+  border-radius: 5px;
+  border: 1px solid #373867;
+  color: #373867;
 }
 
 .buttonConfirm {
   width: 75.98px;
   height: 31.26px;
-  background: #AACE9B;
+  background: #aace9b;
   border-radius: 5px;
   border: 0px;
   border-radius: 5px;
-  background-color:#F13312;
+  background-color: #f13312;
   color: #fff;
+}
+
+.descriptionLabel {
+  margin-right: 10px;
 }
