@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-function Modal(props) {
+const FormModal = (props) => {
   if (!props.show) {
     return null;
   }
@@ -19,6 +19,6 @@ function Modal(props) {
       </div>
     </div>
   );
-}
+};
 
-export default Modal;
+export default FormModal;
