@@ -1,7 +1,7 @@
 import styles from '../FormModal/formModal.module.css';
 
-const FormModal = (props) => {
-  if (!props.show) {
+const FormModal = ({ show, errorMsg, onClose }) => {
+  if (!show) {
     return null;
   }
 
@@ -9,11 +9,10 @@ const FormModal = (props) => {
     <div className={styles.container}>
       <section className={styles.modal}>
         <div className={styles.modalText}>
-          <h4>Missing data</h4>
-          <p>You must fill in all of the fields!</p>
+          <h4>{errorMsg}</h4>
         </div>
         <div>
-          <button className={styles.button} onClick={props.onClose}>
+          <button className={styles.button} onClick={onClose}>
             Close
           </button>
         </div>
