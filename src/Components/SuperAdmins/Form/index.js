@@ -8,6 +8,7 @@ const Form = () => {
   const [autoForm, setAutoForm] = useState(false);
   const url = window.location.href;
   const [showFormModal, setFormModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [addSuperAdmin, setAddSuperAdmin] = useState({
     name: '',
     lastName: '',
@@ -66,6 +67,7 @@ const Form = () => {
         window.location.assign('/super-admins');
       } else {
         setFormModal(true);
+        setErrorMessage(content.message);
       }
       console.log(content);
     } else {
@@ -89,6 +91,7 @@ const Form = () => {
         window.location.assign('/super-admins');
       } else {
         setFormModal(true);
+        setErrorMessage(content.message);
       }
       console.log(content);
     }
@@ -97,7 +100,7 @@ const Form = () => {
   return (
     <section className={styles.container}>
       <div className={styles.flex}>
-        <Title modalTitle={modalTitle} />
+        <Title modalTitle={modalTitle} className={styles.title} />
         <form className={styles.box} onSubmit={onSubmit}>
           <div>
             <div className={styles.div}>
@@ -122,18 +125,28 @@ const Form = () => {
             <div className={styles.div}>
               <label>Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 value={addSuperAdmin.password}
                 onChange={onChange}
               />
             </div>
             <div className={styles.buttons}>
-              <button type="reset" onClick={() => window.location.assign('/super-admins')}>
+              <button
+                type="reset"
+                onClick={() => window.location.assign('/super-admins')}
+                className={styles.buttonCancel}
+              >
                 Cancel
               </button>
-              <button type="submit">Submit</button>
-              <FormModal showFormModal={showFormModal} formCloseModal={formCloseModal} />
+              <button type="submit" className={styles.buttonSubmit}>
+                Submit
+              </button>
+              <FormModal
+                showFormModal={showFormModal}
+                serverMessage={errorMessage}
+                formCloseModal={formCloseModal}
+              />
             </div>
           </div>
         </form>

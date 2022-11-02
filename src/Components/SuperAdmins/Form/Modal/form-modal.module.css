@@ -8,37 +8,29 @@
   top: 0;
   right: 0;
   bottom: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
   background: rgba(55, 56, 103, 69%);
 }
 
 .box {
   position: absolute;
   display: flex;
-  justify-content: space-around;
-  width: 450px;
+  align-items: center;
+  width: 500px;
   height: 120px;
-  padding-bottom: 10px;
+  padding: 0 10px 0 10px;
   border-radius: 5px;
   background-color: #eeeeee;
 }
 
-.title h4 {
-  font-size: 15px;
+.message {
+  font-size: 14px;
   font-weight: 700;
   color: #373867;
 }
 
-.buttons {
-  display: flex;
-  align-self: flex-end;
-  margin-bottom: 20px;
-}
-
-.confirmButton {
+.buttonConfirm {
   width: 70px;
-  height: 36px;
+  height: 37px;
   margin-left: 14px;
   border: none;
   border-radius: 5px;

@@ -1,6 +1,6 @@
-import styles from './modal.module.css';
+import styles from './form-modal.module.css';
 
-const FormModal = ({ showFormModal, formCloseModal }) => {
+const FormModal = ({ showFormModal, formCloseModal, serverMessage }) => {
   if (!showFormModal) {
     return null;
   }
@@ -8,11 +8,11 @@ const FormModal = ({ showFormModal, formCloseModal }) => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <div className={styles.title}>
-          <h4>holaaa</h4>
+        <div>
+          <h4 className={styles.message}>{serverMessage}</h4>
         </div>
-        <div className={styles.buttons}>
-          <button onClick={formCloseModal} className={styles.confirmButton}>
+        <div>
+          <button onClick={formCloseModal} className={styles.buttonConfirm}>
             Confirm
           </button>
         </div>

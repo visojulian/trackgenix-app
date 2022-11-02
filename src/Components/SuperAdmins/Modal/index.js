@@ -19,12 +19,8 @@ const Modal = (props) => {
           <p>Changes cannot be undone.</p>
         </div>
         <div className={styles.buttons}>
-          <button onClick={props.closeModal} className={styles.cancelButton}>
-            Cancel
-          </button>
-          <button onClick={onCloseModal} className={styles.confirmButton}>
-            Remove
-          </button>
+          <button onClick={props.closeModal}>Cancel</button>
+          <button onClick={onCloseModal}>Remove</button>
         </div>
       </div>
     </div>
