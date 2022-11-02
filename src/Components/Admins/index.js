@@ -7,10 +7,7 @@ const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [modal, setModal] = useState(false);
   const [adminId, setAdminId] = useState();
-  // if (form) {
-  //   setForm(false);
-  //   window.location.assign(`/admins/form?id=${admin._id}`);
-  // }
+
   useEffect(async () => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/admins`);

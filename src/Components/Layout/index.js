@@ -8,7 +8,7 @@ import Employees from '../Employees/index';
 import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
-import AdminForm from '../Admins/AdminForm/AdminFormLogic';
+import AdminForm from '../Admins/AdminForm/AdminForm';
 
 function Layout() {
   let currentScreen = <Home />;

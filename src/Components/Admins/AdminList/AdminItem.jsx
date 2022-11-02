@@ -5,42 +5,19 @@ import Delete from '../../../Assets/trash.png';
 const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
   return (
     <>
-      <tr>
-        <td
-          className={styles.row}
-          onClick={() => {
-            onClickAdmin(admin._id);
-          }}
-        >
-          {admin.name}
-        </td>
-        <td
-          className={styles.row}
-          onClick={() => {
-            onClickAdmin(admin._id);
-          }}
-        >
-          {admin.lastName}
-        </td>
-        <td
-          className={styles.row}
-          onClick={() => {
-            onClickAdmin(admin._id);
-          }}
-        >
-          {admin.email}
-        </td>
-        <td
-          className={styles.row}
-          onClick={() => {
-            onClickAdmin(admin._id);
-          }}
-        >
-          {admin.password}
-        </td>
+      <tr
+        onClick={() => {
+          onClickAdmin(admin._id);
+        }}
+      >
+        <td className={styles.row}>{admin.name}</td>
+        <td className={styles.row}>{admin.lastName}</td>
+        <td className={styles.row}>{admin.email}</td>
+        <td className={styles.row}>{admin.password}</td>
         <td className={styles.row}>
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setAdminId(admin._id);
               setModal(true);
             }}

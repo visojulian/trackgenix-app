@@ -67,6 +67,7 @@
 }
 
 .buttonUpdate:hover,
-.buttonAddAdmin:hover {
+.buttonAddAdmin:hover,
+.row:hover {
   cursor: pointer;
 }
