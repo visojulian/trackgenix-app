@@ -8,11 +8,11 @@ const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
       <table className={styles.tableContainer}>
         <thead>
           <tr>
-            <th className={styles.tableTitle}>Name</th>
-            <th className={styles.tableTitle}>Last Name</th>
-            <th className={styles.tableTitle}>Email</th>
-            <th className={styles.tableTitle}>Password</th>
-            <th className={styles.tableTitle}></th>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

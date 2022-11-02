@@ -9,7 +9,7 @@ function FormModal(props) {
         <h3>{props.title}</h3>
         <div>
           <div>
-            <button onClick={props.closeModal}>Acknowledge</button>
+            <button onClick={props.closeModal}>Modified</button>
           </div>
         </div>
       </div>
