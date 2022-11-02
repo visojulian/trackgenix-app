@@ -36,18 +36,6 @@
   border-radius: 5px;
 }
 
-.buttonUpdate {
-  width: 96px;
-  height: 35px;
-  padding: 10px 24px;
-  font-size: 13px;
-  background: #AACE9B;
-  border-radius: 5px;
-  text-decoration: none;
-  color: #373867;
-  font-weight: 600;
-}
-
 .buttonAddAdmin {
   margin: 50px;
   padding: 10px 20px;

@@ -1,14 +1,42 @@
 import React from 'react';
 import styles from '../admins.module.css';
 
-const AdminItem = ({ admin, setModal, setAdminId }) => {
+const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
   return (
     <>
       <tr>
-        <td className={styles.row}>{admin.name}</td>
-        <td className={styles.row}>{admin.lastName}</td>
-        <td className={styles.row}>{admin.email}</td>
-        <td className={styles.row}>{admin.password}</td>
+        <td
+          className={styles.row}
+          onClick={() => {
+            onClickAdmin(admin._id);
+          }}
+        >
+          {admin.name}
+        </td>
+        <td
+          className={styles.row}
+          onClick={() => {
+            onClickAdmin(admin._id);
+          }}
+        >
+          {admin.lastName}
+        </td>
+        <td
+          className={styles.row}
+          onClick={() => {
+            onClickAdmin(admin._id);
+          }}
+        >
+          {admin.email}
+        </td>
+        <td
+          className={styles.row}
+          onClick={() => {
+            onClickAdmin(admin._id);
+          }}
+        >
+          {admin.password}
+        </td>
         <td className={styles.row}>
           <button
             onClick={() => {
@@ -19,11 +47,6 @@ const AdminItem = ({ admin, setModal, setAdminId }) => {
           >
             Delete
           </button>
-        </td>
-        <td className={styles.row}>
-          <a href="/admins/updateAdmin" className={styles.buttonUpdate}>
-            Update
-          </a>
         </td>
       </tr>
     </>

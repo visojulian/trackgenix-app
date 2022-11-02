@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../admins.module.css';
 import AdminItem from './AdminItem';
 
-const AdminList = ({ adminList, setModal, setAdminId }) => {
+const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
   return (
     <>
       <table className={styles.tableContainer}>
@@ -12,7 +12,6 @@ const AdminList = ({ adminList, setModal, setAdminId }) => {
             <th className={styles.tableTitle}>Last Name</th>
             <th className={styles.tableTitle}>Email</th>
             <th className={styles.tableTitle}>Password</th>
-            <th className={styles.tableTitle}></th>
             <th className={styles.tableTitle}></th>
           </tr>
         </thead>
@@ -24,6 +23,7 @@ const AdminList = ({ adminList, setModal, setAdminId }) => {
                 admin={admin}
                 setModal={setModal}
                 setAdminId={setAdminId}
+                onClickAdmin={onClickAdmin}
               />
             );
           })}

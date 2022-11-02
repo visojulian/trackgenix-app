@@ -7,7 +7,10 @@ const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [modal, setModal] = useState(false);
   const [adminId, setAdminId] = useState();
-
+  // if (form) {
+  //   setForm(false);
+  //   window.location.assign(`/admins/form?id=${admin._id}`);
+  // }
   useEffect(async () => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
@@ -29,6 +32,10 @@ const Admins = () => {
     setModal(false);
   };
 
+  const onClickAdmin = (id) => {
+    window.location.assign(`/admins/form?id=${id}`);
+  };
+
   return (
     <>
       <ModalAlert
@@ -39,10 +46,15 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <AdminList adminList={admins} setModal={setModal} setAdminId={setAdminId} />
+        <AdminList
+          adminList={admins}
+          setModal={setModal}
+          setAdminId={setAdminId}
+          onClickAdmin={onClickAdmin}
+        />
       </div>
       <div className={styles.container}>
-        <a href="/admins/addAdmin" className={styles.buttonAddAdmin}>
+        <a href="/admins/form" className={styles.buttonAddAdmin}>
           ➕AddAdmin
         </a>
       </div>
