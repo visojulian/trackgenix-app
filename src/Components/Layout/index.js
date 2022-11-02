@@ -9,12 +9,21 @@ import Projects from '../Projects';
 import ProjectsForm from '../Projects/Form';
 import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
+import TasksForm from '../Tasks/Form/index';
+import AddAdmin from '../Admins/AddAdmin/AddAdmin';
+import UpdateAdmin from '../Admins/UpdateAdmin/UpdateAdmin';
 
 function Layout() {
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    case '/admins/addAdmin':
+      currentScreen = <AddAdmin />;
+      break;
+    case '/admins/updateAdmin':
+      currentScreen = <UpdateAdmin />;
       break;
     case '/super-admins':
       currentScreen = <SuperAdmins />;
@@ -33,6 +42,9 @@ function Layout() {
       break;
     case '/tasks':
       currentScreen = <Tasks />;
+      break;
+    case '/tasks/form':
+      currentScreen = <TasksForm />;
       break;
     default:
       break;

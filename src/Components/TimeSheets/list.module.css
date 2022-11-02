@@ -38,23 +38,14 @@
 }
 
 .button {
-  width: 150px;
+  width: 20px;
   height: 20px;
-  padding: 1%;
   border: none;
+  border-radius: 100px;
   color: #fff;
   background-color: #606197;
 }
 
-a.button {
-  text-decoration: none;
-  text-align: center;
-}
-
 .button:hover {
   background-color: #373867;
-}
-
-.center {
-  text-align: center;
 }

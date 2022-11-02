@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-// import styles from './form.module.css';
+import styles from './form.module.css';
 import Delete from '../assets/trash.png';
 
 const ProjectForm = () => {
@@ -138,111 +138,143 @@ const ProjectForm = () => {
   }, []);
 
   return (
-    <form>
-      <label htmlFor="name">Name:</label>
-      <input
-        id="name"
-        name="name"
-        placeholder="Project name"
-        required
-        value={nameValue}
-        onChange={onChangeNameInput}
-      />
-      <label htmlFor="name">Client name:</label>
-      <input
-        id="client"
-        name="client"
-        placeholder="Client name"
-        required
-        value={clientValue}
-        onChange={onChangeClientInput}
-      />
-      <label htmlFor="description">Description:</label>
-      <textarea
-        id="description"
-        name="description"
-        placeholder="Description"
-        required
-        value={descriptionValue}
-        onChange={onChangeDescriptionInput}
-      />
-      <label htmlFor="startDate">Start date:</label>
-      <input
-        id="startDate"
-        name="startDate"
-        placeholder="Start date"
-        required
-        type="date"
-        value={startDateValue}
-        onChange={onChangeStartDateInput}
-      />
-      <label htmlFor="endDate">End date:</label>
-      <input
-        id="endDate"
-        name="endDate"
-        placeholder="End date"
-        required
-        type="date"
-        value={endDateValue}
-        onChange={onChangeEndDateInput}
-      />
-      <div>
-        <h4>Employees</h4>
-        <div>
-          <div>
-            <select required onChange={handleEmployeeChange}>
-              {employees.map((employee) => (
-                <option key={employee._id} value={employee._id}>
-                  {employee.name}
-                </option>
-              ))}
-            </select>
-            <select required value={roleValue} onChange={handleRoleChange}>
-              {roles.map((role, index) => (
-                <option key={index}>{role}</option>
-              ))}
-            </select>
-            <input
-              id="rate"
-              name="rate"
-              placeholder="Rate:"
-              required
-              value={rateValue}
-              onChange={onChangeRateInput}
-            />
-          </div>
-          <button onClick={addEmployee}>Assign new employee</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Role</th>
-              <th>Rate</th>
-              <th>
-                <img src={Delete}></img>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {projectEmployees.map((employee, index) => {
-              const selectedEmployee = employees.find((item) => item._id === employee.employee);
-              return (
-                <tr key={index}>
-                  <td>{selectedEmployee.name}</td>
-                  <td>{employee.role}</td>
-                  <td>{employee.rate}</td>
-                  <td>
-                    <button onClick={() => handleDelete(index)}>&times;</button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+    <form className={styles.container}>
+      <div className={styles.labelContainer}>
+        <label className={styles.label} htmlFor="name">
+          Name:
+        </label>
+        <input
+          id="name"
+          name="name"
+          placeholder="Project name"
+          required
+          value={nameValue}
+          onChange={onChangeNameInput}
+        />
       </div>
-      <button onClick={onSubmit}>Submit</button>
-      <button onClick={onCancel}>Cancel</button>
+      <div className={styles.labelContainer}>
+        <label className={styles.label} htmlFor="name">
+          Client name:
+        </label>
+        <input
+          id="client"
+          name="client"
+          placeholder="Client name"
+          required
+          value={clientValue}
+          onChange={onChangeClientInput}
+        />
+      </div>
+      <div className={styles.labelContainer}>
+        <label className={styles.label} htmlFor="description">
+          Description:
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Description"
+          required
+          value={descriptionValue}
+          onChange={onChangeDescriptionInput}
+        />
+      </div>
+      <div className={styles.labelContainer}>
+        <label className={styles.label} htmlFor="startDate">
+          Start date:
+        </label>
+        <input
+          id="startDate"
+          name="startDate"
+          placeholder="Start date"
+          required
+          type="date"
+          value={startDateValue}
+          onChange={onChangeStartDateInput}
+        />
+      </div>
+      <div className={styles.labelContainer}>
+        <label className={styles.label} htmlFor="endDate">
+          End date:
+        </label>
+        <input
+          id="endDate"
+          name="endDate"
+          placeholder="End date"
+          required
+          type="date"
+          value={endDateValue}
+          onChange={onChangeEndDateInput}
+        />
+      </div>
+      <div className={styles.listContainer}>
+        <div>
+          <h4>Employees</h4>
+          <div>
+            <div className={styles.newEmployeeInputs}>
+              <select required onChange={handleEmployeeChange}>
+                {employees.map((employee) => (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </select>
+              <select required value={roleValue} onChange={handleRoleChange}>
+                {roles.map((role, index) => (
+                  <option key={index}>{role}</option>
+                ))}
+              </select>
+              <input
+                id="rate"
+                name="rate"
+                placeholder="Rate:"
+                required
+                value={rateValue}
+                onChange={onChangeRateInput}
+              />
+            </div>
+            <button className={styles.newEmployeeButton} onClick={addEmployee}>
+              Assign new employee
+            </button>
+          </div>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Role</th>
+                <th>Rate</th>
+                <th>
+                  <img src={Delete}></img>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {projectEmployees.map((employee, index) => {
+                const selectedEmployee = employees.find((item) => item._id === employee.employee);
+                if (selectedEmployee !== undefined) {
+                  return (
+                    <tr key={index}>
+                      <td>{selectedEmployee.name}</td>
+                      <td>{employee.role}</td>
+                      <td>{employee.rate}</td>
+                      <td>
+                        <button onClick={() => handleDelete(index)}>&times;</button>
+                      </td>
+                    </tr>
+                  );
+                }
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className={styles.formButtons}>
+          <button className={styles.cancel} onClick={onCancel}>
+            Cancel
+          </button>
+          <button className={styles.button} onClick={onSubmit}>
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
   );
 };
