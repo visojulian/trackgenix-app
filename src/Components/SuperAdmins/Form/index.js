@@ -6,7 +6,7 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showFormModal, setFormModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [addSuperAdmin, setAddSuperAdmin] = useState({
+  const [superAdmin, setSuperAdmin] = useState({
     name: '',
     lastName: '',
     email: '',
@@ -18,7 +18,7 @@ const Form = () => {
   };
 
   const onChange = (e) => {
-    setAddSuperAdmin({ ...addSuperAdmin, [e.target.name]: e.target.value });
+    setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
   };
 
   useEffect(async () => {
@@ -31,7 +31,7 @@ const Form = () => {
         });
         const data = await response.json();
         setIsEditing(true);
-        setAddSuperAdmin({
+        setSuperAdmin({
           name: data.data.name,
           lastName: data.data.lastName,
           email: data.data.email,
@@ -53,10 +53,10 @@ const Form = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: addSuperAdmin.name,
-          lastName: addSuperAdmin.lastName,
-          email: addSuperAdmin.email,
-          password: addSuperAdmin.password
+          name: superAdmin.name,
+          lastName: superAdmin.lastName,
+          email: superAdmin.email,
+          password: superAdmin.password
         })
       });
       const content = await res.json();
@@ -66,7 +66,6 @@ const Form = () => {
         setFormModal(true);
         setErrorMessage(content.message);
       }
-      console.log(content);
     } else {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
@@ -77,10 +76,10 @@ const Form = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: addSuperAdmin.name,
-          lastName: addSuperAdmin.lastName,
-          email: addSuperAdmin.email,
-          password: addSuperAdmin.password
+          name: superAdmin.name,
+          lastName: superAdmin.lastName,
+          email: superAdmin.email,
+          password: superAdmin.password
         })
       });
       const content = await res.json();
@@ -101,29 +100,24 @@ const Form = () => {
           <div>
             <div className={styles.div}>
               <label>Name</label>
-              <input type="text" name="name" value={addSuperAdmin.name} onChange={onChange} />
+              <input type="text" name="name" value={superAdmin.name} onChange={onChange} />
             </div>
             <div className={styles.div}>
               <label>Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={addSuperAdmin.lastName}
-                onChange={onChange}
-              />
+              <input type="text" name="lastName" value={superAdmin.lastName} onChange={onChange} />
             </div>
           </div>
           <div>
             <div className={styles.div}>
               <label>Email</label>
-              <input type="text" name="email" value={addSuperAdmin.email} onChange={onChange} />
+              <input type="text" name="email" value={superAdmin.email} onChange={onChange} />
             </div>
             <div className={styles.div}>
               <label>Password</label>
               <input
                 type="password"
                 name="password"
-                value={addSuperAdmin.password}
+                value={superAdmin.password}
                 onChange={onChange}
               />
             </div>
