@@ -223,9 +223,11 @@ function Form() {
                 Select an employee
               </option>
               {employees.map((employee, index) => {
-                const selectedEmployee = employeesTotal.find(
-                  (item) => item.id === employee.employee
-                );
+                console.log(employees);
+                console.log(employeesTotal);
+                console.log(index);
+                console.log(employee);
+                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
                 return (
                   <option key={index} value={selectedEmployee._id}>
                     {selectedEmployee.name}
