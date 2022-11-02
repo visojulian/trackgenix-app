@@ -1,20 +1,4 @@
-.container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.container h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  color: #373867;
-  text-align: center;
-}
-
-.table {
+.tableContent {
   height: auto;
   width: 916px;
   margin: 50px;
@@ -23,17 +7,23 @@
   border-collapse: collapse;
 }
 
-.table th {
+
+.tableContent thead tr {
+  background-color: #373867;
+  color: #ffffff;
+}
+
+.tableContent th {
   height: 50px;
   font-weight: 500;
   background-color: #373867;
   color: #fff;
 }
 
-.table td {
+.tableContent td {
+  height: 40px;
   color: #373867;
   text-align: center;
-  height: 40px;
   border-top: 1px solid #DFE4DE;
 }
 
@@ -50,6 +40,3 @@
   background-color: #373867;
 }
 
-.center {
-  text-align: center;
-}
