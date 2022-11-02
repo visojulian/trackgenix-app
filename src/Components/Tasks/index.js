@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
+import Logo from '../../assets/trash.png';
 
 const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
@@ -29,6 +30,10 @@ const Tasks = () => {
     });
   };
 
+  const onClickTask = (id) => {
+    window.location.assign(`/tasks/form?id=${id}`);
+  };
+
   return (
     <section className={styles.container}>
       <Modal
@@ -38,18 +43,35 @@ const Tasks = () => {
         taskId={taskId}
         title="Do you want to delete this task?"
       />
-      <h2>Tasks</h2>
-      <table>
-        <thead>
+      <div className={styles.upperFlexBox}>
+        <div className={styles.titleFlexBox}>
+          <h2>Tasks</h2>
+        </div>
+        <div className={styles.buttonFlexBox}>
+          <a href="/tasks/form">
+            <button className={styles.addTaskButton}>Add new task</button>
+          </a>
+        </div>
+      </div>
+      <table className={styles.table}>
+        <thead className={styles.tableHead}>
           <tr>
             <th>Description</th>
-            <th>Delete Task</th>
+            <th>
+              <img src={Logo} />
+            </th>
           </tr>
         </thead>
         <tbody>
           {tasks.map((task) => {
             return (
-              <Task key={task._id} task={task} setShowModal={setShowModal} setTaskId={setTaskId} />
+              <Task
+                key={task._id}
+                task={task}
+                setShowModal={setShowModal}
+                setTaskId={setTaskId}
+                onClickTask={onClickTask}
+              />
             );
           })}
         </tbody>

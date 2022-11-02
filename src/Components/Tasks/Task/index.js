@@ -1,18 +1,21 @@
-import Logo from '../../../assets/close_cross.png';
-
-const Task = ({ task, setShowModal, setTaskId }) => {
+const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
   return (
-    <tr>
+    <tr
+      onClick={() => {
+        onClickTask(task._id);
+      }}
+    >
       <td>{task.description}</td>
-      <td style={{ display: 'flex', justifyContent: 'center' }}>
-        <img
-          src={Logo}
-          alt="logo"
-          onClick={() => {
+      <td>
+        <button
+          onClick={(e) => {
             setShowModal(true);
             setTaskId(task._id);
+            e.stopPropagation();
           }}
-        />
+        >
+          &times;
+        </button>
       </td>
     </tr>
   );
