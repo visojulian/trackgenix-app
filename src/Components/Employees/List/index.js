@@ -24,39 +24,21 @@ const EmployeesList = (props) => {
         <tbody>
           {props.list.map((employee) => {
             return (
-              <tr key={employee._id}>
-                <td
-                  onClick={() => {
-                    onClickEmployee(employee._id);
-                  }}
-                >
-                  {employee.name}
-                </td>
-                <td
-                  onClick={() => {
-                    onClickEmployee(employee._id);
-                  }}
-                >
-                  {employee.lastName}
-                </td>
-                <td
-                  onClick={() => {
-                    onClickEmployee(employee._id);
-                  }}
-                >
-                  {employee.phone}
-                </td>
-                <td
-                  onClick={() => {
-                    onClickEmployee(employee._id);
-                  }}
-                >
-                  {employee.email}
-                </td>
+              <tr
+                onClick={() => {
+                  onClickEmployee(employee._id);
+                }}
+                key={employee._id}
+              >
+                <td>{employee.name}</td>
+                <td>{employee.lastName}</td>
+                <td>{employee.phone}</td>
+                <td>{employee.email}</td>
                 <td>
                   <button
                     className={styles.button}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       props.deleteEmployeeId(employee._id);
                       props.setShowModal(true);
                     }}

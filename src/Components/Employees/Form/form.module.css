@@ -92,3 +92,9 @@
   font-weight: 600;
   background-color: #AACE9B;
 }
+
+.title {
+  font-size: 30px;
+  text-align: center;
+  color: #373867;
+}

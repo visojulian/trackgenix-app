@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import FormModal from './FormModal';
 import styles from './form.module.css';
-import FormTitle from '../Form/FormTitle/index';
 
 const Form = () => {
-  const url = window.location.href;
   const [showFormModal, setShowFormModal] = useState(false);
-  const [completdForm, setAutoCompleteForm] = useState(false);
-  const [formTitle, setFormTitle] = useState('Add employee');
-  const [errorMsg, setErrorMessage] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [errorMsg, setErrorMessage] = useState();
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -18,15 +15,15 @@ const Form = () => {
   });
 
   useEffect(async () => {
-    if (url.match('id')) {
-      const id = url.substring(url.indexOf('id') + 3);
-      try {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
           method: 'GET'
         });
         const data = await response.json();
-        setAutoCompleteForm(true);
-        setFormTitle('Edit employee');
+        setIsEditing(true);
         setEmployeeInput({
           name: data.data.name,
           lastName: data.data.lastName,
@@ -34,9 +31,9 @@ const Form = () => {
           email: data.data.email,
           password: data.data.password
         });
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      alert(error);
     }
   }, []);
 
@@ -45,8 +42,8 @@ const Form = () => {
   };
 
   const onSubmit = async (e) => {
-    if (!completdForm) {
-      e.preventDefault();
+    e.preventDefault();
+    if (!isEditing) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
         headers: {
@@ -70,8 +67,8 @@ const Form = () => {
         setErrorMessage(result.message);
       }
     } else {
-      e.preventDefault();
-      const id = url.substring(url.indexOf('id') + 3);
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
@@ -103,7 +100,7 @@ const Form = () => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <FormTitle formTitle={formTitle} />
+        <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
         <form className={styles.form} onSubmit={onSubmit}>
           <div className={styles.input}>
             <label>Name</label>
@@ -140,13 +137,7 @@ const Form = () => {
             >
               Cancel
             </button>
-            <button
-              className={styles.secondButton}
-              onClick={() => {
-                console.log(employeeInput);
-              }}
-              type="submit"
-            >
+            <button className={styles.secondButton} type="submit">
               Submit
             </button>
             <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
