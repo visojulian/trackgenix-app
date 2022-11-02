@@ -24,32 +24,20 @@ const SuperAdminsList = (props) => {
         <tbody>
           {props.superAdmins.map((superAdmin) => {
             return (
-              <tr key={superAdmin._id}>
-                <td
-                  onClick={() => {
-                    onClickSuperAdmin(superAdmin._id);
-                  }}
-                >
-                  {superAdmin.name}
-                </td>
-                <td
-                  onClick={() => {
-                    onClickSuperAdmin(superAdmin._id);
-                  }}
-                >
-                  {superAdmin.lastName}
-                </td>
-                <td
-                  onClick={() => {
-                    onClickSuperAdmin(superAdmin._id);
-                  }}
-                >
-                  {superAdmin.email}
-                </td>
+              <tr
+                key={superAdmin._id}
+                onClick={() => {
+                  onClickSuperAdmin(superAdmin._id);
+                }}
+              >
+                <td>{superAdmin.name}</td>
+                <td>{superAdmin.lastName}</td>
+                <td>{superAdmin.email}</td>
                 <td>
                   <button
                     className={styles.button}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       props.setDeleteSuperAdmin(superAdmin._id);
                       props.setModal(true);
                     }}

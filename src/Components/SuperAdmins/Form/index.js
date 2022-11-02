@@ -1,12 +1,9 @@
 import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
 import FormModal from './Modal/index';
-import Title from '../Form/ModalTitle/index';
 
 const Form = () => {
-  const [modalTitle, setTitle] = useState('Add new Super Admin');
-  const [autoForm, setAutoForm] = useState(false);
-  const url = window.location.href;
+  const [isEditing, setIsEditing] = useState(false);
   const [showFormModal, setFormModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [addSuperAdmin, setAddSuperAdmin] = useState({
@@ -25,30 +22,30 @@ const Form = () => {
   };
 
   useEffect(async () => {
-    if (url.match('id')) {
-      const id = url.substring(url.indexOf('id') + 3);
-      try {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
           method: 'GET'
         });
         const data = await response.json();
-        setTitle('Edit Super Admin');
-        setAutoForm(true);
+        setIsEditing(true);
         setAddSuperAdmin({
           name: data.data.name,
           lastName: data.data.lastName,
           email: data.data.email,
           password: data.data.password
         });
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.error(error);
     }
   }, []);
 
   const onSubmit = async (e) => {
-    if (!autoForm) {
-      e.preventDefault();
+    e.preventDefault();
+    if (!isEditing) {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
         method: 'POST',
         headers: {
@@ -71,8 +68,8 @@ const Form = () => {
       }
       console.log(content);
     } else {
-      e.preventDefault();
-      const id = url.substring(url.indexOf('id') + 3);
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
         method: 'PUT',
         headers: {
@@ -93,14 +90,13 @@ const Form = () => {
         setFormModal(true);
         setErrorMessage(content.message);
       }
-      console.log(content);
     }
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.flex}>
-        <Title modalTitle={modalTitle} className={styles.title} />
+        <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
         <form className={styles.box} onSubmit={onSubmit}>
           <div>
             <div className={styles.div}>
