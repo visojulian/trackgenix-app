@@ -24,6 +24,7 @@
 
 .tableHead tr {
   color: #fff;
+  pointer-events: none;
 }
 
 tr {
