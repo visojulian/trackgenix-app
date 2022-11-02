@@ -1,36 +1,31 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Modal from './Form Modal/index';
-import FormText from './Form Title';
+import Modal from './FormModal/index';
 
-function Form() {
+const Form = () => {
   const [taskName, setTaskName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
-  const [formMode, setFormMode] = useState(false);
-  const [formText, setFormText] = useState('Add task');
+  const [isEditing, setIsEditing] = useState(false);
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
   };
 
   useEffect(async () => {
-    if (window.location.href !== `http://localhost:3000/tasks/form`) {
-      try {
-        const fullUrl = window.location.href; //fullUrl.slice(36)
-        const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
           method: 'GET'
         });
         const data = await response.json();
-        setFormMode(true);
-        setFormText('Edit task');
+        setIsEditing(true);
         setTaskName(data.data.description);
-      } catch (error) {
-        console.error(error);
       }
-    } else {
-      return null;
+    } catch (error) {
+      console.error(error);
     }
   }, []);
 
@@ -39,7 +34,7 @@ function Form() {
   };
 
   const onSubmit = async (event) => {
-    if (!formMode) {
+    if (!isEditing) {
       event.preventDefault();
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
@@ -58,8 +53,8 @@ function Form() {
       }
     } else {
       event.preventDefault();
-      const fullUrl = window.location.href; //fullUrl.slice(36)
-      const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
         headers: {
@@ -83,11 +78,11 @@ function Form() {
       <Modal show={showModal} title={serverError} closeModal={closeModal} />
       <form onSubmit={onSubmit} className={styles.formFlexBox}>
         <div>
-          <FormText title={formText} />
+          <h3>{isEditing ? 'Edit Task' : 'Add Task'}</h3>
         </div>
         <div>
           <div>
-            <label style={{ marginRight: '10px' }}>Task Description</label>
+            <label className={styles.descriptionLabel}>Task Description</label>
             <input
               id="taskName"
               name="taskName"
@@ -118,6 +113,6 @@ function Form() {
       </form>
     </div>
   );
-}
+};
 
 export default Form;
