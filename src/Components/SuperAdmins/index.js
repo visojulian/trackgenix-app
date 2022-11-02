@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import SuperAdminsList from './List';
 import Modal from './Modal';
 
-function SuperAdmins() {
+const SuperAdmins = () => {
   const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setModal] = useState(false);
   const [superAdminId, setDeleteSuperAdmin] = useState();
@@ -47,6 +47,6 @@ function SuperAdmins() {
       </div>
     </section>
   );
-}
+};
 
 export default SuperAdmins;
