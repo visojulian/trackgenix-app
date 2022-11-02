@@ -4,7 +4,7 @@ import Task from './Task/index';
 import Modal from './Modal/index';
 import Logo from '../../assets/trash.png';
 
-function Tasks() {
+const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
@@ -49,9 +49,7 @@ function Tasks() {
         </div>
         <div className={styles.buttonFlexBox}>
           <a href="/tasks/form">
-            <button className={styles.addTaskButton} style={{ marginRight: '25px' }}>
-              Add new task
-            </button>
+            <button className={styles.addTaskButton}>Add new task</button>
           </a>
         </div>
       </div>
@@ -80,6 +78,6 @@ function Tasks() {
       </table>
     </section>
   );
-}
+};
 
 export default Tasks;
