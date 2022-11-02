@@ -13,6 +13,10 @@
   color: #ffffff;
 }
 
+.tableContent tr:hover {
+  background-color: #f8faf7;
+}
+
 .tableContent th {
   height: 50px;
   font-weight: 500;
