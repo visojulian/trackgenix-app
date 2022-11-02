@@ -23,9 +23,10 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  const handleDelete = (project) => {
+  const handleDelete = (project, event) => {
     setSelectedProject({ id: project._id, name: project.name });
     saveShowModal(true);
+    event.stopPropagation();
   };
 
   const editProject = (id) => {
@@ -37,8 +38,8 @@ const Projects = () => {
       <DeleteConfirmationModal
         show={showModal}
         handleModal={saveShowModal}
-        deleteProject={deleteProject}
-        project={selectedProject}
+        deleteEntity={deleteProject}
+        entity={selectedProject}
       />
       <table className={styles.table}>
         <thead>
@@ -58,7 +59,7 @@ const Projects = () => {
               <td>{project.startDate.slice(0, 10)}</td>
               <td className={styles.center}>&hellip;</td>
               <td className={styles.center}>
-                <button onClick={() => handleDelete(project)}>&times;</button>
+                <button onClick={(e) => handleDelete(project, e)}>&times;</button>
               </td>
             </tr>
           ))}
