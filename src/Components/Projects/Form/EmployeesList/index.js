@@ -7,6 +7,7 @@ const EmployeeSelect = (props) => {
   const [roleValue, setRoleValue] = useState('');
   const [rateValue, setRateValue] = useState('');
   const [employees, setEmployees] = useState([]);
+  const [newEmployee, setNewEmployee] = useState({});
   const [addedEmployee, setAddedEmployee] = useState({});
   const [employeeList, setEmployeeList] = useState([]);
 
@@ -23,13 +24,18 @@ const EmployeeSelect = (props) => {
     props.updateEmployees(employeeList);
   };
 
-  const newEmployee = () => {
+  const addEmployee = (e) => {
+    e.preventDefault();
     setAddedEmployee({
+      employee: newEmployee.id,
+      name: newEmployee.name,
       rate: rateValue,
       role: roleValue
     });
-    setEmployeeList([...employeeList, addedEmployee]);
-    props.updateEmployees(employeeList);
+    if (Object.keys(addedEmployee).length) {
+      setEmployeeList([...employeeList, addedEmployee]);
+      props.updateEmployees(employeeList);
+    }
   };
 
   useEffect(() => {
@@ -61,23 +67,26 @@ const EmployeeSelect = (props) => {
   return (
     <div>
       <h4>Employees</h4>
-      <div>
-        <EmployeesSelect setAddedEmployee={setAddedEmployee} employees={employees} />
-        <select required value={roleValue} onChange={handleRoleChange}>
-          {roles.map((role, index) => (
-            <option key={index}>{role}</option>
-          ))}
-        </select>
-        <input
-          id="rate"
-          name="rate"
-          placeholder="Rate:"
-          required
-          value={rateValue}
-          onChange={onChangeRateInput}
-        />
-      </div>
-      <button onClick={() => newEmployee}>Assign new employee</button>
+      <form onSubmit={addEmployee}>
+        <div>
+          <EmployeesSelect setNewEmployee={setNewEmployee} employees={employees} />
+          <select required value={roleValue} onChange={handleRoleChange}>
+            {roles.map((role, index) => (
+              <option key={index}>{role}</option>
+            ))}
+          </select>
+          <input
+            id="rate"
+            name="rate"
+            placeholder="Rate:"
+            required
+            value={rateValue}
+            onChange={onChangeRateInput}
+          />
+        </div>
+        <button type="submit">Assign new employee</button>
+      </form>
+      {console.log(addedEmployee)}
       <table>
         <thead>
           <tr>
