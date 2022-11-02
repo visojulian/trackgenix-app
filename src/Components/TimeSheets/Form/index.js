@@ -16,12 +16,54 @@ function Form() {
   const [serverError, setServerError] = useState('');
   const [formMode, setFormMode] = useState(true);
   const [formTitle, setFormTitle] = useState('Add timeSheet');
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [employeesTotal, setEmployeesTotal] = useState([]);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
+
+    if (e.target.name === 'project') {
+      const selectedProject = projects.find((project) => project._id === e.target.value);
+      console.log(selectedProject);
+      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+      console.log(projectEmployees);
+      setEmployees(projectEmployees);
+    }
   };
 
   useEffect(async () => {
+    try {
+      const response2 = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+        method: 'GET'
+      });
+      const json = await response2.json();
+      setTasks(json.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const response4 = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        method: 'GET'
+      });
+      const json = await response4.json();
+      setEmployeesTotal(json.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const response3 = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+        method: 'GET'
+      });
+      const json = await response3.json();
+      setProjects(json.data);
+    } catch (error) {
+      console.error(error);
+    }
+
     if (window.location.href.includes('id=')) {
       try {
         const url = window.location.href;
@@ -151,33 +193,66 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Task</label>
-            <input
-              type="text"
+            <select
               name="task"
               required
-              onChange={onChangeInputValue}
               value={inputTimeSheetValue.task}
-            />
+              onChange={onChangeInputValue}
+            >
+              <option value="" disabled hidden>
+                Select a task
+              </option>
+              {tasks.map((task) => {
+                return (
+                  <option placeholder="taskhere" key={task._id} value={task._id}>
+                    {task.description}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <input
-              type="text"
+            <select
               name="employee"
-              required
-              onChange={onChangeInputValue}
               value={inputTimeSheetValue.employee}
-            />
+              onChange={onChangeInputValue}
+              required
+            >
+              <option value="" disabled hidden>
+                Select an employee
+              </option>
+              {employees.map((employee, index) => {
+                const selectedEmployee = employeesTotal.find(
+                  (item) => item.id === employee.employee
+                );
+                return (
+                  <option key={index} value={selectedEmployee._id}>
+                    {selectedEmployee.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.box}>
             <label>Project</label>
-            <input
-              type="text"
+            <select
               name="project"
               required
-              onChange={onChangeInputValue}
               value={inputTimeSheetValue.project}
-            />
+              onChange={onChangeInputValue}
+            >
+              <option value="" disabled hidden>
+                Select a project
+              </option>
+              {projects.map((project) => {
+                return (
+                  <option key={project._id} value={project._id}>
+                    {project.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.buttons}>
             <div>

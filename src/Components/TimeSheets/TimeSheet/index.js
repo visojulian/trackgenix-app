@@ -32,7 +32,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
         onClick={() => {
           window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
         }}
-        style={{ flexBasis: '10%' }}
+        style={{ flexBasis: '20%' }}
       >
         {timeSheet.task.description}
       </td>
