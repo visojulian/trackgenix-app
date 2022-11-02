@@ -20,7 +20,9 @@ const EmployeeSelect = (props) => {
   };
 
   const handleDelete = (index) => {
-    setEmployeeList([...employeeList].splice(index, 1));
+    const employeesCopy = [...employeeList];
+    employeesCopy.splice(index, 1);
+    setEmployeeList(employeesCopy);
     props.updateEmployees(employeeList);
   };
 
@@ -32,11 +34,14 @@ const EmployeeSelect = (props) => {
       rate: rateValue,
       role: roleValue
     });
+  };
+
+  useEffect(() => {
     if (Object.keys(addedEmployee).length) {
       setEmployeeList([...employeeList, addedEmployee]);
       props.updateEmployees(employeeList);
     }
-  };
+  }, [addedEmployee]);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/employees`)
@@ -86,7 +91,6 @@ const EmployeeSelect = (props) => {
         </div>
         <button type="submit">Assign new employee</button>
       </form>
-      {console.log(addedEmployee)}
       <table>
         <thead>
           <tr>

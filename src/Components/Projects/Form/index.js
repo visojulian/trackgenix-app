@@ -31,8 +31,13 @@ const ProjectForm = () => {
   };
 
   const sendProject = () => {
+    const cleanProjectEmployees = projectEmployees.map((employee) => ({
+      employee: employee.employee,
+      role: employee.role,
+      rate: employee.rate
+    }));
     const body = JSON.stringify({
-      employees: projectEmployees,
+      employees: cleanProjectEmployees,
       name: nameValue,
       startDate: startDateValue,
       endDate: endDateValue,
