@@ -1,19 +1,15 @@
-function FormModal(props) {
-  if (!props.show) {
+function FormModal({ modal, title, closeModal }) {
+  if (!modal) {
     return null;
   }
 
   return (
-    <div>
+    <>
+      <h3>{title}</h3>
       <div>
-        <h3>{props.title}</h3>
-        <div>
-          <div>
-            <button onClick={props.closeModal}>Modified</button>
-          </div>
-        </div>
+        <button onClick={closeModal}>Modified</button>
       </div>
-    </div>
+    </>
   );
 }
 
