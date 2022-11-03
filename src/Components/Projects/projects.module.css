@@ -38,12 +38,17 @@
 }
 
 .button {
-  width: 20px;
+  width: 150px;
   height: 20px;
+  padding: 1%;
   border: none;
-  border-radius: 100px;
   color: #fff;
   background-color: #606197;
+}
+
+a.button {
+  text-decoration: none;
+  text-align: center;
 }
 
 .button:hover {

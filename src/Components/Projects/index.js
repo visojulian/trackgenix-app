@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
-import styles from './projects.module.css';
 import Delete from './assets/trash.png';
+import styles from './projects.module.css';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
@@ -23,17 +23,23 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  const handleDelete = (project) => {
+  const handleDelete = (project, event) => {
     setSelectedProject({ id: project._id, name: project.name });
     saveShowModal(true);
+    event.stopPropagation();
   };
+
+  const editProject = (id) => {
+    window.location.assign(`/projects/form?id=${id}`);
+  };
+
   return (
     <section className={styles.container}>
       <DeleteConfirmationModal
         show={showModal}
         handleModal={saveShowModal}
-        deleteProject={deleteProject}
-        project={selectedProject}
+        deleteEntity={deleteProject}
+        entity={selectedProject}
       />
       <table className={styles.table}>
         <thead>
@@ -48,17 +54,20 @@ const Projects = () => {
         </thead>
         <tbody>
           {projects.map((project) => (
-            <tr key={project._id}>
+            <tr key={project._id} onClick={() => editProject(project._id)}>
               <td>{project.name}</td>
               <td>{project.startDate.slice(0, 10)}</td>
               <td className={styles.center}>&hellip;</td>
               <td className={styles.center}>
-                <button onClick={() => handleDelete(project)}>&times;</button>
+                <button onClick={(e) => handleDelete(project, e)}>&times;</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <a className={styles.button} href="/projects/form">
+        Add New Project
+      </a>
     </section>
   );
 };

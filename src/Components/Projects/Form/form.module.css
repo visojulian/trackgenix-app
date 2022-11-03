@@ -1,0 +1,137 @@
+.container {
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
+
+.button {
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+  background-color: #606197;
+}
+
+.button:hover {
+  background-color: #373867;
+}
+
+.label {
+  display: block;
+  width: 100%;
+}
+
+.labelContainer {
+  margin: 10px 0;
+  display: block;
+  width: 45%;
+}
+
+.labelContainer input, .labelContainer textarea {
+  box-sizing: border-box;
+  display: block;
+  padding: 1%;
+  width: 90%;
+}
+
+.listContainer {
+  margin-bottom: 30px;
+  width: 100%;
+  border: 1px solid #000000;
+  padding: 1%;
+}
+
+.newEmployeeInputs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.newEmployeeInputs select {
+  box-sizing: border-box;
+  display: block;
+  padding: 1%;
+  width: 25%;
+}
+
+.newEmployeeInputs input {
+  box-sizing: border-box;
+  display: block;
+  padding: 1%;
+  width: 25%
+}
+
+.newEmployeeButton {
+  margin: 1% 5%;
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+  background-color: #606197;
+  float: right;
+}
+
+.newEmployeeButton:hover {
+  background-color: #373867;
+}
+
+.table {
+  width: 60%;
+  margin: 8% auto 2% auto;
+  border: 1px solid #DFE4DE;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.table th {
+  height: 50px;
+  font-weight: 500;
+  background-color: #373867;
+  color: #fff;
+}
+
+.table td {
+  color: #373867;
+  text-align: center;
+  height: 40px;
+  border-top: 1px solid #DFE4DE;
+}
+
+.listContainer table tr:hover {
+  background-color: #DFE4DE;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.formButtons button {
+  margin-left: 100px;
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+  background-color: #606197;
+}
+
+.formButtons button.cancel {
+  background-color: #f13312;
+}
+
+.formButtons button.cancel:hover {
+  background-color: #f1331230;
+}
