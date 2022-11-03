@@ -22,7 +22,7 @@ const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
             }}
             className={styles.buttonDelete}
           >
-            X
+            x
           </button>
         </td>
       </tr>

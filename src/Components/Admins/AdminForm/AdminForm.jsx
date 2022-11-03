@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FormModal from '../Modals/FormModal';
 import styles from './adminForm.module.css';
 
-const AddAdmin = () => {
+const AdminForm = () => {
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -63,10 +63,8 @@ const AddAdmin = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        // window.location.assign('/admins');
         setModal(true);
         setServerError(content.message);
-        console.log(content);
       }
     } else {
       const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
@@ -81,14 +79,12 @@ const AddAdmin = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        // window.location.assign('/admins');
         setModal(true);
         setServerError(content.message);
-        console.log(content);
       }
     }
   };
-  console.log(serverError);
+
   return (
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
@@ -166,4 +162,4 @@ const AddAdmin = () => {
   );
 };
 
-export default AddAdmin;
+export default AdminForm;
