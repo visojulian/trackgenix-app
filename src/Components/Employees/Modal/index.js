@@ -1,7 +1,7 @@
 import styles from './modal.module.css';
 
-const Modal = (props) => {
-  if (!props.showModal) {
+const Modal = ({ showModal, closeModal, onDelete }) => {
+  if (!showModal) {
     return null;
   }
 
@@ -13,8 +13,8 @@ const Modal = (props) => {
           <p>Do you want to remove this Employee? Changes cannot be undone.</p>
         </div>
         <div className={styles.buttons}>
-          <button onClick={props.closeModal}>Close</button>
-          <button onClick={props.onDelete}>Remove</button>
+          <button onClick={closeModal}>Close</button>
+          <button onClick={onDelete}>Remove</button>
         </div>
       </section>
     </div>
