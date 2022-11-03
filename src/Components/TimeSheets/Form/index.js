@@ -198,6 +198,26 @@ function Form() {
             </select>
           </div>
           <div className={styles.box}>
+            <label>Project</label>
+            <select
+              name="project"
+              required
+              value={inputTimeSheetValue.project}
+              onChange={onChangeInputValue}
+            >
+              <option value="" disabled hidden>
+                Select a project
+              </option>
+              {projects.map((project) => {
+                return (
+                  <option key={project._id} value={project._id}>
+                    {project.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className={styles.box}>
             <label>Employee</label>
             <select
               name="employee"
@@ -213,26 +233,6 @@ function Form() {
                 return (
                   <option key={index} value={selectedEmployee._id}>
                     {selectedEmployee.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className={styles.box}>
-            <label>Project</label>
-            <select
-              name="project"
-              required
-              value={inputTimeSheetValue.project}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a project
-              </option>
-              {projects.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name}
                   </option>
                 );
               })}
