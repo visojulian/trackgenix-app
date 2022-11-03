@@ -31,44 +31,34 @@ function Form() {
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      const tasksResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'GET'
       });
-      const json = await response.json();
-      setTasks(json.data);
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+      const tasks = await tasksResponse.json();
+      setTasks(tasks.data);
+      const employeesResponse = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'GET'
       });
-      const json = await response.json();
-      setEmployeesTotal(json.data);
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+      const employees = await employeesResponse.json();
+      setEmployeesTotal(employees.data);
+      const projectsResponse = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
         method: 'GET'
       });
-      const json = await response.json();
-      setProjects(json.data);
-    } catch (error) {
-      console.error(error);
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-
-    if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
-          method: 'GET'
-        });
-        const json = await response.json();
+      const projects = await projectsResponse.json();
+      setProjects(projects.data);
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
+        const timeSheetResponse = await fetch(
+          `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
+          {
+            method: 'GET'
+          }
+        );
+        const timeSheet = await timeSheetResponse.json();
+        const selectedProject = projects.find((project) => project._id === timeSheet.project._id);
+        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+        setEmployees(projectEmployees);
         setIsEditing(true);
         setInputTimeSheetValue({
           description: json.data.description,
@@ -78,9 +68,10 @@ function Form() {
           employee: json.data.employee['_id'],
           project: json.data.project['_id']
         });
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error(error);
+      alert(error);
     }
   }, []);
 
