@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import Modal from './Form Modal/index';
-import FormTitle from './Form Title/index';
+import Modal from './FormModal/index';
 import styles from './form.module.css';
 
 function Form() {
@@ -14,8 +13,7 @@ function Form() {
   });
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
-  const [formMode, setFormMode] = useState(true);
-  const [formTitle, setFormTitle] = useState('Add timeSheet');
+  const [isEditing, setIsEditing] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [employees, setEmployees] = useState([]);
@@ -26,54 +24,52 @@ function Form() {
 
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
-      console.log(selectedProject);
       const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      console.log(projectEmployees);
       setEmployees(projectEmployees);
     }
   };
 
   useEffect(async () => {
     try {
-      const response2 = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'GET'
       });
-      const json = await response2.json();
+      const json = await response.json();
       setTasks(json.data);
     } catch (error) {
       console.error(error);
     }
 
     try {
-      const response4 = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'GET'
       });
-      const json = await response4.json();
+      const json = await response.json();
       setEmployeesTotal(json.data);
     } catch (error) {
       console.error(error);
     }
 
     try {
-      const response3 = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
         method: 'GET'
       });
-      const json = await response3.json();
+      const json = await response.json();
       setProjects(json.data);
     } catch (error) {
       console.error(error);
     }
 
-    if (window.location.href.includes('id=')) {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (id) {
       try {
-        const url = window.location.href;
-        const id = url.substring(url.lastIndexOf('=') + 1);
         const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
           method: 'GET'
         });
         const json = await response.json();
-        setFormMode(false);
-        setFormTitle('Update TimeSheet');
+        setIsEditing(true);
         setInputTimeSheetValue({
           description: json.data.description,
           date: correctDate(json.data.date),
@@ -85,8 +81,6 @@ function Form() {
       } catch (error) {
         console.error(error);
       }
-    } else {
-      return null;
     }
   }, []);
 
@@ -100,8 +94,8 @@ function Form() {
   };
 
   const onSubmit = async (event) => {
-    if (formMode) {
-      event.preventDefault();
+    event.preventDefault();
+    if (!isEditing) {
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         method: 'POST',
         headers: {
@@ -125,9 +119,8 @@ function Form() {
         setServerError(content.message);
       }
     } else {
-      event.preventDefault();
-      const url = window.location.href;
-      const id = url.substring(url.lastIndexOf('=') + 1);
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
         headers: {
@@ -159,7 +152,7 @@ function Form() {
       <form onSubmit={onSubmit}>
         <div>
           <div className={styles.cardTitle}>
-            <FormTitle title={formTitle} />
+            <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
           </div>
           <div className={styles.box}>
             <label>Description</label>
@@ -223,10 +216,6 @@ function Form() {
                 Select an employee
               </option>
               {employees.map((employee, index) => {
-                console.log(employees);
-                console.log(employeesTotal);
-                console.log(index);
-                console.log(employee);
                 const selectedEmployee = employeesTotal.find((item) => item._id === employee);
                 return (
                   <option key={index} value={selectedEmployee._id}>
