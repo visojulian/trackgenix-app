@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
-import Logo from '../../assets/trash.png';
+import Logo from '../../Assets/trash.png';
 
 const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
