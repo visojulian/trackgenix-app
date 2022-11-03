@@ -4,14 +4,14 @@ import styles from './time.module.css';
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
   return (
     <tr style={{ display: 'flex', justifyContent: 'center' }}>
-      <tr
+      <td
         onClick={() => {
           window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
         }}
         style={{ flexBasis: '25%' }}
       >
         {timeSheet.description}
-      </tr>
+      </td>
       <td
         onClick={() => {
           window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);

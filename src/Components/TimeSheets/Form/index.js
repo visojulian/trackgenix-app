@@ -56,17 +56,19 @@ function Form() {
           }
         );
         const timeSheet = await timeSheetResponse.json();
-        const selectedProject = projects.find((project) => project._id === timeSheet.project._id);
+        const selectedProject = projects.data.find(
+          (project) => project._id === timeSheet.data.project._id
+        );
         const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
         setEmployees(projectEmployees);
         setIsEditing(true);
         setInputTimeSheetValue({
-          description: json.data.description,
-          date: correctDate(json.data.date),
-          hours: json.data.hours,
-          task: json.data.task['_id'],
-          employee: json.data.employee['_id'],
-          project: json.data.project['_id']
+          description: timeSheet.data.description,
+          date: correctDate(timeSheet.data.date),
+          hours: timeSheet.data.hours,
+          task: timeSheet.data.task['_id'],
+          employee: timeSheet.data.employee['_id'],
+          project: timeSheet.data.project['_id']
         });
       }
     } catch (error) {
