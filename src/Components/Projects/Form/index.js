@@ -13,7 +13,7 @@ const ProjectForm = () => {
   const [endDateValue, setEndDateValue] = useState();
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
-  const [editing, isEditing] = useState();
+  const [isEditing, setIsEditing] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const onChangeNameInput = (event) => {
@@ -76,7 +76,7 @@ const ProjectForm = () => {
       clientName: clientValue
     });
 
-    if (editing) {
+    if (isEditing) {
       const urlSearchParams = new URLSearchParams(window.location.search);
       const id = urlSearchParams.get('id');
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
@@ -122,7 +122,7 @@ const ProjectForm = () => {
             setDescriptionValue(response.data.description);
             setProjectEmployees(employeeList);
           }
-          isEditing(true);
+          setIsEditing(true);
         })
         .catch((error) => alert(error));
     }
