@@ -3,6 +3,10 @@ import styles from './list.module.css';
 import Delete from '../assets/trash.png';
 
 const SuperAdminsList = (props) => {
+  const onClickSuperAdmin = (id) => {
+    window.location.assign(`/super-admins/form?id=${id}`);
+  };
+
   return (
     <div className={styles.container}>
       <h2>Super Admins</h2>
@@ -20,14 +24,20 @@ const SuperAdminsList = (props) => {
         <tbody>
           {props.superAdmins.map((superAdmin) => {
             return (
-              <tr key={superAdmin._id}>
+              <tr
+                key={superAdmin._id}
+                onClick={() => {
+                  onClickSuperAdmin(superAdmin._id);
+                }}
+              >
                 <td>{superAdmin.name}</td>
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
                 <td>
                   <button
                     className={styles.button}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       props.setDeleteSuperAdmin(superAdmin._id);
                       props.setModal(true);
                     }}
@@ -40,6 +50,16 @@ const SuperAdminsList = (props) => {
           })}
         </tbody>
       </table>
+      <div>
+        <button
+          className={styles.buttonAdd}
+          onClick={() => {
+            window.location.assign('super-admins/form');
+          }}
+        >
+          Add Super Admin
+        </button>
+      </div>
     </div>
   );
 };

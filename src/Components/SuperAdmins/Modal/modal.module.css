@@ -5,6 +5,10 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  top: 0;
+  bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
   background: rgba(55, 56, 103, 69%);
 }
 
@@ -13,7 +17,6 @@
   display: flex;
   justify-content: space-around;
   width: 559px;
-  height: auto;
   padding-bottom: 10px;
   border-radius: 5px;
   background-color: #eeeeee;
