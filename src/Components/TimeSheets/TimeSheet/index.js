@@ -1,4 +1,4 @@
-import Trash from '../../../assets/trash.png';
+import Trash from '../../../Assets/trash.png';
 import styles from './time.module.css';
 
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
