@@ -29,6 +29,10 @@ const Admins = () => {
     setModal(false);
   };
 
+  const onClickAdmin = (id) => {
+    window.location.assign(`/admins/form?id=${id}`);
+  };
+
   return (
     <>
       <ModalAlert
@@ -39,10 +43,15 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <AdminList adminList={admins} setModal={setModal} setAdminId={setAdminId} />
+        <AdminList
+          adminList={admins}
+          setModal={setModal}
+          setAdminId={setAdminId}
+          onClickAdmin={onClickAdmin}
+        />
       </div>
       <div className={styles.container}>
-        <a href="/admins/addAdmin" className={styles.buttonAddAdmin}>
+        <a href="/admins/form" className={styles.buttonAddAdmin}>
           ➕AddAdmin
         </a>
       </div>

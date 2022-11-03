@@ -1,6 +1,7 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
+import AdminForm from '../Admins/AdminForm/AdminForm';
 import SuperAdmins from '../SuperAdmins/index';
 import SuperAdminsForm from '../SuperAdmins/Form/index';
 import Home from '../Home/index';
@@ -10,8 +11,6 @@ import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 import TasksForm from '../Tasks/Form/index';
-import AddAdmin from '../Admins/AddAdmin/AddAdmin';
-import UpdateAdmin from '../Admins/UpdateAdmin/UpdateAdmin';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -19,11 +18,8 @@ function Layout() {
     case '/admins':
       currentScreen = <Admins />;
       break;
-    case '/admins/addAdmin':
-      currentScreen = <AddAdmin />;
-      break;
-    case '/admins/updateAdmin':
-      currentScreen = <UpdateAdmin />;
+    case '/admins/form':
+      currentScreen = <AdminForm />;
       break;
     case '/super-admins':
       currentScreen = <SuperAdmins />;

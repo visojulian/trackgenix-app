@@ -1,19 +1,21 @@
 import React from 'react';
 import styles from '../admins.module.css';
 import AdminItem from './AdminItem';
+import Delete from '../../../Assets/trash.png';
 
-const AdminList = ({ adminList, setModal, setAdminId }) => {
+const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
   return (
     <>
       <table className={styles.tableContainer}>
         <thead>
           <tr>
-            <th className={styles.tableTitle}>Name</th>
-            <th className={styles.tableTitle}>Last Name</th>
-            <th className={styles.tableTitle}>Email</th>
-            <th className={styles.tableTitle}>Password</th>
-            <th className={styles.tableTitle}></th>
-            <th className={styles.tableTitle}></th>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>
+              <img src={Delete} />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -24,6 +26,7 @@ const AdminList = ({ adminList, setModal, setAdminId }) => {
                 admin={admin}
                 setModal={setModal}
                 setAdminId={setAdminId}
+                onClickAdmin={onClickAdmin}
               />
             );
           })}

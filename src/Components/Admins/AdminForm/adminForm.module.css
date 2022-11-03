@@ -1,0 +1,50 @@
+.container, .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    color: #373867;
+    text-align: center;
+}
+
+.form div {
+    display: flex;
+    flex-direction: row;
+}
+
+.form div div {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.form label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 20px;
+    color: #373867;
+}
+
+.form .input {
+    width: 260px;
+    margin-bottom: 20px;
+    padding: 10px 12px;
+    border-style: none;
+    border: 1px solid #373867;
+    border-radius: 4px;
+}
+
+.form .input::placeholder {
+    font-weight: 500;
+    font-size: 14px;
+    color: #373867;
+    opacity: 0.5;
+}
