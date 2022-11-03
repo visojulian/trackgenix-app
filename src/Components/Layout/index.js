@@ -9,7 +9,8 @@ import styles from './layout.module.css';
 import Employees from '../Employees/index';
 import Projects from '../Projects';
 import ProjectsForm from '../Projects/Form';
-import TimeSheets from '../TimeSheets';
+import TimeSheets from '../TimeSheets/index';
+import TimeSheetsForm from '../TimeSheets/Form/index';
 import Tasks from '../Tasks/index';
 import TasksForm from '../Tasks/Form/index';
 
@@ -39,6 +40,9 @@ function Layout() {
       break;
     case '/time-sheets':
       currentScreen = <TimeSheets />;
+      break;
+    case '/time-sheets/form':
+      currentScreen = <TimeSheetsForm />;
       break;
     case '/tasks':
       currentScreen = <Tasks />;

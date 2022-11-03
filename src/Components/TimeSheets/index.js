@@ -31,7 +31,17 @@ const TimeSheets = () => {
 
   return (
     <section className={styles.container}>
-      <h2>TimeSheets</h2>
+      <div className={styles.containerUpper}>
+        <h2>TimeSheets</h2>
+        <button
+          className={styles.button}
+          onClick={() => {
+            window.location.assign(`/time-sheets/form`);
+          }}
+        >
+          New TimeSheet
+        </button>
+      </div>
       <Modal
         show={showModal}
         closeModal={closeModal}
@@ -45,7 +55,7 @@ const TimeSheets = () => {
             <th style={{ flexBasis: '25%' }}>Description</th>
             <th style={{ flexBasis: '15%' }}>Date</th>
             <th style={{ flexBasis: '10%' }}>Hours</th>
-            <th style={{ flexBasis: '10%' }}>Task</th>
+            <th style={{ flexBasis: '20%' }}>Task</th>
             <th style={{ flexBasis: '20%' }}>Employee</th>
             <th style={{ flexBasis: '10%' }}>Project</th>
             <th style={{ flexBasis: '10%' }}>Delete TimeSheet</th>
