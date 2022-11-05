@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import AdminList from './AdminList/AdminList';
+import Table from '../Shared/Table/index';
 import ModalAlert from './Modals/ModalAlert';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [modal, setModal] = useState(false);
   const [adminId, setAdminId] = useState();
+  const headers = ['name', 'lastName', 'email'];
 
   useEffect(async () => {
     try {
@@ -29,9 +30,9 @@ const Admins = () => {
     setModal(false);
   };
 
-  const onClickAdmin = (id) => {
-    window.location.assign(`/admins/form?id=${id}`);
-  };
+  // const onClickAdmin = (id) => {
+  //   window.location.assign(`/admins/form?id=${id}`);
+  // };
 
   return (
     <>
@@ -43,12 +44,7 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <AdminList
-          adminList={admins}
-          setModal={setModal}
-          setAdminId={setAdminId}
-          onClickAdmin={onClickAdmin}
-        />
+        <Table data={admins} headers={headers} setDelete={setAdminId} setModal={setModal} />
       </div>
       <div className={styles.container}>
         <a href="/admins/form" className={styles.buttonAddAdmin}>

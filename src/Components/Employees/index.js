@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
-import EmployeesList from './List';
+import Table from '../Shared/Table/index';
+// import EmployeesList from './List';
 import Modal from './Modal';
 
 function Employees() {
   const [employees, saveEmployees] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [employeeId, deleteEmployeeId] = useState();
+  const headers = ['name', 'lastName', 'phone', 'email'];
 
   useEffect(async () => {
     try {
@@ -44,11 +46,11 @@ function Employees() {
       />
       <h2>Employees</h2>
       <div>
-        <EmployeesList
-          list={employees}
-          deleteEmployeeId={deleteEmployeeId}
-          setShowModal={setShowModal}
-          saveEmployees={saveEmployees}
+        <Table
+          data={employees}
+          headers={headers}
+          setDelete={deleteEmployeeId}
+          setModal={setShowModal}
         />
       </div>
     </section>
