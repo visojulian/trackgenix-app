@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import AdminList from './AdminList/AdminList';
 import ModalAlert from './Modals/ModalAlert';
+import Button from '../Shared/Button';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
@@ -51,9 +52,16 @@ const Admins = () => {
         />
       </div>
       <div className={styles.container}>
-        <a href="/admins/form" className={styles.buttonAddAdmin}>
+        {/* <a href="/admins/form" className={styles.buttonAddAdmin}>
           ➕AddAdmin
-        </a>
+        </a> */}
+        <Button
+          text="Add Admin"
+          type="submit"
+          whenClicked={() => {
+            window.location.assign('/admins/form');
+          }}
+        />
       </div>
     </>
   );

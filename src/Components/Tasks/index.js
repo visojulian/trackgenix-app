@@ -3,6 +3,7 @@ import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
 import Logo from '../../Assets/trash.png';
+import Button from '../Shared/Button/index';
 
 const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
@@ -34,6 +35,10 @@ const Tasks = () => {
     window.location.assign(`/tasks/form?id=${id}`);
   };
 
+  // const onClickButton = () => {
+  //   window.location.assign('/tasks/form');
+  // };
+
   return (
     <section className={styles.container}>
       <Modal
@@ -48,9 +53,16 @@ const Tasks = () => {
           <h2>Tasks</h2>
         </div>
         <div className={styles.buttonFlexBox}>
-          <a href="/tasks/form">
+          {/* <a href="/tasks/form">
             <button className={styles.addTaskButton}>Add new task</button>
-          </a>
+          </a> */}
+          <Button
+            text="Add new task"
+            type="submit"
+            whenClicked={() => {
+              window.location.assign('/tasks/form');
+            }}
+          />
         </div>
       </div>
       <table className={styles.table}>

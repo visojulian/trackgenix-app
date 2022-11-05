@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 import DeleteImg from '../Assets/trash.png';
+import Button from '../../Shared/Button';
 
 const EmployeesList = (props) => {
   const onClickEmployee = (id) => {
@@ -35,7 +36,7 @@ const EmployeesList = (props) => {
                 <td>{employee.phone}</td>
                 <td>{employee.email}</td>
                 <td>
-                  <button
+                  {/* <button
                     className={styles.button}
                     onClick={(event) => {
                       event.stopPropagation();
@@ -44,7 +45,16 @@ const EmployeesList = (props) => {
                     }}
                   >
                     X
-                  </button>
+                  </button> */}
+                  <Button
+                    text="&times;"
+                    type="submit"
+                    whenClicked={(event) => {
+                      event.stopPropagation();
+                      props.deleteEmployeeId(employee._id);
+                      props.setShowModal(true);
+                    }}
+                  />
                 </td>
               </tr>
             );
@@ -52,14 +62,21 @@ const EmployeesList = (props) => {
         </tbody>
       </table>
       <div className={styles.div}>
-        <button
+        {/* <button
           className={styles.submitButton}
           onClick={() => {
             window.location.assign('employees/form');
           }}
         >
           Add employee
-        </button>
+        </button> */}
+        <Button
+          text="Add Employee"
+          type="submit"
+          whenClicked={() => {
+            window.location.assign('employees/form');
+          }}
+        />
       </div>
     </div>
   );

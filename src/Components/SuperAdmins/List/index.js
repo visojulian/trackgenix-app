@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 import Delete from '../assets/trash.png';
+import Button from '../../Shared/Button';
 
 const SuperAdminsList = (props) => {
   const onClickSuperAdmin = (id) => {
@@ -34,7 +35,7 @@ const SuperAdminsList = (props) => {
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
                 <td>
-                  <button
+                  {/* <button
                     className={styles.button}
                     onClick={(event) => {
                       event.stopPropagation();
@@ -43,7 +44,16 @@ const SuperAdminsList = (props) => {
                     }}
                   >
                     x
-                  </button>
+                  </button> */}
+                  <Button
+                    text="&times;"
+                    type="submit"
+                    whenClicked={(event) => {
+                      event.stopPropagation();
+                      props.setDeleteSuperAdmin(superAdmin._id);
+                      props.setModal(true);
+                    }}
+                  />
                 </td>
               </tr>
             );
@@ -51,14 +61,13 @@ const SuperAdminsList = (props) => {
         </tbody>
       </table>
       <div>
-        <button
-          className={styles.buttonAdd}
-          onClick={() => {
+        <Button
+          text="Add Super Admin"
+          type="submit"
+          whenClicked={() => {
             window.location.assign('super-admins/form');
           }}
-        >
-          Add Super Admin
-        </button>
+        />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from './FormModal/index';
+import Button from '../../Shared/Button/index';
 
 const Form = () => {
   const [taskName, setTaskName] = useState('');
@@ -32,6 +33,10 @@ const Form = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  // const onClickButton = () => {
+  //   window.location.assign('/tasks');
+  // };
 
   const onSubmit = async (event) => {
     if (!isEditing) {
@@ -94,7 +99,7 @@ const Form = () => {
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
-            <button
+            {/* <button
               type="button"
               onClick={() => {
                 window.location.assign('/tasks');
@@ -102,12 +107,20 @@ const Form = () => {
               className={styles.buttonCancel}
             >
               Cancel
-            </button>
+            </button> */}
+            <Button
+              type="button"
+              text="Cancel"
+              whenClicked={() => {
+                window.location.assign('/tasks');
+              }}
+            />
           </div>
           <div>
-            <button type="submit" className={styles.buttonConfirm}>
+            {/* <button type="submit" className={styles.buttonConfirm}>
               Confirm
-            </button>
+            </button> */}
+            <Button text="Confirm" type="submit" />
           </div>
         </div>
       </form>

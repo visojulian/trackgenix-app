@@ -1,6 +1,7 @@
 import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
 import FormModal from './Modal/index';
+import Button from '../../Shared/Button';
 
 const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -122,16 +123,24 @@ const Form = () => {
               />
             </div>
             <div className={styles.buttons}>
-              <button
+              {/* <button
                 type="reset"
                 onClick={() => window.location.assign('/super-admins')}
                 className={styles.buttonCancel}
               >
                 Cancel
-              </button>
-              <button type="submit" className={styles.buttonSubmit}>
+              </button> */}
+              <Button
+                text="Cancel"
+                type="reset"
+                whenClicked={() => {
+                  window.location.assign('/super-admins');
+                }}
+              />
+              {/* <button type="submit" className={styles.buttonSubmit}>
                 Submit
-              </button>
+              </button> */}
+              <Button text="Submit" type="submit" />
               <FormModal
                 showFormModal={showFormModal}
                 serverMessage={errorMessage}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Button from '../../Shared/Button';
 import FormModal from '../Modals/FormModal';
 import styles from './adminForm.module.css';
 
@@ -146,15 +147,23 @@ const AdminForm = () => {
           </div>
         </div>
         <div>
-          <button
+          {/* <button
             type="button"
             onClick={() => {
               window.location.assign('/admins');
             }}
           >
             Cancel
-          </button>
-          <button type="submit">Submit</button>
+          </button> */}
+          <Button
+            text="Cancel"
+            type="reset"
+            whenClicked={() => {
+              window.location.assign('/admins');
+            }}
+          />
+          {/* <button type="submit">Submit</button> */}
+          <Button text="Submit" type="submit" />
         </div>
       </form>
       <FormModal modal={modal} title={serverError} closeModal={closeModal} />
