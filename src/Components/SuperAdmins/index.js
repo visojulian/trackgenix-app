@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './super-admins.module.css';
 import { useEffect, useState } from 'react';
-import SuperAdminsList from './List';
+import Table from '../Shared/Table/index';
 import Modal from './Modal';
 
 const SuperAdmins = () => {
   const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setModal] = useState(false);
+  // const [superAdminId, setDeleteSuperAdmin] = useState();
+  const headers = ['name', 'lastName', 'email'];
   const [superAdminId, setDeleteSuperAdmin] = useState();
 
   useEffect(async () => {
@@ -39,10 +41,11 @@ const SuperAdmins = () => {
         superAdminId={superAdminId}
       />
       <div>
-        <SuperAdminsList
-          superAdmins={superAdmins}
+        <Table
+          data={superAdmins}
+          headers={headers}
+          setDelete={setDeleteSuperAdmin}
           setModal={setModal}
-          setDeleteSuperAdmin={setDeleteSuperAdmin}
         />
       </div>
     </section>
