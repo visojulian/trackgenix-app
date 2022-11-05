@@ -116,7 +116,7 @@ const AdminForm = () => {
   return (
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
-      <form onSubmit={handleConfirmModal} className={styles.form}>
+      <form className={styles.form}>
         <div>
           <div>
             <label>Name</label>
@@ -182,7 +182,7 @@ const AdminForm = () => {
           >
             Cancel
           </button>
-          <button type="submit">Submit</button>
+          <button onClick={handleConfirmModal}>Submit</button>
         </div>
       </form>
       <Modal
