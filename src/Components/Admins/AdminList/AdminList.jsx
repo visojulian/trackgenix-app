@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from '../admins.module.css';
 import AdminItem from './AdminItem';
-import Delete from '../../../Assets/trash.png';
+import Delete from '../../../assets/trash.png';
 
-const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
+const AdminList = ({ adminList, setModal, setAdmin, onClickAdmin, showModal }) => {
   return (
     <>
       <table className={styles.tableContainer}>
@@ -24,8 +24,9 @@ const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
               <AdminItem
                 key={admin._id}
                 admin={admin}
+                showModal={showModal}
                 setModal={setModal}
-                setAdminId={setAdminId}
+                setAdmin={setAdmin}
                 onClickAdmin={onClickAdmin}
               />
             );

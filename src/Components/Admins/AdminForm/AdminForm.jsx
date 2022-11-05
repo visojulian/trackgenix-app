@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FormModal from '../Modals/FormModal';
+import Modal from '../../Shared/Modal';
 import styles from './adminForm.module.css';
 
 const AdminForm = () => {
@@ -8,9 +8,10 @@ const AdminForm = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [adminId, setAdminId] = useState();
-  const [modal, setModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const [edit, setEdit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -23,6 +24,40 @@ const AdminForm = () => {
   };
   const onChangePassword = (e) => {
     setPassword(e.target.value);
+  };
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    if (name && lastName && email && password) {
+      setIsActionModal(true);
+      setModalChildren(
+        <div>
+          <h4>Add New Project</h4>
+          <p>
+            Are you sure you want to add {name} {lastName} as Admin?
+          </p>
+        </div>
+      );
+    } else {
+      setIsActionModal(false);
+      setModalChildren(
+        <div>
+          <h4>Form incomplete</h4>
+          <p>Please complete all fields before submit.</p>
+        </div>
+      );
+    }
+    setShowModal(true);
+  };
+
+  const handleErrorModal = (error) => {
+    setIsActionModal(false);
+    setModalChildren(
+      <div>
+        <h4>Server error</h4>
+        <p>{error}</p>
+      </div>
+    );
+    setShowModal(true);
   };
 
   useEffect(async () => {
@@ -44,12 +79,7 @@ const AdminForm = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setModal(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (!edit) {
       const newAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
         method: 'POST',
@@ -63,8 +93,7 @@ const AdminForm = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        setModal(true);
-        setServerError(content.message);
+        handleErrorModal(content.message);
       }
     } else {
       const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
@@ -79,8 +108,7 @@ const AdminForm = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        setModal(true);
-        setServerError(content.message);
+        handleErrorModal(content.message);
       }
     }
   };
@@ -88,7 +116,7 @@ const AdminForm = () => {
   return (
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
-      <form onSubmit={onSubmit} className={styles.form}>
+      <form onSubmit={handleConfirmModal} className={styles.form}>
         <div>
           <div>
             <label>Name</label>
@@ -157,7 +185,15 @@ const AdminForm = () => {
           <button type="submit">Submit</button>
         </div>
       </form>
-      <FormModal modal={modal} title={serverError} closeModal={closeModal} />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {modalChildren}
+      </Modal>
     </>
   );
 };

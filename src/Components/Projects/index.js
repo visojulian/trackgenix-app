@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
 import Delete from './assets/trash.png';
 import styles from './projects.module.css';
+import Modal from '../Shared/Modal';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState({});
-  const [showModal, saveShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects`)
@@ -16,7 +16,8 @@ const Projects = () => {
       });
   }, []);
 
-  const deleteProject = async (id) => {
+  const deleteProject = async () => {
+    const id = selectedProject.id;
     await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
       method: 'DELETE'
     });
@@ -25,7 +26,7 @@ const Projects = () => {
 
   const handleDelete = (project, event) => {
     setSelectedProject({ id: project._id, name: project.name });
-    saveShowModal(true);
+    setShowModal(true);
     event.stopPropagation();
   };
 
@@ -35,12 +36,19 @@ const Projects = () => {
 
   return (
     <section className={styles.container}>
-      <DeleteConfirmationModal
-        show={showModal}
-        handleModal={saveShowModal}
-        deleteEntity={deleteProject}
-        entity={selectedProject}
-      />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteProject}
+        actionButton="Submit"
+      >
+        <div>
+          <h4>Delete Project</h4>
+          <p>Are you sure you want to remove: {selectedProject.name}?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <table className={styles.table}>
         <thead>
           <tr>

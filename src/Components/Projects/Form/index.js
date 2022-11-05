@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import styles from './form.module.css';
+import Modal from '../../Shared/Modal';
 import Delete from '../assets/trash.png';
+import styles from './form.module.css';
 
 const ProjectForm = () => {
   const [projectEmployees, setProjectEmployees] = useState([]);
@@ -14,6 +15,9 @@ const ProjectForm = () => {
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
   const [isEditing, setIsEditing] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const onChangeNameInput = (event) => {
@@ -64,6 +68,34 @@ const ProjectForm = () => {
 
   const onCancel = () => {
     window.location.assign('/projects');
+  };
+
+  const handleConfirm = () => {
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      setIsActionModal(true);
+      setModalChildren(
+        <div>
+          <h4>Add New Project</h4>
+          <p>Are you sure you want to add: {nameValue}?</p>
+        </div>
+      );
+    } else {
+      setIsActionModal(false);
+      setModalChildren(
+        <div>
+          <h4>Form incomplete</h4>
+          <p>Please complete all fields before submit.</p>
+        </div>
+      );
+    }
+    setShowModal(true);
   };
 
   const onSubmit = () => {
@@ -266,11 +298,21 @@ const ProjectForm = () => {
             </tbody>
           </table>
         </div>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={isActionModal}
+          action={onSubmit}
+          actionButton="Submit"
+        >
+          {modalChildren}
+        </Modal>
         <div className={styles.formButtons}>
+          {console.log(employees)}
           <button className={styles.cancel} onClick={onCancel}>
             Cancel
           </button>
-          <button className={styles.button} onClick={onSubmit}>
+          <button className={styles.button} onClick={handleConfirm}>
             Submit
           </button>
         </div>
