@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
-import Modal from './Modal/index';
+import Modal from '../Shared/Modal';
 
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
   const [timeSheetId, setTimeSheetId] = useState();
 
   useEffect(async () => {
@@ -18,11 +20,19 @@ const TimeSheets = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
+  const handleConfirm = () => {
+    setIsActionModal(true);
+    setModalChildren(
+      <div>
+        <h4>Delete Admin</h4>
+        <p>Are you sure you want to delete this employee from admins?</p>
+      </div>
+    );
+    setShowModal(true);
   };
 
-  const deleteTimeSheet = async (id) => {
+  const deleteTimeSheet = async () => {
+    const id = timeSheetId;
     setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
       method: 'DELETE'
@@ -43,12 +53,14 @@ const TimeSheets = () => {
         </button>
       </div>
       <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTimeSheet={deleteTimeSheet}
-        timeSheetId={timeSheetId}
-        title="Are you sure that you want to delete this time sheet?"
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={deleteTimeSheet}
+        actionButton="Delete"
+      >
+        {modalChildren}
+      </Modal>
       <table className={styles.table}>
         <thead>
           <tr style={{ display: 'flex', justifyContent: 'center' }}>
@@ -68,7 +80,7 @@ const TimeSheets = () => {
                 key={timeSheets._id}
                 timeSheet={timeSheet}
                 setTimeSheetId={setTimeSheetId}
-                setShowModal={setShowModal}
+                setShowModal={handleConfirm}
               />
             );
           })}
