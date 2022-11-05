@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
 
 function Form() {
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
@@ -179,7 +181,7 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Task</label>
-            <select
+            {/* <select
               name="task"
               required
               value={inputTimeSheetValue.task}
@@ -195,11 +197,26 @@ function Form() {
                   </option>
                 );
               })}
-            </select>
+            </select> */}
+            <Select
+              name="task"
+              placeholder="Select a task"
+              required
+              value={inputTimeSheetValue.task}
+              whenSelect={onChangeInputValue}
+            >
+              {tasks.map((task) => {
+                return (
+                  <option placeholder="taskhere" key={task._id} value={task._id}>
+                    {task.description}
+                  </option>
+                );
+              })}
+            </Select>
           </div>
           <div className={styles.box}>
             <label>Project</label>
-            <select
+            {/* <select
               name="project"
               required
               value={inputTimeSheetValue.project}
@@ -215,11 +232,26 @@ function Form() {
                   </option>
                 );
               })}
-            </select>
+            </select> */}
+            <Select
+              name="project"
+              placeholder="Select a project"
+              required
+              value={inputTimeSheetValue.project}
+              whenSelect={onChangeInputValue}
+            >
+              {projects.map((project) => {
+                return (
+                  <option key={project._id} value={project._id}>
+                    {project.name}
+                  </option>
+                );
+              })}
+            </Select>
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <select
+            {/* <select
               name="employee"
               value={inputTimeSheetValue.employee}
               onChange={onChangeInputValue}
@@ -236,21 +268,45 @@ function Form() {
                   </option>
                 );
               })}
-            </select>
+            </select> */}
+            <Select
+              placeholder="Select an employee"
+              name="employee"
+              required
+              value={inputTimeSheetValue.employee}
+              whenSelect={onChangeInputValue}
+            >
+              {employees.map((employee, index) => {
+                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
+                return (
+                  <option key={index} value={selectedEmployee._id}>
+                    {selectedEmployee.name}
+                  </option>
+                );
+              })}
+            </Select>
           </div>
           <div className={styles.buttons}>
             <div>
-              <button
+              {/* <button
                 className={styles.confirmButton}
                 onClick={() => window.location.assign('/time-sheets')}
               >
                 Cancel
-              </button>
+              </button> */}
+              <Button
+                text="Cancel"
+                type="button"
+                whenClicked={() => {
+                  window.location.assign('/time-sheets');
+                }}
+              />
             </div>
             <div>
-              <button className={styles.cancelButton} type="submit">
+              {/* <button className={styles.cancelButton} type="submit">
                 Submit
-              </button>
+              </button> */}
+              <Button text="Submit" type="submit" />
             </div>
           </div>
         </div>

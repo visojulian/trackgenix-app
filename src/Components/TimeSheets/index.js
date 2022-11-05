@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
+import Button from '../Shared/Button/index';
 
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
@@ -33,14 +34,21 @@ const TimeSheets = () => {
     <section className={styles.container}>
       <div className={styles.containerUpper}>
         <h2>TimeSheets</h2>
-        <button
+        {/* <button
           className={styles.button}
           onClick={() => {
             window.location.assign(`/time-sheets/form`);
           }}
         >
           New TimeSheet
-        </button>
+        </button> */}
+        <Button
+          text="Add Timesheet"
+          type="submit"
+          whenClicked={() => {
+            window.location.assign('/time-sheets/form');
+          }}
+        />
       </div>
       <Modal
         show={showModal}

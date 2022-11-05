@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Delete from '../assets/trash.png';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
 
 const ProjectForm = () => {
   const [projectEmployees, setProjectEmployees] = useState([]);
@@ -211,18 +213,41 @@ const ProjectForm = () => {
           <h4>Employees</h4>
           <div>
             <div className={styles.newEmployeeInputs}>
-              <select required onChange={handleEmployeeChange}>
+              {/* <select required onChange={handleEmployeeChange}>
                 {employees.map((employee) => (
                   <option key={employee._id} value={employee._id}>
                     {employee.name}
                   </option>
                 ))}
-              </select>
-              <select required value={roleValue} onChange={handleRoleChange}>
+              </select> */}
+              <Select
+                placeholder="Select an employee"
+                name="employee"
+                required
+                whenSelect={handleEmployeeChange}
+              >
+                {employees.map((employee) => (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </Select>
+              {/* <select required value={roleValue} onChange={handleRoleChange}>
                 {roles.map((role, index) => (
                   <option key={index}>{role}</option>
                 ))}
-              </select>
+              </select> */}
+              <Select
+                placeholder="Select role"
+                name="role"
+                value={roleValue}
+                required
+                whenSelect={handleRoleChange}
+              >
+                {roles.map((role, index) => (
+                  <option key={index}>{role}</option>
+                ))}
+              </Select>
               <input
                 id="rate"
                 name="rate"
@@ -232,9 +257,10 @@ const ProjectForm = () => {
                 onChange={onChangeRateInput}
               />
             </div>
-            <button className={styles.newEmployeeButton} onClick={addEmployee}>
+            {/* <button className={styles.newEmployeeButton} onClick={addEmployee}>
               Assign new employee
-            </button>
+            </button> */}
+            <Button text="Assign new employee" whenClicked={addEmployee} />
           </div>
           <table className={styles.table}>
             <thead>
@@ -257,7 +283,13 @@ const ProjectForm = () => {
                       <td>{employee.role}</td>
                       <td>{employee.rate}</td>
                       <td>
-                        <button onClick={() => handleDelete(index)}>&times;</button>
+                        {/* <button onClick={() => handleDelete(index)}>&times;</button> */}
+                        <Button
+                          text="&times;"
+                          whenClicked={() => {
+                            handleDelete(index);
+                          }}
+                        />
                       </td>
                     </tr>
                   );
@@ -267,12 +299,14 @@ const ProjectForm = () => {
           </table>
         </div>
         <div className={styles.formButtons}>
-          <button className={styles.cancel} onClick={onCancel}>
+          {/* <button className={styles.cancel} onClick={onCancel}>
             Cancel
-          </button>
-          <button className={styles.button} onClick={onSubmit}>
+          </button> */}
+          <Button text="Cancel" type="button" whenClicked={onCancel} />
+          {/* <button className={styles.button} onClick={onSubmit}>
             Submit
-          </button>
+          </button> */}
+          <Button text="Submit" whenClicked={onSubmit} />
         </div>
       </div>
     </form>
