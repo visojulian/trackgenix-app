@@ -1,7 +1,4 @@
-//import { useState, useEffect } from 'react';
 import styles from './button.module.css';
-
-// text, onclick
 
 const Button = ({ text, whenClicked, type }) => {
   return (
