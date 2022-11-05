@@ -120,7 +120,6 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
         .catch((error) => alert(error));
     } else {
       fetch(`${process.env.REACT_APP_API_URL}/projects`, {
@@ -129,7 +128,6 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
         .catch((error) => alert(error));
     }
     window.location.assign('/projects');
@@ -311,7 +309,6 @@ const ProjectForm = () => {
           {modalChildren}
         </Modal>
         <div className={styles.formButtons}>
-          {console.log(employees)}
           <button className={styles.cancel} onClick={onCancel}>
             Cancel
           </button>
