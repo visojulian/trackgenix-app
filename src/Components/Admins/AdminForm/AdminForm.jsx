@@ -49,7 +49,6 @@ const AdminForm = () => {
     }
     setShowModal(true);
   };
-
   const handleErrorModal = (error) => {
     setIsActionModal(false);
     setModalChildren(
