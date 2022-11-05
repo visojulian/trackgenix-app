@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
-import Task from './Task/index';
 import Modal from './Modal/index';
-import Logo from '../../Assets/trash.png';
+import Table from '../Shared/Table';
 
 const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
+  const headers = ['description'];
 
   useEffect(async () => {
     try {
@@ -30,10 +30,6 @@ const Tasks = () => {
     });
   };
 
-  const onClickTask = (id) => {
-    window.location.assign(`/tasks/form?id=${id}`);
-  };
-
   return (
     <section className={styles.container}>
       <Modal
@@ -53,29 +49,13 @@ const Tasks = () => {
           </a>
         </div>
       </div>
-      <table className={styles.table}>
-        <thead className={styles.tableHead}>
-          <tr>
-            <th>Description</th>
-            <th>
-              <img src={Logo} />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => {
-            return (
-              <Task
-                key={task._id}
-                task={task}
-                setShowModal={setShowModal}
-                setTaskId={setTaskId}
-                onClickTask={onClickTask}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <Table
+        data={tasks}
+        headers={headers}
+        setDelete={setTaskId}
+        setModal={setShowModal}
+        url={'tasks'}
+      />
     </section>
   );
 };

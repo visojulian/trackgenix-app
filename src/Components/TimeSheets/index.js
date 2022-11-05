@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
+// import Table from '../Shared/Table';
 
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
+  // const headers = ['description', 'date', 'hours', 'task', 'employee', 'project'];
 
   useEffect(async () => {
     try {
@@ -74,6 +76,12 @@ const TimeSheets = () => {
           })}
         </tbody>
       </table>
+      {/* <Table
+        data={timeSheets}
+        headers={headers}
+        setDelete={setTimeSheetId}
+        setModal={setShowModal}
+      /> */}
     </section>
   );
 };

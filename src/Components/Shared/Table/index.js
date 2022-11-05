@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './table.module.css';
 import Delete from '../../../Assets/trash.png';
 
-const Table = (props) => {
-  // const onClickSuperAdmin = (id) => {
-  //   window.location.assign(`/super-admins/form?id=${id}`);
-  // };
+const Table = ({ data, headers, setDelete, setModal, url }) => {
+  const onClickEntity = (id) => {
+    window.location.assign(`/${url}/form?id=${id}`);
+  };
 
   const onDelete = (id, modal) => {
-    props.setDelete(id);
-    props.setModal(modal);
+    setDelete(id);
+    setModal(modal);
   };
 
   return (
@@ -17,7 +17,7 @@ const Table = (props) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            {props.headers.map((header, index) => {
+            {headers.map((header, index) => {
               return <th key={index}>{header}</th>;
             })}
             <th>
@@ -26,11 +26,20 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((row) => {
+          {data.map((row) => {
             return (
-              <tr key={row.id}>
-                {props.headers.map((header, index) => {
-                  return <td key={index}>{row[header]} </td>;
+              <tr key={row._id}>
+                {headers.map((header, index) => {
+                  return (
+                    <td
+                      key={index}
+                      onClick={() => {
+                        onClickEntity(row._id);
+                      }}
+                    >
+                      {row[header]}{' '}
+                    </td>
+                  );
                 })}
                 <td>
                   <button

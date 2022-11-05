@@ -30,10 +30,6 @@ const Admins = () => {
     setModal(false);
   };
 
-  // const onClickAdmin = (id) => {
-  //   window.location.assign(`/admins/form?id=${id}`);
-  // };
-
   return (
     <>
       <ModalAlert
@@ -44,7 +40,13 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <Table data={admins} headers={headers} setDelete={setAdminId} setModal={setModal} />
+        <Table
+          data={admins}
+          headers={headers}
+          setDelete={setAdminId}
+          setModal={setModal}
+          url={'admins'}
+        />
       </div>
       <div className={styles.container}>
         <a href="/admins/form" className={styles.buttonAddAdmin}>

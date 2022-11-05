@@ -7,7 +7,7 @@ import Modal from './Modal';
 function Employees() {
   const [employees, saveEmployees] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [employeeId, deleteEmployeeId] = useState();
+  const [employeeId, setEmployeeId] = useState();
   const headers = ['name', 'lastName', 'phone', 'email'];
 
   useEffect(async () => {
@@ -25,15 +25,11 @@ function Employees() {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
+    closeModal();
   };
 
   const closeModal = () => {
     setShowModal(false);
-  };
-
-  const onDelete = () => {
-    deleteEmployee(employeeId);
-    closeModal();
   };
 
   return (
@@ -41,16 +37,17 @@ function Employees() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        onDelete={onDelete}
-        deleteEmployeeId={deleteEmployeeId}
+        onDelete={deleteEmployee}
+        employeeId={employeeId}
       />
       <h2>Employees</h2>
       <div>
         <Table
           data={employees}
           headers={headers}
-          setDelete={deleteEmployeeId}
+          setDelete={setEmployeeId}
           setModal={setShowModal}
+          url={'employees'}
         />
       </div>
     </section>

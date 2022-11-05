@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Delete from '../assets/trash.png';
+import Delete from '../../../Assets/trash.png';
 
 const ProjectForm = () => {
   const [projectEmployees, setProjectEmployees] = useState([]);

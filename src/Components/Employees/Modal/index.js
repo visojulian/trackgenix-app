@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-const Modal = ({ showModal, closeModal, onDelete }) => {
+const Modal = ({ showModal, closeModal, onDelete, employeeId }) => {
   if (!showModal) {
     return null;
   }
@@ -14,7 +14,7 @@ const Modal = ({ showModal, closeModal, onDelete }) => {
         </div>
         <div className={styles.buttons}>
           <button onClick={closeModal}>Close</button>
-          <button onClick={onDelete}>Remove</button>
+          <button onClick={() => onDelete(employeeId)}>Remove</button>
         </div>
       </section>
     </div>

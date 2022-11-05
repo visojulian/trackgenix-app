@@ -6,7 +6,6 @@ import Table from '../Shared/Table';
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
   const [projectId, setProjectId] = useState();
-  // const [selectedProject, setSelectedProject] = useState({});
   const [showModal, saveShowModal] = useState(false);
   const headers = ['name', 'startDate'];
 
@@ -25,12 +24,6 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  // const handleDelete = (project, event) => {
-  //   setSelectedProject({ id: project._id, name: project.name });
-  //   saveShowModal(true);
-  //   event.stopPropagation();
-  // };
-
   // const editProject = (id) => {
   //   window.location.assign(`/projects/form?id=${id}`);
   // };
@@ -42,9 +35,14 @@ const Projects = () => {
         handleModal={saveShowModal}
         deleteEntity={deleteProject}
         projectId={projectId}
-        // entity={selectedProject}
       />
-      <Table data={projects} headers={headers} setDelete={setProjectId} setModal={saveShowModal} />
+      <Table
+        data={projects}
+        headers={headers}
+        setDelete={setProjectId}
+        setModal={saveShowModal}
+        url={'projects'}
+      />
       <a className={styles.button} href="/projects/form">
         Add New Project
       </a>

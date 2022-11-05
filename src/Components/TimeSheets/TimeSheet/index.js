@@ -4,54 +4,14 @@ import styles from './time.module.css';
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
   return (
     <tr style={{ display: 'flex', justifyContent: 'center' }}>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '25%' }}
-      >
-        {timeSheet.description}
-      </td>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '15%' }}
-      >
-        {timeSheet.date}
-      </td>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '10%' }}
-      >
-        {timeSheet.hours}
-      </td>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '20%' }}
-      >
-        {timeSheet.task.description}
-      </td>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '20%' }}
-      >
+      <td style={{ flexBasis: '25%' }}>{timeSheet.description}</td>
+      <td style={{ flexBasis: '15%' }}>{timeSheet.date}</td>
+      <td style={{ flexBasis: '10%' }}>{timeSheet.hours}</td>
+      <td style={{ flexBasis: '20%' }}>{timeSheet.task.description}</td>
+      <td style={{ flexBasis: '20%' }}>
         {`${timeSheet.employee.name} ${timeSheet.employee.lastName}`}
       </td>
-      <td
-        onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
-        }}
-        style={{ flexBasis: '10%' }}
-      >
-        {timeSheet.project.name}
-      </td>
+      <td style={{ flexBasis: '10%' }}>{timeSheet.project.name}</td>
       <td style={{ flexBasis: '10%' }}>
         <img
           className={styles.button}
