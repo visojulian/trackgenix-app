@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
-import Delete from './assets/trash.png';
 import styles from './projects.module.css';
+import Table from '../Shared/Table';
 
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState({});
+  const [projectId, setProjectId] = useState();
+  // const [selectedProject, setSelectedProject] = useState({});
   const [showModal, saveShowModal] = useState(false);
+  const headers = ['name', 'startDate'];
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects`)
@@ -23,15 +25,15 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  const handleDelete = (project, event) => {
-    setSelectedProject({ id: project._id, name: project.name });
-    saveShowModal(true);
-    event.stopPropagation();
-  };
+  // const handleDelete = (project, event) => {
+  //   setSelectedProject({ id: project._id, name: project.name });
+  //   saveShowModal(true);
+  //   event.stopPropagation();
+  // };
 
-  const editProject = (id) => {
-    window.location.assign(`/projects/form?id=${id}`);
-  };
+  // const editProject = (id) => {
+  //   window.location.assign(`/projects/form?id=${id}`);
+  // };
 
   return (
     <section className={styles.container}>
@@ -39,32 +41,10 @@ const Projects = () => {
         show={showModal}
         handleModal={saveShowModal}
         deleteEntity={deleteProject}
-        entity={selectedProject}
+        projectId={projectId}
+        // entity={selectedProject}
       />
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Project</th>
-            <th>Created</th>
-            <th></th>
-            <th>
-              <img src={Delete}></img>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <tr key={project._id} onClick={() => editProject(project._id)}>
-              <td>{project.name}</td>
-              <td>{project.startDate.slice(0, 10)}</td>
-              <td className={styles.center}>&hellip;</td>
-              <td className={styles.center}>
-                <button onClick={(e) => handleDelete(project, e)}>&times;</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table data={projects} headers={headers} setDelete={setProjectId} setModal={saveShowModal} />
       <a className={styles.button} href="/projects/form">
         Add New Project
       </a>
