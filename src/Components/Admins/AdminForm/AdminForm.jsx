@@ -147,14 +147,6 @@ const AdminForm = () => {
           </div>
         </div>
         <div>
-          {/* <button
-            type="button"
-            onClick={() => {
-              window.location.assign('/admins');
-            }}
-          >
-            Cancel
-          </button> */}
           <Button
             text="Cancel"
             type="reset"
@@ -162,7 +154,6 @@ const AdminForm = () => {
               window.location.assign('/admins');
             }}
           />
-          {/* <button type="submit">Submit</button> */}
           <Button text="Submit" type="submit" />
         </div>
       </form>

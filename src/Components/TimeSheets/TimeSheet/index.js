@@ -1,6 +1,3 @@
-// import Trash from '../../../Assets/trash.png';
-// import styles from './time.module.css';
-
 import Button from '../../Shared/Button';
 
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
@@ -63,16 +60,6 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
           {timeSheet.project.name}
         </td>
         <td style={{ flexBasis: '10%' }}>
-          {/* <img
-          className={styles.button}
-          src={Trash}
-          alt="trash"
-          onClick={(event) => {
-            event.stopPropagation();
-            setShowModal(true);
-            setTimeSheetId(timeSheet._id);
-          }}
-        /> */}
           <Button
             text="&times;"
             type="submit"

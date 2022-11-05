@@ -34,10 +34,6 @@ const Form = () => {
     setShowModal(false);
   };
 
-  // const onClickButton = () => {
-  //   window.location.assign('/tasks');
-  // };
-
   const onSubmit = async (event) => {
     if (!isEditing) {
       event.preventDefault();
@@ -99,15 +95,6 @@ const Form = () => {
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
-            {/* <button
-              type="button"
-              onClick={() => {
-                window.location.assign('/tasks');
-              }}
-              className={styles.buttonCancel}
-            >
-              Cancel
-            </button> */}
             <Button
               type="button"
               text="Cancel"
@@ -117,9 +104,6 @@ const Form = () => {
             />
           </div>
           <div>
-            {/* <button type="submit" className={styles.buttonConfirm}>
-              Confirm
-            </button> */}
             <Button text="Confirm" type="submit" />
           </div>
         </div>

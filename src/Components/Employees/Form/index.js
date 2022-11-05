@@ -129,15 +129,6 @@ const Form = () => {
             />
           </div>
           <div className={styles.divButton}>
-            {/* <button
-              className={styles.firstButton}
-              onClick={() => {
-                window.location.assign('/employees');
-              }}
-              type="reset"
-            >
-              Cancel
-            </button> */}
             <Button
               text="Cancel"
               type="reset"
@@ -145,9 +136,6 @@ const Form = () => {
                 window.location.assign('/employees');
               }}
             />
-            {/* <button className={styles.secondButton} type="submit">
-              Submit
-            </button> */}
             <Button text="Submit" type="submit" />
             <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
           </div>

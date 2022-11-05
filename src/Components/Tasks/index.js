@@ -35,10 +35,6 @@ const Tasks = () => {
     window.location.assign(`/tasks/form?id=${id}`);
   };
 
-  // const onClickButton = () => {
-  //   window.location.assign('/tasks/form');
-  // };
-
   return (
     <section className={styles.container}>
       <Modal
@@ -53,9 +49,6 @@ const Tasks = () => {
           <h2>Tasks</h2>
         </div>
         <div className={styles.buttonFlexBox}>
-          {/* <a href="/tasks/form">
-            <button className={styles.addTaskButton}>Add new task</button>
-          </a> */}
           <Button
             text="Add new task"
             type="submit"

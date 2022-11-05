@@ -60,7 +60,6 @@ const Projects = () => {
               <td>{project.startDate.slice(0, 10)}</td>
               <td className={styles.center}>&hellip;</td>
               <td className={styles.center}>
-                {/* <button onClick={(e) => handleDelete(project, e)}>&times;</button> */}
                 <Button
                   type="submit"
                   text="&times;"
@@ -71,9 +70,6 @@ const Projects = () => {
           ))}
         </tbody>
       </table>
-      {/* <a className={styles.button} href="/projects/form">
-        Add New Project
-      </a> */}
       <Button
         text="Add New Project"
         type="submit"

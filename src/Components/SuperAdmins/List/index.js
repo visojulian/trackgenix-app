@@ -35,16 +35,6 @@ const SuperAdminsList = (props) => {
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
                 <td>
-                  {/* <button
-                    className={styles.button}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      props.setDeleteSuperAdmin(superAdmin._id);
-                      props.setModal(true);
-                    }}
-                  >
-                    x
-                  </button> */}
                   <Button
                     text="&times;"
                     type="submit"

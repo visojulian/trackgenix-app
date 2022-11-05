@@ -213,13 +213,6 @@ const ProjectForm = () => {
           <h4>Employees</h4>
           <div>
             <div className={styles.newEmployeeInputs}>
-              {/* <select required onChange={handleEmployeeChange}>
-                {employees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.name}
-                  </option>
-                ))}
-              </select> */}
               <Select
                 placeholder="Select an employee"
                 name="employee"
@@ -232,11 +225,6 @@ const ProjectForm = () => {
                   </option>
                 ))}
               </Select>
-              {/* <select required value={roleValue} onChange={handleRoleChange}>
-                {roles.map((role, index) => (
-                  <option key={index}>{role}</option>
-                ))}
-              </select> */}
               <Select
                 placeholder="Select role"
                 name="role"
@@ -257,9 +245,6 @@ const ProjectForm = () => {
                 onChange={onChangeRateInput}
               />
             </div>
-            {/* <button className={styles.newEmployeeButton} onClick={addEmployee}>
-              Assign new employee
-            </button> */}
             <Button text="Assign new employee" whenClicked={addEmployee} />
           </div>
           <table className={styles.table}>
@@ -283,7 +268,6 @@ const ProjectForm = () => {
                       <td>{employee.role}</td>
                       <td>{employee.rate}</td>
                       <td>
-                        {/* <button onClick={() => handleDelete(index)}>&times;</button> */}
                         <Button
                           text="&times;"
                           whenClicked={() => {
@@ -299,13 +283,7 @@ const ProjectForm = () => {
           </table>
         </div>
         <div className={styles.formButtons}>
-          {/* <button className={styles.cancel} onClick={onCancel}>
-            Cancel
-          </button> */}
           <Button text="Cancel" type="button" whenClicked={onCancel} />
-          {/* <button className={styles.button} onClick={onSubmit}>
-            Submit
-          </button> */}
           <Button text="Submit" whenClicked={onSubmit} />
         </div>
       </div>

@@ -181,23 +181,6 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Task</label>
-            {/* <select
-              name="task"
-              required
-              value={inputTimeSheetValue.task}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a task
-              </option>
-              {tasks.map((task) => {
-                return (
-                  <option placeholder="taskhere" key={task._id} value={task._id}>
-                    {task.description}
-                  </option>
-                );
-              })}
-            </select> */}
             <Select
               name="task"
               placeholder="Select a task"
@@ -216,23 +199,6 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Project</label>
-            {/* <select
-              name="project"
-              required
-              value={inputTimeSheetValue.project}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a project
-              </option>
-              {projects.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name}
-                  </option>
-                );
-              })}
-            </select> */}
             <Select
               name="project"
               placeholder="Select a project"
@@ -251,24 +217,6 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            {/* <select
-              name="employee"
-              value={inputTimeSheetValue.employee}
-              onChange={onChangeInputValue}
-              required
-            >
-              <option value="" disabled hidden>
-                Select an employee
-              </option>
-              {employees.map((employee, index) => {
-                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
-                return (
-                  <option key={index} value={selectedEmployee._id}>
-                    {selectedEmployee.name}
-                  </option>
-                );
-              })}
-            </select> */}
             <Select
               placeholder="Select an employee"
               name="employee"
@@ -288,12 +236,6 @@ function Form() {
           </div>
           <div className={styles.buttons}>
             <div>
-              {/* <button
-                className={styles.confirmButton}
-                onClick={() => window.location.assign('/time-sheets')}
-              >
-                Cancel
-              </button> */}
               <Button
                 text="Cancel"
                 type="button"
@@ -303,9 +245,6 @@ function Form() {
               />
             </div>
             <div>
-              {/* <button className={styles.cancelButton} type="submit">
-                Submit
-              </button> */}
               <Button text="Submit" type="submit" />
             </div>
           </div>

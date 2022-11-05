@@ -15,16 +15,6 @@ const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
         <td className={styles.row}>{admin.email}</td>
         <td className={styles.row}>{admin.password}</td>
         <td className={styles.row}>
-          {/* <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setAdminId(admin._id);
-              setModal(true);
-            }}
-            className={styles.buttonDelete}
-          >
-            x
-          </button> */}
           <Button
             text="&times;"
             type="submit"

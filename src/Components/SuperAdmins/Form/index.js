@@ -123,13 +123,6 @@ const Form = () => {
               />
             </div>
             <div className={styles.buttons}>
-              {/* <button
-                type="reset"
-                onClick={() => window.location.assign('/super-admins')}
-                className={styles.buttonCancel}
-              >
-                Cancel
-              </button> */}
               <Button
                 text="Cancel"
                 type="reset"
@@ -137,9 +130,6 @@ const Form = () => {
                   window.location.assign('/super-admins');
                 }}
               />
-              {/* <button type="submit" className={styles.buttonSubmit}>
-                Submit
-              </button> */}
               <Button text="Submit" type="submit" />
               <FormModal
                 showFormModal={showFormModal}

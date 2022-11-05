@@ -52,9 +52,6 @@ const Admins = () => {
         />
       </div>
       <div className={styles.container}>
-        {/* <a href="/admins/form" className={styles.buttonAddAdmin}>
-          ➕AddAdmin
-        </a> */}
         <Button
           text="Add Admin"
           type="submit"

@@ -34,14 +34,6 @@ const TimeSheets = () => {
     <section className={styles.container}>
       <div className={styles.containerUpper}>
         <h2>TimeSheets</h2>
-        {/* <button
-          className={styles.button}
-          onClick={() => {
-            window.location.assign(`/time-sheets/form`);
-          }}
-        >
-          New TimeSheet
-        </button> */}
         <Button
           text="Add Timesheet"
           type="submit"

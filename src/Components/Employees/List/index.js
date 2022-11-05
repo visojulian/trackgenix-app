@@ -36,16 +36,6 @@ const EmployeesList = (props) => {
                 <td>{employee.phone}</td>
                 <td>{employee.email}</td>
                 <td>
-                  {/* <button
-                    className={styles.button}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      props.deleteEmployeeId(employee._id);
-                      props.setShowModal(true);
-                    }}
-                  >
-                    X
-                  </button> */}
                   <Button
                     text="&times;"
                     type="submit"
@@ -62,14 +52,6 @@ const EmployeesList = (props) => {
         </tbody>
       </table>
       <div className={styles.div}>
-        {/* <button
-          className={styles.submitButton}
-          onClick={() => {
-            window.location.assign('employees/form');
-          }}
-        >
-          Add employee
-        </button> */}
         <Button
           text="Add Employee"
           type="submit"
