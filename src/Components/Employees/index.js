@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import EmployeesList from './List';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 
 function Employees() {
   const [employees, saveEmployees] = useState([]);
+  const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [employeeId, deleteEmployeeId] = useState();
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -18,36 +20,42 @@ function Employees() {
     }
   }, []);
 
-  const deleteEmployee = async (id) => {
+  const deleteEmployee = async () => {
+    const id = employeeId;
     await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onDelete = () => {
-    deleteEmployee(employeeId);
-    closeModal();
+  const handleConfirm = () => {
+    setIsActionModal(true);
+    setModalChildren(
+      <div>
+        <h4>Delete employee</h4>
+        <p>Are you sure you want to delete this employee?</p>
+      </div>
+    );
+    setShowModal(true);
   };
 
   return (
     <section className={styles.container}>
       <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        onDelete={onDelete}
-        deleteEmployeeId={deleteEmployeeId}
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={deleteEmployee}
+        actionButton="Delete"
+      >
+        {modalChildren}
+      </Modal>
       <h2>Employees</h2>
       <div>
         <EmployeesList
           list={employees}
-          deleteEmployeeId={deleteEmployeeId}
-          setShowModal={setShowModal}
+          setEmployeeId={setEmployeeId}
+          setShowModal={handleConfirm}
           saveEmployees={saveEmployees}
         />
       </div>

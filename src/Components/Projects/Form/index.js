@@ -82,8 +82,11 @@ const ProjectForm = () => {
       setIsActionModal(true);
       setModalChildren(
         <div>
-          <h4>Add New Project</h4>
-          <p>Are you sure you want to add: {nameValue}?</p>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {nameValue}{' '}
+            {isEditing ? 'changes' : ''}?
+          </p>
         </div>
       );
     } else {

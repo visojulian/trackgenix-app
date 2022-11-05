@@ -36,7 +36,7 @@ const Admins = () => {
     setIsActionModal(true);
     setModalChildren(
       <div>
-        <h4>Add New Project</h4>
+        <h4>Delete Admin</h4>
         <p>Are you sure you want to delete this employee from admins?</p>
       </div>
     );

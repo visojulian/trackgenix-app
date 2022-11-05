@@ -31,9 +31,10 @@ const AdminForm = () => {
       setIsActionModal(true);
       setModalChildren(
         <div>
-          <h4>Add New Project</h4>
+          <h4>{edit ? 'Edit' : 'Add'} New Admin</h4>
           <p>
-            Are you sure you want to add {name} {lastName} as Admin?
+            Are you sure you want to {edit ? 'save' : 'add'} {name} {lastName}{' '}
+            {edit ? 'changes' : 'as Admin'}?
           </p>
         </div>
       );

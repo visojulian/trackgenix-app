@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import FormModal from './FormModal';
 import styles from './form.module.css';
+import Modal from '../../Shared/Modal';
 
 const Form = () => {
-  const [showFormModal, setShowFormModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [errorMsg, setErrorMessage] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -37,12 +38,48 @@ const Form = () => {
     }
   }, []);
 
-  const closeFormModal = () => {
-    setShowFormModal(false);
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      setIsActionModal(true);
+      setModalChildren(
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {employeeInput.name}{' '}
+            {employeeInput.lastName} {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    } else {
+      setIsActionModal(false);
+      setModalChildren(
+        <div>
+          <h4>Form incomplete</h4>
+          <p>Please complete all fields before submit.</p>
+        </div>
+      );
+    }
+    setShowModal(true);
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const handleErrorModal = (error) => {
+    setIsActionModal(false);
+    setModalChildren(
+      <div>
+        <h4>Server error</h4>
+        <p>{error}</p>
+      </div>
+    );
+    setShowModal(true);
+  };
+
+  const onSubmit = async () => {
     if (!isEditing) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
@@ -63,8 +100,7 @@ const Form = () => {
       if (!result.error) {
         window.location.assign('/employees');
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        handleErrorModal(result.message);
       }
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -87,8 +123,7 @@ const Form = () => {
       if (!result.error) {
         window.location.assign('/employees');
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        handleErrorModal(result.message);
       }
     }
   };
@@ -101,7 +136,7 @@ const Form = () => {
     <div className={styles.container}>
       <div className={styles.box}>
         <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form}>
           <div className={styles.input}>
             <label>Name</label>
             <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
@@ -137,12 +172,20 @@ const Form = () => {
             >
               Cancel
             </button>
-            <button className={styles.secondButton} type="submit">
+            <button className={styles.secondButton} onClick={handleConfirmModal}>
               Submit
             </button>
-            <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
           </div>
         </form>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={isActionModal}
+          action={onSubmit}
+          actionButton="Submit"
+        >
+          {modalChildren}
+        </Modal>
       </div>
     </div>
   );
