@@ -38,8 +38,8 @@ const SuperAdminsList = (props) => {
                     className={styles.button}
                     onClick={(event) => {
                       event.stopPropagation();
-                      props.setDeleteSuperAdmin(superAdmin._id);
-                      props.setModal(true);
+                      props.setSuperAdminId(superAdmin._id);
+                      props.setModal();
                     }}
                   >
                     x
