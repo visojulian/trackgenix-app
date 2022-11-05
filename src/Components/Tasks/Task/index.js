@@ -9,8 +9,8 @@ const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
       <td>
         <button
           onClick={(e) => {
-            setShowModal(true);
             setTaskId(task._id);
+            setShowModal();
             e.stopPropagation();
           }}
         >

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
-import Modal from './Modal/index';
+import Modal from '../Shared/Modal';
 import Logo from '../../assets/trash.png';
 
 const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -19,11 +21,19 @@ const Tasks = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
+  const handleConfirm = () => {
+    setIsActionModal(true);
+    setModalChildren(
+      <div>
+        <h4>Delete Task</h4>
+        <p>Are you sure you want to delete this task?</p>
+      </div>
+    );
+    setShowModal(true);
   };
 
-  const deleteTask = async (id) => {
+  const deleteTask = async () => {
+    const id = taskId;
     saveTasks([...tasks.filter((task) => task._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
       method: 'DELETE'
@@ -37,12 +47,14 @@ const Tasks = () => {
   return (
     <section className={styles.container}>
       <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTask={deleteTask}
-        taskId={taskId}
-        title="Do you want to delete this task?"
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={deleteTask}
+        actionButton="Delete"
+      >
+        {modalChildren}
+      </Modal>
       <div className={styles.upperFlexBox}>
         <div className={styles.titleFlexBox}>
           <h2>Tasks</h2>
@@ -68,7 +80,7 @@ const Tasks = () => {
               <Task
                 key={task._id}
                 task={task}
-                setShowModal={setShowModal}
+                setShowModal={handleConfirm}
                 setTaskId={setTaskId}
                 onClickTask={onClickTask}
               />
