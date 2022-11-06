@@ -7,7 +7,7 @@ const EmployeesList = (props) => {
   const history = useHistory();
 
   const onClickEmployee = (id) => {
-    history.push(`/employees/form?id=${id}`);
+    history.push(`/employees/form/${id}`);
   };
 
   return (

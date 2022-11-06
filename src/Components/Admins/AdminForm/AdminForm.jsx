@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import FormModal from '../Modals/FormModal';
 import styles from './adminForm.module.css';
 
 const AdminForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -26,8 +29,6 @@ const AdminForm = () => {
   };
 
   useEffect(async () => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
     if (id) {
       setAdminId(id);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
@@ -61,7 +62,7 @@ const AdminForm = () => {
       });
       const content = await newAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
         setModal(true);
         setServerError(content.message);
@@ -77,7 +78,7 @@ const AdminForm = () => {
       });
       const content = await editAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
         setModal(true);
         setServerError(content.message);
@@ -149,7 +150,7 @@ const AdminForm = () => {
           <button
             type="button"
             onClick={() => {
-              window.location.assign('/admins');
+              history.goBack();
             }}
           >
             Cancel

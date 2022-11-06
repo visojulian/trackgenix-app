@@ -32,7 +32,7 @@ const Admins = () => {
   };
 
   const onClickAdmin = (id) => {
-    history.push(`/admins/form?id=${id}`);
+    history.push(`/admins/form/${id}`);
   };
 
   return (

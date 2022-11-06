@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
@@ -40,7 +40,8 @@ const Layout = () => {
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/tasks/form" component={TasksForm} />
           <Route path="/tasks/form/:id" component={TasksForm} />
-          <Route exact path="/" component={Home}></Route>
+          <Route exact path="/" component={Home} />
+          <Redirect to="/home" />
         </Switch>
         <Footer />
       </div>

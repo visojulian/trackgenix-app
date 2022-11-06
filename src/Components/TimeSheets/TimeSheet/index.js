@@ -1,12 +1,14 @@
 import Trash from '../../../Assets/trash.png';
 import styles from './time.module.css';
+import { useHistory } from 'react-router-dom';
 
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
+  const history = useHistory();
   return (
     <tr style={{ display: 'flex', justifyContent: 'center' }}>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '25%' }}
       >
@@ -14,7 +16,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
       </td>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '15%' }}
       >
@@ -22,7 +24,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
       </td>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '10%' }}
       >
@@ -30,7 +32,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
       </td>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '20%' }}
       >
@@ -38,7 +40,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
       </td>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '20%' }}
       >
@@ -46,7 +48,7 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
       </td>
       <td
         onClick={() => {
-          window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+          history.push(`/time-sheets/form/${timeSheet._id}`);
         }}
         style={{ flexBasis: '10%' }}
       >

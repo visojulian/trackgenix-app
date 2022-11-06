@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Delete from '../assets/trash.png';
+import { useHistory, useParams } from 'react-router-dom';
 
 const ProjectForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
@@ -63,7 +66,7 @@ const ProjectForm = () => {
   };
 
   const onCancel = () => {
-    window.location.assign('/projects');
+    history.goBack();
   };
 
   const onSubmit = () => {
@@ -77,8 +80,6 @@ const ProjectForm = () => {
     });
 
     if (isEditing) {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const id = urlSearchParams.get('id');
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -97,12 +98,10 @@ const ProjectForm = () => {
         .then((response) => console.log(response))
         .catch((error) => alert(error));
     }
-    window.location.assign('/projects');
+    history.push('/projects');
   };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const id = urlSearchParams.get('id');
     if (id) {
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`)
         .then((response) => response.json())
