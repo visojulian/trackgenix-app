@@ -31,11 +31,6 @@ form{
   background-color: #373867;
 }
 
-input {
-  width: 70%;
-  padding-left: 20px;
-}
-
 .buttons {
   padding: 20px;
   flex: 1;

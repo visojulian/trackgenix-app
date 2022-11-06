@@ -1,11 +1,13 @@
 import Trash from '../../../assets/trash.png';
 import styles from './time.module.css';
+import { useHistory } from 'react-router-dom';
 
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
+  const history = useHistory();
   return (
     <tr
       onClick={() => {
-        window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+        history.push(`/time-sheets/form/${timeSheet._id}`);
       }}
       style={{ display: 'flex', justifyContent: 'center' }}
     >

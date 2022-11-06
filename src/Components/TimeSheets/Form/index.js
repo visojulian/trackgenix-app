@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 function Form() {
+  const history = useHistory();
+  const { id } = useParams();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
     description: '',
     date: '',
@@ -46,8 +50,6 @@ function Form() {
       });
       const projects = await projectsResponse.json();
       setProjects(projects.data);
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const timeSheetResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
@@ -106,14 +108,12 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
         headers: {
@@ -131,7 +131,7 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
@@ -147,36 +147,33 @@ function Form() {
           <div className={styles.cardTitle}>
             <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
           </div>
-          <div className={styles.box}>
-            <label>Description</label>
-            <input
-              type="text"
-              name="description"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.description}
-            />
-          </div>
-          <div className={styles.box}>
-            <label>Date</label>
-            <input
-              type="date"
-              name="date"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.date}
-            />
-          </div>
-          <div className={styles.box}>
-            <label>Hours</label>
-            <input
-              type="number"
-              name="hours"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.hours}
-            />
-          </div>
+          <TextInput
+            label="Time Sheet description"
+            id="description"
+            name="description"
+            value={inputTimeSheetValue.description}
+            onChange={onChangeInputValue}
+            type="text"
+            placeholder="Time Sheet Description"
+          />
+          <TextInput
+            label="Date"
+            id="date"
+            name="date"
+            value={inputTimeSheetValue.date}
+            onChange={onChangeInputValue}
+            type="date"
+            placeholder="Date"
+          />
+          <TextInput
+            label="Hours"
+            id="hours"
+            name="hours"
+            value={inputTimeSheetValue.hours}
+            onChange={onChangeInputValue}
+            type="number"
+            placeholder="Hours spend in the taks"
+          />
           <div className={styles.box}>
             <label>Task</label>
             <select
@@ -240,10 +237,7 @@ function Form() {
           </div>
           <div className={styles.buttons}>
             <div>
-              <button
-                className={styles.confirmButton}
-                onClick={() => window.location.assign('/time-sheets')}
-              >
+              <button className={styles.confirmButton} onClick={() => history.goBack()}>
                 Cancel
               </button>
             </div>

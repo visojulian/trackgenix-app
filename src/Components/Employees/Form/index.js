@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import FormModal from './FormModal';
 import styles from './form.module.css';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [showFormModal, setShowFormModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [errorMsg, setErrorMessage] = useState();
@@ -16,8 +20,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
           method: 'GET'
@@ -61,14 +63,12 @@ const Form = () => {
 
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
         setShowFormModal(true);
         setErrorMessage(result.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
@@ -85,7 +85,7 @@ const Form = () => {
       });
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
         setShowFormModal(true);
         setErrorMessage(result.message);
@@ -102,36 +102,56 @@ const Form = () => {
       <div className={styles.box}>
         <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
         <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.input}>
-            <label>Name</label>
-            <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Last name</label>
-            <input type="text" name="lastName" value={employeeInput.lastName} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Phone</label>
-            <input type="text" name="phone" value={employeeInput.phone} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Email</label>
-            <input type="text" name="email" value={employeeInput.email} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={employeeInput.password}
-              onChange={onChange}
-            />
-          </div>
+          <TextInput
+            label="Name"
+            id="name"
+            name="name"
+            value={employeeInput.name}
+            onChange={onChange}
+            type="text"
+            placeholder="Name"
+          />
+          <TextInput
+            label="Last Name"
+            id="lastName"
+            name="lastName"
+            value={employeeInput.lastName}
+            onChange={onChange}
+            type="text"
+            placeholder="Last Name"
+          />
+          <TextInput
+            label="Phone"
+            id="phone"
+            name="phone"
+            value={employeeInput.phone}
+            onChange={onChange}
+            type="text"
+            placeholder="Phone"
+          />
+          <TextInput
+            label="Email"
+            id="email"
+            name="email"
+            value={employeeInput.email}
+            onChange={onChange}
+            type="text"
+            placeholder="Email"
+          />
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            value={employeeInput.password}
+            onChange={onChange}
+            type="password"
+            placeholder="Password"
+          />
           <div className={styles.divButton}>
             <button
               className={styles.firstButton}
               onClick={() => {
-                window.location.assign('/employees');
+                history.goBack();
               }}
               type="reset"
             >
