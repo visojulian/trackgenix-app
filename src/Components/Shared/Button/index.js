@@ -1,11 +1,11 @@
 import styles from './button.module.css';
 
-const Button = ({ text, whenClicked, type }) => {
+const Button = ({ text, onClick, type, variant }) => {
   return (
     <button
       type={type}
-      className={type == 'submit' ? styles.confirm : styles.cancel}
-      onClick={whenClicked}
+      className={variant == 'primary' ? styles.confirm : styles.cancel}
+      onClick={onClick}
     >
       {text}
     </button>
