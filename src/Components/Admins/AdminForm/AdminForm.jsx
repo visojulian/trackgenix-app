@@ -126,7 +126,6 @@ const AdminForm = () => {
           type="text"
           placeholder="Password"
         />
-
         <div>
           <button
             type="button"

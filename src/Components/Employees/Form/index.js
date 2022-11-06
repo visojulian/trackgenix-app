@@ -121,7 +121,6 @@ const Form = () => {
             type="text"
             placeholder="Last Name"
           />
-
           <TextInput
             label="Phone"
             id="phone"
@@ -140,7 +139,6 @@ const Form = () => {
             type="text"
             placeholder="Email"
           />
-
           <TextInput
             label="Password"
             id="password"
@@ -150,7 +148,6 @@ const Form = () => {
             type="password"
             placeholder="Password"
           />
-
           <div className={styles.divButton}>
             <button
               className={styles.firstButton}
