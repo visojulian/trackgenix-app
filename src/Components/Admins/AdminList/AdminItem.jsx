@@ -18,7 +18,8 @@ const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
           <Button
             text="&times;"
             type="submit"
-            whenClicked={(e) => {
+            variant="primary"
+            onClick={(e) => {
               e.stopPropagation();
               setAdminId(admin._id);
               setModal(true);

@@ -98,13 +98,14 @@ const Form = () => {
             <Button
               type="button"
               text="Cancel"
-              whenClicked={() => {
+              variant="secondary"
+              onClick={() => {
                 window.location.assign('/tasks');
               }}
             />
           </div>
           <div>
-            <Button text="Confirm" type="submit" />
+            <Button text="Confirm" type="submit" variant="primary" />
           </div>
         </div>
       </form>

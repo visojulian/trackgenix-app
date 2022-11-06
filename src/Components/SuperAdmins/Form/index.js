@@ -126,11 +126,12 @@ const Form = () => {
               <Button
                 text="Cancel"
                 type="reset"
-                whenClicked={() => {
+                variant="secondary"
+                onClick={() => {
                   window.location.assign('/super-admins');
                 }}
               />
-              <Button text="Submit" type="submit" />
+              <Button text="Submit" type="submit" variant="primary" />
               <FormModal
                 showFormModal={showFormModal}
                 serverMessage={errorMessage}

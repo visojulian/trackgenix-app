@@ -132,11 +132,12 @@ const Form = () => {
             <Button
               text="Cancel"
               type="reset"
-              whenClicked={() => {
+              variant="secondary"
+              onClick={() => {
                 window.location.assign('/employees');
               }}
             />
-            <Button text="Submit" type="submit" />
+            <Button text="Submit" type="submit" variant="primary" />
             <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
           </div>
         </form>

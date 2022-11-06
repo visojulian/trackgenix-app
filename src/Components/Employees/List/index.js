@@ -39,7 +39,8 @@ const EmployeesList = (props) => {
                   <Button
                     text="&times;"
                     type="submit"
-                    whenClicked={(event) => {
+                    variant="primary"
+                    onClick={(event) => {
                       event.stopPropagation();
                       props.deleteEmployeeId(employee._id);
                       props.setShowModal(true);
@@ -55,7 +56,8 @@ const EmployeesList = (props) => {
         <Button
           text="Add Employee"
           type="submit"
-          whenClicked={() => {
+          variant="primary"
+          onClick={() => {
             window.location.assign('employees/form');
           }}
         />

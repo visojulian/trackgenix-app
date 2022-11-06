@@ -38,7 +38,8 @@ const SuperAdminsList = (props) => {
                   <Button
                     text="&times;"
                     type="submit"
-                    whenClicked={(event) => {
+                    variant="primary"
+                    onClick={(event) => {
                       event.stopPropagation();
                       props.setDeleteSuperAdmin(superAdmin._id);
                       props.setModal(true);
@@ -54,7 +55,8 @@ const SuperAdminsList = (props) => {
         <Button
           text="Add Super Admin"
           type="submit"
-          whenClicked={() => {
+          variant="primary"
+          onClick={() => {
             window.location.assign('super-admins/form');
           }}
         />

@@ -52,7 +52,8 @@ const Tasks = () => {
           <Button
             text="Add new task"
             type="submit"
-            whenClicked={() => {
+            variant="primary"
+            onClick={() => {
               window.location.assign('/tasks/form');
             }}
           />

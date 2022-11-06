@@ -12,7 +12,8 @@ const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
         <Button
           text="&times;"
           type="submit"
-          whenClicked={(e) => {
+          variant="primary"
+          onClick={(e) => {
             setShowModal(true);
             setTaskId(task._id);
             e.stopPropagation();

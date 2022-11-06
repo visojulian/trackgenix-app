@@ -55,7 +55,7 @@ const Admins = () => {
         <Button
           text="Add Admin"
           type="submit"
-          whenClicked={() => {
+          onClick={() => {
             window.location.assign('/admins/form');
           }}
         />

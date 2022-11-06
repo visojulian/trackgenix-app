@@ -150,11 +150,12 @@ const AdminForm = () => {
           <Button
             text="Cancel"
             type="reset"
-            whenClicked={() => {
+            variant="secondary"
+            onClick={() => {
               window.location.assign('/admins');
             }}
           />
-          <Button text="Submit" type="submit" />
+          <Button text="Submit" type="submit" variant="primary" />
         </div>
       </form>
       <FormModal modal={modal} title={serverError} closeModal={closeModal} />
