@@ -91,45 +91,42 @@ const AdminForm = () => {
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
         <TextInput
+          label="Name"
           id="name"
           name="name"
           value={name}
           onChange={onChangeName}
           type="text"
           placeholder="Name"
-        >
-          Name
-        </TextInput>
+        />
         <TextInput
+          label="Last Name"
           id="lastName"
           name="lastName"
           value={lastName}
           onChange={onChangeLastName}
           type="text"
           placeholder="Last Name"
-        >
-          Last Name
-        </TextInput>
+        />
         <TextInput
+          label="Email"
           id="email"
           name="email"
           value={email}
           onChange={onChangeEmail}
           type="text"
           placeholder="Email"
-        >
-          Email
-        </TextInput>
+        />
         <TextInput
+          label="Password"
           id="password"
           name="password"
           value={password}
           onChange={onChangePassword}
           type="text"
           placeholder="Password"
-        >
-          Password
-        </TextInput>
+        />
+
         <div>
           <button
             type="button"

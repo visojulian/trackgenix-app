@@ -141,55 +141,50 @@ const ProjectForm = () => {
   return (
     <form className={styles.container}>
       <TextInput
+        label="Project Name"
         id="name"
         name="name"
         value={nameValue}
         onChange={onChangeNameInput}
         type="text"
         placeholder="Project Name"
-      >
-        Project Name
-      </TextInput>
+      />
       <TextInput
+        label="Client Name"
         id="client"
         name="client"
         value={clientValue}
         onChange={onChangeClientInput}
         type="text"
         placeholder="Client Name"
-      >
-        Client Name
-      </TextInput>
+      />
       <TextInput
+        label="Description"
         id="description"
         name="description"
         value={descriptionValue}
         onChange={onChangeDescriptionInput}
         type="text"
         placeholder="Description"
-      >
-        Description
-      </TextInput>
+      />
       <TextInput
+        label="Start date"
         id="startDate"
         name="startDate"
         value={startDateValue}
         onChange={onChangeStartDateInput}
         type="date"
         placeholder="Start date"
-      >
-        Start date
-      </TextInput>
+      />
       <TextInput
+        label="End date"
         id="endDate"
         name="endDate"
         value={endDateValue}
         onChange={onChangeEndDateInput}
         type="date"
         placeholder="End date"
-      >
-        End date
-      </TextInput>
+      />
       <div className={styles.listContainer}>
         <div>
           <h4>Employees</h4>
@@ -208,15 +203,14 @@ const ProjectForm = () => {
                 ))}
               </select>
               <TextInput
+                label="Rate"
                 id="rate"
                 name="rate"
                 value={rateValue}
                 onChange={onChangeRateInput}
                 type="text"
                 placeholder="Rate"
-              >
-                Rate
-              </TextInput>
+              />
             </div>
             <button className={styles.newEmployeeButton} onClick={addEmployee}>
               Assign new employee

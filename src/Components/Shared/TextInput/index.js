@@ -1,9 +1,9 @@
 import styles from './text-input.module.css';
 
-const Input = ({ children, id, name, value, onChange, type, placeholder }) => {
+const TextInput = ({ label, id, name, value, onChange, type, placeholder }) => {
   return (
     <div className={styles.box}>
-      <label className={styles.label}>{children}</label>
+      <label className={styles.label}>{label}</label>
       <input
         id={id}
         name={name}
@@ -18,4 +18,4 @@ const Input = ({ children, id, name, value, onChange, type, placeholder }) => {
   );
 };
 
-export default Input;
+export default TextInput;

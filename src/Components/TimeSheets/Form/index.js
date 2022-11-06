@@ -149,35 +149,32 @@ function Form() {
             <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
           </div>
           <TextInput
+            label="Time Sheet description"
             id="description"
             name="description"
             value={inputTimeSheetValue.description}
             onChange={onChangeInputValue}
             type="text"
             placeholder="Time Sheet Description"
-          >
-            Time Sheet Description
-          </TextInput>
+          />
           <TextInput
+            label="Date"
             id="date"
             name="date"
             value={inputTimeSheetValue.date}
             onChange={onChangeInputValue}
             type="date"
             placeholder="Date"
-          >
-            Date
-          </TextInput>
+          />
           <TextInput
+            label="Hours"
             id="hours"
             name="hours"
             value={inputTimeSheetValue.hours}
             onChange={onChangeInputValue}
             type="number"
-            placeholder="Date"
-          >
-            Hours
-          </TextInput>
+            placeholder="Hours spend in the taks"
+          />
           <div className={styles.box}>
             <label>Task</label>
             <select

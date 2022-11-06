@@ -100,47 +100,43 @@ const Form = () => {
         <form className={styles.box} onSubmit={onSubmit}>
           <div>
             <TextInput
+              label="Name"
               id="name"
               name="name"
               value={superAdmin.name}
               onChange={onChange}
               type="text"
               placeholder="Name"
-            >
-              Name
-            </TextInput>
+            />
             <TextInput
+              label="Last Name"
               id="lastName"
               name="lastName"
               value={superAdmin.lastName}
               onChange={onChange}
               type="text"
               placeholder="Last Name"
-            >
-              Last Name
-            </TextInput>
+            />
           </div>
           <div>
             <TextInput
+              label="Email"
               id="email"
               name="email"
               value={superAdmin.email}
               onChange={onChange}
               type="text"
               placeholder="Email"
-            >
-              Email
-            </TextInput>
+            />
             <TextInput
+              label="Password"
               id="password"
               name="password"
               value={superAdmin.password}
               onChange={onChange}
               type="password"
               placeholder="Password"
-            >
-              Password
-            </TextInput>
+            />
             <div className={styles.buttons}>
               <button
                 type="reset"

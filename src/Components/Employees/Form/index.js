@@ -104,55 +104,53 @@ const Form = () => {
         <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
         <form className={styles.form} onSubmit={onSubmit}>
           <TextInput
+            label="Name"
             id="name"
             name="name"
             value={employeeInput.name}
             onChange={onChange}
             type="text"
             placeholder="Name"
-          >
-            Name
-          </TextInput>
+          />
           <TextInput
+            label="Last Name"
             id="lastName"
             name="lastName"
             value={employeeInput.lastName}
             onChange={onChange}
             type="text"
             placeholder="Last Name"
-          >
-            Last Name
-          </TextInput>
+          />
+
           <TextInput
+            label="Phone"
             id="phone"
             name="phone"
             value={employeeInput.phone}
             onChange={onChange}
             type="text"
             placeholder="Phone"
-          >
-            Phone
-          </TextInput>
+          />
           <TextInput
+            label="Email"
             id="email"
             name="email"
             value={employeeInput.email}
             onChange={onChange}
             type="text"
             placeholder="Email"
-          >
-            Email
-          </TextInput>
+          />
+
           <TextInput
+            label="Password"
             id="password"
             name="password"
             value={employeeInput.password}
             onChange={onChange}
             type="password"
             placeholder="Password"
-          >
-            Password
-          </TextInput>
+          />
+
           <div className={styles.divButton}>
             <button
               className={styles.firstButton}

@@ -83,15 +83,14 @@ const Form = () => {
         </div>
         <div>
           <TextInput
+            label="Task Description"
             id="taskName"
             name="taskName"
             value={taskName}
             onChange={onChangeTaskNameInput}
             type="text"
             placeholder="Task Name"
-          >
-            Task Description
-          </TextInput>
+          />
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
