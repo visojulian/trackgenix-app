@@ -2,8 +2,11 @@ import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
 import FormModal from './Modal/index';
 import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
   const [showFormModal, setFormModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,8 +27,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
           method: 'GET'
@@ -62,14 +63,12 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
         setFormModal(true);
         setErrorMessage(content.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
         method: 'PUT',
         headers: {
@@ -85,7 +84,7 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
         setFormModal(true);
         setErrorMessage(content.message);
@@ -140,7 +139,7 @@ const Form = () => {
             <div className={styles.buttons}>
               <button
                 type="reset"
-                onClick={() => window.location.assign('/super-admins')}
+                onClick={() => history.push('/super-admins')}
                 className={styles.buttonCancel}
               >
                 Cancel

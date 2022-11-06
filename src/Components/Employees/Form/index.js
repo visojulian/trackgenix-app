@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import FormModal from './FormModal';
 import styles from './form.module.css';
 import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [showFormModal, setShowFormModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [errorMsg, setErrorMessage] = useState();
@@ -17,8 +20,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
           method: 'GET'
@@ -62,14 +63,12 @@ const Form = () => {
 
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
         setShowFormModal(true);
         setErrorMessage(result.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
@@ -86,7 +85,7 @@ const Form = () => {
       });
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
         setShowFormModal(true);
         setErrorMessage(result.message);
@@ -152,7 +151,7 @@ const Form = () => {
             <button
               className={styles.firstButton}
               onClick={() => {
-                window.location.assign('/employees');
+                history.goBack();
               }}
               type="reset"
             >

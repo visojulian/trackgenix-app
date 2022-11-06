@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
@@ -15,56 +16,36 @@ import TimeSheetsForm from '../TimeSheets/Form/index';
 import Tasks from '../Tasks/index';
 import TasksForm from '../Tasks/Form/index';
 
-function Layout() {
-  let currentScreen = <Home />;
-  switch (window.location.pathname) {
-    case '/admins':
-      currentScreen = <Admins />;
-      break;
-    case '/admins/form':
-      currentScreen = <AdminForm />;
-      break;
-    case '/super-admins':
-      currentScreen = <SuperAdmins />;
-      break;
-    case '/super-admins/form':
-      currentScreen = <SuperAdminsForm />;
-      break;
-    case '/employees':
-      currentScreen = <Employees />;
-      break;
-    case '/employees/form':
-      currentScreen = <EmployeesForm />;
-      break;
-    case '/projects':
-      currentScreen = <Projects />;
-      break;
-    case '/projects/form':
-      currentScreen = <ProjectsForm />;
-      break;
-    case '/time-sheets':
-      currentScreen = <TimeSheets />;
-      break;
-    case '/time-sheets/form':
-      currentScreen = <TimeSheetsForm />;
-      break;
-    case '/tasks':
-      currentScreen = <Tasks />;
-      break;
-    case '/tasks/form':
-      currentScreen = <TasksForm />;
-      break;
-    default:
-      break;
-  }
-
+const Layout = () => {
   return (
-    <div className={styles.container}>
-      <Header />
-      {currentScreen}
-      <Footer />
-    </div>
+    <Router>
+      <div className={styles.container}>
+        <Header />
+        <Switch>
+          <Route exact path="/admins" component={Admins} />
+          <Route exact path="/admins/form" component={AdminForm} />
+          <Route path="/admins/form/:id" component={AdminForm} />
+          <Route exact path="/super-admins" component={SuperAdmins} />
+          <Route exact path="/super-admins/form" component={SuperAdminsForm} />
+          <Route path="/super-admins/form/:id" component={SuperAdminsForm} />
+          <Route exact path="/employees" component={Employees} />
+          <Route exact path="/employees/form" component={EmployeesForm} />
+          <Route path="/employees/form/:id" component={EmployeesForm} />
+          <Route exact path="/projects" component={Projects} />
+          <Route exact path="/projects/form" component={ProjectsForm} />
+          <Route path="/projects/form/:id" component={ProjectsForm} />
+          <Route exact path="/time-sheets" component={TimeSheets} />
+          <Route exact path="/time-sheets/form" component={TimeSheetsForm} />
+          <Route path="/time-sheets/form/:id" component={TimeSheetsForm} />
+          <Route exact path="/tasks" component={Tasks} />
+          <Route exact path="/tasks/form" component={TasksForm} />
+          <Route path="/tasks/form/:id" component={TasksForm} />
+          <Route exact path="/" component={Home} />
+          <Redirect to="/home" />
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
   );
-}
-
+};
 export default Layout;
