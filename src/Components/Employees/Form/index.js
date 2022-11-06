@@ -6,7 +6,7 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
+  const [serverError, setServerError] = useState();
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -40,14 +40,26 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
+    setIsActionModal(true);
+    setShowModal(true);
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
     if (
       employeeInput.name !== '' &&
       employeeInput.lastName !== '' &&
       employeeInput.email !== '' &&
       employeeInput.password !== ''
     ) {
-      setIsActionModal(true);
-      setModalChildren(
+      return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
           <p>
@@ -56,27 +68,13 @@ const Form = () => {
           </p>
         </div>
       );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
     }
-    setShowModal(true);
-  };
-
-  const handleErrorModal = (error) => {
-    setIsActionModal(false);
-    setModalChildren(
+    return (
       <div>
-        <h4>Server error</h4>
-        <p>{error}</p>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
       </div>
     );
-    setShowModal(true);
   };
 
   const onSubmit = async () => {
@@ -100,7 +98,8 @@ const Form = () => {
       if (!result.error) {
         window.location.assign('/employees');
       } else {
-        handleErrorModal(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -123,7 +122,8 @@ const Form = () => {
       if (!result.error) {
         window.location.assign('/employees');
       } else {
-        handleErrorModal(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     }
   };
@@ -184,7 +184,7 @@ const Form = () => {
           action={onSubmit}
           actionButton="Submit"
         >
-          {modalChildren}
+          {getModalContent()}
         </Modal>
       </div>
     </div>

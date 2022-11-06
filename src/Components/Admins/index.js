@@ -7,8 +7,6 @@ const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [admin, setAdmin] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -32,33 +30,26 @@ const Admins = () => {
     window.location.assign(`/admins/form?id=${id}`);
   };
 
-  const handleConfirm = () => {
-    setIsActionModal(true);
-    setModalChildren(
-      <div>
-        <h4>Delete Admin</h4>
-        <p>Are you sure you want to delete this employee from admins?</p>
-      </div>
-    );
-    setShowModal(true);
-  };
-
   return (
     <>
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
-        isActionModal={isActionModal}
+        isActionModal={true}
         action={deleteAdmin}
         actionButton="Delete"
       >
-        {modalChildren}
+        <div>
+          <h4>Delete Admin</h4>
+          <p>Are you sure you want to delete this employee from admins?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <div className={styles.container}>
         <h1>Admins</h1>
         <AdminList
           adminList={admins}
-          setModal={handleConfirm}
+          setModal={() => setShowModal(true)}
           showModal={showModal}
           setAdmin={setAdmin}
           onClickAdmin={onClickAdmin}

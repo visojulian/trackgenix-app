@@ -17,7 +17,7 @@ const ProjectForm = () => {
   const [isEditing, setIsEditing] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
+  const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const onChangeNameInput = (event) => {
@@ -70,7 +70,21 @@ const ProjectForm = () => {
     window.location.assign('/projects');
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsActionModal(true);
+    setShowModal(true);
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
     if (
       projectEmployees.length &&
       nameValue &&
@@ -79,8 +93,7 @@ const ProjectForm = () => {
       descriptionValue &&
       clientValue
     ) {
-      setIsActionModal(true);
-      setModalChildren(
+      return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
           <p>
@@ -89,16 +102,13 @@ const ProjectForm = () => {
           </p>
         </div>
       );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
     }
-    setShowModal(true);
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
   };
 
   const onSubmit = () => {
@@ -128,9 +138,16 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .catch((error) => alert(error));
+        .then((content) => {
+          if (!content.error) {
+            window.location.assign('/projects');
+          } else {
+            setServerError(content.message);
+            setShowModal(true);
+          }
+        })
+        .catch((error) => console.error(error));
     }
-    window.location.assign('/projects');
   };
 
   useEffect(() => {
@@ -154,8 +171,11 @@ const ProjectForm = () => {
             setEndDateValue(response.data.endDate);
             setDescriptionValue(response.data.description);
             setProjectEmployees(employeeList);
+            setIsEditing(true);
+          } else {
+            setServerError(response.message);
+            setShowModal(true);
           }
-          setIsEditing(true);
         })
         .catch((error) => alert(error));
     }
@@ -164,8 +184,13 @@ const ProjectForm = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/employees`)
       .then((response) => response.json())
-      .then((response) => {
-        setEmployees(response.data);
+      .then((content) => {
+        if (!content.error) {
+          setEmployees(content.data);
+        } else {
+          setServerError(content.message);
+          setShowModal(true);
+        }
       })
       .catch((error) => alert(error));
   }, []);
@@ -306,7 +331,7 @@ const ProjectForm = () => {
           action={onSubmit}
           actionButton="Submit"
         >
-          {modalChildren}
+          {getModalContent()}
         </Modal>
         <div className={styles.formButtons}>
           <button className={styles.cancel} onClick={onCancel}>

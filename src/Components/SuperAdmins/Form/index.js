@@ -6,7 +6,7 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
+  const [serverError, setServerError] = useState();
   const [superAdmin, setSuperAdmin] = useState({
     name: '',
     lastName: '',
@@ -16,38 +16,36 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
-      setIsActionModal(true);
-      setModalChildren(
-        <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
-          <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {superAdmin.name}{' '}
-            {superAdmin.lastName} {isEditing ? 'changes' : 'as Admin'}?
-          </p>
-        </div>
-      );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
-    }
+    setIsActionModal(true);
     setShowModal(true);
   };
 
-  const handleErrorModal = (error) => {
-    setIsActionModal(false);
-    setModalChildren(
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Superadmin</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {superAdmin.name}{' '}
+            {superAdmin.lastName} {isEditing ? 'changes' : 'as Superadmin'}?
+          </p>
+        </div>
+      );
+    }
+    return (
       <div>
-        <h4>Server error</h4>
-        <p>{error}</p>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
       </div>
     );
-    setShowModal(true);
   };
 
   const onChange = (e) => {
@@ -95,7 +93,8 @@ const Form = () => {
       if (!content.error) {
         window.location.assign('/super-admins');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -117,7 +116,8 @@ const Form = () => {
       if (!content.error) {
         window.location.assign('/super-admins');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -169,7 +169,7 @@ const Form = () => {
                 action={onSubmit}
                 actionButton="Submit"
               >
-                {modalChildren}
+                {getModalContent()}
               </Modal>
             </div>
           </div>

@@ -11,7 +11,7 @@ const AdminForm = () => {
   const [edit, setEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
+  const [serverError, setServerError] = useState();
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -27,9 +27,21 @@ const AdminForm = () => {
   };
   const handleConfirmModal = (e) => {
     e.preventDefault();
+    setIsActionModal(true);
+    setShowModal(true);
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
     if (name && lastName && email && password) {
-      setIsActionModal(true);
-      setModalChildren(
+      return (
         <div>
           <h4>{edit ? 'Edit' : 'Add'} New Admin</h4>
           <p>
@@ -38,26 +50,13 @@ const AdminForm = () => {
           </p>
         </div>
       );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
     }
-    setShowModal(true);
-  };
-  const handleErrorModal = (error) => {
-    setIsActionModal(false);
-    setModalChildren(
+    return (
       <div>
-        <h4>Server error</h4>
-        <p>{error}</p>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
       </div>
     );
-    setShowModal(true);
   };
 
   useEffect(async () => {
@@ -93,7 +92,8 @@ const AdminForm = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
@@ -108,7 +108,8 @@ const AdminForm = () => {
       if (!content.error) {
         window.location.assign('/admins');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -192,7 +193,7 @@ const AdminForm = () => {
         action={onSubmit}
         actionButton="Submit"
       >
-        {modalChildren}
+        {getModalContent()}
       </Modal>
     </>
   );

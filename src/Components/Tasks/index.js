@@ -8,8 +8,6 @@ const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
   const [taskId, setTaskId] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -20,17 +18,6 @@ const Tasks = () => {
       console.error(error);
     }
   }, []);
-
-  const handleConfirm = () => {
-    setIsActionModal(true);
-    setModalChildren(
-      <div>
-        <h4>Delete Task</h4>
-        <p>Are you sure you want to delete this task?</p>
-      </div>
-    );
-    setShowModal(true);
-  };
 
   const deleteTask = async () => {
     const id = taskId;
@@ -49,11 +36,15 @@ const Tasks = () => {
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
-        isActionModal={isActionModal}
+        isActionModal={true}
         action={deleteTask}
         actionButton="Delete"
       >
-        {modalChildren}
+        <div>
+          <h4>Delete Task</h4>
+          <p>Are you sure you want to delete this task?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <div className={styles.upperFlexBox}>
         <div className={styles.titleFlexBox}>
@@ -80,7 +71,7 @@ const Tasks = () => {
               <Task
                 key={task._id}
                 task={task}
-                setShowModal={handleConfirm}
+                setShowModal={() => setShowModal(true)}
                 setTaskId={setTaskId}
                 onClickTask={onClickTask}
               />

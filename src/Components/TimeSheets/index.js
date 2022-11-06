@@ -6,8 +6,6 @@ import Modal from '../Shared/Modal';
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
   const [timeSheetId, setTimeSheetId] = useState();
 
   useEffect(async () => {
@@ -19,17 +17,6 @@ const TimeSheets = () => {
       console.error(error);
     }
   }, []);
-
-  const handleConfirm = () => {
-    setIsActionModal(true);
-    setModalChildren(
-      <div>
-        <h4>Delete Admin</h4>
-        <p>Are you sure you want to delete this employee from admins?</p>
-      </div>
-    );
-    setShowModal(true);
-  };
 
   const deleteTimeSheet = async () => {
     const id = timeSheetId;
@@ -55,11 +42,15 @@ const TimeSheets = () => {
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
-        isActionModal={isActionModal}
+        isActionModal={true}
         action={deleteTimeSheet}
         actionButton="Delete"
       >
-        {modalChildren}
+        <div>
+          <h4>Delete Timesheet</h4>
+          <p>Are you sure you want to delete this timesheet?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <table className={styles.table}>
         <thead>
@@ -80,7 +71,7 @@ const TimeSheets = () => {
                 key={timeSheets._id}
                 timeSheet={timeSheet}
                 setTimeSheetId={setTimeSheetId}
-                setShowModal={handleConfirm}
+                setShowModal={() => setShowModal(true)}
               />
             );
           })}

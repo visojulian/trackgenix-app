@@ -41,7 +41,7 @@ const Projects = () => {
         handleClose={setShowModal}
         isActionModal={true}
         action={deleteProject}
-        actionButton="Submit"
+        actionButton="Delete"
       >
         <div>
           <h4>Delete Project</h4>

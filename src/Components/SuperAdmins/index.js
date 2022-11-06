@@ -8,8 +8,6 @@ const SuperAdmins = () => {
   const [superAdmins, setSuperAdmins] = useState([]);
   const [superAdminId, setSuperAdminId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -20,17 +18,6 @@ const SuperAdmins = () => {
       console.error(error);
     }
   }, []);
-
-  const handleConfirm = () => {
-    setIsActionModal(true);
-    setModalChildren(
-      <div>
-        <h4>Delete Super Admin</h4>
-        <p>Are you sure you want to delete this employee from super admins?</p>
-      </div>
-    );
-    setShowModal(true);
-  };
 
   const deleteSuperAdmin = async () => {
     const id = superAdminId;
@@ -45,16 +32,20 @@ const SuperAdmins = () => {
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
-        isActionModal={isActionModal}
+        isActionModal={true}
         action={deleteSuperAdmin}
         actionButton="Delete"
       >
-        {modalChildren}
+        <div>
+          <h4>Delete Super Admin</h4>
+          <p>Are you sure you want to delete this employee from super admins?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <div>
         <SuperAdminsList
           superAdmins={superAdmins}
-          setModal={handleConfirm}
+          setModal={() => setShowModal(true)}
           setSuperAdminId={setSuperAdminId}
         />
       </div>

@@ -18,7 +18,7 @@ function Form() {
   const [employeesTotal, setEmployeesTotal] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
+  const [serverError, setServerError] = useState();
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -30,8 +30,15 @@ function Form() {
     }
   };
 
-  const handleConfirmModal = (e) => {
-    e.preventDefault();
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
     if (
       inputTimeSheetValue.description &&
       inputTimeSheetValue.date &&
@@ -40,36 +47,27 @@ function Form() {
       inputTimeSheetValue.employee &&
       inputTimeSheetValue.project
     ) {
-      setIsActionModal(true);
-      setModalChildren(
+      return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Timesheet</h4>
           <p>
             Are you sure you want to {isEditing ? 'save' : 'add'} {isEditing ? 'changes in' : ''}{' '}
             this timesheet?
           </p>
         </div>
       );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
     }
-    setShowModal(true);
-  };
-
-  const handleErrorModal = (error) => {
-    setIsActionModal(false);
-    setModalChildren(
+    return (
       <div>
-        <h4>Server error</h4>
-        <p>{error}</p>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
       </div>
     );
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setIsActionModal(true);
     setShowModal(true);
   };
 
@@ -116,8 +114,8 @@ function Form() {
         });
       }
     } catch (error) {
-      console.error(error);
-      alert(error);
+      setServerError(error);
+      setShowModal(true);
     }
   }, []);
 
@@ -147,7 +145,8 @@ function Form() {
       if (!content.error) {
         window.location.assign('/time-sheets');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -171,7 +170,8 @@ function Form() {
       if (!content.error) {
         window.location.assign('/time-sheets');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -180,12 +180,15 @@ function Form() {
     <div className={styles.container}>
       <Modal
         isOpen={showModal}
-        handleClose={setShowModal}
+        handleClose={() => {
+          setShowModal();
+          setServerError();
+        }}
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
       >
-        {modalChildren}
+        {getModalContent()}
       </Modal>
       <form>
         <div>

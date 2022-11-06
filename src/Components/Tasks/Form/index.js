@@ -6,8 +6,8 @@ const Form = () => {
   const [taskName, setTaskName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
   const [isEditing, setIsEditing] = useState(false);
+  const [serverError, setServerError] = useState();
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
@@ -15,38 +15,36 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    if (taskName) {
-      setIsActionModal(true);
-      setModalChildren(
-        <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
-          <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {taskName}{' '}
-            {isEditing ? 'changes' : 'as Admin'}?
-          </p>
-        </div>
-      );
-    } else {
-      setIsActionModal(false);
-      setModalChildren(
-        <div>
-          <h4>Form incomplete</h4>
-          <p>Please complete all fields before submit.</p>
-        </div>
-      );
-    }
+    setIsActionModal(true);
     setShowModal(true);
   };
 
-  const handleErrorModal = (error) => {
-    setIsActionModal(false);
-    setModalChildren(
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (taskName) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Task</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {taskName}{' '}
+            {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
       <div>
-        <h4>Server error</h4>
-        <p>{error}</p>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
       </div>
     );
-    setShowModal(true);
   };
 
   useEffect(async () => {
@@ -80,7 +78,8 @@ const Form = () => {
       if (!content.error) {
         window.location.assign('/tasks');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -97,7 +96,8 @@ const Form = () => {
       if (!content.error) {
         window.location.assign('/tasks');
       } else {
-        handleErrorModal(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -111,7 +111,7 @@ const Form = () => {
         action={onSubmit}
         actionButton="Submit"
       >
-        {modalChildren}
+        {getModalContent()}
       </Modal>
       <form className={styles.formFlexBox}>
         <div>

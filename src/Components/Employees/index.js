@@ -7,8 +7,6 @@ function Employees() {
   const [employees, saveEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [modalChildren, setModalChildren] = useState();
 
   useEffect(async () => {
     try {
@@ -28,34 +26,27 @@ function Employees() {
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
   };
 
-  const handleConfirm = () => {
-    setIsActionModal(true);
-    setModalChildren(
-      <div>
-        <h4>Delete employee</h4>
-        <p>Are you sure you want to delete this employee?</p>
-      </div>
-    );
-    setShowModal(true);
-  };
-
   return (
     <section className={styles.container}>
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
-        isActionModal={isActionModal}
+        isActionModal={true}
         action={deleteEmployee}
         actionButton="Delete"
       >
-        {modalChildren}
+        <div>
+          <h4>Delete employee</h4>
+          <p>Are you sure you want to delete this employee?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <h2>Employees</h2>
       <div>
         <EmployeesList
           list={employees}
           setEmployeeId={setEmployeeId}
-          setShowModal={handleConfirm}
+          setShowModal={() => setShowModal(true)}
           saveEmployees={saveEmployees}
         />
       </div>

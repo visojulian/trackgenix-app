@@ -27,17 +27,18 @@
 }
 
 .modalWrapper p {
+  padding: 0 18px;
   margin: 10px 0;
 }
 
 .buttonsWrapper {
-  width: 50%;
+  width: 60%;
   margin: 30px 0 20px 0;
 }
 
 .buttonsList {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .buttonsList button:hover {
