@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Delete from '../assets/trash.png';
+import TextInput from '../../Shared/TextInput/index';
 
 const ProjectForm = () => {
   const [projectEmployees, setProjectEmployees] = useState([]);
@@ -139,45 +140,47 @@ const ProjectForm = () => {
 
   return (
     <form className={styles.container}>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Name:
-        </label>
-        <input
-          id="name"
-          name="name"
-          placeholder="Project name"
-          required
-          value={nameValue}
-          onChange={onChangeNameInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Client name:
-        </label>
-        <input
-          id="client"
-          name="client"
-          placeholder="Client name"
-          required
-          value={clientValue}
-          onChange={onChangeClientInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="description">
-          Description:
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Description"
-          required
-          value={descriptionValue}
-          onChange={onChangeDescriptionInput}
-        />
-      </div>
+      <TextInput
+        id="name"
+        name="name"
+        value={nameValue}
+        onChange={onChangeNameInput}
+        type="text"
+        placeholder="Project Name"
+      >
+        Name
+      </TextInput>
+      <TextInput
+        id="client"
+        name="client"
+        value={clientValue}
+        onChange={onChangeClientInput}
+        type="text"
+        placeholder="Client Name"
+      >
+        Client Name
+      </TextInput>
+      <TextInput
+        id="description"
+        name="description"
+        value={descriptionValue}
+        onChange={onChangeDescriptionInput}
+        type="text"
+        placeholder="Description"
+      >
+        Description
+      </TextInput>
+      <TextInput
+        id="description"
+        name="description"
+        value={descriptionValue}
+        onChange={onChangeDescriptionInput}
+        type="text"
+        placeholder="Description"
+      >
+        Client Name
+      </TextInput>
+
       <div className={styles.labelContainer}>
         <label className={styles.label} htmlFor="startDate">
           Start date:

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormModal from '../Modals/FormModal';
 import styles from './adminForm.module.css';
+import TextInput from '../../Shared/TextInput/index';
 
 const AdminForm = () => {
   const [name, setName] = useState();
@@ -89,62 +90,46 @@ const AdminForm = () => {
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
-        <div>
-          <div>
-            <label>Name</label>
-            <input
-              className={styles.input}
-              id="name"
-              name="name"
-              value={name}
-              onChange={onChangeName}
-              type="text"
-              placeholder="Name"
-              required
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              className={styles.input}
-              id="lastName"
-              name="lastName"
-              value={lastName}
-              onChange={onChangeLastName}
-              type="text"
-              placeholder="Last Name"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label>Email</label>
-            <input
-              className={styles.input}
-              id="email"
-              name="email"
-              value={email}
-              onChange={onChangeEmail}
-              type="text"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              className={styles.input}
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              type="text"
-              placeholder="Password"
-              required
-            />
-          </div>
-        </div>
+        <TextInput
+          id="name"
+          name="name"
+          value={name}
+          onChange={onChangeName}
+          type="text"
+          placeholder="Name"
+        >
+          Name
+        </TextInput>
+        <TextInput
+          id="lastName"
+          name="lastName"
+          value={lastName}
+          onChange={onChangeLastName}
+          type="text"
+          placeholder="Last Name"
+        >
+          Last Name
+        </TextInput>
+        <TextInput
+          id="email"
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+          type="text"
+          placeholder="Email"
+        >
+          Email
+        </TextInput>
+        <TextInput
+          id="password"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+          type="text"
+          placeholder="Password"
+        >
+          Password
+        </TextInput>
         <div>
           <button
             type="button"

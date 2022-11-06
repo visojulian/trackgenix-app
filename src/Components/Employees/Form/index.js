@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormModal from './FormModal';
 import styles from './form.module.css';
+import TextInput from '../../Shared/TextInput/index';
 
 const Form = () => {
   const [showFormModal, setShowFormModal] = useState(false);
@@ -102,31 +103,56 @@ const Form = () => {
       <div className={styles.box}>
         <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
         <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.input}>
-            <label>Name</label>
-            <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Last name</label>
-            <input type="text" name="lastName" value={employeeInput.lastName} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Phone</label>
-            <input type="text" name="phone" value={employeeInput.phone} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Email</label>
-            <input type="text" name="email" value={employeeInput.email} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={employeeInput.password}
-              onChange={onChange}
-            />
-          </div>
+          <TextInput
+            id="name"
+            name="name"
+            value={employeeInput.name}
+            onChange={onChange}
+            type="text"
+            placeholder="Name"
+          >
+            Name
+          </TextInput>
+          <TextInput
+            id="lastName"
+            name="lastName"
+            value={employeeInput.lastName}
+            onChange={onChange}
+            type="text"
+            placeholder="Last Name"
+          >
+            Last Name
+          </TextInput>
+          <TextInput
+            id="phone"
+            name="phone"
+            value={employeeInput.phone}
+            onChange={onChange}
+            type="text"
+            placeholder="Phone"
+          >
+            Phone
+          </TextInput>
+          <TextInput
+            id="email"
+            name="email"
+            value={employeeInput.email}
+            onChange={onChange}
+            type="text"
+            placeholder="Email"
+          >
+            Email
+          </TextInput>
+          <TextInput
+            id="password"
+            name="password"
+            value={employeeInput.password}
+            onChange={onChange}
+            type="password"
+            placeholder="Password"
+          >
+            Password
+          </TextInput>
           <div className={styles.divButton}>
             <button
               className={styles.firstButton}
