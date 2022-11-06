@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
+import { useHistory, useParams } from 'react-router-dom';
 
 function Form() {
+  const history = useHistory();
+  const { id } = useParams();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
     description: '',
     date: '',
@@ -46,8 +49,6 @@ function Form() {
       });
       const projects = await projectsResponse.json();
       setProjects(projects.data);
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const timeSheetResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
@@ -106,14 +107,12 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
         headers: {
@@ -131,7 +130,7 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
@@ -240,10 +239,7 @@ function Form() {
           </div>
           <div className={styles.buttons}>
             <div>
-              <button
-                className={styles.confirmButton}
-                onClick={() => window.location.assign('/time-sheets')}
-              >
+              <button className={styles.confirmButton} onClick={() => history.goBack()}>
                 Cancel
               </button>
             </div>
