@@ -1,6 +1,7 @@
 import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
 import FormModal from './Modal/index';
+import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
@@ -97,29 +98,44 @@ const Form = () => {
         <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
         <form className={styles.box} onSubmit={onSubmit}>
           <div>
-            <div className={styles.div}>
-              <label>Name</label>
-              <input type="text" name="name" value={superAdmin.name} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Last Name</label>
-              <input type="text" name="lastName" value={superAdmin.lastName} onChange={onChange} />
-            </div>
+            <TextInput
+              label="Name"
+              id="name"
+              name="name"
+              value={superAdmin.name}
+              onChange={onChange}
+              type="text"
+              placeholder="Name"
+            />
+            <TextInput
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              value={superAdmin.lastName}
+              onChange={onChange}
+              type="text"
+              placeholder="Last Name"
+            />
           </div>
           <div>
-            <div className={styles.div}>
-              <label>Email</label>
-              <input type="text" name="email" value={superAdmin.email} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={superAdmin.password}
-                onChange={onChange}
-              />
-            </div>
+            <TextInput
+              label="Email"
+              id="email"
+              name="email"
+              value={superAdmin.email}
+              onChange={onChange}
+              type="text"
+              placeholder="Email"
+            />
+            <TextInput
+              label="Password"
+              id="password"
+              name="password"
+              value={superAdmin.password}
+              onChange={onChange}
+              type="password"
+              placeholder="Password"
+            />
             <div className={styles.buttons}>
               <button
                 type="reset"

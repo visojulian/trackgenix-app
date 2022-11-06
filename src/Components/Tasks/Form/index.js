@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from './FormModal/index';
+import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
@@ -80,16 +81,15 @@ const Form = () => {
           <h3>{isEditing ? 'Edit Task' : 'Add Task'}</h3>
         </div>
         <div>
-          <div>
-            <label className={styles.descriptionLabel}>Task Description</label>
-            <input
-              id="taskName"
-              name="taskName"
-              required
-              value={taskName}
-              onChange={onChangeTaskNameInput}
-            />
-          </div>
+          <TextInput
+            label="Task Description"
+            id="taskName"
+            name="taskName"
+            value={taskName}
+            onChange={onChangeTaskNameInput}
+            type="text"
+            placeholder="Task Name"
+          />
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
