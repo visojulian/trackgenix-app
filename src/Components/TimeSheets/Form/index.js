@@ -185,17 +185,17 @@ function Form() {
               name="task"
               placeholder="Select a task"
               required
-              value={inputTimeSheetValue.task}
-              whenSelect={onChangeInputValue}
-            >
-              {tasks.map((task) => {
-                return (
-                  <option placeholder="taskhere" key={task._id} value={task._id}>
-                    {task.description}
-                  </option>
-                );
-              })}
-            </Select>
+              onSelect={onChangeInputValue}
+              data={tasks.map((task) => ({
+                id: task._id,
+                value: task.description
+              }))}
+              value={
+                inputTimeSheetValue.task !== ''
+                  ? tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+                  : undefined
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Project</label>
@@ -203,49 +203,51 @@ function Form() {
               name="project"
               placeholder="Select a project"
               required
-              value={inputTimeSheetValue.project}
-              whenSelect={onChangeInputValue}
-            >
-              {projects.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name}
-                  </option>
-                );
-              })}
-            </Select>
+              onSelect={onChangeInputValue}
+              data={projects.map((project) => ({
+                id: project._id,
+                value: project.name
+              }))}
+              value={
+                inputTimeSheetValue.project !== ''
+                  ? projects.find((project) => project._id === inputTimeSheetValue.project)._id
+                  : undefined
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Employee</label>
             <Select
-              placeholder="Select an employee"
               name="employee"
+              placeholder="Select an employee"
               required
-              value={inputTimeSheetValue.employee}
-              whenSelect={onChangeInputValue}
-            >
-              {employees.map((employee, index) => {
-                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
-                return (
-                  <option key={index} value={selectedEmployee._id}>
-                    {selectedEmployee.name}
-                  </option>
-                );
-              })}
-            </Select>
+              onSelect={onChangeInputValue}
+              data={employees.map((employee) => ({
+                id: employeesTotal.find((item) => item._id === employee)._id,
+                value: employeesTotal.find((item) => item._id === employee).name
+              }))}
+              value={
+                inputTimeSheetValue.employee !== ''
+                  ? employees.map(
+                      (employee) => employeesTotal.find((item) => item._id === employee)._id
+                    )
+                  : undefined
+              }
+            />
           </div>
           <div className={styles.buttons}>
             <div>
               <Button
                 text="Cancel"
                 type="button"
-                whenClicked={() => {
+                variant="secondary"
+                onClick={() => {
                   window.location.assign('/time-sheets');
                 }}
               />
             </div>
             <div>
-              <Button text="Submit" type="submit" />
+              <Button text="Submit" type="submit" variant="primary" />
             </div>
           </div>
         </div>

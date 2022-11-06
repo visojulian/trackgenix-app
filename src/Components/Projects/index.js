@@ -63,7 +63,8 @@ const Projects = () => {
                 <Button
                   type="submit"
                   text="&times;"
-                  whenClicked={(e) => handleDelete(project, e)}
+                  variant="primary"
+                  onClick={(e) => handleDelete(project, e)}
                 />
               </td>
             </tr>
@@ -73,7 +74,8 @@ const Projects = () => {
       <Button
         text="Add New Project"
         type="submit"
-        whenClicked={() => {
+        variant="primary"
+        onClick={() => {
           window.location.assign('/projects/form');
         }}
       />

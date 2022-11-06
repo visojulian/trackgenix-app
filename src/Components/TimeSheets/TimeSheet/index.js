@@ -63,7 +63,8 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
           <Button
             text="&times;"
             type="submit"
-            whenClicked={(event) => {
+            variant="primary"
+            onClick={(event) => {
               event.stopPropagation();
               setShowModal(true);
               setTimeSheetId(timeSheet._id);

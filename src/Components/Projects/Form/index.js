@@ -214,28 +214,24 @@ const ProjectForm = () => {
           <div>
             <div className={styles.newEmployeeInputs}>
               <Select
+                name="employees"
                 placeholder="Select an employee"
-                name="employee"
                 required
-                whenSelect={handleEmployeeChange}
-              >
-                {employees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.name}
-                  </option>
-                ))}
-              </Select>
+                onSelect={handleEmployeeChange}
+                data={employees.map((employee) => ({
+                  id: employee._id,
+                  value: employee.name
+                }))}
+              />
               <Select
-                placeholder="Select role"
                 name="role"
-                value={roleValue}
+                placeholder="Select Role"
                 required
-                whenSelect={handleRoleChange}
-              >
-                {roles.map((role, index) => (
-                  <option key={index}>{role}</option>
-                ))}
-              </Select>
+                onSelect={handleRoleChange}
+                data={roles.map((role) => ({
+                  value: role
+                }))}
+              />
               <input
                 id="rate"
                 name="rate"
@@ -245,7 +241,7 @@ const ProjectForm = () => {
                 onChange={onChangeRateInput}
               />
             </div>
-            <Button text="Assign new employee" whenClicked={addEmployee} />
+            <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
           </div>
           <table className={styles.table}>
             <thead>
@@ -270,7 +266,8 @@ const ProjectForm = () => {
                       <td>
                         <Button
                           text="&times;"
-                          whenClicked={() => {
+                          variant="secondary"
+                          onClick={() => {
                             handleDelete(index);
                           }}
                         />
@@ -282,9 +279,9 @@ const ProjectForm = () => {
             </tbody>
           </table>
         </div>
-        <div className={styles.formButtons}>
-          <Button text="Cancel" type="button" whenClicked={onCancel} />
-          <Button text="Submit" whenClicked={onSubmit} />
+        <div>
+          <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+          <Button text="Submit" variant="primary" onClick={onSubmit} />
         </div>
       </div>
     </form>

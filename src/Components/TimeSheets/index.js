@@ -37,7 +37,8 @@ const TimeSheets = () => {
         <Button
           text="Add Timesheet"
           type="submit"
-          whenClicked={() => {
+          variant="primary"
+          onClick={() => {
             window.location.assign('/time-sheets/form');
           }}
         />
