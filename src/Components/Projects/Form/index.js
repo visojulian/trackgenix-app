@@ -148,7 +148,7 @@ const ProjectForm = () => {
         type="text"
         placeholder="Project Name"
       >
-        Name
+        Project Name
       </TextInput>
       <TextInput
         id="client"
@@ -171,44 +171,25 @@ const ProjectForm = () => {
         Description
       </TextInput>
       <TextInput
-        id="description"
-        name="description"
-        value={descriptionValue}
-        onChange={onChangeDescriptionInput}
-        type="text"
-        placeholder="Description"
+        id="startDate"
+        name="startDate"
+        value={startDateValue}
+        onChange={onChangeStartDateInput}
+        type="date"
+        placeholder="Start date"
       >
-        Client Name
+        Start date
       </TextInput>
-
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="startDate">
-          Start date:
-        </label>
-        <input
-          id="startDate"
-          name="startDate"
-          placeholder="Start date"
-          required
-          type="date"
-          value={startDateValue}
-          onChange={onChangeStartDateInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="endDate">
-          End date:
-        </label>
-        <input
-          id="endDate"
-          name="endDate"
-          placeholder="End date"
-          required
-          type="date"
-          value={endDateValue}
-          onChange={onChangeEndDateInput}
-        />
-      </div>
+      <TextInput
+        id="endDate"
+        name="endDate"
+        value={endDateValue}
+        onChange={onChangeEndDateInput}
+        type="date"
+        placeholder="End date"
+      >
+        End date
+      </TextInput>
       <div className={styles.listContainer}>
         <div>
           <h4>Employees</h4>
@@ -226,14 +207,16 @@ const ProjectForm = () => {
                   <option key={index}>{role}</option>
                 ))}
               </select>
-              <input
+              <TextInput
                 id="rate"
                 name="rate"
-                placeholder="Rate:"
-                required
                 value={rateValue}
                 onChange={onChangeRateInput}
-              />
+                type="text"
+                placeholder="Rate"
+              >
+                Rate
+              </TextInput>
             </div>
             <button className={styles.newEmployeeButton} onClick={addEmployee}>
               Assign new employee
