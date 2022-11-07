@@ -7,7 +7,7 @@ const Projects = () => {
   const [projects, saveProjects] = useState([]);
   const [projectId, setProjectId] = useState();
   const [showModal, saveShowModal] = useState(false);
-  const headers = ['name', 'startDate'];
+  const headers = ['name', 'clientName', 'description', 'startDate'];
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects`)
@@ -23,10 +23,6 @@ const Projects = () => {
     });
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
-
-  // const editProject = (id) => {
-  //   window.location.assign(`/projects/form?id=${id}`);
-  // };
 
   return (
     <section className={styles.container}>

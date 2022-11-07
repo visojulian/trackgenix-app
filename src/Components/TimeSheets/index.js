@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './list.module.css';
-import TimeSheet from './TimeSheet/index';
+// import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
-// import Table from '../Shared/Table';
+import Table from '../Shared/Table';
 
 const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
-  // const headers = ['description', 'date', 'hours', 'task', 'employee', 'project'];
+  const headers = ['description', 'date', 'hours', 'task', 'employee', 'project'];
 
   useEffect(async () => {
     try {
@@ -51,7 +51,7 @@ const TimeSheets = () => {
         timeSheetId={timeSheetId}
         title="Are you sure that you want to delete this time sheet?"
       />
-      <table className={styles.table}>
+      {/* <table className={styles.table}>
         <thead>
           <tr style={{ display: 'flex', justifyContent: 'center' }}>
             <th style={{ flexBasis: '25%' }}>Description</th>
@@ -75,13 +75,13 @@ const TimeSheets = () => {
             );
           })}
         </tbody>
-      </table>
-      {/* <Table
+      </table> */}
+      <Table
         data={timeSheets}
         headers={headers}
         setDelete={setTimeSheetId}
         setModal={setShowModal}
-      /> */}
+      />
     </section>
   );
 };
