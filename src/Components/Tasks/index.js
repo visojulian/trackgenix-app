@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
-import Modal from './Modal/index';
+import Modal from '../Shared/Modal';
 import Logo from '../../assets/trash.png';
 import { Link, useHistory } from 'react-router-dom';
 
 const Tasks = () => {
   const history = useHistory();
   const [tasks, saveTasks] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(async () => {
     try {
@@ -21,11 +21,8 @@ const Tasks = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const deleteTask = async (id) => {
+  const deleteTask = async () => {
+    const id = taskId;
     saveTasks([...tasks.filter((task) => task._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
       method: 'DELETE'
@@ -39,12 +36,18 @@ const Tasks = () => {
   return (
     <section className={styles.container}>
       <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTask={deleteTask}
-        taskId={taskId}
-        title="Do you want to delete this task?"
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteTask}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Task</h4>
+          <p>Are you sure you want to delete this task?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <div className={styles.upperFlexBox}>
         <div className={styles.titleFlexBox}>
           <h2>Tasks</h2>
@@ -70,7 +73,7 @@ const Tasks = () => {
               <Task
                 key={task._id}
                 task={task}
-                setShowModal={setShowModal}
+                setShowModal={() => setShowModal(true)}
                 setTaskId={setTaskId}
                 onClickTask={onClickTask}
               />

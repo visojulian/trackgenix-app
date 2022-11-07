@@ -42,8 +42,8 @@ const EmployeesList = (props) => {
                     className={styles.button}
                     onClick={(event) => {
                       event.stopPropagation();
-                      props.deleteEmployeeId(employee._id);
-                      props.setShowModal(true);
+                      props.setEmployeeId(employee._id);
+                      props.setShowModal();
                     }}
                   >
                     X

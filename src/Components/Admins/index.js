@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import AdminList from './AdminList/AdminList';
-import ModalAlert from './Modals/ModalAlert';
+import Modal from '../Shared/Modal';
 import { Link, useHistory } from 'react-router-dom';
 
 const Admins = () => {
   const history = useHistory();
   const [admins, saveAdmins] = useState([]);
-  const [modal, setModal] = useState(false);
-  const [adminId, setAdminId] = useState();
+  const [admin, setAdmin] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(async () => {
     try {
@@ -20,15 +20,12 @@ const Admins = () => {
     }
   }, []);
 
-  const deleteAdmin = async (id) => {
+  const deleteAdmin = async () => {
+    const id = admin.id;
     saveAdmins([...admins.filter((admin) => admin._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
       method: 'DELETE'
     });
-  };
-
-  const closeModal = () => {
-    setModal(false);
   };
 
   const onClickAdmin = (id) => {
@@ -37,18 +34,26 @@ const Admins = () => {
 
   return (
     <>
-      <ModalAlert
-        adminId={adminId}
-        deleteAdmin={deleteAdmin}
-        modal={modal}
-        closeModal={closeModal}
-      />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteAdmin}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Admin</h4>
+          <p>Are you sure you want to delete this employee from admins?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <div className={styles.container}>
         <h1>Admins</h1>
         <AdminList
           adminList={admins}
-          setModal={setModal}
-          setAdminId={setAdminId}
+          setModal={() => setShowModal(true)}
+          showModal={showModal}
+          setAdmin={setAdmin}
           onClickAdmin={onClickAdmin}
         />
       </div>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import EmployeesList from './List';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 
 function Employees() {
   const [employees, saveEmployees] = useState([]);
+  const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [employeeId, deleteEmployeeId] = useState();
 
   useEffect(async () => {
     try {
@@ -18,36 +18,35 @@ function Employees() {
     }
   }, []);
 
-  const deleteEmployee = async (id) => {
+  const deleteEmployee = async () => {
+    const id = employeeId;
     await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onDelete = () => {
-    deleteEmployee(employeeId);
-    closeModal();
-  };
-
   return (
     <section className={styles.container}>
       <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        onDelete={onDelete}
-        deleteEmployeeId={deleteEmployeeId}
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteEmployee}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete employee</h4>
+          <p>Are you sure you want to delete this employee?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <h2>Employees</h2>
       <div>
         <EmployeesList
           list={employees}
-          deleteEmployeeId={deleteEmployeeId}
-          setShowModal={setShowModal}
+          setEmployeeId={setEmployeeId}
+          setShowModal={() => setShowModal(true)}
           saveEmployees={saveEmployees}
         />
       </div>

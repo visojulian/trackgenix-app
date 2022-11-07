@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
-import Modal from './Modal/index';
+import Modal from '../Shared/Modal';
 import { useHistory } from 'react-router-dom';
 
 const TimeSheets = () => {
@@ -20,11 +20,8 @@ const TimeSheets = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const deleteTimeSheet = async (id) => {
+  const deleteTimeSheet = async () => {
+    const id = timeSheetId;
     setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
       method: 'DELETE'
@@ -45,12 +42,18 @@ const TimeSheets = () => {
         </button>
       </div>
       <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTimeSheet={deleteTimeSheet}
-        timeSheetId={timeSheetId}
-        title="Are you sure that you want to delete this time sheet?"
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteTimeSheet}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Timesheet</h4>
+          <p>Are you sure you want to delete this timesheet?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <table className={styles.table}>
         <thead>
           <tr style={{ display: 'flex', justifyContent: 'center' }}>
@@ -70,7 +73,7 @@ const TimeSheets = () => {
                 key={timeSheets._id}
                 timeSheet={timeSheet}
                 setTimeSheetId={setTimeSheetId}
-                setShowModal={setShowModal}
+                setShowModal={() => setShowModal(true)}
               />
             );
           })}

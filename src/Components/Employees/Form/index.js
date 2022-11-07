@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import FormModal from './FormModal';
 import styles from './form.module.css';
+import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [showFormModal, setShowFormModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [errorMsg, setErrorMessage] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -39,12 +40,53 @@ const Form = () => {
     }
   }, []);
 
-  const closeFormModal = () => {
-    setShowFormModal(false);
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      setIsActionModal(true);
+    }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {employeeInput.name}{' '}
+            {employeeInput.lastName} {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
+  const onSubmit = async () => {
     if (!isEditing) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
@@ -65,8 +107,8 @@ const Form = () => {
       if (!result.error) {
         history.goBack();
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     } else {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
@@ -87,8 +129,8 @@ const Form = () => {
       if (!result.error) {
         history.goBack();
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     }
   };
@@ -157,12 +199,20 @@ const Form = () => {
             >
               Cancel
             </button>
-            <button className={styles.secondButton} type="submit">
+            <button className={styles.secondButton} onClick={handleConfirmModal}>
               Submit
             </button>
-            <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
           </div>
         </form>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={isActionModal}
+          action={onSubmit}
+          actionButton="Submit"
+        >
+          {getModalContent()}
+        </Modal>
       </div>
     </div>
   );

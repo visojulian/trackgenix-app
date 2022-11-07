@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import styles from './form.module.css';
+import Modal from '../../Shared/Modal';
 import Delete from '../assets/trash.png';
+import styles from './form.module.css';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -18,6 +19,9 @@ const ProjectForm = () => {
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
   const [isEditing, setIsEditing] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const onChangeNameInput = (event) => {
@@ -70,6 +74,56 @@ const ProjectForm = () => {
     history.goBack();
   };
 
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      setIsActionModal(true);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {nameValue}{' '}
+            {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
   const onSubmit = () => {
     const body = JSON.stringify({
       employees: projectEmployees,
@@ -87,7 +141,6 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
         .catch((error) => alert(error));
     } else {
       fetch(`${process.env.REACT_APP_API_URL}/projects`, {
@@ -96,10 +149,16 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
-        .catch((error) => alert(error));
+        .then((content) => {
+          if (!content.error) {
+            history.push('/projects');
+          } else {
+            setServerError(content.message);
+            setShowModal(true);
+          }
+        })
+        .catch((error) => console.error(error));
     }
-    history.push('/projects');
   };
 
   useEffect(() => {
@@ -121,8 +180,11 @@ const ProjectForm = () => {
             setEndDateValue(response.data.endDate);
             setDescriptionValue(response.data.description);
             setProjectEmployees(employeeList);
+            setIsEditing(true);
+          } else {
+            setServerError(response.message);
+            setShowModal(true);
           }
-          setIsEditing(true);
         })
         .catch((error) => alert(error));
     }
@@ -131,8 +193,13 @@ const ProjectForm = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/employees`)
       .then((response) => response.json())
-      .then((response) => {
-        setEmployees(response.data);
+      .then((content) => {
+        if (!content.error) {
+          setEmployees(content.data);
+        } else {
+          setServerError(content.message);
+          setShowModal(true);
+        }
       })
       .catch((error) => alert(error));
   }, []);
@@ -245,11 +312,20 @@ const ProjectForm = () => {
             </tbody>
           </table>
         </div>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={isActionModal}
+          action={onSubmit}
+          actionButton="Submit"
+        >
+          {getModalContent()}
+        </Modal>
         <div className={styles.formButtons}>
           <button className={styles.cancel} onClick={onCancel}>
             Cancel
           </button>
-          <button className={styles.button} onClick={onSubmit}>
+          <button className={styles.button} onClick={handleConfirmModal}>
             Submit
           </button>
         </div>

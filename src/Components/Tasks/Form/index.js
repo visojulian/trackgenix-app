@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Modal from './FormModal/index';
+import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -9,11 +9,48 @@ const Form = () => {
   const history = useHistory();
   const [taskName, setTaskName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [serverError, setServerError] = useState('');
+  const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [serverError, setServerError] = useState();
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (taskName) {
+      setIsActionModal(true);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (taskName) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Task</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {taskName}{' '}
+            {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
   };
 
   useEffect(async () => {
@@ -31,13 +68,8 @@ const Form = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onSubmit = async (event) => {
+  const onSubmit = async () => {
     if (!isEditing) {
-      event.preventDefault();
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
         headers: {
@@ -50,11 +82,12 @@ const Form = () => {
       if (!content.error) {
         history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     } else {
-      event.preventDefault();
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
         headers: {
@@ -67,16 +100,24 @@ const Form = () => {
       if (!content.error) {
         history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showModal} title={serverError} closeModal={closeModal} />
-      <form onSubmit={onSubmit} className={styles.formFlexBox}>
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
+      <form className={styles.formFlexBox}>
         <div>
           <h3>{isEditing ? 'Edit Task' : 'Add Task'}</h3>
         </div>
@@ -104,7 +145,7 @@ const Form = () => {
             </button>
           </div>
           <div>
-            <button type="submit" className={styles.buttonConfirm}>
+            <button onClick={handleConfirmModal} className={styles.buttonConfirm}>
               Confirm
             </button>
           </div>
