@@ -28,7 +28,7 @@ const Table = ({ data, headers, onDelete, onRowClick }) => {
                         onRowClick(row._id);
                       }}
                     >
-                      {row[header]}{' '}
+                      {row[header]}
                     </td>
                   );
                 })}
