@@ -6,7 +6,7 @@ import Table from '../Shared/Table';
 const Projects = () => {
   const [projects, saveProjects] = useState([]);
   const [projectId, setProjectId] = useState();
-  const [showModal, saveShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const headers = ['name', 'clientName', 'description', 'startDate'];
 
   useEffect(() => {
@@ -24,21 +24,24 @@ const Projects = () => {
     saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
+  const onDelete = (id, showModal) => {
+    setProjectId(id);
+    setShowModal(showModal);
+  };
+
+  const onClickEntity = (id) => {
+    window.location.assign(`/projects/form?id=${id}`);
+  };
+
   return (
     <section className={styles.container}>
       <DeleteConfirmationModal
         show={showModal}
-        handleModal={saveShowModal}
+        handleModal={setShowModal}
         deleteEntity={deleteProject}
         projectId={projectId}
       />
-      <Table
-        data={projects}
-        headers={headers}
-        setDelete={setProjectId}
-        setModal={saveShowModal}
-        url={'projects'}
-      />
+      <Table data={projects} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
       <a className={styles.button} href="/projects/form">
         Add New Project
       </a>

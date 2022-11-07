@@ -19,15 +19,24 @@ const Tasks = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const deleteTask = async (id) => {
     saveTasks([...tasks.filter((task) => task._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
       method: 'DELETE'
     });
+  };
+
+  const onDelete = (id, showModal) => {
+    setTaskId(id);
+    setShowModal(showModal);
+  };
+
+  const onClickEntity = (id) => {
+    window.location.assign(`/tasks/form?id=${id}`);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -49,13 +58,7 @@ const Tasks = () => {
           </a>
         </div>
       </div>
-      <Table
-        data={tasks}
-        headers={headers}
-        setDelete={setTaskId}
-        setModal={setShowModal}
-        url={'tasks'}
-      />
+      <Table data={tasks} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
     </section>
   );
 };

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
-// import EmployeesList from './List';
 import Modal from './Modal';
 
 function Employees() {
@@ -28,6 +27,15 @@ function Employees() {
     closeModal();
   };
 
+  const onDelete = (id, showModal) => {
+    setEmployeeId(id);
+    setShowModal(showModal);
+  };
+
+  const onClickEntity = (id) => {
+    window.location.assign(`/employees/form?id=${id}`);
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -45,9 +53,8 @@ function Employees() {
         <Table
           data={employees}
           headers={headers}
-          setDelete={setEmployeeId}
-          setShowModal={setShowModal}
-          url={'employees'}
+          onDelete={onDelete}
+          onClickEntity={onClickEntity}
         />
       </div>
     </section>

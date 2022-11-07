@@ -19,10 +19,6 @@ const TimeSheets = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const getTableData = () => {
     return timeSheets.map((timesheet) => {
       return {
@@ -41,13 +37,17 @@ const TimeSheets = () => {
     });
   };
 
+  const onDelete = (id, showModal) => {
+    setTimeSheetId(id);
+    setShowModal(showModal);
+  };
+
   const onClickEntity = (id) => {
     window.location.assign(`/time-sheets/form?id=${id}`);
   };
 
-  const onDelete = (id, showModal) => {
-    setTimeSheetId(id);
-    setShowModal(showModal);
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (

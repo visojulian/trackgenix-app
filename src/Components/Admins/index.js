@@ -26,6 +26,15 @@ const Admins = () => {
     });
   };
 
+  const onDelete = (id, showModal) => {
+    setAdminId(id);
+    setShowModal(showModal);
+  };
+
+  const onClickEntity = (id) => {
+    window.location.assign(`/admins/form?id=${id}`);
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -40,13 +49,7 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <Table
-          data={admins}
-          headers={headers}
-          setDelete={setAdminId}
-          setShowModal={setShowModal}
-          url={'admins'}
-        />
+        <Table data={admins} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
       </div>
       <div className={styles.container}>
         <a href="/admins/form" className={styles.buttonAddAdmin}>
