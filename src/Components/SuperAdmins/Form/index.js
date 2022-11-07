@@ -20,8 +20,10 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+      setIsActionModal(true);
+    }
   };
 
   const getModalContent = () => {

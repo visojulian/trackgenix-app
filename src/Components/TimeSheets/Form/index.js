@@ -71,8 +71,17 @@ function Form() {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (
+      inputTimeSheetValue.description &&
+      inputTimeSheetValue.date &&
+      inputTimeSheetValue.hours &&
+      inputTimeSheetValue.task &&
+      inputTimeSheetValue.employee &&
+      inputTimeSheetValue.project
+    ) {
+      setIsActionModal(true);
+    }
   };
 
   useEffect(async () => {

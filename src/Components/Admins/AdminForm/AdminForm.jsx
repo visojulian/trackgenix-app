@@ -29,10 +29,13 @@ const AdminForm = () => {
   const onChangePassword = (e) => {
     setPassword(e.target.value);
   };
+
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (name && lastName && email && password) {
+      setIsActionModal(true);
+    }
   };
 
   const getModalContent = () => {

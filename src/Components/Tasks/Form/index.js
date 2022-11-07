@@ -19,8 +19,10 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (taskName) {
+      setIsActionModal(true);
+    }
   };
 
   const getModalContent = () => {

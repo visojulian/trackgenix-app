@@ -42,8 +42,15 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      setIsActionModal(true);
+    }
   };
 
   const getModalContent = () => {

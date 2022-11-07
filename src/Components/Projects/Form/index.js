@@ -74,10 +74,19 @@ const ProjectForm = () => {
     history.goBack();
   };
 
-  const handleConfirm = (e) => {
+  const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsActionModal(true);
     setShowModal(true);
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      setIsActionModal(true);
+    }
   };
 
   const getModalContent = () => {
@@ -316,7 +325,7 @@ const ProjectForm = () => {
           <button className={styles.cancel} onClick={onCancel}>
             Cancel
           </button>
-          <button className={styles.button} onClick={handleConfirm}>
+          <button className={styles.button} onClick={handleConfirmModal}>
             Submit
           </button>
         </div>
