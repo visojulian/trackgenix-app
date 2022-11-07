@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './modal.module.css';
 
-const ModalAlert = ({ adminId, deleteAdmin, modal, closeModal }) => {
-  if (!modal) {
+const ModalAlert = ({ adminId, deleteAdmin, showModal, closeModal }) => {
+  if (!showModal) {
     return null;
   }
 

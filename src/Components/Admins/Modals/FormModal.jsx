@@ -1,5 +1,5 @@
-function FormModal({ modal, title, closeModal }) {
-  if (!modal) {
+function FormModal({ showModal, title, closeModal }) {
+  if (!showModal) {
     return null;
   }
 

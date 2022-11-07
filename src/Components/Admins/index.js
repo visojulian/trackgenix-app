@@ -5,7 +5,7 @@ import ModalAlert from './Modals/ModalAlert';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
-  const [modal, setModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [adminId, setAdminId] = useState();
   const headers = ['name', 'lastName', 'email'];
 
@@ -27,7 +27,7 @@ const Admins = () => {
   };
 
   const closeModal = () => {
-    setModal(false);
+    setShowModal(false);
   };
 
   return (
@@ -35,7 +35,7 @@ const Admins = () => {
       <ModalAlert
         adminId={adminId}
         deleteAdmin={deleteAdmin}
-        modal={modal}
+        showModal={showModal}
         closeModal={closeModal}
       />
       <div className={styles.container}>
@@ -44,7 +44,7 @@ const Admins = () => {
           data={admins}
           headers={headers}
           setDelete={setAdminId}
-          setModal={setModal}
+          setShowModal={setShowModal}
           url={'admins'}
         />
       </div>

@@ -46,7 +46,7 @@ function Employees() {
           data={employees}
           headers={headers}
           setDelete={setEmployeeId}
-          setModal={setShowModal}
+          setShowModal={setShowModal}
           url={'employees'}
         />
       </div>

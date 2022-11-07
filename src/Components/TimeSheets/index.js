@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styles from './list.module.css';
-// import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
 import Table from '../Shared/Table';
 
@@ -24,11 +23,31 @@ const TimeSheets = () => {
     setShowModal(false);
   };
 
+  const getTableData = () => {
+    return timeSheets.map((timesheet) => {
+      return {
+        ...timesheet,
+        task: timesheet.task.description,
+        employee: `${timesheet.employee.name} ${timesheet.employee.lastName}`,
+        project: timesheet.project.name
+      };
+    });
+  };
+
   const deleteTimeSheet = async (id) => {
     setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
     await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
       method: 'DELETE'
     });
+  };
+
+  const onClickEntity = (id) => {
+    window.location.assign(`/time-sheets/form?id=${id}`);
+  };
+
+  const onDelete = (id, showModal) => {
+    setTimeSheetId(id);
+    setShowModal(showModal);
   };
 
   return (
@@ -51,36 +70,11 @@ const TimeSheets = () => {
         timeSheetId={timeSheetId}
         title="Are you sure that you want to delete this time sheet?"
       />
-      {/* <table className={styles.table}>
-        <thead>
-          <tr style={{ display: 'flex', justifyContent: 'center' }}>
-            <th style={{ flexBasis: '25%' }}>Description</th>
-            <th style={{ flexBasis: '15%' }}>Date</th>
-            <th style={{ flexBasis: '10%' }}>Hours</th>
-            <th style={{ flexBasis: '20%' }}>Task</th>
-            <th style={{ flexBasis: '20%' }}>Employee</th>
-            <th style={{ flexBasis: '10%' }}>Project</th>
-            <th style={{ flexBasis: '10%' }}>Delete TimeSheet</th>
-          </tr>
-        </thead>
-        <tbody>
-          {timeSheets.map((timeSheet) => {
-            return (
-              <TimeSheet
-                key={timeSheets._id}
-                timeSheet={timeSheet}
-                setTimeSheetId={setTimeSheetId}
-                setShowModal={setShowModal}
-              />
-            );
-          })}
-        </tbody>
-      </table> */}
       <Table
-        data={timeSheets}
+        data={getTableData()}
         headers={headers}
-        setDelete={setTimeSheetId}
-        setModal={setShowModal}
+        onDelete={onDelete}
+        onClickEntity={onClickEntity}
       />
     </section>
   );
