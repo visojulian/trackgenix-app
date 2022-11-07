@@ -191,9 +191,8 @@ function Form() {
                 value: task.description
               }))}
               value={
-                inputTimeSheetValue.task !== ''
-                  ? tasks.find((task) => task._id === inputTimeSheetValue.task)._id
-                  : undefined
+                inputTimeSheetValue.task !== '' &&
+                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
               }
             />
           </div>
@@ -209,9 +208,8 @@ function Form() {
                 value: project.name
               }))}
               value={
-                inputTimeSheetValue.project !== ''
-                  ? projects.find((project) => project._id === inputTimeSheetValue.project)._id
-                  : undefined
+                inputTimeSheetValue.project !== '' &&
+                projects.find((project) => project._id === inputTimeSheetValue.project)._id
               }
             />
           </div>
@@ -227,11 +225,10 @@ function Form() {
                 value: employeesTotal.find((item) => item._id === employee).name
               }))}
               value={
-                inputTimeSheetValue.employee !== ''
-                  ? employees.map(
-                      (employee) => employeesTotal.find((item) => item._id === employee)._id
-                    )
-                  : undefined
+                inputTimeSheetValue.employee !== '' &&
+                employees.map(
+                  (employee) => employeesTotal.find((item) => item._id === employee)._id
+                )
               }
             />
           </div>
