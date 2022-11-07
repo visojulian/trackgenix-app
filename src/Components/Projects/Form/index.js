@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 import Modal from '../../Shared/Modal';
 import Delete from '../assets/trash.png';
 import styles from './form.module.css';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const ProjectForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
@@ -67,7 +71,7 @@ const ProjectForm = () => {
   };
 
   const onCancel = () => {
-    window.location.assign('/projects');
+    history.goBack();
   };
 
   const handleConfirm = (e) => {
@@ -122,8 +126,6 @@ const ProjectForm = () => {
     });
 
     if (isEditing) {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const id = urlSearchParams.get('id');
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -140,7 +142,7 @@ const ProjectForm = () => {
         .then((response) => response.json())
         .then((content) => {
           if (!content.error) {
-            window.location.assign('/projects');
+            history.push('/projects');
           } else {
             setServerError(content.message);
             setShowModal(true);
@@ -151,8 +153,6 @@ const ProjectForm = () => {
   };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const id = urlSearchParams.get('id');
     if (id) {
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`)
         .then((response) => response.json())
@@ -197,73 +197,51 @@ const ProjectForm = () => {
 
   return (
     <form className={styles.container}>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Name:
-        </label>
-        <input
-          id="name"
-          name="name"
-          placeholder="Project name"
-          required
-          value={nameValue}
-          onChange={onChangeNameInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Client name:
-        </label>
-        <input
-          id="client"
-          name="client"
-          placeholder="Client name"
-          required
-          value={clientValue}
-          onChange={onChangeClientInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="description">
-          Description:
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Description"
-          required
-          value={descriptionValue}
-          onChange={onChangeDescriptionInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="startDate">
-          Start date:
-        </label>
-        <input
-          id="startDate"
-          name="startDate"
-          placeholder="Start date"
-          required
-          type="date"
-          value={startDateValue}
-          onChange={onChangeStartDateInput}
-        />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="endDate">
-          End date:
-        </label>
-        <input
-          id="endDate"
-          name="endDate"
-          placeholder="End date"
-          required
-          type="date"
-          value={endDateValue}
-          onChange={onChangeEndDateInput}
-        />
-      </div>
+      <TextInput
+        label="Project Name"
+        id="name"
+        name="name"
+        value={nameValue}
+        onChange={onChangeNameInput}
+        type="text"
+        placeholder="Project Name"
+      />
+      <TextInput
+        label="Client Name"
+        id="client"
+        name="client"
+        value={clientValue}
+        onChange={onChangeClientInput}
+        type="text"
+        placeholder="Client Name"
+      />
+      <TextInput
+        label="Description"
+        id="description"
+        name="description"
+        value={descriptionValue}
+        onChange={onChangeDescriptionInput}
+        type="text"
+        placeholder="Description"
+      />
+      <TextInput
+        label="Start date"
+        id="startDate"
+        name="startDate"
+        value={startDateValue}
+        onChange={onChangeStartDateInput}
+        type="date"
+        placeholder="Start date"
+      />
+      <TextInput
+        label="End date"
+        id="endDate"
+        name="endDate"
+        value={endDateValue}
+        onChange={onChangeEndDateInput}
+        type="date"
+        placeholder="End date"
+      />
       <div className={styles.listContainer}>
         <div>
           <h4>Employees</h4>
@@ -281,13 +259,14 @@ const ProjectForm = () => {
                   <option key={index}>{role}</option>
                 ))}
               </select>
-              <input
+              <TextInput
+                label="Rate"
                 id="rate"
                 name="rate"
-                placeholder="Rate:"
-                required
                 value={rateValue}
                 onChange={onChangeRateInput}
+                type="text"
+                placeholder="Rate"
               />
             </div>
             <button className={styles.newEmployeeButton} onClick={addEmployee}>

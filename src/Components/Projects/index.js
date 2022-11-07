@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Delete from './assets/trash.png';
 import styles from './projects.module.css';
 import Modal from '../Shared/Modal';
 
 const Projects = () => {
+  const history = useHistory();
   const [projects, saveProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +33,7 @@ const Projects = () => {
   };
 
   const editProject = (id) => {
-    window.location.assign(`/projects/form?id=${id}`);
+    history.push(`/projects/form/${id}`);
   };
 
   return (
@@ -73,9 +75,9 @@ const Projects = () => {
           ))}
         </tbody>
       </table>
-      <a className={styles.button} href="/projects/form">
+      <Link className={styles.button} to="/projects/form">
         Add New Project
-      </a>
+      </Link>
     </section>
   );
 };

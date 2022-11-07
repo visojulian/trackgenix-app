@@ -3,8 +3,10 @@ import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from '../Shared/Modal';
 import Logo from '../../assets/trash.png';
+import { Link, useHistory } from 'react-router-dom';
 
 const Tasks = () => {
+  const history = useHistory();
   const [tasks, saveTasks] = useState([]);
   const [taskId, setTaskId] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +30,7 @@ const Tasks = () => {
   };
 
   const onClickTask = (id) => {
-    window.location.assign(`/tasks/form?id=${id}`);
+    history.push(`/tasks/form/${id}`);
   };
 
   return (
@@ -51,9 +53,9 @@ const Tasks = () => {
           <h2>Tasks</h2>
         </div>
         <div className={styles.buttonFlexBox}>
-          <a href="/tasks/form">
+          <Link to="/tasks/form">
             <button className={styles.addTaskButton}>Add new task</button>
-          </a>
+          </Link>
         </div>
       </div>
       <table className={styles.table}>

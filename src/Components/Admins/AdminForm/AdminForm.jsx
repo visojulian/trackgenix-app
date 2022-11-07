@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../../Shared/Modal';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
+import TextInput from '../../Shared/TextInput/index';
 
 const AdminForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -60,8 +64,6 @@ const AdminForm = () => {
   };
 
   useEffect(async () => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
     if (id) {
       setAdminId(id);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
@@ -90,7 +92,7 @@ const AdminForm = () => {
       });
       const content = await newAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
         setServerError(content.message);
         setShowModal(true);
@@ -106,7 +108,7 @@ const AdminForm = () => {
       });
       const content = await editAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
         setServerError(content.message);
         setShowModal(true);
@@ -117,68 +119,48 @@ const AdminForm = () => {
   return (
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
-      <form className={styles.form}>
-        <div>
-          <div>
-            <label>Name</label>
-            <input
-              className={styles.input}
-              id="name"
-              name="name"
-              value={name}
-              onChange={onChangeName}
-              type="text"
-              placeholder="Name"
-              required
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              className={styles.input}
-              id="lastName"
-              name="lastName"
-              value={lastName}
-              onChange={onChangeLastName}
-              type="text"
-              placeholder="Last Name"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label>Email</label>
-            <input
-              className={styles.input}
-              id="email"
-              name="email"
-              value={email}
-              onChange={onChangeEmail}
-              type="text"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              className={styles.input}
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              type="text"
-              placeholder="Password"
-              required
-            />
-          </div>
-        </div>
+      <form onSubmit={onSubmit} className={styles.form}>
+        <TextInput
+          label="Name"
+          id="name"
+          name="name"
+          value={name}
+          onChange={onChangeName}
+          type="text"
+          placeholder="Name"
+        />
+        <TextInput
+          label="Last Name"
+          id="lastName"
+          name="lastName"
+          value={lastName}
+          onChange={onChangeLastName}
+          type="text"
+          placeholder="Last Name"
+        />
+        <TextInput
+          label="Email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+          type="text"
+          placeholder="Email"
+        />
+        <TextInput
+          label="Password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+          type="text"
+          placeholder="Password"
+        />
         <div>
           <button
             type="button"
             onClick={() => {
-              window.location.assign('/admins');
+              history.goBack();
             }}
           >
             Cancel

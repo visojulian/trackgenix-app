@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import AdminList from './AdminList/AdminList';
 import Modal from '../Shared/Modal';
+import { Link, useHistory } from 'react-router-dom';
 
 const Admins = () => {
+  const history = useHistory();
   const [admins, saveAdmins] = useState([]);
   const [admin, setAdmin] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +29,7 @@ const Admins = () => {
   };
 
   const onClickAdmin = (id) => {
-    window.location.assign(`/admins/form?id=${id}`);
+    history.push(`/admins/form/${id}`);
   };
 
   return (
@@ -56,9 +58,9 @@ const Admins = () => {
         />
       </div>
       <div className={styles.container}>
-        <a href="/admins/form" className={styles.buttonAddAdmin}>
+        <Link to="/admins/form" className={styles.buttonAddAdmin}>
           ➕AddAdmin
-        </a>
+        </Link>
       </div>
     </>
   );
