@@ -14,8 +14,8 @@ const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
           type="submit"
           variant="primary"
           onClick={(e) => {
-            setShowModal(true);
             setTaskId(task._id);
+            setShowModal();
             e.stopPropagation();
           }}
         />

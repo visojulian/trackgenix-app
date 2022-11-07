@@ -2,12 +2,12 @@ import React from 'react';
 import styles from './super-admins.module.css';
 import { useEffect, useState } from 'react';
 import SuperAdminsList from './List';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 
 const SuperAdmins = () => {
   const [superAdmins, setSuperAdmins] = useState([]);
-  const [showModal, setModal] = useState(false);
-  const [superAdminId, setDeleteSuperAdmin] = useState();
+  const [superAdminId, setSuperAdminId] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(async () => {
     try {
@@ -19,11 +19,8 @@ const SuperAdmins = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setModal(false);
-  };
-
-  const deleteSuperAdmin = async (id) => {
+  const deleteSuperAdmin = async () => {
+    const id = superAdminId;
     await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
       method: 'DELETE'
     });
@@ -33,16 +30,23 @@ const SuperAdmins = () => {
   return (
     <section className={styles.container}>
       <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        deleteSuperAdmin={deleteSuperAdmin}
-        superAdminId={superAdminId}
-      />
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteSuperAdmin}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Super Admin</h4>
+          <p>Are you sure you want to delete this employee from super admins?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <div>
         <SuperAdminsList
           superAdmins={superAdmins}
-          setModal={setModal}
-          setDeleteSuperAdmin={setDeleteSuperAdmin}
+          setModal={() => setShowModal(true)}
+          setSuperAdminId={setSuperAdminId}
         />
       </div>
     </section>

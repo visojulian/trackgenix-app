@@ -45,8 +45,8 @@ const EmployeesList = (props) => {
                     variant="primary"
                     onClick={(event) => {
                       event.stopPropagation();
-                      props.deleteEmployeeId(employee._id);
-                      props.setShowModal(true);
+                      props.setEmployeeId(employee._id);
+                      props.setShowModal();
                     }}
                   />
                 </td>

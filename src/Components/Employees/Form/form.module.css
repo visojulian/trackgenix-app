@@ -1,12 +1,9 @@
 .container {
   display: flex;
-  position: absolute;
-  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background: rgba(55, 56, 103, 69%);
 }
 
 .box {

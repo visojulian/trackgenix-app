@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../Shared/Button';
 import styles from '../admins.module.css';
 
-const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
+const AdminItem = ({ admin, setModal, setAdmin, onClickAdmin }) => {
   return (
     <>
       <tr
@@ -21,7 +21,7 @@ const AdminItem = ({ admin, setModal, setAdminId, onClickAdmin }) => {
             variant="primary"
             onClick={(e) => {
               e.stopPropagation();
-              setAdminId(admin._id);
+              setAdmin({ id: admin._id, name: admin.name });
               setModal(true);
             }}
           />

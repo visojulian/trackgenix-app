@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Modal from './FormModal/index';
+import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
@@ -17,13 +17,14 @@ function Form() {
     employee: '',
     project: ''
   });
-  const [showModal, setShowModal] = useState(false);
-  const [serverError, setServerError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [employeesTotal, setEmployeesTotal] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -32,6 +33,56 @@ function Form() {
       const selectedProject = projects.find((project) => project._id === e.target.value);
       const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
       setEmployees(projectEmployees);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      inputTimeSheetValue.description &&
+      inputTimeSheetValue.date &&
+      inputTimeSheetValue.hours &&
+      inputTimeSheetValue.task &&
+      inputTimeSheetValue.employee &&
+      inputTimeSheetValue.project
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Timesheet</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {isEditing ? 'changes in' : ''}{' '}
+            this timesheet?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      inputTimeSheetValue.description &&
+      inputTimeSheetValue.date &&
+      inputTimeSheetValue.hours &&
+      inputTimeSheetValue.task &&
+      inputTimeSheetValue.employee &&
+      inputTimeSheetValue.project
+    ) {
+      setIsActionModal(true);
     }
   };
 
@@ -76,8 +127,8 @@ function Form() {
         });
       }
     } catch (error) {
-      console.error(error);
-      alert(error);
+      setServerError(error);
+      setShowModal(true);
     }
   }, []);
 
@@ -86,12 +137,7 @@ function Form() {
     return dateFormated;
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async () => {
     if (!isEditing) {
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         method: 'POST',
@@ -112,8 +158,8 @@ function Form() {
       if (!content.error) {
         history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
@@ -135,16 +181,27 @@ function Form() {
       if (!content.error) {
         history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showModal} title={serverError} closeModal={closeModal} />
-      <form onSubmit={onSubmit}>
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal();
+          setServerError();
+        }}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
+      <form>
         <div>
           <div className={styles.cardTitle}>
             <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
@@ -241,7 +298,7 @@ function Form() {
               />
             </div>
             <div>
-              <Button text="Submit" type="submit" variant="primary" />
+              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
             </div>
           </div>
         </div>

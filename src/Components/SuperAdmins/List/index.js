@@ -44,8 +44,8 @@ const SuperAdminsList = (props) => {
                     variant="primary"
                     onClick={(event) => {
                       event.stopPropagation();
-                      props.setDeleteSuperAdmin(superAdmin._id);
-                      props.setModal(true);
+                      props.setSuperAdminId(superAdmin._id);
+                      props.setModal();
                     }}
                   />
                 </td>
