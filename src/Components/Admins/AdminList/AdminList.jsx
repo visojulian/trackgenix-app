@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../admins.module.css';
 import AdminItem from './AdminItem';
-import Delete from '../../../Assets/trash.png';
+import Delete from '../../../assets/trash.png';
 
 const AdminList = ({ adminList, setModal, setAdminId, onClickAdmin }) => {
   return (

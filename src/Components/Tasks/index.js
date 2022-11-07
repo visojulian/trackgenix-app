@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
 import Modal from './Modal/index';
-import Logo from '../../Assets/trash.png';
 import Button from '../Shared/Button/index';
+import Logo from '../../assets/trash.png';
+import { useHistory } from 'react-router-dom';
 
 const Tasks = () => {
+  const history = useHistory();
   const [tasks, saveTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [taskId, setTaskId] = useState(undefined);
@@ -32,7 +34,7 @@ const Tasks = () => {
   };
 
   const onClickTask = (id) => {
-    window.location.assign(`/tasks/form?id=${id}`);
+    history.push(`/tasks/form/${id}`);
   };
 
   return (
@@ -54,7 +56,7 @@ const Tasks = () => {
             type="submit"
             variant="primary"
             onClick={() => {
-              window.location.assign('/tasks/form');
+              history.push(`/tasks/form`);
             }}
           />
         </div>

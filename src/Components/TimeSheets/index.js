@@ -3,8 +3,10 @@ import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
 import Button from '../Shared/Button/index';
+import { useHistory } from 'react-router-dom';
 
 const TimeSheets = () => {
+  const history = useHistory();
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
@@ -39,7 +41,7 @@ const TimeSheets = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            window.location.assign('/time-sheets/form');
+            history.push(`/time-sheets/form`);
           }}
         />
       </div>

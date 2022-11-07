@@ -39,7 +39,7 @@
   width: 45%;
 }
 
-.labelContainer input, .labelContainer textarea {
+.labelContainer textarea {
   box-sizing: border-box;
   display: block;
   padding: 1%;
@@ -63,13 +63,6 @@
   display: block;
   padding: 1%;
   width: 25%;
-}
-
-.newEmployeeInputs input {
-  box-sizing: border-box;
-  display: block;
-  padding: 1%;
-  width: 25%
 }
 
 .newEmployeeButton {

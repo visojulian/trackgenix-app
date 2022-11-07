@@ -3,8 +3,10 @@ import styles from './admins.module.css';
 import AdminList from './AdminList/AdminList';
 import ModalAlert from './Modals/ModalAlert';
 import Button from '../Shared/Button';
+import { useHistory } from 'react-router-dom';
 
 const Admins = () => {
+  const history = useHistory();
   const [admins, saveAdmins] = useState([]);
   const [modal, setModal] = useState(false);
   const [adminId, setAdminId] = useState();
@@ -31,7 +33,7 @@ const Admins = () => {
   };
 
   const onClickAdmin = (id) => {
-    window.location.assign(`/admins/form?id=${id}`);
+    history.push(`/admins/form/${id}`);
   };
 
   return (
@@ -55,8 +57,9 @@ const Admins = () => {
         <Button
           text="Add Admin"
           type="submit"
+          variant="primary"
           onClick={() => {
-            window.location.assign('/admins/form');
+            history.push(`/admins/form`);
           }}
         />
       </div>

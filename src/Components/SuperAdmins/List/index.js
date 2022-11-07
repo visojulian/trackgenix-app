@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './list.module.css';
 import Delete from '../assets/trash.png';
 import Button from '../../Shared/Button';
+import { useHistory } from 'react-router-dom';
 
 const SuperAdminsList = (props) => {
+  const history = useHistory();
+
   const onClickSuperAdmin = (id) => {
-    window.location.assign(`/super-admins/form?id=${id}`);
+    history.push(`/super-admins/form/${id}`);
   };
 
   return (
@@ -57,7 +60,7 @@ const SuperAdminsList = (props) => {
           type="submit"
           variant="primary"
           onClick={() => {
-            window.location.assign('super-admins/form');
+            history.push('super-admins/form');
           }}
         />
       </div>

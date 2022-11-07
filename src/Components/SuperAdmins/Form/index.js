@@ -2,8 +2,12 @@ import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
 import FormModal from './Modal/index';
 import Button from '../../Shared/Button';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
   const [showFormModal, setFormModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,8 +28,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
           method: 'GET'
@@ -62,14 +64,12 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
         setFormModal(true);
         setErrorMessage(content.message);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
         method: 'PUT',
         headers: {
@@ -85,7 +85,7 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
         setFormModal(true);
         setErrorMessage(content.message);
@@ -99,36 +99,51 @@ const Form = () => {
         <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
         <form className={styles.box} onSubmit={onSubmit}>
           <div>
-            <div className={styles.div}>
-              <label>Name</label>
-              <input type="text" name="name" value={superAdmin.name} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Last Name</label>
-              <input type="text" name="lastName" value={superAdmin.lastName} onChange={onChange} />
-            </div>
+            <TextInput
+              label="Name"
+              id="name"
+              name="name"
+              value={superAdmin.name}
+              onChange={onChange}
+              type="text"
+              placeholder="Name"
+            />
+            <TextInput
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              value={superAdmin.lastName}
+              onChange={onChange}
+              type="text"
+              placeholder="Last Name"
+            />
           </div>
           <div>
-            <div className={styles.div}>
-              <label>Email</label>
-              <input type="text" name="email" value={superAdmin.email} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={superAdmin.password}
-                onChange={onChange}
-              />
-            </div>
+            <TextInput
+              label="Email"
+              id="email"
+              name="email"
+              value={superAdmin.email}
+              onChange={onChange}
+              type="text"
+              placeholder="Email"
+            />
+            <TextInput
+              label="Password"
+              id="password"
+              name="password"
+              value={superAdmin.password}
+              onChange={onChange}
+              type="password"
+              placeholder="Password"
+            />
             <div className={styles.buttons}>
               <Button
                 text="Cancel"
                 type="reset"
                 variant="secondary"
                 onClick={() => {
-                  window.location.assign('/super-admins');
+                  history.push('/super-admins');
                 }}
               />
               <Button text="Submit" type="submit" variant="primary" />

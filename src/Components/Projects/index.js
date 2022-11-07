@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import Delete from './assets/trash.png';
 import styles from './projects.module.css';
 import Button from '../Shared/Button';
 
 const Projects = () => {
+  const history = useHistory();
   const [projects, saveProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState({});
   const [showModal, saveShowModal] = useState(false);
@@ -31,7 +33,7 @@ const Projects = () => {
   };
 
   const editProject = (id) => {
-    window.location.assign(`/projects/form?id=${id}`);
+    history.push(`/projects/form/${id}`);
   };
 
   return (
@@ -76,7 +78,7 @@ const Projects = () => {
         type="submit"
         variant="primary"
         onClick={() => {
-          window.location.assign('/projects/form');
+          history.push(`/projects/form`);
         }}
       />
     </section>

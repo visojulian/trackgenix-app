@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './list.module.css';
 import DeleteImg from '../Assets/trash.png';
 import Button from '../../Shared/Button';
+import { useHistory } from 'react-router-dom';
 
 const EmployeesList = (props) => {
+  const history = useHistory();
+
   const onClickEmployee = (id) => {
-    window.location.assign(`/employees/form?id=${id}`);
+    history.push(`/employees/form/${id}`);
   };
 
   return (
@@ -58,7 +61,7 @@ const EmployeesList = (props) => {
           type="submit"
           variant="primary"
           onClick={() => {
-            window.location.assign('employees/form');
+            history.push(`/employees/form`);
           }}
         />
       </div>

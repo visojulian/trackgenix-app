@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from './FormModal/index';
 import Button from '../../Shared/Button/index';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [taskName, setTaskName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
@@ -15,8 +19,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
           method: 'GET'
@@ -47,15 +49,13 @@ const Form = () => {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/tasks');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
       }
     } else {
       event.preventDefault();
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
         headers: {
@@ -66,7 +66,7 @@ const Form = () => {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/tasks');
+        history.goBack();
       } else {
         setShowModal(true);
         setServerError(content.message);
@@ -82,16 +82,15 @@ const Form = () => {
           <h3>{isEditing ? 'Edit Task' : 'Add Task'}</h3>
         </div>
         <div>
-          <div>
-            <label className={styles.descriptionLabel}>Task Description</label>
-            <input
-              id="taskName"
-              name="taskName"
-              required
-              value={taskName}
-              onChange={onChangeTaskNameInput}
-            />
-          </div>
+          <TextInput
+            label="Task Description"
+            id="taskName"
+            name="taskName"
+            value={taskName}
+            onChange={onChangeTaskNameInput}
+            type="text"
+            placeholder="Task Name"
+          />
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
@@ -100,7 +99,7 @@ const Form = () => {
               text="Cancel"
               variant="secondary"
               onClick={() => {
-                window.location.assign('/tasks');
+                history.goBack();
               }}
             />
           </div>
