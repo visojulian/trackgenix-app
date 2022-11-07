@@ -31,7 +31,7 @@ const Tasks = () => {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/tasks/form?id=${id}`);
   };
 
@@ -58,7 +58,7 @@ const Tasks = () => {
           </a>
         </div>
       </div>
-      <Table data={tasks} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
+      <Table data={tasks} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
     </section>
   );
 };

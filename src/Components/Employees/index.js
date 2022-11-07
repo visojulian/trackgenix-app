@@ -32,7 +32,7 @@ function Employees() {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/employees/form?id=${id}`);
   };
 
@@ -50,12 +50,7 @@ function Employees() {
       />
       <h2>Employees</h2>
       <div>
-        <Table
-          data={employees}
-          headers={headers}
-          onDelete={onDelete}
-          onClickEntity={onClickEntity}
-        />
+        <Table data={employees} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       </div>
     </section>
   );

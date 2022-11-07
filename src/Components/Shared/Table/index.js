@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './table.module.css';
 import Delete from '../../../Assets/trash.png';
 
-const Table = ({ data, headers, onDelete, onClickEntity }) => {
+const Table = ({ data, headers, onDelete, onRowClick }) => {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -25,7 +25,7 @@ const Table = ({ data, headers, onDelete, onClickEntity }) => {
                     <td
                       key={index}
                       onClick={() => {
-                        onClickEntity(row._id);
+                        onRowClick(row._id);
                       }}
                     >
                       {row[header]}{' '}

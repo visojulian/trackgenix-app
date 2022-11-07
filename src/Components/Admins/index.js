@@ -31,7 +31,7 @@ const Admins = () => {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/admins/form?id=${id}`);
   };
 
@@ -49,7 +49,7 @@ const Admins = () => {
       />
       <div className={styles.container}>
         <h1>Admins</h1>
-        <Table data={admins} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
+        <Table data={admins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       </div>
       <div className={styles.container}>
         <a href="/admins/form" className={styles.buttonAddAdmin}>

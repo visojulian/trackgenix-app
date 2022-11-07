@@ -42,7 +42,7 @@ const TimeSheets = () => {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/time-sheets/form?id=${id}`);
   };
 
@@ -70,12 +70,7 @@ const TimeSheets = () => {
         timeSheetId={timeSheetId}
         title="Are you sure that you want to delete this time sheet?"
       />
-      <Table
-        data={getTableData()}
-        headers={headers}
-        onDelete={onDelete}
-        onClickEntity={onClickEntity}
-      />
+      <Table data={getTableData()} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
     </section>
   );
 };

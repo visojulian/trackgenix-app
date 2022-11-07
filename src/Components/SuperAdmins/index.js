@@ -31,7 +31,7 @@ const SuperAdmins = () => {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/super-admins/form?id=${id}`);
   };
 
@@ -48,12 +48,7 @@ const SuperAdmins = () => {
         superAdminId={superAdminId}
       />
       <div>
-        <Table
-          data={superAdmins}
-          headers={headers}
-          onDelete={onDelete}
-          onClickEntity={onClickEntity}
-        />
+        <Table data={superAdmins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       </div>
     </section>
   );

@@ -29,7 +29,7 @@ const Projects = () => {
     setShowModal(showModal);
   };
 
-  const onClickEntity = (id) => {
+  const onRowClick = (id) => {
     window.location.assign(`/projects/form?id=${id}`);
   };
 
@@ -41,7 +41,7 @@ const Projects = () => {
         deleteEntity={deleteProject}
         projectId={projectId}
       />
-      <Table data={projects} headers={headers} onDelete={onDelete} onClickEntity={onClickEntity} />
+      <Table data={projects} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <a className={styles.button} href="/projects/form">
         Add New Project
       </a>
