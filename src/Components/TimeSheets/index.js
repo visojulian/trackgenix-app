@@ -50,16 +50,9 @@ const TimeSheets = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.containerUpper}>
-        <h2>TimeSheets</h2>
-        <Table
-          data={getTableData()}
-          headers={headers}
-          onDelete={onDelete}
-          onRowClick={onRowClick}
-        />
-      </div>
+    <div className={styles.container}>
+      <h1>TimeSheets</h1>
+      <Table data={getTableData()} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
@@ -81,7 +74,7 @@ const TimeSheets = () => {
           history.push(`/time-sheets/form`);
         }}
       />
-    </section>
+    </div>
   );
 };
 

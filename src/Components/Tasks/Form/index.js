@@ -109,6 +109,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
+      <h1>{isEditing ? 'Edit Task' : 'Add Task'}</h1>
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
@@ -119,9 +120,6 @@ const Form = () => {
         {getModalContent()}
       </Modal>
       <form className={styles.formFlexBox}>
-        <div>
-          <h3>{isEditing ? 'Edit Task' : 'Add Task'}</h3>
-        </div>
         <div>
           <TextInput
             label="Task Description"

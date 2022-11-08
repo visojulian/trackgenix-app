@@ -142,76 +142,74 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.box}>
-        <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
-        <form className={styles.form} onSubmit={onSubmit}>
-          <TextInput
-            label="Name"
-            id="name"
-            name="name"
-            value={employeeInput.name}
-            onChange={onChange}
-            type="text"
-            placeholder="Name"
+      <h1 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h1>
+      <form className={styles.form} onSubmit={onSubmit}>
+        <TextInput
+          label="Name"
+          id="name"
+          name="name"
+          value={employeeInput.name}
+          onChange={onChange}
+          type="text"
+          placeholder="Name"
+        />
+        <TextInput
+          label="Last Name"
+          id="lastName"
+          name="lastName"
+          value={employeeInput.lastName}
+          onChange={onChange}
+          type="text"
+          placeholder="Last Name"
+        />
+        <TextInput
+          label="Phone"
+          id="phone"
+          name="phone"
+          value={employeeInput.phone}
+          onChange={onChange}
+          type="text"
+          placeholder="Phone"
+        />
+        <TextInput
+          label="Email"
+          id="email"
+          name="email"
+          value={employeeInput.email}
+          onChange={onChange}
+          type="text"
+          placeholder="Email"
+        />
+        <TextInput
+          label="Password"
+          id="password"
+          name="password"
+          value={employeeInput.password}
+          onChange={onChange}
+          type="password"
+          placeholder="Password"
+        />
+        <div className={styles.butCont}>
+          <Button
+            text="Cancel"
+            type="reset"
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
           />
-          <TextInput
-            label="Last Name"
-            id="lastName"
-            name="lastName"
-            value={employeeInput.lastName}
-            onChange={onChange}
-            type="text"
-            placeholder="Last Name"
-          />
-          <TextInput
-            label="Phone"
-            id="phone"
-            name="phone"
-            value={employeeInput.phone}
-            onChange={onChange}
-            type="text"
-            placeholder="Phone"
-          />
-          <TextInput
-            label="Email"
-            id="email"
-            name="email"
-            value={employeeInput.email}
-            onChange={onChange}
-            type="text"
-            placeholder="Email"
-          />
-          <TextInput
-            label="Password"
-            id="password"
-            name="password"
-            value={employeeInput.password}
-            onChange={onChange}
-            type="password"
-            placeholder="Password"
-          />
-          <div className={styles.divButton}>
-            <Button
-              text="Cancel"
-              type="reset"
-              variant="secondary"
-              onClick={() => {
-                history.goBack();
-              }}
-            />
-            <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
-          </div>
-        </form>
-        <Modal
-          isOpen={showModal}
-          handleClose={setShowModal}
-          isActionModal={isActionModal}
-          action={onSubmit}
-          actionButton="Submit"
-        >
-          {getModalContent()}
-        </Modal>
-      </div>
+          <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+        </div>
+      </form>
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
     </div>
   );
 };

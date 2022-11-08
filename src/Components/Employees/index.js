@@ -40,9 +40,9 @@ function Employees() {
   };
 
   return (
-    <section className={styles.container}>
-      <h2>Employees</h2>
-      <div>
+    <>
+      <div className={styles.container}>
+        <h1>Employees</h1>
         <Table data={employees} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
         <Modal
           isOpen={showModal}
@@ -66,7 +66,7 @@ function Employees() {
           }}
         />
       </div>
-    </section>
+    </>
   );
 }
 

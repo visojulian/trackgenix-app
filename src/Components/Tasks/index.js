@@ -40,7 +40,7 @@ const Tasks = () => {
 
   return (
     <section className={styles.container}>
-      <h2>Tasks</h2>
+      <h1>Tasks</h1>
       <Table data={tasks} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
