@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+h3 {
+  color: #fff;
+}
+
 .formFlexBox {
   display: flex;
   flex-direction: column;
@@ -14,9 +18,10 @@
 
 .buttonsFlexBox {
   display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+  width: 290px;
+  justify-content: space-between;
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .buttonCancel {

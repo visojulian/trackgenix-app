@@ -5,17 +5,16 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background: rgba(55, 56, 103, 69%);
 }
 
 .flex {
   display: flex;
   flex-direction: column;
-  width: 634px;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1250px;
   height: 400px;
-  margin: auto;
-  margin-bottom: 50px;
-  margin-top: 50px;
+
   border-radius: 4px;
   background-color: #fff;
 }
@@ -28,7 +27,8 @@
 
 .box {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 h4 {
@@ -37,17 +37,9 @@ h4 {
   color: #373867;
 }
 
-.div, .buttons {
+.box2{
   display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-
-.div label {
-  margin-bottom: 10px;
-  font-weight: 600;
-  font-size: 16px;
-  color: #373867;
+  flex-direction: row;
 }
 
 .buttons {
@@ -55,7 +47,8 @@ h4 {
   flex-direction: row;
   align-self: center;
   justify-content: space-between;
-  margin-top: 45px;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 
 .buttonCancel {

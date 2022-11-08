@@ -130,7 +130,7 @@ const Form = () => {
       <div className={styles.flex}>
         <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
         <form className={styles.box}>
-          <div>
+          <div className={styles.box2}>
             <TextInput
               label="Name"
               id="name"
@@ -149,8 +149,6 @@ const Form = () => {
               type="text"
               placeholder="Last Name"
             />
-          </div>
-          <div>
             <TextInput
               label="Email"
               id="email"
@@ -169,26 +167,26 @@ const Form = () => {
               type="password"
               placeholder="Password"
             />
-            <div className={styles.buttons}>
-              <Button
-                text="Cancel"
-                type="reset"
-                variant="secondary"
-                onClick={() => {
-                  history.push('/super-admins');
-                }}
-              />
-              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
-              <Modal
-                isOpen={showModal}
-                handleClose={setShowModal}
-                isActionModal={isActionModal}
-                action={onSubmit}
-                actionButton="Submit"
-              >
-                {getModalContent()}
-              </Modal>
-            </div>
+          </div>
+          <div className={styles.buttons}>
+            <Button
+              text="Cancel"
+              type="reset"
+              variant="secondary"
+              onClick={() => {
+                history.push('/super-admins');
+              }}
+            />
+            <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+            <Modal
+              isOpen={showModal}
+              handleClose={setShowModal}
+              isActionModal={isActionModal}
+              action={onSubmit}
+              actionButton="Submit"
+            >
+              {getModalContent()}
+            </Modal>
           </div>
         </form>
       </div>
