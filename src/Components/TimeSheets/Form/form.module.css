@@ -1,9 +1,19 @@
 .container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.boxContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
 
 .box {
   padding: 20px;
@@ -13,6 +23,8 @@
   border: 1px solid #DFE4DE;
   border-collapse: collapse;
   background-color: #fff;
+  border-radius: 5px;
+  margin: 7px;
 }
 
 select {
@@ -24,7 +36,8 @@ form{
   display: flex;
   justify-content: center;
   width: 60%;
-  padding-left: 20px;
+  margin-bottom: 50px;
+  padding: 20px;
   border: 1px solid #DFE4DE;
   border-radius: 5px;
   border-collapse: collapse;
@@ -58,5 +71,11 @@ form{
 }
 
 .title {
-  color: white;
+  color: #373867;
+  text-align: center;
+  font-size: 25px;
+}
+
+label {
+  color: #373867;
 }

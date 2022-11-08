@@ -189,6 +189,7 @@ function Form() {
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h1>
       <Modal
         isOpen={showModal}
         handleClose={() => {
@@ -203,9 +204,6 @@ function Form() {
       </Modal>
       <form>
         <div>
-          <div className={styles.cardTitle}>
-            <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
-          </div>
           <TextInput
             label="Time Sheet description"
             id="description"
