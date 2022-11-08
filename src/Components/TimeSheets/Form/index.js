@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
-import Modal from './FormModal/index';
+import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 function Form() {
+  const history = useHistory();
+  const { id } = useParams();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
     description: '',
     date: '',
@@ -11,13 +17,14 @@ function Form() {
     employee: '',
     project: ''
   });
-  const [showModal, setShowModal] = useState(false);
-  const [serverError, setServerError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [employeesTotal, setEmployeesTotal] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -26,6 +33,56 @@ function Form() {
       const selectedProject = projects.find((project) => project._id === e.target.value);
       const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
       setEmployees(projectEmployees);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      inputTimeSheetValue.description &&
+      inputTimeSheetValue.date &&
+      inputTimeSheetValue.hours &&
+      inputTimeSheetValue.task &&
+      inputTimeSheetValue.employee &&
+      inputTimeSheetValue.project
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Timesheet</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {isEditing ? 'changes in' : ''}{' '}
+            this timesheet?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      inputTimeSheetValue.description &&
+      inputTimeSheetValue.date &&
+      inputTimeSheetValue.hours &&
+      inputTimeSheetValue.task &&
+      inputTimeSheetValue.employee &&
+      inputTimeSheetValue.project
+    ) {
+      setIsActionModal(true);
     }
   };
 
@@ -46,8 +103,6 @@ function Form() {
       });
       const projects = await projectsResponse.json();
       setProjects(projects.data);
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const timeSheetResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
@@ -72,8 +127,8 @@ function Form() {
         });
       }
     } catch (error) {
-      console.error(error);
-      alert(error);
+      setServerError(error);
+      setShowModal(true);
     }
   }, []);
 
@@ -82,12 +137,7 @@ function Form() {
     return dateFormated;
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async () => {
     if (!isEditing) {
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         method: 'POST',
@@ -106,14 +156,12 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
         headers: {
@@ -131,126 +179,126 @@ function Form() {
       });
       const content = await rawResponse.json();
       if (!content.error) {
-        window.location.assign('/time-sheets');
+        history.goBack();
       } else {
-        setShowModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showModal} title={serverError} closeModal={closeModal} />
-      <form onSubmit={onSubmit}>
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal();
+          setServerError();
+        }}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
+      <form>
         <div>
           <div className={styles.cardTitle}>
             <h3 className={styles.title}>{isEditing ? 'Edit time sheet' : 'Create timesheet'}</h3>
           </div>
-          <div className={styles.box}>
-            <label>Description</label>
-            <input
-              type="text"
-              name="description"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.description}
-            />
-          </div>
-          <div className={styles.box}>
-            <label>Date</label>
-            <input
-              type="date"
-              name="date"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.date}
-            />
-          </div>
-          <div className={styles.box}>
-            <label>Hours</label>
-            <input
-              type="number"
-              name="hours"
-              required
-              onChange={onChangeInputValue}
-              value={inputTimeSheetValue.hours}
-            />
-          </div>
+          <TextInput
+            label="Time Sheet description"
+            id="description"
+            name="description"
+            value={inputTimeSheetValue.description}
+            onChange={onChangeInputValue}
+            type="text"
+            placeholder="Time Sheet Description"
+          />
+          <TextInput
+            label="Date"
+            id="date"
+            name="date"
+            value={inputTimeSheetValue.date}
+            onChange={onChangeInputValue}
+            type="date"
+            placeholder="Date"
+          />
+          <TextInput
+            label="Hours"
+            id="hours"
+            name="hours"
+            value={inputTimeSheetValue.hours}
+            onChange={onChangeInputValue}
+            type="number"
+            placeholder="Hours spend in the taks"
+          />
           <div className={styles.box}>
             <label>Task</label>
-            <select
+            <Select
               name="task"
+              placeholder="Select a task"
               required
-              value={inputTimeSheetValue.task}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a task
-              </option>
-              {tasks.map((task) => {
-                return (
-                  <option placeholder="taskhere" key={task._id} value={task._id}>
-                    {task.description}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={tasks.map((task) => ({
+                id: task._id,
+                value: task.description
+              }))}
+              value={
+                inputTimeSheetValue.task !== '' &&
+                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Project</label>
-            <select
+            <Select
               name="project"
+              placeholder="Select a project"
               required
-              value={inputTimeSheetValue.project}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a project
-              </option>
-              {projects.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={projects.map((project) => ({
+                id: project._id,
+                value: project.name
+              }))}
+              value={
+                inputTimeSheetValue.project !== '' &&
+                projects.find((project) => project._id === inputTimeSheetValue.project)._id
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <select
+            <Select
               name="employee"
-              value={inputTimeSheetValue.employee}
-              onChange={onChangeInputValue}
+              placeholder="Select an employee"
               required
-            >
-              <option value="" disabled hidden>
-                Select an employee
-              </option>
-              {employees.map((employee, index) => {
-                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
-                return (
-                  <option key={index} value={selectedEmployee._id}>
-                    {selectedEmployee.name}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={employees.map((employee) => ({
+                id: employeesTotal.find((item) => item._id === employee)._id,
+                value: employeesTotal.find((item) => item._id === employee).name
+              }))}
+              value={
+                inputTimeSheetValue.employee !== '' &&
+                employees.map(
+                  (employee) => employeesTotal.find((item) => item._id === employee)._id
+                )
+              }
+            />
           </div>
           <div className={styles.buttons}>
             <div>
-              <button
-                className={styles.confirmButton}
-                onClick={() => window.location.assign('/time-sheets')}
-              >
-                Cancel
-              </button>
+              <Button
+                text="Cancel"
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  history.goBack();
+                }}
+              />
             </div>
             <div>
-              <button className={styles.cancelButton} type="submit">
-                Submit
-              </button>
+              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
             </div>
           </div>
         </div>

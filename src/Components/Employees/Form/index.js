@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import FormModal from './FormModal';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import Modal from '../../Shared/Modal';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
-  const [showFormModal, setShowFormModal] = useState(false);
+  const { id } = useParams();
+  const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
-  const [errorMsg, setErrorMessage] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -16,8 +22,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
           method: 'GET'
@@ -37,12 +41,53 @@ const Form = () => {
     }
   }, []);
 
-  const closeFormModal = () => {
-    setShowFormModal(false);
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      setIsActionModal(true);
+    }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      employeeInput.name !== '' &&
+      employeeInput.lastName !== '' &&
+      employeeInput.email !== '' &&
+      employeeInput.password !== ''
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {employeeInput.name}{' '}
+            {employeeInput.lastName} {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
+  const onSubmit = async () => {
     if (!isEditing) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
@@ -61,14 +106,12 @@ const Form = () => {
 
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
@@ -85,10 +128,10 @@ const Form = () => {
       });
       const result = await response.json();
       if (!result.error) {
-        window.location.assign('/employees');
+        history.goBack();
       } else {
-        setShowFormModal(true);
-        setErrorMessage(result.message);
+        setServerError(result.message);
+        setShowModal(true);
       }
     }
   };
@@ -102,47 +145,72 @@ const Form = () => {
       <div className={styles.box}>
         <h3 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h3>
         <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.input}>
-            <label>Name</label>
-            <input type="text" name="name" value={employeeInput.name} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Last name</label>
-            <input type="text" name="lastName" value={employeeInput.lastName} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Phone</label>
-            <input type="text" name="phone" value={employeeInput.phone} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Email</label>
-            <input type="text" name="email" value={employeeInput.email} onChange={onChange} />
-          </div>
-          <div className={styles.input}>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={employeeInput.password}
-              onChange={onChange}
-            />
-          </div>
+          <TextInput
+            label="Name"
+            id="name"
+            name="name"
+            value={employeeInput.name}
+            onChange={onChange}
+            type="text"
+            placeholder="Name"
+          />
+          <TextInput
+            label="Last Name"
+            id="lastName"
+            name="lastName"
+            value={employeeInput.lastName}
+            onChange={onChange}
+            type="text"
+            placeholder="Last Name"
+          />
+          <TextInput
+            label="Phone"
+            id="phone"
+            name="phone"
+            value={employeeInput.phone}
+            onChange={onChange}
+            type="text"
+            placeholder="Phone"
+          />
+          <TextInput
+            label="Email"
+            id="email"
+            name="email"
+            value={employeeInput.email}
+            onChange={onChange}
+            type="text"
+            placeholder="Email"
+          />
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            value={employeeInput.password}
+            onChange={onChange}
+            type="password"
+            placeholder="Password"
+          />
           <div className={styles.divButton}>
-            <button
-              className={styles.firstButton}
-              onClick={() => {
-                window.location.assign('/employees');
-              }}
+            <Button
+              text="Cancel"
               type="reset"
-            >
-              Cancel
-            </button>
-            <button className={styles.secondButton} type="submit">
-              Submit
-            </button>
-            <FormModal show={showFormModal} onClose={closeFormModal} errorMsg={errorMsg} />
+              variant="secondary"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+            <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </form>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={isActionModal}
+          action={onSubmit}
+          actionButton="Submit"
+        >
+          {getModalContent()}
+        </Modal>
       </div>
     </div>
   );

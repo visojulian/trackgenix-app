@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './list.module.css';
-import Modal from './Modal/index';
 import Table from '../Shared/Table';
+import Button from '../Shared/Button/index';
+import Modal from '../Shared/Modal';
 
 const TimeSheets = () => {
+  const history = useHistory();
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
@@ -30,9 +33,9 @@ const TimeSheets = () => {
     });
   };
 
-  const deleteTimeSheet = async (id) => {
-    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
+  const deleteTimeSheet = async () => {
+    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`, {
       method: 'DELETE'
     });
   };
@@ -43,34 +46,41 @@ const TimeSheets = () => {
   };
 
   const onRowClick = (id) => {
-    window.location.assign(`/time-sheets/form?id=${id}`);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+    history.push(`/time-sheets/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.containerUpper}>
         <h2>TimeSheets</h2>
-        <button
-          className={styles.button}
-          onClick={() => {
-            window.location.assign(`/time-sheets/form`);
-          }}
-        >
-          New TimeSheet
-        </button>
+        <Table
+          data={getTableData()}
+          headers={headers}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
       </div>
       <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTimeSheet={deleteTimeSheet}
-        timeSheetId={timeSheetId}
-        title="Are you sure that you want to delete this time sheet?"
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteTimeSheet}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Timesheet</h4>
+          <p>Are you sure you want to delete this timesheet?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
+      <Button
+        text="Add Timesheet"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/time-sheets/form`);
+        }}
       />
-      <Table data={getTableData()} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
     </section>
   );
 };

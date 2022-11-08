@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 
 function Employees() {
+  const history = useHistory();
   const [employees, saveEmployees] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [employeeId, setEmployeeId] = useState();
+  const [showModal, setShowModal] = useState(false);
   const headers = ['name', 'lastName', 'phone', 'email'];
 
   useEffect(async () => {
@@ -19,12 +22,12 @@ function Employees() {
     }
   }, []);
 
-  const deleteEmployee = async (id) => {
+  const deleteEmployee = async () => {
+    const id = employeeId;
     await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((employee) => employee._id !== id)]);
-    closeModal();
   };
 
   const onDelete = (id, showModal) => {
@@ -33,24 +36,35 @@ function Employees() {
   };
 
   const onRowClick = (id) => {
-    window.location.assign(`/employees/form?id=${id}`);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+    history.push(`/employees/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
-      <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        onDelete={deleteEmployee}
-        employeeId={employeeId}
-      />
       <h2>Employees</h2>
       <div>
         <Table data={employees} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={deleteEmployee}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete employee</h4>
+            <p>Are you sure you want to delete this employee?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Employee"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`/employees/form`);
+          }}
+        />
       </div>
     </section>
   );

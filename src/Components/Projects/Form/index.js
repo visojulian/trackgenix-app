@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './form.module.css';
 import Delete from '../../../Assets/trash.png';
+import Modal from '../../Shared/Modal';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
+import TextInput from '../../Shared/TextInput/index';
 
 const ProjectForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
@@ -14,6 +21,9 @@ const ProjectForm = () => {
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
   const [isEditing, setIsEditing] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const onChangeNameInput = (event) => {
@@ -63,7 +73,57 @@ const ProjectForm = () => {
   };
 
   const onCancel = () => {
-    window.location.assign('/projects');
+    history.goBack();
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      setIsActionModal(true);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (
+      projectEmployees.length &&
+      nameValue &&
+      startDateValue &&
+      endDateValue &&
+      descriptionValue &&
+      clientValue
+    ) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {nameValue}{' '}
+            {isEditing ? 'changes' : ''}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
   };
 
   const onSubmit = () => {
@@ -77,15 +137,12 @@ const ProjectForm = () => {
     });
 
     if (isEditing) {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const id = urlSearchParams.get('id');
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
         .catch((error) => alert(error));
     } else {
       fetch(`${process.env.REACT_APP_API_URL}/projects`, {
@@ -94,15 +151,19 @@ const ProjectForm = () => {
         body: body
       })
         .then((response) => response.json())
-        .then((response) => console.log(response))
-        .catch((error) => alert(error));
+        .then((content) => {
+          if (!content.error) {
+            history.push('/projects');
+          } else {
+            setServerError(content.message);
+            setShowModal(true);
+          }
+        })
+        .catch((error) => console.error(error));
     }
-    window.location.assign('/projects');
   };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const id = urlSearchParams.get('id');
     if (id) {
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`)
         .then((response) => response.json())
@@ -121,8 +182,11 @@ const ProjectForm = () => {
             setEndDateValue(response.data.endDate);
             setDescriptionValue(response.data.description);
             setProjectEmployees(employeeList);
+            setIsEditing(true);
+          } else {
+            setServerError(response.message);
+            setShowModal(true);
           }
-          setIsEditing(true);
         })
         .catch((error) => alert(error));
     }
@@ -131,151 +195,153 @@ const ProjectForm = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/employees`)
       .then((response) => response.json())
-      .then((response) => {
-        setEmployees(response.data);
+      .then((content) => {
+        if (!content.error) {
+          setEmployees(content.data);
+        } else {
+          setServerError(content.message);
+          setShowModal(true);
+        }
       })
       .catch((error) => alert(error));
   }, []);
 
   return (
-    <form className={styles.container}>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Name:
-        </label>
-        <input
+    <>
+      <h4>{isEditing ? 'Edit' : 'Add'} Project</h4>
+      <form className={styles.container}>
+        <TextInput
+          label="Project Name"
           id="name"
           name="name"
-          placeholder="Project name"
-          required
           value={nameValue}
           onChange={onChangeNameInput}
+          type="text"
+          placeholder="Project Name"
         />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="name">
-          Client name:
-        </label>
-        <input
+        <TextInput
+          label="Client Name"
           id="client"
           name="client"
-          placeholder="Client name"
-          required
           value={clientValue}
           onChange={onChangeClientInput}
+          type="text"
+          placeholder="Client Name"
         />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="description">
-          Description:
-        </label>
-        <textarea
+        <TextInput
+          label="Description"
           id="description"
           name="description"
-          placeholder="Description"
-          required
           value={descriptionValue}
           onChange={onChangeDescriptionInput}
+          type="text"
+          placeholder="Description"
         />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="startDate">
-          Start date:
-        </label>
-        <input
+        <TextInput
+          label="Start date"
           id="startDate"
           name="startDate"
-          placeholder="Start date"
-          required
-          type="date"
           value={startDateValue}
           onChange={onChangeStartDateInput}
+          type="date"
+          placeholder="Start date"
         />
-      </div>
-      <div className={styles.labelContainer}>
-        <label className={styles.label} htmlFor="endDate">
-          End date:
-        </label>
-        <input
+        <TextInput
+          label="End date"
           id="endDate"
           name="endDate"
-          placeholder="End date"
-          required
-          type="date"
           value={endDateValue}
           onChange={onChangeEndDateInput}
+          type="date"
+          placeholder="End date"
         />
-      </div>
-      <div className={styles.listContainer}>
-        <div>
-          <h4>Employees</h4>
+        <div className={styles.listContainer}>
           <div>
-            <div className={styles.newEmployeeInputs}>
-              <select required onChange={handleEmployeeChange}>
-                {employees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.name}
-                  </option>
-                ))}
-              </select>
-              <select required value={roleValue} onChange={handleRoleChange}>
-                {roles.map((role, index) => (
-                  <option key={index}>{role}</option>
-                ))}
-              </select>
-              <input
-                id="rate"
-                name="rate"
-                placeholder="Rate:"
-                required
-                value={rateValue}
-                onChange={onChangeRateInput}
-              />
+            <h4>Employees</h4>
+            <div>
+              <div className={styles.newEmployeeInputs}>
+                <Select
+                  name="employees"
+                  placeholder="Select an employee"
+                  required
+                  onSelect={handleEmployeeChange}
+                  data={employees.map((employee) => ({
+                    id: employee._id,
+                    value: employee.name
+                  }))}
+                />
+                <Select
+                  name="role"
+                  placeholder="Select Role"
+                  required
+                  onSelect={handleRoleChange}
+                  data={roles.map((role) => ({
+                    value: role
+                  }))}
+                />
+                <input
+                  id="rate"
+                  name="rate"
+                  value={rateValue}
+                  onChange={onChangeRateInput}
+                  type="text"
+                  placeholder="Rate"
+                />
+              </div>
+              <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
             </div>
-            <button className={styles.newEmployeeButton} onClick={addEmployee}>
-              Assign new employee
-            </button>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Role</th>
+                  <th>Rate</th>
+                  <th>
+                    <img src={Delete}></img>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {projectEmployees.map((employee, index) => {
+                  const selectedEmployee = employees.find((item) => item._id === employee.employee);
+                  if (selectedEmployee !== undefined) {
+                    return (
+                      <tr key={index}>
+                        <td>{selectedEmployee.name}</td>
+                        <td>{employee.role}</td>
+                        <td>{employee.rate}</td>
+                        <td>
+                          <Button
+                            text="&times;"
+                            variant="secondary"
+                            onClick={() => {
+                              handleDelete(index);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  }
+                })}
+              </tbody>
+            </table>
           </div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Employee</th>
-                <th>Role</th>
-                <th>Rate</th>
-                <th>
-                  <img src={Delete}></img>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {projectEmployees.map((employee, index) => {
-                const selectedEmployee = employees.find((item) => item._id === employee.employee);
-                if (selectedEmployee !== undefined) {
-                  return (
-                    <tr key={index}>
-                      <td>{selectedEmployee.name}</td>
-                      <td>{employee.role}</td>
-                      <td>{employee.rate}</td>
-                      <td>
-                        <button onClick={() => handleDelete(index)}>&times;</button>
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
-            </tbody>
-          </table>
+          <Modal
+            isOpen={showModal}
+            handleClose={setShowModal}
+            isActionModal={isActionModal}
+            action={onSubmit}
+            actionButton="Submit"
+          >
+            {getModalContent()}
+          </Modal>
+          <div className={styles.formButtons}>
+            <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+            <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
+          </div>
         </div>
-        <div className={styles.formButtons}>
-          <button className={styles.cancel} onClick={onCancel}>
-            Cancel
-          </button>
-          <button className={styles.button} onClick={onSubmit}>
-            Submit
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 

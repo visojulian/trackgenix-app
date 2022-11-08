@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './tasks.module.css';
-import Modal from './Modal/index';
 import Table from '../Shared/Table';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
 
 const Tasks = () => {
+  const history = useHistory();
   const [tasks, saveTasks] = useState([]);
+  const [taskId, setTaskId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [taskId, setTaskId] = useState(undefined);
   const headers = ['description'];
 
   useEffect(async () => {
@@ -19,9 +22,9 @@ const Tasks = () => {
     }
   }, []);
 
-  const deleteTask = async (id) => {
-    saveTasks([...tasks.filter((task) => task._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+  const deleteTask = async () => {
+    saveTasks([...tasks.filter((task) => task._id !== taskId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'DELETE'
     });
   };
@@ -32,33 +35,34 @@ const Tasks = () => {
   };
 
   const onRowClick = (id) => {
-    window.location.assign(`/tasks/form?id=${id}`);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+    history.push(`/tasks/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
-      <Modal
-        show={showModal}
-        closeModal={closeModal}
-        deleteTask={deleteTask}
-        taskId={taskId}
-        title="Do you want to delete this task?"
-      />
-      <div className={styles.upperFlexBox}>
-        <div className={styles.titleFlexBox}>
-          <h2>Tasks</h2>
-        </div>
-        <div className={styles.buttonFlexBox}>
-          <a href="/tasks/form">
-            <button className={styles.addTaskButton}>Add new task</button>
-          </a>
-        </div>
-      </div>
+      <h2>Tasks</h2>
       <Table data={tasks} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteTask}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Task</h4>
+          <p>Are you sure you want to delete this task?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
+      <Button
+        text="Add new task"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/tasks/form`);
+        }}
+      />
     </section>
   );
 };

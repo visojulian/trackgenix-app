@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './admins.module.css';
 import Table from '../Shared/Table/index';
-import ModalAlert from './Modals/ModalAlert';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 
 const Admins = () => {
+  const history = useHistory();
   const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [adminId, setAdminId] = useState();
@@ -19,9 +22,9 @@ const Admins = () => {
     }
   }, []);
 
-  const deleteAdmin = async (id) => {
-    saveAdmins([...admins.filter((admin) => admin._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
+  const deleteAdmin = async () => {
+    saveAdmins([...admins.filter((admin) => admin._id !== adminId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
       method: 'DELETE'
     });
   };
@@ -32,29 +35,35 @@ const Admins = () => {
   };
 
   const onRowClick = (id) => {
-    window.location.assign(`/admins/form?id=${id}`);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+    history.push(`/admins/form/${id}`);
   };
 
   return (
     <>
-      <ModalAlert
-        adminId={adminId}
-        deleteAdmin={deleteAdmin}
-        showModal={showModal}
-        closeModal={closeModal}
-      />
       <div className={styles.container}>
         <h1>Admins</h1>
         <Table data={admins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
-      </div>
-      <div className={styles.container}>
-        <a href="/admins/form" className={styles.buttonAddAdmin}>
-          ➕AddAdmin
-        </a>
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={deleteAdmin}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Admin</h4>
+            <p>Are you sure you want to delete this employee from admins?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Admin"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`/admins/form`);
+          }}
+        />
       </div>
     </>
   );

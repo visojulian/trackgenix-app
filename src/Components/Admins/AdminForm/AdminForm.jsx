@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import FormModal from '../Modals/FormModal';
+import Button from '../../Shared/Button';
+import Modal from '../../Shared/Modal';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
+import TextInput from '../../Shared/TextInput/index';
 
 const AdminForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [name, setName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [adminId, setAdminId] = useState();
-  const [modal, setModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const [edit, setEdit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -25,9 +31,43 @@ const AdminForm = () => {
     setPassword(e.target.value);
   };
 
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (name && lastName && email && password) {
+      setIsActionModal(true);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (name && lastName && email && password) {
+      return (
+        <div>
+          <h4>{edit ? 'Edit' : 'Add'} New Admin</h4>
+          <p>
+            Are you sure you want to {edit ? 'save' : 'add'} {name} {lastName}{' '}
+            {edit ? 'changes' : 'as Admin'}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
+  };
+
   useEffect(async () => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
     if (id) {
       setAdminId(id);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
@@ -44,12 +84,7 @@ const AdminForm = () => {
     }
   }, []);
 
-  const closeModal = () => {
-    setModal(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (!edit) {
       const newAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
         method: 'POST',
@@ -61,10 +96,10 @@ const AdminForm = () => {
       });
       const content = await newAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
-        setModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     } else {
       const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
@@ -77,10 +112,10 @@ const AdminForm = () => {
       });
       const content = await editAdmin.json();
       if (!content.error) {
-        window.location.assign('/admins');
+        history.goBack();
       } else {
-        setModal(true);
         setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -89,75 +124,63 @@ const AdminForm = () => {
     <>
       <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
+        <TextInput
+          label="Name"
+          id="name"
+          name="name"
+          value={name}
+          onChange={onChangeName}
+          type="text"
+          placeholder="Name"
+        />
+        <TextInput
+          label="Last Name"
+          id="lastName"
+          name="lastName"
+          value={lastName}
+          onChange={onChangeLastName}
+          type="text"
+          placeholder="Last Name"
+        />
+        <TextInput
+          label="Email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+          type="text"
+          placeholder="Email"
+        />
+        <TextInput
+          label="Password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+          type="text"
+          placeholder="Password"
+        />
         <div>
-          <div>
-            <label>Name</label>
-            <input
-              className={styles.input}
-              id="name"
-              name="name"
-              value={name}
-              onChange={onChangeName}
-              type="text"
-              placeholder="Name"
-              required
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              className={styles.input}
-              id="lastName"
-              name="lastName"
-              value={lastName}
-              onChange={onChangeLastName}
-              type="text"
-              placeholder="Last Name"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label>Email</label>
-            <input
-              className={styles.input}
-              id="email"
-              name="email"
-              value={email}
-              onChange={onChangeEmail}
-              type="text"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              className={styles.input}
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              type="text"
-              placeholder="Password"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <button
-            type="button"
+          <Button
+            text="Cancel"
+            type="reset"
+            variant="secondary"
             onClick={() => {
-              window.location.assign('/admins');
+              history.goBack();
             }}
-          >
-            Cancel
-          </button>
-          <button type="submit">Submit</button>
+          />
+          <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
-      <FormModal modal={modal} title={serverError} closeModal={closeModal} />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
     </>
   );
 };

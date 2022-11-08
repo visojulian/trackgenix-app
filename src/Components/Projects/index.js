@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
+import { useHistory } from 'react-router-dom';
 import styles from './projects.module.css';
 import Table from '../Shared/Table';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
 
 const Projects = () => {
+  const history = useHistory();
   const [projects, saveProjects] = useState([]);
   const [projectId, setProjectId] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -17,11 +20,11 @@ const Projects = () => {
       });
   }, []);
 
-  const deleteProject = async (id) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+  const deleteProject = async () => {
+    saveProjects([...projects.filter((project) => project._id !== projectId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
       method: 'DELETE'
     });
-    saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
   const onDelete = (id, showModal) => {
@@ -30,21 +33,33 @@ const Projects = () => {
   };
 
   const onRowClick = (id) => {
-    window.location.assign(`/projects/form?id=${id}`);
+    history.push(`/projects/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
-      <DeleteConfirmationModal
-        show={showModal}
-        handleModal={setShowModal}
-        deleteEntity={deleteProject}
-        projectId={projectId}
-      />
       <Table data={projects} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
-      <a className={styles.button} href="/projects/form">
-        Add New Project
-      </a>
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={deleteProject}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Project</h4>
+          <p>Are you sure you want to remove project?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
+      <Button
+        text="Add New Project"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/projects/form`);
+        }}
+      />
     </section>
   );
 };

@@ -1,11 +1,17 @@
 import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
-import FormModal from './Modal/index';
+import Button from '../../Shared/Button';
+import Modal from '../../Shared/Modal';
+import TextInput from '../../Shared/TextInput/index';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Form = () => {
+  const { id } = useParams();
+  const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);
-  const [showFormModal, setFormModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [serverError, setServerError] = useState();
   const [superAdmin, setSuperAdmin] = useState({
     name: '',
     lastName: '',
@@ -13,8 +19,40 @@ const Form = () => {
     password: ''
   });
 
-  const formCloseModal = () => {
-    setFormModal(false);
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+      setIsActionModal(true);
+    }
+  };
+
+  const getModalContent = () => {
+    if (serverError) {
+      return (
+        <div>
+          <h4>Server error</h4>
+          <p>{serverError}</p>
+        </div>
+      );
+    }
+    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+      return (
+        <div>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Superadmin</h4>
+          <p>
+            Are you sure you want to {isEditing ? 'save' : 'add'} {superAdmin.name}{' '}
+            {superAdmin.lastName} {isEditing ? 'changes' : 'as Superadmin'}?
+          </p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h4>Form incomplete</h4>
+        <p>Please complete all fields before submit.</p>
+      </div>
+    );
   };
 
   const onChange = (e) => {
@@ -23,8 +61,6 @@ const Form = () => {
 
   useEffect(async () => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       if (id) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
           method: 'GET'
@@ -43,8 +79,7 @@ const Form = () => {
     }
   }, []);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (!isEditing) {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
         method: 'POST',
@@ -61,14 +96,12 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
-        setFormModal(true);
-        setErrorMessage(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
       const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
         method: 'PUT',
         headers: {
@@ -84,10 +117,10 @@ const Form = () => {
       });
       const content = await res.json();
       if (!content.error) {
-        window.location.assign('/super-admins');
+        history.goBack();
       } else {
-        setFormModal(true);
-        setErrorMessage(content.message);
+        setServerError(content.message);
+        setShowModal(true);
       }
     }
   };
@@ -96,47 +129,65 @@ const Form = () => {
     <section className={styles.container}>
       <div className={styles.flex}>
         <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
-        <form className={styles.box} onSubmit={onSubmit}>
+        <form className={styles.box}>
           <div>
-            <div className={styles.div}>
-              <label>Name</label>
-              <input type="text" name="name" value={superAdmin.name} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Last Name</label>
-              <input type="text" name="lastName" value={superAdmin.lastName} onChange={onChange} />
-            </div>
+            <TextInput
+              label="Name"
+              id="name"
+              name="name"
+              value={superAdmin.name}
+              onChange={onChange}
+              type="text"
+              placeholder="Name"
+            />
+            <TextInput
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              value={superAdmin.lastName}
+              onChange={onChange}
+              type="text"
+              placeholder="Last Name"
+            />
           </div>
           <div>
-            <div className={styles.div}>
-              <label>Email</label>
-              <input type="text" name="email" value={superAdmin.email} onChange={onChange} />
-            </div>
-            <div className={styles.div}>
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={superAdmin.password}
-                onChange={onChange}
-              />
-            </div>
+            <TextInput
+              label="Email"
+              id="email"
+              name="email"
+              value={superAdmin.email}
+              onChange={onChange}
+              type="text"
+              placeholder="Email"
+            />
+            <TextInput
+              label="Password"
+              id="password"
+              name="password"
+              value={superAdmin.password}
+              onChange={onChange}
+              type="password"
+              placeholder="Password"
+            />
             <div className={styles.buttons}>
-              <button
+              <Button
+                text="Cancel"
                 type="reset"
-                onClick={() => window.location.assign('/super-admins')}
-                className={styles.buttonCancel}
-              >
-                Cancel
-              </button>
-              <button type="submit" className={styles.buttonSubmit}>
-                Submit
-              </button>
-              <FormModal
-                showFormModal={showFormModal}
-                serverMessage={errorMessage}
-                formCloseModal={formCloseModal}
+                variant="secondary"
+                onClick={() => {
+                  history.push('/super-admins');
+                }}
               />
+              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+              <Modal
+                isOpen={showModal}
+                handleClose={setShowModal}
+                isActionModal={isActionModal}
+                action={onSubmit}
+                actionButton="Submit"
+              >
+                {getModalContent()}
+              </Modal>
             </div>
           </div>
         </form>
