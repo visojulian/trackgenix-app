@@ -126,71 +126,67 @@ const Form = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.flex}>
-        <h4>{isEditing ? 'Edit super admin' : 'Create super admin'}</h4>
-        <form className={styles.box}>
-          <div className={styles.box2}>
-            <TextInput
-              label="Name"
-              id="name"
-              name="name"
-              value={superAdmin.name}
-              onChange={onChange}
-              type="text"
-              placeholder="Name"
-            />
-            <TextInput
-              label="Last Name"
-              id="lastName"
-              name="lastName"
-              value={superAdmin.lastName}
-              onChange={onChange}
-              type="text"
-              placeholder="Last Name"
-            />
-            <TextInput
-              label="Email"
-              id="email"
-              name="email"
-              value={superAdmin.email}
-              onChange={onChange}
-              type="text"
-              placeholder="Email"
-            />
-            <TextInput
-              label="Password"
-              id="password"
-              name="password"
-              value={superAdmin.password}
-              onChange={onChange}
-              type="password"
-              placeholder="Password"
-            />
-          </div>
-          <div className={styles.buttons}>
-            <Button
-              text="Cancel"
-              type="reset"
-              variant="secondary"
-              onClick={() => {
-                history.push('/super-admins');
-              }}
-            />
-            <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
-            <Modal
-              isOpen={showModal}
-              handleClose={setShowModal}
-              isActionModal={isActionModal}
-              action={onSubmit}
-              actionButton="Submit"
-            >
-              {getModalContent()}
-            </Modal>
-          </div>
-        </form>
-      </div>
-    </section>
+    <div className={styles.container}>
+      <h1>{isEditing ? 'Edit super admin' : 'Create super admin'}</h1>
+      <form className={styles.form}>
+        <TextInput
+          label="Name"
+          id="name"
+          name="name"
+          value={superAdmin.name}
+          onChange={onChange}
+          type="text"
+          placeholder="Name"
+        />
+        <TextInput
+          label="Last Name"
+          id="lastName"
+          name="lastName"
+          value={superAdmin.lastName}
+          onChange={onChange}
+          type="text"
+          placeholder="Last Name"
+        />
+        <TextInput
+          label="Email"
+          id="email"
+          name="email"
+          value={superAdmin.email}
+          onChange={onChange}
+          type="text"
+          placeholder="Email"
+        />
+        <TextInput
+          label="Password"
+          id="password"
+          name="password"
+          value={superAdmin.password}
+          onChange={onChange}
+          type="password"
+          placeholder="Password"
+        />
+        <div className={styles.butCont}>
+          <Button
+            text="Cancel"
+            type="reset"
+            variant="secondary"
+            onClick={() => {
+              history.push('/super-admins');
+            }}
+          />
+          <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+        </div>
+      </form>
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={isActionModal}
+        action={onSubmit}
+        actionButton="Submit"
+      >
+        {getModalContent()}
+      </Modal>
+    </div>
   );
 };
 
