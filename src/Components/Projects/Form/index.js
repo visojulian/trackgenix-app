@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import styles from './form.module.css';
+import Delete from '../../../Assets/trash.png';
 import Modal from '../../Shared/Modal';
-import Delete from '../assets/trash.png';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
-import styles from './form.module.css';
 import TextInput from '../../Shared/TextInput/index';
-import { useHistory, useParams } from 'react-router-dom';
 
 const ProjectForm = () => {
   const { id } = useParams();
@@ -207,138 +207,141 @@ const ProjectForm = () => {
   }, []);
 
   return (
-    <form className={styles.container}>
-      <TextInput
-        label="Project Name"
-        id="name"
-        name="name"
-        value={nameValue}
-        onChange={onChangeNameInput}
-        type="text"
-        placeholder="Project Name"
-      />
-      <TextInput
-        label="Client Name"
-        id="client"
-        name="client"
-        value={clientValue}
-        onChange={onChangeClientInput}
-        type="text"
-        placeholder="Client Name"
-      />
-      <TextInput
-        label="Description"
-        id="description"
-        name="description"
-        value={descriptionValue}
-        onChange={onChangeDescriptionInput}
-        type="text"
-        placeholder="Description"
-      />
-      <TextInput
-        label="Start date"
-        id="startDate"
-        name="startDate"
-        value={startDateValue}
-        onChange={onChangeStartDateInput}
-        type="date"
-        placeholder="Start date"
-      />
-      <TextInput
-        label="End date"
-        id="endDate"
-        name="endDate"
-        value={endDateValue}
-        onChange={onChangeEndDateInput}
-        type="date"
-        placeholder="End date"
-      />
-      <div className={styles.listContainer}>
-        <div>
-          <h4>Employees</h4>
+    <>
+      <h4>{isEditing ? 'Edit' : 'Add'} Project</h4>
+      <form className={styles.container}>
+        <TextInput
+          label="Project Name"
+          id="name"
+          name="name"
+          value={nameValue}
+          onChange={onChangeNameInput}
+          type="text"
+          placeholder="Project Name"
+        />
+        <TextInput
+          label="Client Name"
+          id="client"
+          name="client"
+          value={clientValue}
+          onChange={onChangeClientInput}
+          type="text"
+          placeholder="Client Name"
+        />
+        <TextInput
+          label="Description"
+          id="description"
+          name="description"
+          value={descriptionValue}
+          onChange={onChangeDescriptionInput}
+          type="text"
+          placeholder="Description"
+        />
+        <TextInput
+          label="Start date"
+          id="startDate"
+          name="startDate"
+          value={startDateValue}
+          onChange={onChangeStartDateInput}
+          type="date"
+          placeholder="Start date"
+        />
+        <TextInput
+          label="End date"
+          id="endDate"
+          name="endDate"
+          value={endDateValue}
+          onChange={onChangeEndDateInput}
+          type="date"
+          placeholder="End date"
+        />
+        <div className={styles.listContainer}>
           <div>
-            <div className={styles.newEmployeeInputs}>
-              <Select
-                name="employees"
-                placeholder="Select an employee"
-                required
-                onSelect={handleEmployeeChange}
-                data={employees.map((employee) => ({
-                  id: employee._id,
-                  value: employee.name
-                }))}
-              />
-              <Select
-                name="role"
-                placeholder="Select Role"
-                required
-                onSelect={handleRoleChange}
-                data={roles.map((role) => ({
-                  value: role
-                }))}
-              />
-              <input
-                id="rate"
-                name="rate"
-                value={rateValue}
-                onChange={onChangeRateInput}
-                type="text"
-                placeholder="Rate"
-              />
+            <h4>Employees</h4>
+            <div>
+              <div className={styles.newEmployeeInputs}>
+                <Select
+                  name="employees"
+                  placeholder="Select an employee"
+                  required
+                  onSelect={handleEmployeeChange}
+                  data={employees.map((employee) => ({
+                    id: employee._id,
+                    value: employee.name
+                  }))}
+                />
+                <Select
+                  name="role"
+                  placeholder="Select Role"
+                  required
+                  onSelect={handleRoleChange}
+                  data={roles.map((role) => ({
+                    value: role
+                  }))}
+                />
+                <input
+                  id="rate"
+                  name="rate"
+                  value={rateValue}
+                  onChange={onChangeRateInput}
+                  type="text"
+                  placeholder="Rate"
+                />
+              </div>
+              <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
             </div>
-            <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Role</th>
+                  <th>Rate</th>
+                  <th>
+                    <img src={Delete}></img>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {projectEmployees.map((employee, index) => {
+                  const selectedEmployee = employees.find((item) => item._id === employee.employee);
+                  if (selectedEmployee !== undefined) {
+                    return (
+                      <tr key={index}>
+                        <td>{selectedEmployee.name}</td>
+                        <td>{employee.role}</td>
+                        <td>{employee.rate}</td>
+                        <td>
+                          <Button
+                            text="&times;"
+                            variant="secondary"
+                            onClick={() => {
+                              handleDelete(index);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  }
+                })}
+              </tbody>
+            </table>
           </div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Employee</th>
-                <th>Role</th>
-                <th>Rate</th>
-                <th>
-                  <img src={Delete}></img>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {projectEmployees.map((employee, index) => {
-                const selectedEmployee = employees.find((item) => item._id === employee.employee);
-                if (selectedEmployee !== undefined) {
-                  return (
-                    <tr key={index}>
-                      <td>{selectedEmployee.name}</td>
-                      <td>{employee.role}</td>
-                      <td>{employee.rate}</td>
-                      <td>
-                        <Button
-                          text="&times;"
-                          variant="secondary"
-                          onClick={() => {
-                            handleDelete(index);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
-            </tbody>
-          </table>
+          <Modal
+            isOpen={showModal}
+            handleClose={setShowModal}
+            isActionModal={isActionModal}
+            action={onSubmit}
+            actionButton="Submit"
+          >
+            {getModalContent()}
+          </Modal>
+          <div className={styles.formButtons}>
+            <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+            <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
+          </div>
         </div>
-        <Modal
-          isOpen={showModal}
-          handleClose={setShowModal}
-          isActionModal={isActionModal}
-          action={onSubmit}
-          actionButton="Submit"
-        >
-          {getModalContent()}
-        </Modal>
-        <div className={styles.formButtons}>
-          <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
-          <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 

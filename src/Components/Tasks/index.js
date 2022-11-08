@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import styles from './tasks.module.css';
-import Task from './Task/index';
-import Button from '../Shared/Button/index';
-import Modal from '../Shared/Modal';
-import Logo from '../../assets/trash.png';
 import { useHistory } from 'react-router-dom';
+import styles from './tasks.module.css';
+import Table from '../Shared/Table';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
 
 const Tasks = () => {
   const history = useHistory();
   const [tasks, saveTasks] = useState([]);
-  const [taskId, setTaskId] = useState(undefined);
+  const [taskId, setTaskId] = useState();
   const [showModal, setShowModal] = useState(false);
+  const headers = ['description'];
 
   useEffect(async () => {
     try {
@@ -23,19 +23,25 @@ const Tasks = () => {
   }, []);
 
   const deleteTask = async () => {
-    const id = taskId;
-    saveTasks([...tasks.filter((task) => task._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+    saveTasks([...tasks.filter((task) => task._id !== taskId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'DELETE'
     });
   };
 
-  const onClickTask = (id) => {
+  const onDelete = (id, showModal) => {
+    setTaskId(id);
+    setShowModal(showModal);
+  };
+
+  const onRowClick = (id) => {
     history.push(`/tasks/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
+      <h2>Tasks</h2>
+      <Table data={tasks} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
@@ -49,44 +55,14 @@ const Tasks = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <div className={styles.upperFlexBox}>
-        <div className={styles.titleFlexBox}>
-          <h2>Tasks</h2>
-        </div>
-        <div className={styles.buttonFlexBox}>
-          <Button
-            text="Add new task"
-            type="submit"
-            variant="primary"
-            onClick={() => {
-              history.push(`/tasks/form`);
-            }}
-          />
-        </div>
-      </div>
-      <table className={styles.table}>
-        <thead className={styles.tableHead}>
-          <tr>
-            <th>Description</th>
-            <th>
-              <img src={Logo} />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => {
-            return (
-              <Task
-                key={task._id}
-                task={task}
-                setShowModal={() => setShowModal(true)}
-                setTaskId={setTaskId}
-                onClickTask={onClickTask}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <Button
+        text="Add new task"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/tasks/form`);
+        }}
+      />
     </section>
   );
 };

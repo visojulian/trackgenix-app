@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './list.module.css';
-import TimeSheet from './TimeSheet/index';
+import Table from '../Shared/Table';
 import Button from '../Shared/Button/index';
 import Modal from '../Shared/Modal';
-import { useHistory } from 'react-router-dom';
 
 const TimeSheets = () => {
   const history = useHistory();
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
+  const headers = ['description', 'date', 'hours', 'task', 'employee', 'project'];
 
   useEffect(async () => {
     try {
@@ -21,25 +22,42 @@ const TimeSheets = () => {
     }
   }, []);
 
+  const getTableData = () => {
+    return timeSheets.map((timesheet) => {
+      return {
+        ...timesheet,
+        task: timesheet.task.description,
+        employee: `${timesheet.employee.name} ${timesheet.employee.lastName}`,
+        project: timesheet.project.name
+      };
+    });
+  };
+
   const deleteTimeSheet = async () => {
-    const id = timeSheetId;
-    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
+    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`, {
       method: 'DELETE'
     });
+  };
+
+  const onDelete = (id, showModal) => {
+    setTimeSheetId(id);
+    setShowModal(showModal);
+  };
+
+  const onRowClick = (id) => {
+    history.push(`/time-sheets/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.containerUpper}>
         <h2>TimeSheets</h2>
-        <Button
-          text="Add Timesheet"
-          type="submit"
-          variant="primary"
-          onClick={() => {
-            history.push(`/time-sheets/form`);
-          }}
+        <Table
+          data={getTableData()}
+          headers={headers}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
         />
       </div>
       <Modal
@@ -55,31 +73,14 @@ const TimeSheets = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <table className={styles.table}>
-        <thead>
-          <tr style={{ display: 'flex', justifyContent: 'center' }}>
-            <th style={{ flexBasis: '25%' }}>Description</th>
-            <th style={{ flexBasis: '15%' }}>Date</th>
-            <th style={{ flexBasis: '10%' }}>Hours</th>
-            <th style={{ flexBasis: '20%' }}>Task</th>
-            <th style={{ flexBasis: '20%' }}>Employee</th>
-            <th style={{ flexBasis: '10%' }}>Project</th>
-            <th style={{ flexBasis: '10%' }}>Delete TimeSheet</th>
-          </tr>
-        </thead>
-        <tbody>
-          {timeSheets.map((timeSheet) => {
-            return (
-              <TimeSheet
-                key={timeSheets._id}
-                timeSheet={timeSheet}
-                setTimeSheetId={setTimeSheetId}
-                setShowModal={() => setShowModal(true)}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <Button
+        text="Add Timesheet"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/time-sheets/form`);
+        }}
+      />
     </section>
   );
 };

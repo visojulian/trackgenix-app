@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './super-admins.module.css';
-import { useEffect, useState } from 'react';
-import SuperAdminsList from './List';
+import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 
 const SuperAdmins = () => {
+  const history = useHistory();
   const [superAdmins, setSuperAdmins] = useState([]);
-  const [superAdminId, setSuperAdminId] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [superAdminId, setSuperAdminId] = useState();
+  const headers = ['name', 'lastName', 'email'];
 
   useEffect(async () => {
     try {
@@ -20,15 +23,24 @@ const SuperAdmins = () => {
   }, []);
 
   const deleteSuperAdmin = async () => {
-    const id = superAdminId;
-    await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
+    setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== superAdminId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
       method: 'DELETE'
     });
-    setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== id)]);
+  };
+
+  const onDelete = (id, showModal) => {
+    setSuperAdminId(id);
+    setShowModal(showModal);
+  };
+
+  const onRowClick = (id) => {
+    history.push(`/super-admins/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
+      <Table data={superAdmins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
@@ -42,13 +54,14 @@ const SuperAdmins = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <div>
-        <SuperAdminsList
-          superAdmins={superAdmins}
-          setModal={() => setShowModal(true)}
-          setSuperAdminId={setSuperAdminId}
-        />
-      </div>
+      <Button
+        text="Add Super Admin"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push('super-admins/form');
+        }}
+      />
     </section>
   );
 };

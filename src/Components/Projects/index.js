@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Button from '../Shared/Button';
-import Delete from './assets/trash.png';
 import styles from './projects.module.css';
+import Table from '../Shared/Table';
+import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
 
 const Projects = () => {
   const history = useHistory();
   const [projects, saveProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState({});
+  const [projectId, setProjectId] = useState();
   const [showModal, setShowModal] = useState(false);
+  const headers = ['name', 'clientName', 'description', 'startDate'];
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects`)
@@ -20,25 +21,24 @@ const Projects = () => {
   }, []);
 
   const deleteProject = async () => {
-    const id = selectedProject.id;
-    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+    saveProjects([...projects.filter((project) => project._id !== projectId)]);
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
       method: 'DELETE'
     });
-    saveProjects([...projects.filter((project) => project._id !== id)]);
   };
 
-  const handleDelete = (project, event) => {
-    setSelectedProject({ id: project._id, name: project.name });
-    setShowModal(true);
-    event.stopPropagation();
+  const onDelete = (id, showModal) => {
+    setProjectId(id);
+    setShowModal(showModal);
   };
 
-  const editProject = (id) => {
+  const onRowClick = (id) => {
     history.push(`/projects/form/${id}`);
   };
 
   return (
     <section className={styles.container}>
+      <Table data={projects} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
@@ -48,39 +48,10 @@ const Projects = () => {
       >
         <div>
           <h4>Delete Project</h4>
-          <p>Are you sure you want to remove: {selectedProject.name}?</p>
+          <p>Are you sure you want to remove project?</p>
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Project</th>
-            <th>Created</th>
-            <th></th>
-            <th>
-              <img src={Delete}></img>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <tr key={project._id} onClick={() => editProject(project._id)}>
-              <td>{project.name}</td>
-              <td>{project.startDate.slice(0, 10)}</td>
-              <td className={styles.center}>&hellip;</td>
-              <td className={styles.center}>
-                <Button
-                  type="submit"
-                  text="&times;"
-                  variant="primary"
-                  onClick={(e) => handleDelete(project, e)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <Button
         text="Add New Project"
         type="submit"
