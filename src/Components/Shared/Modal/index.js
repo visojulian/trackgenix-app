@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../Button';
 import styles from './modal.module.css';
 
 const Modal = (props) => {
@@ -13,22 +14,22 @@ const Modal = (props) => {
         {children}
         <div className={styles.buttonsWrapper}>
           <div className={styles.buttonsList}>
-            <button
-              className={isActionModal ? styles.cancel : styles.confirm}
+            <Button
+              text={isActionModal ? 'Cancel' : 'Accept'}
               onClick={() => handleClose()}
-            >
-              {isActionModal ? 'Cancel' : 'Accept'}
-            </button>
+              type="button"
+              variant={isActionModal ? 'secondary' : 'primary'}
+            />
             {isActionModal && (
-              <button
-                className={styles.confirm}
+              <Button
+                text={actionButton}
                 onClick={() => {
                   action();
                   handleClose();
                 }}
-              >
-                {actionButton}
-              </button>
+                type="button"
+                variant="primary"
+              />
             )}
           </div>
         </div>
