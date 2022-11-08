@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Modal from '../../Shared/Modal';
 import Delete from '../assets/trash.png';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
 import styles from './form.module.css';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
@@ -256,20 +258,26 @@ const ProjectForm = () => {
           <h4>Employees</h4>
           <div>
             <div className={styles.newEmployeeInputs}>
-              <select required onChange={handleEmployeeChange}>
-                {employees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.name}
-                  </option>
-                ))}
-              </select>
-              <select required value={roleValue} onChange={handleRoleChange}>
-                {roles.map((role, index) => (
-                  <option key={index}>{role}</option>
-                ))}
-              </select>
-              <TextInput
-                label="Rate"
+              <Select
+                name="employees"
+                placeholder="Select an employee"
+                required
+                onSelect={handleEmployeeChange}
+                data={employees.map((employee) => ({
+                  id: employee._id,
+                  value: employee.name
+                }))}
+              />
+              <Select
+                name="role"
+                placeholder="Select Role"
+                required
+                onSelect={handleRoleChange}
+                data={roles.map((role) => ({
+                  value: role
+                }))}
+              />
+              <input
                 id="rate"
                 name="rate"
                 value={rateValue}
@@ -278,9 +286,7 @@ const ProjectForm = () => {
                 placeholder="Rate"
               />
             </div>
-            <button className={styles.newEmployeeButton} onClick={addEmployee}>
-              Assign new employee
-            </button>
+            <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
           </div>
           <table className={styles.table}>
             <thead>
@@ -303,7 +309,13 @@ const ProjectForm = () => {
                       <td>{employee.role}</td>
                       <td>{employee.rate}</td>
                       <td>
-                        <button onClick={() => handleDelete(index)}>&times;</button>
+                        <Button
+                          text="&times;"
+                          variant="secondary"
+                          onClick={() => {
+                            handleDelete(index);
+                          }}
+                        />
                       </td>
                     </tr>
                   );
@@ -322,12 +334,8 @@ const ProjectForm = () => {
           {getModalContent()}
         </Modal>
         <div className={styles.formButtons}>
-          <button className={styles.cancel} onClick={onCancel}>
-            Cancel
-          </button>
-          <button className={styles.button} onClick={handleConfirmModal}>
-            Submit
-          </button>
+          <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+          <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </div>
     </form>

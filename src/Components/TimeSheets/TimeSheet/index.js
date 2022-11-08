@@ -1,6 +1,5 @@
-import Trash from '../../../assets/trash.png';
-import styles from './time.module.css';
 import { useHistory } from 'react-router-dom';
+import Button from '../../Shared/Button';
 
 const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
   const history = useHistory();
@@ -26,10 +25,10 @@ const TimeSheet = ({ timeSheet, setShowModal, setTimeSheetId }) => {
         {timeSheet.project ? timeSheet.project.name : 'Project does not exist'}
       </td>
       <td style={{ flexBasis: '10%' }}>
-        <img
-          className={styles.button}
-          src={Trash}
-          alt="trash"
+        <Button
+          text="&times;"
+          type="submit"
+          variant="primary"
           onClick={(event) => {
             event.stopPropagation();
             setShowModal(true);

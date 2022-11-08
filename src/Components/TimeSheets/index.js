@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './list.module.css';
 import TimeSheet from './TimeSheet/index';
+import Button from '../Shared/Button/index';
 import Modal from '../Shared/Modal';
 import { useHistory } from 'react-router-dom';
 
@@ -32,14 +33,14 @@ const TimeSheets = () => {
     <section className={styles.container}>
       <div className={styles.containerUpper}>
         <h2>TimeSheets</h2>
-        <button
-          className={styles.button}
+        <Button
+          text="Add Timesheet"
+          type="submit"
+          variant="primary"
           onClick={() => {
             history.push(`/time-sheets/form`);
           }}
-        >
-          New TimeSheet
-        </button>
+        />
       </div>
       <Modal
         isOpen={showModal}

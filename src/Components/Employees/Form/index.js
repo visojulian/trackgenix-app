@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
@@ -190,18 +191,15 @@ const Form = () => {
             placeholder="Password"
           />
           <div className={styles.divButton}>
-            <button
-              className={styles.firstButton}
+            <Button
+              text="Cancel"
+              type="reset"
+              variant="secondary"
               onClick={() => {
                 history.goBack();
               }}
-              type="reset"
-            >
-              Cancel
-            </button>
-            <button className={styles.secondButton} onClick={handleConfirmModal}>
-              Submit
-            </button>
+            />
+            <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </form>
         <Modal

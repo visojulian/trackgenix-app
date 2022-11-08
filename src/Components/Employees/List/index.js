@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 import DeleteImg from '../Assets/trash.png';
+import Button from '../../Shared/Button';
 import { useHistory } from 'react-router-dom';
 
 const EmployeesList = (props) => {
@@ -38,16 +39,16 @@ const EmployeesList = (props) => {
                 <td>{employee.phone}</td>
                 <td>{employee.email}</td>
                 <td>
-                  <button
-                    className={styles.button}
+                  <Button
+                    text="&times;"
+                    type="submit"
+                    variant="primary"
                     onClick={(event) => {
                       event.stopPropagation();
                       props.setEmployeeId(employee._id);
                       props.setShowModal();
                     }}
-                  >
-                    X
-                  </button>
+                  />
                 </td>
               </tr>
             );
@@ -55,14 +56,14 @@ const EmployeesList = (props) => {
         </tbody>
       </table>
       <div className={styles.div}>
-        <button
-          className={styles.submitButton}
+        <Button
+          text="Add Employee"
+          type="submit"
+          variant="primary"
           onClick={() => {
             history.push(`/employees/form`);
           }}
-        >
-          Add employee
-        </button>
+        />
       </div>
     </div>
   );

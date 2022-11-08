@@ -1,5 +1,6 @@
 import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
+import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
@@ -169,16 +170,15 @@ const Form = () => {
               placeholder="Password"
             />
             <div className={styles.buttons}>
-              <button
+              <Button
+                text="Cancel"
                 type="reset"
-                onClick={() => history.push('/super-admins')}
-                className={styles.buttonCancel}
-              >
-                Cancel
-              </button>
-              <button onClick={handleConfirmModal} className={styles.buttonSubmit}>
-                Submit
-              </button>
+                variant="secondary"
+                onClick={() => {
+                  history.push('/super-admins');
+                }}
+              />
+              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
               <Modal
                 isOpen={showModal}
                 handleClose={setShowModal}

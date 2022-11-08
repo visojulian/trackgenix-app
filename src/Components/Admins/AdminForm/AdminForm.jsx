@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
@@ -160,15 +161,15 @@ const AdminForm = () => {
           placeholder="Password"
         />
         <div>
-          <button
-            type="button"
+          <Button
+            text="Cancel"
+            type="reset"
+            variant="secondary"
             onClick={() => {
               history.goBack();
             }}
-          >
-            Cancel
-          </button>
-          <button onClick={handleConfirmModal}>Submit</button>
+          />
+          <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
       <Modal

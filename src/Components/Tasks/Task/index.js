@@ -1,3 +1,5 @@
+import Button from '../../Shared/Button';
+
 const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
   return (
     <tr
@@ -7,15 +9,16 @@ const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
     >
       <td>{task.description}</td>
       <td>
-        <button
+        <Button
+          text="&times;"
+          type="submit"
+          variant="primary"
           onClick={(e) => {
             setTaskId(task._id);
             setShowModal();
             e.stopPropagation();
           }}
-        >
-          &times;
-        </button>
+        />
       </td>
     </tr>
   );

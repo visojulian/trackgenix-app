@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../Shared/Button';
 import styles from '../admins.module.css';
 
 const AdminItem = ({ admin, setModal, setAdmin, onClickAdmin }) => {
@@ -14,16 +15,16 @@ const AdminItem = ({ admin, setModal, setAdmin, onClickAdmin }) => {
         <td className={styles.row}>{admin.email}</td>
         <td className={styles.row}>{admin.password}</td>
         <td className={styles.row}>
-          <button
+          <Button
+            text="&times;"
+            type="submit"
+            variant="primary"
             onClick={(e) => {
               e.stopPropagation();
               setAdmin({ id: admin._id, name: admin.name });
               setModal(true);
             }}
-            className={styles.buttonDelete}
-          >
-            x
-          </button>
+          />
         </td>
       </tr>
     </>

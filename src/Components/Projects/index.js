@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import Button from '../Shared/Button';
 import Delete from './assets/trash.png';
 import styles from './projects.module.css';
 import Modal from '../Shared/Modal';
@@ -69,15 +70,25 @@ const Projects = () => {
               <td>{project.startDate.slice(0, 10)}</td>
               <td className={styles.center}>&hellip;</td>
               <td className={styles.center}>
-                <button onClick={(e) => handleDelete(project, e)}>&times;</button>
+                <Button
+                  type="submit"
+                  text="&times;"
+                  variant="primary"
+                  onClick={(e) => handleDelete(project, e)}
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Link className={styles.button} to="/projects/form">
-        Add New Project
-      </Link>
+      <Button
+        text="Add New Project"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`/projects/form`);
+        }}
+      />
     </section>
   );
 };

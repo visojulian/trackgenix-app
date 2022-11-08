@@ -1,0 +1,26 @@
+.confirm {
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #606197;
+}
+
+.confirm:hover {
+  background-color: #373867;
+}
+
+.cancel {
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: #606197;
+}
+
+.cancel:hover {
+  background-color: #afafb7;
+}

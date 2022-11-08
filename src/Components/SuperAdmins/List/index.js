@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
 import Delete from '../assets/trash.png';
+import Button from '../../Shared/Button';
 import { useHistory } from 'react-router-dom';
 
 const SuperAdminsList = (props) => {
@@ -37,16 +38,16 @@ const SuperAdminsList = (props) => {
                 <td>{superAdmin.lastName}</td>
                 <td>{superAdmin.email}</td>
                 <td>
-                  <button
-                    className={styles.button}
+                  <Button
+                    text="&times;"
+                    type="submit"
+                    variant="primary"
                     onClick={(event) => {
                       event.stopPropagation();
                       props.setSuperAdminId(superAdmin._id);
                       props.setModal();
                     }}
-                  >
-                    x
-                  </button>
+                  />
                 </td>
               </tr>
             );
@@ -54,14 +55,14 @@ const SuperAdminsList = (props) => {
         </tbody>
       </table>
       <div>
-        <button
-          className={styles.buttonAdd}
+        <Button
+          text="Add Super Admin"
+          type="submit"
+          variant="primary"
           onClick={() => {
             history.push('super-admins/form');
           }}
-        >
-          Add Super Admin
-        </button>
+        />
       </div>
     </div>
   );

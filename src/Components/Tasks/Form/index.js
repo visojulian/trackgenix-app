@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
+import Button from '../../Shared/Button/index';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
@@ -134,20 +135,17 @@ const Form = () => {
         </div>
         <div className={styles.buttonsFlexBox}>
           <div>
-            <button
+            <Button
               type="button"
+              text="Cancel"
+              variant="secondary"
               onClick={() => {
                 history.goBack();
               }}
-              className={styles.buttonCancel}
-            >
-              Cancel
-            </button>
+            />
           </div>
           <div>
-            <button onClick={handleConfirmModal} className={styles.buttonConfirm}>
-              Confirm
-            </button>
+            <Button text="Confirm" type="submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
       </form>

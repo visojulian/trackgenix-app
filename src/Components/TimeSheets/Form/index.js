@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -233,75 +235,70 @@ function Form() {
           />
           <div className={styles.box}>
             <label>Task</label>
-            <select
+            <Select
               name="task"
+              placeholder="Select a task"
               required
-              value={inputTimeSheetValue.task}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a task
-              </option>
-              {tasks.map((task) => {
-                return (
-                  <option placeholder="taskhere" key={task._id} value={task._id}>
-                    {task.description}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={tasks.map((task) => ({
+                id: task._id,
+                value: task.description
+              }))}
+              value={
+                inputTimeSheetValue.task !== '' &&
+                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Project</label>
-            <select
+            <Select
               name="project"
+              placeholder="Select a project"
               required
-              value={inputTimeSheetValue.project}
-              onChange={onChangeInputValue}
-            >
-              <option value="" disabled hidden>
-                Select a project
-              </option>
-              {projects.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={projects.map((project) => ({
+                id: project._id,
+                value: project.name
+              }))}
+              value={
+                inputTimeSheetValue.project !== '' &&
+                projects.find((project) => project._id === inputTimeSheetValue.project)._id
+              }
+            />
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <select
+            <Select
               name="employee"
-              value={inputTimeSheetValue.employee}
-              onChange={onChangeInputValue}
+              placeholder="Select an employee"
               required
-            >
-              <option value="" disabled hidden>
-                Select an employee
-              </option>
-              {employees.map((employee, index) => {
-                const selectedEmployee = employeesTotal.find((item) => item._id === employee);
-                return (
-                  <option key={index} value={selectedEmployee._id}>
-                    {selectedEmployee.name}
-                  </option>
-                );
-              })}
-            </select>
+              onSelect={onChangeInputValue}
+              data={employees.map((employee) => ({
+                id: employeesTotal.find((item) => item._id === employee)._id,
+                value: employeesTotal.find((item) => item._id === employee).name
+              }))}
+              value={
+                inputTimeSheetValue.employee !== '' &&
+                employees.map(
+                  (employee) => employeesTotal.find((item) => item._id === employee)._id
+                )
+              }
+            />
           </div>
           <div className={styles.buttons}>
             <div>
-              <button className={styles.confirmButton} onClick={() => history.goBack()}>
-                Cancel
-              </button>
+              <Button
+                text="Cancel"
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  history.goBack();
+                }}
+              />
             </div>
             <div>
-              <button className={styles.cancelButton} onClick={handleConfirmModal}>
-                Submit
-              </button>
+              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
             </div>
           </div>
         </div>

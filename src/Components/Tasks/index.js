@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Task from './Task/index';
+import Button from '../Shared/Button/index';
 import Modal from '../Shared/Modal';
 import Logo from '../../assets/trash.png';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Tasks = () => {
   const history = useHistory();
@@ -53,9 +54,14 @@ const Tasks = () => {
           <h2>Tasks</h2>
         </div>
         <div className={styles.buttonFlexBox}>
-          <Link to="/tasks/form">
-            <button className={styles.addTaskButton}>Add new task</button>
-          </Link>
+          <Button
+            text="Add new task"
+            type="submit"
+            variant="primary"
+            onClick={() => {
+              history.push(`/tasks/form`);
+            }}
+          />
         </div>
       </div>
       <table className={styles.table}>
