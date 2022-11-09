@@ -10,7 +10,8 @@ const TimeSheets = () => {
   const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
-  const headers = ['description', 'date', 'hours', 'task', 'employee', 'project'];
+  const values = ['description', 'date', 'hours', 'task', 'employee', 'project'];
+  const headers = ['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project'];
 
   useEffect(async () => {
     try {
@@ -52,7 +53,13 @@ const TimeSheets = () => {
   return (
     <div className={styles.container}>
       <h1>TimeSheets</h1>
-      <Table data={getTableData()} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+      <Table
+        data={getTableData()}
+        headers={headers}
+        values={values}
+        onDelete={onDelete}
+        onRowClick={onRowClick}
+      />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}

@@ -10,7 +10,8 @@ const SuperAdmins = () => {
   const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
-  const headers = ['name', 'lastName', 'email'];
+  const values = ['name', 'lastName', 'email'];
+  const headers = ['Name', 'Last Name', 'Email'];
 
   useEffect(async () => {
     try {
@@ -42,7 +43,13 @@ const SuperAdmins = () => {
     <>
       <div className={styles.container}>
         <h1>Super Admins</h1>
-        <Table data={superAdmins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+        <Table
+          data={superAdmins}
+          headers={headers}
+          values={values}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
         <Modal
           isOpen={showModal}
           handleClose={setShowModal}
