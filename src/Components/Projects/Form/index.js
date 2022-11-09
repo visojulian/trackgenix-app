@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './form.module.css';
-import Delete from '../../../Assets/trash.png';
+import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
@@ -25,6 +25,23 @@ const ProjectForm = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
+
+  const newArr = () => {
+    const headers = [];
+    projectEmployees.map((employee) => {
+      const selectedEmployee = employees.find((item) => item._id === employee.employee);
+      if (selectedEmployee) {
+        headers.push({
+          name: selectedEmployee.name,
+          role: employee.role,
+          rate: employee.rate
+        });
+      }
+    });
+    return headers;
+  };
+
+  const onRowClick = () => {};
 
   const onChangeNameInput = (event) => {
     setNameValue(event.target.value);
@@ -292,41 +309,12 @@ const ProjectForm = () => {
                 <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
               </div>
             </div>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th>Role</th>
-                  <th>Rate</th>
-                  <th>
-                    <img src={Delete}></img>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {projectEmployees.map((employee, index) => {
-                  const selectedEmployee = employees.find((item) => item._id === employee.employee);
-                  if (selectedEmployee !== undefined) {
-                    return (
-                      <tr key={index}>
-                        <td>{selectedEmployee.name}</td>
-                        <td>{employee.role}</td>
-                        <td>{employee.rate}</td>
-                        <td>
-                          <Button
-                            text="&times;"
-                            variant="secondary"
-                            onClick={() => {
-                              handleDelete(index);
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  }
-                })}
-              </tbody>
-            </table>
+            <Table
+              data={newArr()}
+              headers={['name', 'role', 'rate']}
+              onDelete={handleDelete}
+              onRowClick={onRowClick}
+            />
           </div>
           <Modal
             isOpen={showModal}
