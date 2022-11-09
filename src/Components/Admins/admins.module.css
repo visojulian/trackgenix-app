@@ -2,70 +2,15 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .container h1 {
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   color: #373867;
   text-align: center;
-}
-
-.tableContainer {
-  height: auto;
-  width: 916px;
-  margin: 50px;
-  border: 1px solid #DFE4DE;
-  border-radius: 5px;
-  border-collapse: collapse;
-}
-
-.tableContainer th {
-  height: 50px;
-  font-weight: 500;
-  background-color: #373867;
-  color: #fff;
-}
-
-.row {
-  color: #373867;
-  text-align: center;
-  height: 40px;
-  border-top: 1px solid #DFE4DE;
-}
-
-.buttonDelete {
-  width: 20px;
-  height: 20px;
-  border: none;
-  border-radius: 100px;
-  color: #fff;
-  background-color: #606197;
-}
-
-.buttonAddAdmin {
-  margin: 50px;
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #373867;
-  background-color: #fff;
-  border: 2px solid #373867;
-  border-radius: 5px;
-}
-
-.buttonDelete:hover {
-  cursor: pointer;
-  background-color: #373867;
-}
-
-.buttonUpdate:hover,
-.buttonAddAdmin:hover,
-.row:hover {
-  cursor: pointer;
 }

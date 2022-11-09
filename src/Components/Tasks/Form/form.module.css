@@ -6,17 +6,25 @@
   align-items: center;
 }
 
+h1 {
+  color: #373867;
+  font-size: 25px;
+}
+
 .formFlexBox {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
+  margin: 20px;
 }
 
 .buttonsFlexBox {
   display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+  width: 290px;
+  justify-content: space-between;
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .buttonCancel {

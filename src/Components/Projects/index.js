@@ -37,7 +37,8 @@ const Projects = () => {
   };
 
   return (
-    <section className={styles.container}>
+    <div className={styles.container}>
+      <h1>Projects</h1>
       <Table data={projects} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
       <Modal
         isOpen={showModal}
@@ -60,7 +61,7 @@ const Projects = () => {
           history.push(`/projects/form`);
         }}
       />
-    </section>
+    </div>
   );
 };
 

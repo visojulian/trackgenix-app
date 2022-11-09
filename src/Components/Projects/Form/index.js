@@ -208,7 +208,7 @@ const ProjectForm = () => {
 
   return (
     <>
-      <h4>{isEditing ? 'Edit' : 'Add'} Project</h4>
+      <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
       <form className={styles.container}>
         <TextInput
           label="Project Name"
@@ -288,7 +288,9 @@ const ProjectForm = () => {
                   placeholder="Rate"
                 />
               </div>
-              <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
+              <div className={styles.buttonAssign}>
+                <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
+              </div>
             </div>
             <table className={styles.table}>
               <thead>

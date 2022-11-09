@@ -121,8 +121,8 @@ const AdminForm = () => {
   };
 
   return (
-    <>
-      <h1 className={styles.container}>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
+    <div className={styles.container}>
+      <h1>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
         <TextInput
           label="Name"
@@ -160,7 +160,7 @@ const AdminForm = () => {
           type="text"
           placeholder="Password"
         />
-        <div>
+        <div className={styles.butCont}>
           <Button
             text="Cancel"
             type="reset"
@@ -181,7 +181,7 @@ const AdminForm = () => {
       >
         {getModalContent()}
       </Modal>
-    </>
+    </div>
   );
 };
 

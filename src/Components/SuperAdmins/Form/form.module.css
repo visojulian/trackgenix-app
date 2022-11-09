@@ -1,78 +1,25 @@
-.container {
-  position: absolute;
+.container, .form {
+  padding: 10px;
+  margin-bottom: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
-  background: rgba(55, 56, 103, 69%);
 }
 
-.flex {
-  display: flex;
-  flex-direction: column;
-  width: 634px;
-  height: 400px;
-  margin: auto;
-  margin-bottom: 50px;
-  margin-top: 50px;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.container h3 {
-  font-size: 30px;
-  text-align: center;
-  color: #373867;
-}
-
-.box {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-h4 {
-  font-size: 24px;
-  text-align: center;
-  color: #373867;
-}
-
-.div, .buttons {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-
-.div label {
-  margin-bottom: 10px;
-  font-weight: 600;
-  font-size: 16px;
-  color: #373867;
-}
-
-.buttons {
+.butCont {
+  width: 290px;
+  padding: 20px;
   display: flex;
   flex-direction: row;
-  align-self: center;
   justify-content: space-between;
-  margin-top: 45px;
 }
 
-.buttonCancel {
-  height: 37px;
-  width: 45%;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 1px solid #373867;
+h1 {
+  margin-bottom: 20px;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
   color: #373867;
-}
-
-.buttonSubmit {
-  height: 37px;
-  width: 45%;
-  border-radius: 5px;
-  border: none;
-  font-weight: 600;
-  color: #373867;
-  background-color: #AACE9B;
+  text-align: center;
 }

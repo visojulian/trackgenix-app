@@ -39,30 +39,33 @@ const SuperAdmins = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <Table data={superAdmins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={deleteSuperAdmin}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Super Admin</h4>
-          <p>Are you sure you want to delete this employee from super admins?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
-      <Button
-        text="Add Super Admin"
-        type="submit"
-        variant="primary"
-        onClick={() => {
-          history.push('super-admins/form');
-        }}
-      />
-    </section>
+    <>
+      <div className={styles.container}>
+        <h1>Super Admins</h1>
+        <Table data={superAdmins} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={deleteSuperAdmin}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Super Admin</h4>
+            <p>Are you sure you want to delete this employee from super admins?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Super Admin"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push('super-admins/form');
+          }}
+        />
+      </div>
+    </>
   );
 };
 

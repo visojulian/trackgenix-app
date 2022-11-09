@@ -4,6 +4,8 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .container h2 {
@@ -82,7 +84,7 @@
 
 .table {
   width: 60%;
-  margin: 8% auto 2% auto;
+  margin: 30px auto 20px auto;
   border: 1px solid #DFE4DE;
   border-radius: 5px;
   border-collapse: collapse;
@@ -127,4 +129,23 @@
 
 .formButtons button.cancel:hover {
   background-color: #f1331230;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
+
+h4 {
+  text-align: center;
+  color: #fff;
+}
+
+.buttonAssign {
+  text-align: center;
+  margin-top: 20px;
 }
