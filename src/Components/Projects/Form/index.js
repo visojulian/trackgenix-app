@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './form.module.css';
-import Delete from '../../../Assets/trash.png';
 import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
@@ -27,26 +26,20 @@ const ProjectForm = () => {
   const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
-  console.log(projectEmployees);
-
-  const newHeader = projectEmployees.map((employee) => {
-    const selectedEmployee = employees.find((item) => item._id === employee.employee);
-    if (selectedEmployee !== undefined) {
-      return {
-        name: selectedEmployee.name,
-        role: employee.role,
-        rate: employee.rate
-      };
-    }
-    return {
-      name: selectedEmployee,
-      role: employee.role,
-      rate: employee.rate
-    };
-  });
-
-  console.log(selectedEmployee);
-  console.log(newHeader);
+  const newArr = () => {
+    const headers = [];
+    projectEmployees.map((employee) => {
+      const selectedEmployee = employees.find((item) => item._id === employee.employee);
+      if (selectedEmployee) {
+        headers.push({
+          name: selectedEmployee.name,
+          role: employee.role,
+          rate: employee.rate
+        });
+      }
+    });
+    return headers;
+  };
 
   const onRowClick = () => {};
 
@@ -314,43 +307,8 @@ const ProjectForm = () => {
               </div>
               <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
             </div>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th>Role</th>
-                  <th>Rate</th>
-                  <th>
-                    <img src={Delete}></img>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {projectEmployees.map((employee, index) => {
-                  const selectedEmployee = employees.find((item) => item._id === employee.employee);
-                  if (selectedEmployee !== undefined) {
-                    return (
-                      <tr key={index}>
-                        <td>{selectedEmployee.name}</td>
-                        <td>{employee.role}</td>
-                        <td>{employee.rate}</td>
-                        <td>
-                          <Button
-                            text="&times;"
-                            variant="secondary"
-                            onClick={() => {
-                              handleDelete(index);
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  }
-                })}
-              </tbody>
-            </table>
             <Table
-              data={newHeader}
+              data={newArr()}
               headers={['name', 'role', 'rate']}
               onDelete={handleDelete}
               onRowClick={onRowClick}
