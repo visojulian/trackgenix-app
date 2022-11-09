@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './table.module.css';
 import Delete from '../../../Assets/trash.png';
 
-const Table = ({ data, headers, onDelete, onRowClick }) => {
+const Table = ({ data, headers, values, onDelete, onRowClick }) => {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -20,7 +20,7 @@ const Table = ({ data, headers, onDelete, onRowClick }) => {
           {data.map((row) => {
             return (
               <tr key={row._id}>
-                {headers.map((header, index) => {
+                {values.map((value, index) => {
                   return (
                     <td
                       key={index}
@@ -28,7 +28,7 @@ const Table = ({ data, headers, onDelete, onRowClick }) => {
                         onRowClick(row._id);
                       }}
                     >
-                      {row[header]}
+                      {row[value]}
                     </td>
                   );
                 })}

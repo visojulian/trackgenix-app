@@ -10,7 +10,8 @@ const Projects = () => {
   const [projects, saveProjects] = useState([]);
   const [projectId, setProjectId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const headers = ['name', 'clientName', 'description', 'startDate'];
+  const values = ['name', 'clientName', 'description', 'startDate'];
+  const headers = ['Name', 'Client Name', 'Description', 'Start Date'];
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects`)
@@ -39,7 +40,13 @@ const Projects = () => {
   return (
     <div className={styles.container}>
       <h1>Projects</h1>
-      <Table data={projects} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+      <Table
+        data={projects}
+        headers={headers}
+        values={values}
+        onDelete={onDelete}
+        onRowClick={onRowClick}
+      />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}

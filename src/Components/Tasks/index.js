@@ -10,7 +10,8 @@ const Tasks = () => {
   const [tasks, saveTasks] = useState([]);
   const [taskId, setTaskId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const headers = ['description'];
+  const values = ['description'];
+  const headers = ['Description'];
 
   useEffect(async () => {
     try {
@@ -41,7 +42,13 @@ const Tasks = () => {
   return (
     <section className={styles.container}>
       <h1>Tasks</h1>
-      <Table data={tasks} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+      <Table
+        data={tasks}
+        headers={headers}
+        values={values}
+        onDelete={onDelete}
+        onRowClick={onRowClick}
+      />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
