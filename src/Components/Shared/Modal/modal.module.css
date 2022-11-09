@@ -25,6 +25,7 @@
 
 .modalWrapper h1, .modalWrapper h2, .modalWrapper h3, .modalWrapper h4, .modalWrapper h5, .modalWrapper h6 {
   margin: 30px 0;
+  color:black;
 }
 
 .modalWrapper p {
