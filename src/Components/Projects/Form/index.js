@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './form.module.css';
 import Delete from '../../../Assets/trash.png';
+import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
@@ -25,6 +26,29 @@ const ProjectForm = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
+
+  console.log(projectEmployees);
+
+  const newHeader = projectEmployees.map((employee) => {
+    const selectedEmployee = employees.find((item) => item._id === employee.employee);
+    if (selectedEmployee !== undefined) {
+      return {
+        name: selectedEmployee.name,
+        role: employee.role,
+        rate: employee.rate
+      };
+    }
+    return {
+      name: selectedEmployee,
+      role: employee.role,
+      rate: employee.rate
+    };
+  });
+
+  console.log(selectedEmployee);
+  console.log(newHeader);
+
+  const onRowClick = () => {};
 
   const onChangeNameInput = (event) => {
     setNameValue(event.target.value);
@@ -325,6 +349,12 @@ const ProjectForm = () => {
                 })}
               </tbody>
             </table>
+            <Table
+              data={newHeader}
+              headers={['name', 'role', 'rate']}
+              onDelete={handleDelete}
+              onRowClick={onRowClick}
+            />
           </div>
           <Modal
             isOpen={showModal}
