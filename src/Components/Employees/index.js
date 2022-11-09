@@ -10,7 +10,8 @@ function Employees() {
   const [employees, saveEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const headers = ['name', 'lastName', 'phone', 'email'];
+  const values = ['name', 'lastName', 'phone', 'email'];
+  const headers = ['Name', 'Last Name', 'Phone', 'Email'];
 
   useEffect(async () => {
     try {
@@ -43,7 +44,13 @@ function Employees() {
     <>
       <div className={styles.container}>
         <h1>Employees</h1>
-        <Table data={employees} headers={headers} onDelete={onDelete} onRowClick={onRowClick} />
+        <Table
+          data={employees}
+          headers={headers}
+          values={values}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
         <Modal
           isOpen={showModal}
           handleClose={setShowModal}
