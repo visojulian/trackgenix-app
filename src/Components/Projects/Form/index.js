@@ -34,7 +34,8 @@ const ProjectForm = () => {
         headers.push({
           name: selectedEmployee.name,
           role: employee.role,
-          rate: employee.rate
+          rate: employee.rate,
+          _id: employee.employee
         });
       }
     });
@@ -314,6 +315,7 @@ const ProjectForm = () => {
               headers={['name', 'role', 'rate']}
               onDelete={handleDelete}
               onRowClick={onRowClick}
+              values={['name', 'role', 'rate']}
             />
           </div>
           <Modal
