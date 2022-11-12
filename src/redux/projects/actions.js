@@ -2,7 +2,9 @@ import {
   GET_ENTITY_PENDING,
   GET_ENTITY_SUCCESS,
   GET_ENTITY_REJECTED,
-  DELETE_ENTITY_SUCCESS
+  DELETE_ENTITY_PENDING,
+  DELETE_ENTITY_SUCCESS,
+  DELETE_ENTITY_REJECTED
 } from './constants';
 
 const getProjectPending = () => {
@@ -25,25 +27,31 @@ const getProjectRejected = (err) => {
   };
 };
 
-const getProjects = () => {
-  return (dispatch) => {
-    dispatch(getProjectPending());
-    fetch(`${process.env.REACT_APP_API_URL}/projects`)
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(getProjectSuccess(res.data));
-      })
-      .catch((err) => {
-        dispatch(getProjectRejected(err.toString()));
-      });
+const deleteProjectPending = () => {
+  return {
+    type: DELETE_ENTITY_PENDING
   };
 };
 
-const deleteProject = (description) => {
+const deleteProjectSuccess = (id) => {
   return {
     type: DELETE_ENTITY_SUCCESS,
-    payload: description
+    payload: id
   };
 };
 
-export { getProjects, deleteProject };
+const deleteProjectRejected = (err) => {
+  return {
+    type: DELETE_ENTITY_REJECTED,
+    payload: err
+  };
+};
+
+export {
+  getProjectPending,
+  getProjectSuccess,
+  getProjectRejected,
+  deleteProjectPending,
+  deleteProjectSuccess,
+  deleteProjectRejected
+};

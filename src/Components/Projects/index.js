@@ -1,37 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from '../../redux/projects/actions';
+import { deleteProject, getProjects } from '../../redux/projects/thunks';
 import styles from './projects.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
+import Spinner from '../Shared/Spinner/spinner';
 
 const Projects = () => {
   const history = useHistory();
-  // const [projectId, setProjectId] = useState();
+  const [projectId, setProjectId] = useState();
   const [showModal, setShowModal] = useState(false);
   const values = ['name', 'clientName', 'description', 'startDate'];
   const headers = ['Name', 'Client Name', 'Description', 'Start Date'];
-
-  const { list: projects } = useSelector((state) => state.projects);
+  const { list: projects, isLoading } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
-
-  const project = useSelector((state) => state.projects.list);
 
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
-  const deleteProject = async () => {
-    // saveProjects([...projects.filter((project) => project._id !== projectId)]);
-    // await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
-    //   method: 'DELETE'
-    // });
-  };
-
   const onDelete = (id, showModal) => {
-    // setProjectId(id);
+    setProjectId(id);
     setShowModal(showModal);
   };
 
@@ -42,6 +33,7 @@ const Projects = () => {
   return (
     <div className={styles.container}>
       <h1>Projects</h1>
+      <Spinner isLoading={isLoading} />
       <Table
         data={projects}
         headers={headers}
@@ -53,7 +45,7 @@ const Projects = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={true}
-        action={deleteProject}
+        action={() => projectId && dispatch(deleteProject(projectId))}
         actionButton="Delete"
       >
         <div>
@@ -70,11 +62,6 @@ const Projects = () => {
           history.push(`/projects/form`);
         }}
       />
-      <ul>
-        {project.map((item) => {
-          <li>{item.description}</li>;
-        })}
-      </ul>
     </div>
   );
 };
