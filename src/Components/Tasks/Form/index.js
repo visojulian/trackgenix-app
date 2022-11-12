@@ -3,7 +3,10 @@ import styles from './form.module.css';
 import Button from '../../Shared/Button/index';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { postTasks } from '../../../redux/task/thunks';
 
 const Form = () => {
   const { id } = useParams();
@@ -13,6 +16,10 @@ const Form = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [serverError, setServerError] = useState();
+  //const tasks = useSelector((state) => state.tasks.list);
+  const isLoading = useSelector((state) => state.tasks.isLoading);
+  const error = useSelector((state) => state.tasks.error);
+  const dispatch = useDispatch();
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
@@ -71,19 +78,26 @@ const Form = () => {
 
   const onSubmit = async () => {
     if (!isEditing) {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description: taskName })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      //   method: 'POST',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ description: taskName })
+      // });
+      // const content = await rawResponse.json();
+      // if (!content.error) {
+      //   history.goBack();
+      // } else {
+      //   setServerError(content.message);
+      //   setShowModal(true);
+      // }
+      dispatch(postTasks(taskName));
+      if (error === '') {
         history.goBack();
       } else {
-        setServerError(content.message);
+        setServerError(error);
         setShowModal(true);
       }
     } else {
@@ -110,6 +124,7 @@ const Form = () => {
   return (
     <div className={styles.container}>
       <h1>{isEditing ? 'Edit Task' : 'Add Task'}</h1>
+      <Spinner isLoading={isLoading} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
