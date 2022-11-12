@@ -4,24 +4,22 @@ import {
   GET_SUPER_ADMINS_ERROR
 } from './constants';
 
-const getSuperAdminsPending = () => {
+export const getSuperAdminsPending = () => {
   return {
     type: GET_SUPER_ADMINS_PENDING
   };
 };
 
-const getSuperAdminsSuccess = (payload) => {
+export const getSuperAdminsSuccess = (payload) => {
   return {
     type: GET_SUPER_ADMINS_SUCCESS,
     payload
   };
 };
 
-const getSuperAdminsError = (error) => {
+export const getSuperAdminsError = (error) => {
   return {
     type: GET_SUPER_ADMINS_ERROR,
     payload: error
   };
 };
-
-export default { getSuperAdminsPending, getSuperAdminsSuccess, getSuperAdminsError };
