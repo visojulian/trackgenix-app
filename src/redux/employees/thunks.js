@@ -12,8 +12,8 @@ const getEmployees = () => {
           dispatch(getEmployeesSuccess(response.data));
         }
       })
-      .catch((err) => {
-        dispatch(getEmployeesError(err.toString()));
+      .catch((error) => {
+        dispatch(getEmployeesError(error.toString()));
       });
   };
 };
