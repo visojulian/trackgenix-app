@@ -1,26 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTimesheets } from '../../redux/timeSheets/thunks';
 import styles from './list.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button/index';
 import Modal from '../Shared/Modal';
+import Spinner from '../Shared/Spinner';
 
 const TimeSheets = () => {
+  const { list: timeSheets, isLoading, error } = useSelector((state) => state.timeSheets);
+  const dispatch = useDispatch();
   const history = useHistory();
-  const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
-  const values = ['description', 'date', 'hours', 'task', 'employee', 'project'];
   const headers = ['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project'];
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`);
-      const data = await response.json();
-      setTimeSheet(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getTimesheets());
   }, []);
 
   const getTableData = () => {
@@ -35,7 +32,7 @@ const TimeSheets = () => {
   };
 
   const deleteTimeSheet = async () => {
-    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
+    // setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
     await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`, {
       method: 'DELETE'
     });
@@ -50,13 +47,26 @@ const TimeSheets = () => {
     history.push(`/time-sheets/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
+      <div>
+        <h4>There was an error</h4>
+        <p>{error}</p>
+      </div>
+    </Modal>;
+  }
+
   return (
     <div className={styles.container}>
       <h1>TimeSheets</h1>
       <Table
         data={getTableData()}
         headers={headers}
-        values={values}
+        values={headers.map((header) => header.toLowerCase())}
         onDelete={onDelete}
         onRowClick={onRowClick}
       />
