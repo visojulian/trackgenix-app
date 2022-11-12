@@ -4,36 +4,34 @@ import styles from './super-admins.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
+import Spinner from '../Shared/Spinner/spinner';
+import { getSuperAdmins } from '../../redux/superAdmins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
 
 const SuperAdmins = () => {
   const history = useHistory();
-  const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [superAdminId, setSuperAdminId] = useState();
+  // const [superAdminId, setSuperAdminId] = useState();
+  const { list: superAdmins, isLoading } = useSelector((state) => state.superAdmins);
+  const dispatch = useDispatch();
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
 
   useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
-      const data = await response.json();
-      setSuperAdmins(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getSuperAdmins());
   }, []);
 
   const deleteSuperAdmin = async () => {
-    setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== superAdminId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
-      method: 'DELETE'
-    });
+    // setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== superAdminId)]);
+    // await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
+    //   method: 'DELETE'
+    // });
   };
 
-  const onDelete = (id, showModal) => {
-    setSuperAdminId(id);
-    setShowModal(showModal);
-  };
+  // const onDelete = (id, showModal) => {
+  //   setSuperAdminId(id);
+  //   setShowModal(showModal);
+  // };
 
   const onRowClick = (id) => {
     history.push(`/super-admins/form/${id}`);
@@ -43,11 +41,12 @@ const SuperAdmins = () => {
     <>
       <div className={styles.container}>
         <h1>Super Admins</h1>
+        <Spinner isLoading={isLoading} />
         <Table
           data={superAdmins}
           headers={headers}
           values={values}
-          onDelete={onDelete}
+          // onDelete={onDelete}
           onRowClick={onRowClick}
         />
         <Modal
