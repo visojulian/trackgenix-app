@@ -32,8 +32,8 @@ const Projects = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Projects</h1>
       <Spinner isLoading={isLoading} />
+      <h1>Projects</h1>
       <Table
         data={projects}
         headers={headers}
