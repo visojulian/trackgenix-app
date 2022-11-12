@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../../redux/projects/actions';
 import styles from './projects.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button';
@@ -7,29 +9,29 @@ import Modal from '../Shared/Modal';
 
 const Projects = () => {
   const history = useHistory();
-  const [projects, saveProjects] = useState([]);
-  const [projectId, setProjectId] = useState();
+  // const [projectId, setProjectId] = useState();
   const [showModal, setShowModal] = useState(false);
   const values = ['name', 'clientName', 'description', 'startDate'];
   const headers = ['Name', 'Client Name', 'Description', 'Start Date'];
 
+  const { list: projects } = useSelector((state) => state.projects);
+  const dispatch = useDispatch();
+
+  const project = useSelector((state) => state.projects.list);
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/projects`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveProjects(response.data);
-      });
+    dispatch(getProjects());
   }, []);
 
   const deleteProject = async () => {
-    saveProjects([...projects.filter((project) => project._id !== projectId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
-      method: 'DELETE'
-    });
+    // saveProjects([...projects.filter((project) => project._id !== projectId)]);
+    // await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
+    //   method: 'DELETE'
+    // });
   };
 
   const onDelete = (id, showModal) => {
-    setProjectId(id);
+    // setProjectId(id);
     setShowModal(showModal);
   };
 
@@ -68,6 +70,11 @@ const Projects = () => {
           history.push(`/projects/form`);
         }}
       />
+      <ul>
+        {project.map((item) => {
+          <li>{item.description}</li>;
+        })}
+      </ul>
     </div>
   );
 };
