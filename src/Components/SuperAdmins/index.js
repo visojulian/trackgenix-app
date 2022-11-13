@@ -30,11 +30,14 @@ const SuperAdmins = () => {
     history.push(`/super-admins/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
   return (
     <>
       <div className={styles.container}>
         <h1>Super Admins</h1>
-        <Spinner isLoading={isLoading} />
         <Table
           data={superAdmins}
           headers={headers}
