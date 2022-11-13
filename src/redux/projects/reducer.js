@@ -1,16 +1,16 @@
 import {
-  GET_ENTITY_PENDING,
-  GET_ENTITY_SUCCESS,
-  GET_ENTITY_ERROR,
-  DELETE_ENTITY_PENDING,
-  DELETE_ENTITY_SUCCESS,
-  DELETE_ENTITY_ERROR,
-  ADD_ENTITY_PENDING,
-  ADD_ENTITY_SUCCESS,
-  ADD_ENTITY_ERROR,
-  UPDATE_ENTITY_PENDING,
-  UPDATE_ENTITY_SUCCESS,
-  UPDATE_ENTITY_ERROR
+  GET_PROJECTS_PENDING,
+  GET_PROJECTS_SUCCESS,
+  GET_PROJECTS_ERROR,
+  DELETE_PROJECTS_PENDING,
+  DELETE_PROJECTS_SUCCESS,
+  DELETE_PROJECTS_ERROR,
+  POST_PROJECTS_PENDING,
+  POST_PROJECTS_SUCCESS,
+  POST_PROJECTS_ERROR,
+  PUT_PROJECTS_PENDING,
+  PUT_PROJECTS_SUCCESS,
+  PUT_PROJECTS_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -21,13 +21,13 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_ENTITY_PENDING: {
+    case GET_PROJECTS_PENDING: {
       return {
         ...state,
         isLoading: true
       };
     }
-    case GET_ENTITY_SUCCESS: {
+    case GET_PROJECTS_SUCCESS: {
       return {
         ...state,
         isLoading: false,
@@ -35,7 +35,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: ''
       };
     }
-    case GET_ENTITY_ERROR: {
+    case GET_PROJECTS_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -43,13 +43,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     }
-    case DELETE_ENTITY_PENDING: {
+    case DELETE_PROJECTS_PENDING: {
       return {
         ...state,
         isLoading: true
       };
     }
-    case DELETE_ENTITY_SUCCESS: {
+    case DELETE_PROJECTS_SUCCESS: {
       return {
         ...state,
         list: [...state.list.filter((project) => project._id !== action.payload)],
@@ -57,7 +57,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: ''
       };
     }
-    case DELETE_ENTITY_ERROR: {
+    case DELETE_PROJECTS_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -65,38 +65,38 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     }
-    case ADD_ENTITY_PENDING: {
-      console.log('ADD_ENTITY_PENDING');
+    case POST_PROJECTS_PENDING: {
+      console.log('POST_PROJECTS_PENDING');
       return {
         list: []
       };
     }
-    case ADD_ENTITY_SUCCESS: {
-      console.log('ADD_ENTITY_SUCCESS');
+    case POST_PROJECTS_SUCCESS: {
+      console.log('POST_PROJECTS_SUCCESS');
       return {
         list: []
       };
     }
-    case ADD_ENTITY_ERROR: {
-      console.log('ADD_ENTITY_ERROR');
+    case POST_PROJECTS_ERROR: {
+      console.log('POST_PROJECTS_ERROR');
       return {
         list: []
       };
     }
-    case UPDATE_ENTITY_PENDING: {
-      console.log('UPDATE_ENTITY_PENDING');
+    case PUT_PROJECTS_PENDING: {
+      console.log('PUT_PROJECTS_PENDING');
       return {
         list: []
       };
     }
-    case UPDATE_ENTITY_SUCCESS: {
-      console.log('UPDATE_ENTITY_SUCCESS');
+    case PUT_PROJECTS_SUCCESS: {
+      console.log('PUT_PROJECTS_SUCCESS');
       return {
         list: []
       };
     }
-    case UPDATE_ENTITY_ERROR: {
-      console.log('UPDATE_ENTITY_ERROR');
+    case PUT_PROJECTS_ERROR: {
+      console.log('PUT_PROJECTS_ERROR');
       return {
         list: []
       };

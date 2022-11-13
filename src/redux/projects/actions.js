@@ -1,89 +1,89 @@
 import {
-  GET_ENTITY_PENDING,
-  GET_ENTITY_SUCCESS,
-  GET_ENTITY_ERROR,
-  DELETE_ENTITY_PENDING,
-  DELETE_ENTITY_SUCCESS,
-  DELETE_ENTITY_ERROR,
-  ADD_ENTITY_PENDING,
-  ADD_ENTITY_SUCCESS,
-  ADD_ENTITY_ERROR,
-  UPDATE_ENTITY_PENDING,
-  UPDATE_ENTITY_SUCCESS,
-  UPDATE_ENTITY_ERROR
+  GET_PROJECTS_PENDING,
+  GET_PROJECTS_SUCCESS,
+  GET_PROJECTS_ERROR,
+  DELETE_PROJECTS_PENDING,
+  DELETE_PROJECTS_SUCCESS,
+  DELETE_PROJECTS_ERROR,
+  POST_PROJECTS_PENDING,
+  POST_PROJECTS_SUCCESS,
+  POST_PROJECTS_ERROR,
+  PUT_PROJECTS_PENDING,
+  PUT_PROJECTS_SUCCESS,
+  PUT_PROJECTS_ERROR
 } from './constants';
 
 const getProjectPending = () => {
   return {
-    type: GET_ENTITY_PENDING
+    type: GET_PROJECTS_PENDING
   };
 };
 
 const getProjectSuccess = (payload) => {
   return {
-    type: GET_ENTITY_SUCCESS,
+    type: GET_PROJECTS_SUCCESS,
     payload
   };
 };
 
 const getProjectError = (err) => {
   return {
-    type: GET_ENTITY_ERROR,
+    type: GET_PROJECTS_ERROR,
     payload: err
   };
 };
 
 const deleteProjectPending = () => {
   return {
-    type: DELETE_ENTITY_PENDING
+    type: DELETE_PROJECTS_PENDING
   };
 };
 
 const deleteProjectSuccess = (id) => {
   return {
-    type: DELETE_ENTITY_SUCCESS,
+    type: DELETE_PROJECTS_SUCCESS,
     payload: id
   };
 };
 
 const deleteProjectError = (err) => {
   return {
-    type: DELETE_ENTITY_ERROR,
+    type: DELETE_PROJECTS_ERROR,
     payload: err
   };
 };
 
-const addProjectPending = () => {
+const postProjectPending = () => {
   return {
-    type: ADD_ENTITY_PENDING
+    type: POST_PROJECTS_PENDING
   };
 };
-const addProjectSuccess = (body) => {
+const postProjectSuccess = (body) => {
   return {
-    type: ADD_ENTITY_SUCCESS,
+    type: POST_PROJECTS_SUCCESS,
     payload: body
   };
 };
-const addProjectError = (error) => {
+const postProjectError = (error) => {
   return {
-    type: ADD_ENTITY_ERROR,
+    type: POST_PROJECTS_ERROR,
     payload: error
   };
 };
-const updateProjectPending = () => {
+const putProjectPending = () => {
   return {
-    type: UPDATE_ENTITY_PENDING
+    type: PUT_PROJECTS_PENDING
   };
 };
-const updateProjectSuccess = (id) => {
+const putProjectSuccess = (id) => {
   return {
-    type: UPDATE_ENTITY_SUCCESS,
+    type: PUT_PROJECTS_SUCCESS,
     payload: id
   };
 };
-const updateProjectError = (error) => {
+const putProjectError = (error) => {
   return {
-    type: UPDATE_ENTITY_ERROR,
+    type: PUT_PROJECTS_ERROR,
     payload: error
   };
 };
@@ -95,10 +95,10 @@ export {
   deleteProjectPending,
   deleteProjectSuccess,
   deleteProjectError,
-  addProjectPending,
-  addProjectSuccess,
-  addProjectError,
-  updateProjectPending,
-  updateProjectSuccess,
-  updateProjectError
+  postProjectPending,
+  postProjectSuccess,
+  postProjectError,
+  putProjectPending,
+  putProjectSuccess,
+  putProjectError
 };
