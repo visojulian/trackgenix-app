@@ -1,34 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { getTasks, deleteTasks } from '../../redux/task/thunks';
+import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button';
+import Spinner from '../Shared/Spinner/spinner';
 import Modal from '../Shared/Modal';
 
 const Tasks = () => {
   const history = useHistory();
-  const [tasks, saveTasks] = useState([]);
-  const [taskId, setTaskId] = useState();
+  const [taskId, setTaskId] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const tasks = useSelector((state) => state.tasks.list);
+  const isLoading = useSelector((state) => state.tasks.isLoading);
+  const dispatch = useDispatch();
   const values = ['description'];
   const headers = ['Description'];
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      const data = await response.json();
-      saveTasks(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getTasks());
   }, []);
-
-  const deleteTask = async () => {
-    saveTasks([...tasks.filter((task) => task._id !== taskId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
-      method: 'DELETE'
-    });
-  };
 
   const onDelete = (id, showModal) => {
     setTaskId(id);
@@ -42,6 +34,7 @@ const Tasks = () => {
   return (
     <section className={styles.container}>
       <h1>Tasks</h1>
+      <Spinner isLoading={isLoading} />
       <Table
         data={tasks}
         headers={headers}
@@ -53,7 +46,7 @@ const Tasks = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={true}
-        action={deleteTask}
+        action={() => taskId && dispatch(deleteTasks(taskId))}
         actionButton="Delete"
       >
         <div>
