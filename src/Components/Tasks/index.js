@@ -34,7 +34,7 @@ const Tasks = () => {
   return (
     <section className={styles.container}>
       <h1>Tasks</h1>
-      <Spinner isLoading={isLoading} />
+      {isLoading && <Spinner isLoading={isLoading} />}
       <Table
         data={tasks}
         headers={headers}
