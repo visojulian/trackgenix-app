@@ -1,34 +1,26 @@
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { getAdmins, deleteAdmins } from '../../redux/admins/thunks';
 import styles from './admins.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
+import Spinner from '../Shared/Spinner/spinner';
 
 const Admins = () => {
   const history = useHistory();
-  const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [adminId, setAdminId] = useState();
+  const [adminId, setAdminId] = useState('');
+  const admins = useSelector((state) => state.admins.list);
+  const isLoading = useSelector((state) => state.admins.isLoading);
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
+  const dispatch = useDispatch();
 
-  useEffect(async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
-      const data = await res.json();
-      saveAdmins(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getAdmins());
   }, []);
-
-  const deleteAdmin = async () => {
-    saveAdmins([...admins.filter((admin) => admin._id !== adminId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
-      method: 'DELETE'
-    });
-  };
 
   const onDelete = (id, showModal) => {
     setAdminId(id);
@@ -43,6 +35,7 @@ const Admins = () => {
     <>
       <div className={styles.container}>
         <h1>Admins</h1>
+        <Spinner isLoading={isLoading} />
         <Table
           data={admins}
           headers={headers}
@@ -54,7 +47,7 @@ const Admins = () => {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={deleteAdmin}
+          action={() => adminId && dispatch(deleteAdmins(adminId))}
           actionButton="Delete"
         >
           <div>
