@@ -7,7 +7,10 @@ import {
   DELETE_TASKS_ERROR,
   POST_TASKS_PENDING,
   POST_TASKS_SUCCESS,
-  POST_TASKS_ERROR
+  POST_TASKS_ERROR,
+  PUT_TASKS_PENDING,
+  PUT_TASKS_SUCCESS,
+  PUT_TASKS_ERROR
 } from './constants';
 
 export const getTasksPending = () => {
@@ -66,6 +69,26 @@ export const postTasksSuccess = (data) => {
 export const postTasksError = (error) => {
   return {
     type: POST_TASKS_ERROR,
+    payload: error
+  };
+};
+
+export const putTasksPending = () => {
+  return {
+    type: PUT_TASKS_PENDING
+  };
+};
+
+export const putTasksSuccess = (data) => {
+  return {
+    type: PUT_TASKS_SUCCESS,
+    payload: data
+  };
+};
+
+export const putTasksError = (error) => {
+  return {
+    type: PUT_TASKS_ERROR,
     payload: error
   };
 };
