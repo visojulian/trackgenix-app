@@ -31,14 +31,14 @@ const deleteEmployees = (employeeId) => {
     fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
       method: 'DELETE'
     })
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.error) {
-          throw new Error(response.message);
-        } else {
-          dispatch(getEmployees());
-          dispatch(deleteEmployeesSuccess(employeeId));
+      .then(async (response) => {
+        const json = response.headers.get('content-type')?.includes('application/json');
+        const data = json && (await response.json());
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          throw new Error(error);
         }
+        dispatch(deleteEmployeesSuccess(employeeId));
       })
       .catch((error) => {
         dispatch(deleteEmployeesError(error.toString()));
