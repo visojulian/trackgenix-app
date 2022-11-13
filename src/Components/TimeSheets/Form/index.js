@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTimesheet, editTimesheet } from '../../../redux/timeSheets/thunks';
 import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
+import Spinner from '../../Shared/Spinner';
 import TextInput from '../../Shared/TextInput/index';
-import { useHistory, useParams } from 'react-router-dom';
 
 function Form() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
@@ -25,6 +29,7 @@ function Form() {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
+  const { isLoading, error } = useSelector((state) => state.timeSheets);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -138,54 +143,45 @@ function Form() {
   };
 
   const onSubmit = async () => {
+    const newTimesheet = {
+      description: inputTimeSheetValue.description,
+      date: inputTimeSheetValue.date,
+      hours: inputTimeSheetValue.hours,
+      task: inputTimeSheetValue.task,
+      employee: inputTimeSheetValue.employee,
+      project: inputTimeSheetValue.project
+    };
     if (!isEditing) {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: inputTimeSheetValue.description,
-          date: inputTimeSheetValue.date,
-          hours: inputTimeSheetValue.hours,
-          task: inputTimeSheetValue.task,
-          employee: inputTimeSheetValue.employee,
-          project: inputTimeSheetValue.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      dispatch(addTimesheet(newTimesheet));
+      if (!error) {
         history.goBack();
       } else {
-        setServerError(content.message);
+        setServerError(error);
         setShowModal(true);
       }
     } else {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: inputTimeSheetValue.description,
-          date: inputTimeSheetValue.date,
-          hours: inputTimeSheetValue.hours,
-          task: inputTimeSheetValue.task,
-          employee: inputTimeSheetValue.employee,
-          project: inputTimeSheetValue.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      dispatch(editTimesheet(newTimesheet, id));
+      if (!error) {
         history.goBack();
       } else {
-        setServerError(content.message);
+        setServerError(error);
         setShowModal(true);
       }
     }
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
+      <div>
+        <h4>There was an error</h4>
+        <p>{error}</p>
+      </div>
+    </Modal>;
+  }
 
   return (
     <div className={styles.container}>
