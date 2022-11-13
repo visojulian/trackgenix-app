@@ -30,11 +30,14 @@ function Employees() {
     history.push(`/employees/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
   return (
     <>
       <div className={styles.container}>
         <h1>Employees</h1>
-        <Spinner isLoading={isLoading} />
         <Table
           data={employeesList}
           headers={headers}
