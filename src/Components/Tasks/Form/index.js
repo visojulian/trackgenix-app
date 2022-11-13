@@ -6,7 +6,7 @@ import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { postTasks } from '../../../redux/task/thunks';
+import { postTasks, putTasks } from '../../../redux/task/thunks';
 
 const Form = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const Form = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [serverError, setServerError] = useState();
-  //const tasks = useSelector((state) => state.tasks.list);
+  const tasks = useSelector((state) => state.tasks.list);
   const isLoading = useSelector((state) => state.tasks.isLoading);
   const error = useSelector((state) => state.tasks.error);
   const dispatch = useDispatch();
@@ -61,15 +61,26 @@ const Form = () => {
     );
   };
 
+  // useEffect(() => {
+  //   dispatch(getTasks());
+  // }, []);
+  // const variable = [tasks.find((item) => item._id === id)];
+  // console.log(tasks);
+  // console.log(variable);
   useEffect(async () => {
     try {
+      //console.log(...tasks.list.map((item) => (item._id === id ? { item } : 'not found')));
       if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
+        // console.log(...tasks.list.map((item) => (item._id === id ? { item } : 'not found')));
+        // const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+        //   method: 'GET'
+        // });
+        // const data = await response.json();
+        // setIsEditing(true);
+        // setTaskName(data.data.description);
+        const fill = [tasks.find((item) => item._id === id)];
         setIsEditing(true);
-        setTaskName(data.data.description);
+        setTaskName(fill[0].description);
       }
     } catch (error) {
       console.error(error);
@@ -101,21 +112,30 @@ const Form = () => {
         setShowModal(true);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description: taskName })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      // const params = new URLSearchParams(window.location.search);
+      // console.log(params);
+      // const id = params.get('id');
+      // console.log(id);
+      dispatch(putTasks(taskName, id));
+      // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+      //   method: 'PUT',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ description: taskName })
+      // });
+      // const content = await rawResponse.json();
+      // if (!content.error) {
+      //   history.goBack();
+      // } else {
+      //   setServerError(content.message);
+      //   setShowModal(true);
+      // }
+      if (error === '') {
         history.goBack();
       } else {
-        setServerError(content.message);
+        setServerError(error);
         setShowModal(true);
       }
     }
