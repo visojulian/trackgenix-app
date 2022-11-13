@@ -31,11 +31,14 @@ const Admins = () => {
     history.push(`/admins/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
   return (
     <>
       <div className={styles.container}>
         <h1>Admins</h1>
-        <Spinner isLoading={isLoading} />
         <Table
           data={admins}
           headers={headers}
