@@ -4,7 +4,10 @@ import {
   addTimesheetError,
   editTimesheetPending,
   editTimesheetSuccess,
-  editTimesheetError
+  editTimesheetError,
+  getTimesheetByIdPending,
+  getTimesheetByIdSuccess,
+  getTimesheetByIdError
 } from './actions';
 
 export const addTimesheet = (timesheet) => {
@@ -51,6 +54,23 @@ export const editTimesheet = (timesheet, id) => {
       })
       .catch((error) => {
         dispatch(editTimesheetError(error.toString()));
+      });
+  };
+};
+
+export const getTimesheetById = (id) => {
+  return (dispatch) => {
+    dispatch(getTimesheetByIdPending());
+    fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        }
+        dispatch(getTimesheetByIdSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(getTimesheetByIdError(error.toString()));
       });
   };
 };

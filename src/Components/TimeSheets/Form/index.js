@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTimesheet, editTimesheet } from '../../../redux/timeSheets/thunks';
+import { addTimesheet, editTimesheet, getTimesheetById } from '../../../redux/timeSheets/thunks';
+import { getEmployees } from '../../../redux/employees/thunks';
+import { getProjects, getProjectsById } from '../../../redux/projects/thunks';
+import { getTasks } from '../../../redux/tasks/thunks';
 import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
@@ -22,22 +25,20 @@ function Form() {
     project: ''
   });
   const [isEditing, setIsEditing] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [employeesTotal, setEmployeesTotal] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
-  const { isLoading, error } = useSelector((state) => state.timeSheets);
+  const { timesheet, isLoading, error } = useSelector((state) => state.timeSheets);
+  const { tasks } = useSelector((state) => state.tasks);
+  const { employees } = useSelector((state) => state.employees);
+  const { projects, project } = useSelector((state) => state.projects);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
 
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
-      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      setEmployees(projectEmployees);
+      dispatch(getProjectsById(selectedProject._id));
     }
   };
 
@@ -93,42 +94,23 @@ function Form() {
 
   useEffect(async () => {
     try {
-      const tasksResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-        method: 'GET'
-      });
-      const tasks = await tasksResponse.json();
-      setTasks(tasks.data);
-      const employeesResponse = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        method: 'GET'
-      });
-      const employees = await employeesResponse.json();
-      setEmployeesTotal(employees.data);
-      const projectsResponse = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'GET'
-      });
-      const projects = await projectsResponse.json();
-      setProjects(projects.data);
+      dispatch(getTasks());
+      dispatch(getEmployees());
+      dispatch(getProjects());
       if (id) {
-        const timeSheetResponse = await fetch(
-          `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
-          {
-            method: 'GET'
-          }
-        );
-        const timeSheet = await timeSheetResponse.json();
+        dispatch(getTimesheetById(id));
         const selectedProject = projects.data.find(
-          (project) => project._id === timeSheet.data.project._id
+          (project) => project._id === timesheet.data.project._id
         );
-        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-        setEmployees(projectEmployees);
+        dispatch(getProjectsById(selectedProject._id));
         setIsEditing(true);
         setInputTimeSheetValue({
-          description: timeSheet.data.description,
-          date: correctDate(timeSheet.data.date),
-          hours: timeSheet.data.hours,
-          task: timeSheet.data.task['_id'],
-          employee: timeSheet.data.employee['_id'],
-          project: timeSheet.data.project['_id']
+          description: timesheet.data.description,
+          date: correctDate(timesheet.data.date),
+          hours: timesheet.data.hours,
+          task: timesheet.data.task['_id'],
+          employee: timesheet.data.employee['_id'],
+          project: timesheet.data.project['_id']
         });
       }
     } catch (error) {
@@ -268,14 +250,14 @@ function Form() {
               placeholder="Select an employee"
               required
               onSelect={onChangeInputValue}
-              data={employees.map((employee) => ({
-                id: employeesTotal.find((item) => item._id === employee)._id,
-                value: employeesTotal.find((item) => item._id === employee).name
+              data={project.employees.map((employee) => ({
+                id: employees.find((item) => item._id === employee)._id,
+                value: employees.find((item) => item._id === employee).name
               }))}
               value={
                 inputTimeSheetValue.employee !== '' &&
-                employees.map(
-                  (employee) => employeesTotal.find((item) => item._id === employee)._id
+                project.employees.map(
+                  (employee) => employees.find((item) => item._id === employee)._id
                 )
               }
             />
