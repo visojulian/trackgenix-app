@@ -31,10 +31,13 @@ const Tasks = () => {
     history.push(`/tasks/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
   return (
     <section className={styles.container}>
       <h1>Tasks</h1>
-      {isLoading && <Spinner isLoading={isLoading} />}
       <Table
         data={tasks}
         headers={headers}
