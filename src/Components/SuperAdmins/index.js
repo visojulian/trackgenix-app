@@ -17,7 +17,7 @@ const SuperAdmins = () => {
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
 
-  useEffect(async () => {
+  useEffect(() => {
     dispatch(getSuperAdmins());
   }, []);
 
