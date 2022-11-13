@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import getEmployees from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployees } from '../../redux/employees/thunks';
 import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
@@ -9,7 +9,6 @@ import Button from '../Shared/Button';
 import Spinner from '../Shared/Spinner/spinner';
 
 function Employees() {
-  // const [employees, saveEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
   const values = ['name', 'lastName', 'phone', 'email'];
@@ -21,14 +20,6 @@ function Employees() {
   useEffect(async () => {
     dispatch(getEmployees());
   }, []);
-
-  const deleteEmployee = async () => {
-    const id = employeeId;
-    await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-      method: 'DELETE'
-    });
-    // saveEmployees([...employees.filter((employee) => employee._id !== id)]);
-  };
 
   const onDelete = (id, showModal) => {
     setEmployeeId(id);
@@ -55,7 +46,7 @@ function Employees() {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={deleteEmployee}
+          action={() => employeeId && dispatch(deleteEmployees(employeeId))}
           actionButton="Delete"
         >
           <div>
