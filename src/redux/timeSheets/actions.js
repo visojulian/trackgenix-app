@@ -2,7 +2,9 @@ import {
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_ERROR,
-  DELETE_TIMESHEET_SUCCESS
+  DELETE_TIMESHEET_SUCCESS,
+  DELETE_TIMESHEET_PENDING,
+  DELETE_TIMESHEET_ERROR
 } from './constants';
 
 export const getTimesheetsPending = () => {
@@ -24,8 +26,23 @@ export const getTimesheetsError = (error) => {
     payload: error
   };
 };
-export const deleteTimesheetSuccess = () => {
+
+export const deleteTimesheetPending = () => {
   return {
-    type: DELETE_TIMESHEET_SUCCESS
+    type: DELETE_TIMESHEET_PENDING
+  };
+};
+
+export const deleteTimesheetSuccess = (id) => {
+  return {
+    type: DELETE_TIMESHEET_SUCCESS,
+    payload: id
+  };
+};
+
+export const deleteTimesheetError = (error) => {
+  return {
+    type: DELETE_TIMESHEET_ERROR,
+    payload: error
   };
 };

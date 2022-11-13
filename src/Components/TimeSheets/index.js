@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimesheets } from '../../redux/timeSheets/thunks';
+import { getTimesheets, deleteTimesheet } from '../../redux/timeSheets/thunks';
 import styles from './list.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button/index';
@@ -28,13 +28,6 @@ const TimeSheets = () => {
         employee: `${timesheet.employee.name} ${timesheet.employee.lastName}`,
         project: timesheet.project.name
       };
-    });
-  };
-
-  const deleteTimeSheet = async () => {
-    // setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`, {
-      method: 'DELETE'
     });
   };
 
@@ -74,7 +67,7 @@ const TimeSheets = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={true}
-        action={deleteTimeSheet}
+        action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
         actionButton="Delete"
       >
         <div>
