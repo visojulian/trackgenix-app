@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { postTask, putTask } from '../../../redux/task/thunks';
+import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from '../../../redux/task/constants';
 import styles from './form.module.css';
 import Button from '../../Shared/Button/index';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-import { useHistory, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { postTasks, putTasks } from '../../../redux/task/thunks';
-import { POST_TASKS_SUCCESS, PUT_TASKS_SUCCESS } from '../../../redux/task/constants';
-//import store from '../../../redux/store.js';
 
 const Form = () => {
   const { id } = useParams();
@@ -141,9 +140,9 @@ const Form = () => {
       // }
       //store.subscribe(check);
       //previousValue = tasks;
-      const result = await dispatch(postTasks(taskName));
+      const result = await dispatch(postTask(taskName));
       //check(isLoading);
-      if (result.type === POST_TASKS_SUCCESS) {
+      if (result.type === POST_TASK_SUCCESS) {
         // unsubscribe();
         history.goBack();
       } else {
@@ -155,7 +154,7 @@ const Form = () => {
       // console.log(params);
       // const id = params.get('id');
       // console.log(id);
-      const result = await dispatch(putTasks(taskName, id));
+      const result = await dispatch(putTask(taskName, id));
       // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
       //   method: 'PUT',
       //   headers: {
@@ -171,7 +170,7 @@ const Form = () => {
       //   setServerError(content.message);
       //   setShowModal(true);
       // }
-      if (result.type === PUT_TASKS_SUCCESS) {
+      if (result.type === PUT_TASK_SUCCESS) {
         history.goBack();
       } else {
         //setServerError(error);
@@ -182,6 +181,14 @@ const Form = () => {
 
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container} style={{ 'justify-content': 'center' }}>
+        <h1>{error}</h1>
+      </div>
+    );
   }
 
   return (
