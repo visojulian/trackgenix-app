@@ -2,9 +2,9 @@ import {
   getTasksPending,
   getTasksSuccess,
   getTasksError,
-  deleteTasksPending,
-  deleteTasksSuccess,
-  deleteTasksError
+  deleteTaskPending,
+  deleteTaskSuccess,
+  deleteTaskError
 } from './actions';
 
 export const getTasks = () => {
@@ -25,9 +25,9 @@ export const getTasks = () => {
   };
 };
 
-export const deleteTasks = (taskId) => {
+export const deleteTask = (taskId) => {
   return (dispatch) => {
-    dispatch(deleteTasksPending());
+    dispatch(deleteTaskPending());
     fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'DELETE'
     })
@@ -38,10 +38,10 @@ export const deleteTasks = (taskId) => {
           const error = (data && data.message) || response.status;
           throw new Error(error);
         }
-        dispatch(deleteTasksSuccess(taskId));
+        dispatch(deleteTaskSuccess(taskId));
       })
       .catch((err) => {
-        dispatch(deleteTasksError(err.toString()));
+        dispatch(deleteTaskError(err.toString()));
       });
   };
 };

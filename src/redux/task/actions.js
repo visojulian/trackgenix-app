@@ -2,9 +2,9 @@ import {
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
-  DELETE_TASKS_PENDING,
-  DELETE_TASKS_SUCCESS,
-  DELETE_TASKS_ERROR
+  DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_ERROR
 } from './constants';
 
 export const getTasksPending = () => {
@@ -27,22 +27,22 @@ export const getTasksError = (error) => {
   };
 };
 
-export const deleteTasksPending = () => {
+export const deleteTaskPending = () => {
   return {
-    type: DELETE_TASKS_PENDING
+    type: DELETE_TASK_PENDING
   };
 };
 
-export const deleteTasksSuccess = (data) => {
+export const deleteTaskSuccess = (data) => {
   return {
-    type: DELETE_TASKS_SUCCESS,
+    type: DELETE_TASK_SUCCESS,
     payload: data
   };
 };
 
-export const deleteTasksError = (error) => {
+export const deleteTaskError = (error) => {
   return {
-    type: DELETE_TASKS_ERROR,
+    type: DELETE_TASK_ERROR,
     payload: error
   };
 };
