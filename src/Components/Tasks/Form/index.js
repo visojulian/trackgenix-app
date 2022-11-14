@@ -7,6 +7,8 @@ import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { postTasks, putTasks } from '../../../redux/task/thunks';
+import { POST_TASKS_SUCCESS, PUT_TASKS_SUCCESS } from '../../../redux/task/constants';
+//import store from '../../../redux/store.js';
 
 const Form = () => {
   const { id } = useParams();
@@ -15,11 +17,14 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [serverError, setServerError] = useState();
+  //const [serverError, setServerError] = useState();
+  //const general = useSelector((state) => state.tasks);
   const tasks = useSelector((state) => state.tasks.list);
   const isLoading = useSelector((state) => state.tasks.isLoading);
   const error = useSelector((state) => state.tasks.error);
   const dispatch = useDispatch();
+  //let algo = false;
+  // let previousValue;
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
@@ -34,11 +39,11 @@ const Form = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (error) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -78,14 +83,44 @@ const Form = () => {
         // const data = await response.json();
         // setIsEditing(true);
         // setTaskName(data.data.description);
-        const fill = [tasks.find((item) => item._id === id)];
+        //const fill = tasks.find((item) => item._id === id);
         setIsEditing(true);
-        setTaskName(fill[0].description);
+        setTaskName(tasks.find((item) => item._id === id).description);
       }
     } catch (error) {
       console.error(error);
     }
   }, []);
+
+  // const mapStateToProps = (state) => {
+  //   return {
+  //     something: state.tasks.list
+  //   };
+  // };
+
+  // const check = () => {
+  //   let previousValue = tasks;
+  //   //console.log(previousValue);
+  //   let currentValue = general.getState().tasks.list;
+  //   //console.log(currentValue);
+
+  //   if (previousValue !== currentValue) {
+  //     console.log('Hubo cambios de', previousValue, 'to', currentValue);
+  //     algo = true;
+  //   }
+  // };
+
+  // const check = (isLoading) => {
+  //   if (!isLoading) {
+  //     let currentValue = store.getState().tasks.list;
+  //     if (previousValue !== currentValue) {
+  //       // console.log('Hubo cambios de', previousValue, 'to', currentValue);
+  //       algo = true;
+  //     }
+  //   }
+  // };
+
+  // const unsubscribe = general.subscribe(check);
 
   const onSubmit = async () => {
     if (!isEditing) {
@@ -104,11 +139,15 @@ const Form = () => {
       //   setServerError(content.message);
       //   setShowModal(true);
       // }
-      dispatch(postTasks(taskName));
-      if (error === '') {
+      //store.subscribe(check);
+      //previousValue = tasks;
+      const result = await dispatch(postTasks(taskName));
+      //check(isLoading);
+      if (result.type === POST_TASKS_SUCCESS) {
+        // unsubscribe();
         history.goBack();
       } else {
-        setServerError(error);
+        //setServerError(error);
         setShowModal(true);
       }
     } else {
@@ -116,7 +155,7 @@ const Form = () => {
       // console.log(params);
       // const id = params.get('id');
       // console.log(id);
-      dispatch(putTasks(taskName, id));
+      const result = await dispatch(putTasks(taskName, id));
       // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
       //   method: 'PUT',
       //   headers: {
@@ -132,19 +171,22 @@ const Form = () => {
       //   setServerError(content.message);
       //   setShowModal(true);
       // }
-      if (error === '') {
+      if (result.type === PUT_TASKS_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(error);
+        //setServerError(error);
         setShowModal(true);
       }
     }
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
   return (
     <div className={styles.container}>
       <h1>{isEditing ? 'Edit Task' : 'Add Task'}</h1>
-      <Spinner isLoading={isLoading} />
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}
