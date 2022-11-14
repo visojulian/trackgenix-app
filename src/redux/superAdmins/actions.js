@@ -2,9 +2,9 @@ import {
   GET_SUPER_ADMINS_PENDING,
   GET_SUPER_ADMINS_SUCCESS,
   GET_SUPER_ADMINS_ERROR,
-  DELETE_SUPER_ADMINS_PENDING,
-  DELETE_SUPER_ADMINS_SUCCESS,
-  DELETE_SUPER_ADMINS_ERROR
+  DELETE_SUPER_ADMIN_PENDING,
+  DELETE_SUPER_ADMIN_SUCCESS,
+  DELETE_SUPER_ADMIN_ERROR
 } from './constants';
 
 export const getSuperAdminsPending = () => {
@@ -27,22 +27,22 @@ export const getSuperAdminsError = (error) => {
   };
 };
 
-export const deleteSuperAdminsPending = () => {
+export const deleteSuperAdminPending = () => {
   return {
-    type: DELETE_SUPER_ADMINS_PENDING
+    type: DELETE_SUPER_ADMIN_PENDING
   };
 };
 
-export const deleteSuperAdminsSuccess = (payload) => {
+export const deleteSuperAdminSuccess = (payload) => {
   return {
-    type: DELETE_SUPER_ADMINS_SUCCESS,
+    type: DELETE_SUPER_ADMIN_SUCCESS,
     payload
   };
 };
 
-export const deleteSuperAdminsError = (error) => {
+export const deleteSuperAdminError = (error) => {
   return {
-    type: DELETE_SUPER_ADMINS_ERROR,
+    type: DELETE_SUPER_ADMIN_ERROR,
     payload: error
   };
 };
