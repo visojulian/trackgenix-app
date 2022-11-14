@@ -16,14 +16,10 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  //const [serverError, setServerError] = useState();
-  //const general = useSelector((state) => state.tasks);
   const tasks = useSelector((state) => state.tasks.list);
   const isLoading = useSelector((state) => state.tasks.isLoading);
   const error = useSelector((state) => state.tasks.error);
   const dispatch = useDispatch();
-  //let algo = false;
-  // let previousValue;
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
@@ -65,24 +61,9 @@ const Form = () => {
     );
   };
 
-  // useEffect(() => {
-  //   dispatch(getTasks());
-  // }, []);
-  // const variable = [tasks.find((item) => item._id === id)];
-  // console.log(tasks);
-  // console.log(variable);
   useEffect(async () => {
     try {
-      //console.log(...tasks.list.map((item) => (item._id === id ? { item } : 'not found')));
       if (id) {
-        // console.log(...tasks.list.map((item) => (item._id === id ? { item } : 'not found')));
-        // const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        //   method: 'GET'
-        // });
-        // const data = await response.json();
-        // setIsEditing(true);
-        // setTaskName(data.data.description);
-        //const fill = tasks.find((item) => item._id === id);
         setIsEditing(true);
         setTaskName(tasks.find((item) => item._id === id).description);
       }
@@ -91,89 +72,19 @@ const Form = () => {
     }
   }, []);
 
-  // const mapStateToProps = (state) => {
-  //   return {
-  //     something: state.tasks.list
-  //   };
-  // };
-
-  // const check = () => {
-  //   let previousValue = tasks;
-  //   //console.log(previousValue);
-  //   let currentValue = general.getState().tasks.list;
-  //   //console.log(currentValue);
-
-  //   if (previousValue !== currentValue) {
-  //     console.log('Hubo cambios de', previousValue, 'to', currentValue);
-  //     algo = true;
-  //   }
-  // };
-
-  // const check = (isLoading) => {
-  //   if (!isLoading) {
-  //     let currentValue = store.getState().tasks.list;
-  //     if (previousValue !== currentValue) {
-  //       // console.log('Hubo cambios de', previousValue, 'to', currentValue);
-  //       algo = true;
-  //     }
-  //   }
-  // };
-
-  // const unsubscribe = general.subscribe(check);
-
   const onSubmit = async () => {
     if (!isEditing) {
-      // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-      //   method: 'POST',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ description: taskName })
-      // });
-      // const content = await rawResponse.json();
-      // if (!content.error) {
-      //   history.goBack();
-      // } else {
-      //   setServerError(content.message);
-      //   setShowModal(true);
-      // }
-      //store.subscribe(check);
-      //previousValue = tasks;
       const result = await dispatch(postTask(taskName));
-      //check(isLoading);
       if (result.type === POST_TASK_SUCCESS) {
-        // unsubscribe();
         history.goBack();
       } else {
-        //setServerError(error);
         setShowModal(true);
       }
     } else {
-      // const params = new URLSearchParams(window.location.search);
-      // console.log(params);
-      // const id = params.get('id');
-      // console.log(id);
       const result = await dispatch(putTask(taskName, id));
-      // const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-      //   method: 'PUT',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ description: taskName })
-      // });
-      // const content = await rawResponse.json();
-      // if (!content.error) {
-      //   history.goBack();
-      // } else {
-      //   setServerError(content.message);
-      //   setShowModal(true);
-      // }
       if (result.type === PUT_TASK_SUCCESS) {
         history.goBack();
       } else {
-        //setServerError(error);
         setShowModal(true);
       }
     }
