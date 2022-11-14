@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
+import { postProject } from '../../../redux/projects/thunks';
 
 const ProjectForm = () => {
   const { id } = useParams();
@@ -25,6 +28,9 @@ const ProjectForm = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
+
+  const { isLoading } = useSelector((state) => state.projects);
+  const dispatch = useDispatch();
 
   const newArr = () => {
     const headers = [];
@@ -59,15 +65,12 @@ const ProjectForm = () => {
   const onChangeEndDateInput = (event) => {
     setEndDateValue(event.target.value);
   };
-
   const onChangeRateInput = (event) => {
     setRateValue(event.target.value);
   };
-
   const handleRoleChange = (event) => {
     setRoleValue(event.target.value);
   };
-
   const handleEmployeeChange = (event) => {
     setSelectedEmployee(event.target.value);
   };
@@ -155,6 +158,7 @@ const ProjectForm = () => {
     });
 
     if (isEditing) {
+      dispatch(postProject);
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -226,6 +230,7 @@ const ProjectForm = () => {
 
   return (
     <>
+      <Spinner isLoading={isLoading} />
       <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
       <form className={styles.container}>
         <TextInput

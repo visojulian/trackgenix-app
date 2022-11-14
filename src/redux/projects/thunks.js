@@ -1,9 +1,9 @@
 import {
   deleteProjectPending,
-  deleteProjectRejected,
+  deleteProjectError,
   deleteProjectSuccess,
   getProjectPending,
-  getProjectRejected,
+  getProjectError,
   getProjectSuccess
 } from './actions';
 
@@ -20,7 +20,25 @@ const getProjects = () => {
         }
       })
       .catch((err) => {
-        dispatch(getProjectRejected(err.toString()));
+        dispatch(getProjectError(err.toString()));
+      });
+  };
+};
+
+const getEmployees = () => {
+  return (dispatch) => {
+    dispatch(getProjectPending());
+    fetch(`${process.env.REACT_APP_API_URL}/employees`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          throw new Error(res.message);
+        } else {
+          return res.data;
+        }
+      })
+      .catch((err) => {
+        dispatch(getProjectError(err.toString()));
       });
   };
 };
@@ -31,18 +49,24 @@ const deleteProject = (projectId) => {
     fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
       method: 'DELETE'
     })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw new Error(res.message);
-        } else {
-          dispatch(deleteProjectSuccess(projectId));
+      .then(async (res) => {
+        const isJson = res.headers.get('res-type')?.includes('application/json');
+        const data = isJson && (await res.json());
+        if (!res.ok) {
+          const error = (data && data.message) || res.status;
+          throw new Error(error);
         }
+        dispatch(deleteProjectSuccess(projectId));
       })
       .catch((err) => {
-        dispatch(deleteProjectRejected(err.toString()));
+        dispatch(deleteProjectError(err.toString()));
       });
   };
 };
 
-export { getProjects, deleteProject };
+const postProject = () => {
+  const employees = getEmployees();
+  console.log(employees);
+};
+
+export { getProjects, deleteProject, postProject };

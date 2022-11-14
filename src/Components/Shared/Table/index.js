@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './table.module.css';
-import Delete from '../../../Assets/close_cross.png';
+import Delete from '../../../assets/close_cross.png';
 
 const Table = ({ data, headers, values, onDelete, onRowClick }) => {
   return (
