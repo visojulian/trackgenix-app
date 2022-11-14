@@ -2,15 +2,15 @@ import {
   getTasksPending,
   getTasksSuccess,
   getTasksError,
-  deleteTasksPending,
-  deleteTasksSuccess,
-  deleteTasksError,
-  postTasksPending,
-  postTasksSuccess,
-  postTasksError,
-  putTasksPending,
-  putTasksSuccess,
-  putTasksError
+  deleteTaskPending,
+  deleteTaskSuccess,
+  deleteTaskError,
+  postTaskPending,
+  postTaskSuccess,
+  postTaskError,
+  putTaskPending,
+  putTaskSuccess,
+  putTaskError
 } from './actions';
 
 export const getTasks = () => {
@@ -31,9 +31,9 @@ export const getTasks = () => {
   };
 };
 
-export const deleteTasks = (taskId) => {
+export const deleteTask = (taskId) => {
   return (dispatch) => {
-    dispatch(deleteTasksPending());
+    dispatch(deleteTaskPending());
     fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'DELETE'
     })
@@ -44,17 +44,17 @@ export const deleteTasks = (taskId) => {
           const error = (data && data.message) || response.status;
           throw new Error(error);
         }
-        dispatch(deleteTasksSuccess(taskId));
+        dispatch(deleteTaskSuccess(taskId));
       })
       .catch((err) => {
-        dispatch(deleteTasksError(err.toString()));
+        dispatch(deleteTaskError(err.toString()));
       });
   };
 };
 
-export const postTasks = (description) => {
+export const postTask = (description) => {
   return (dispatch) => {
-    dispatch(postTasksPending());
+    dispatch(postTaskPending());
     return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
       method: 'POST',
       headers: {
@@ -67,19 +67,19 @@ export const postTasks = (description) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          return dispatch(postTasksSuccess(response.data));
+          return dispatch(postTaskSuccess(response.data));
         }
       })
       .catch((err) => {
-        dispatch(postTasksError(err.toString()));
+        dispatch(postTaskError(err.toString()));
       });
   };
 };
 
-export const putTasks = (description, taskId) => {
+export const putTask = (description, taskId) => {
   return (dispatch) => {
     console.log(description);
-    dispatch(putTasksPending());
+    dispatch(putTaskPending());
     return fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'PUT',
       headers: {
@@ -93,11 +93,11 @@ export const putTasks = (description, taskId) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          return dispatch(putTasksSuccess(response.data));
+          return dispatch(putTaskSuccess(response.data));
         }
       })
       .catch((err) => {
-        dispatch(putTasksError(err.toString()));
+        dispatch(putTaskError(err.toString()));
       });
   };
 };

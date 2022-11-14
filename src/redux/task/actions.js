@@ -2,15 +2,15 @@ import {
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
-  DELETE_TASKS_PENDING,
-  DELETE_TASKS_SUCCESS,
-  DELETE_TASKS_ERROR,
-  POST_TASKS_PENDING,
-  POST_TASKS_SUCCESS,
-  POST_TASKS_ERROR,
-  PUT_TASKS_PENDING,
-  PUT_TASKS_SUCCESS,
-  PUT_TASKS_ERROR
+  DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_ERROR,
+  POST_TASK_PENDING,
+  POST_TASK_SUCCESS,
+  POST_TASK_ERROR,
+  PUT_TASK_PENDING,
+  PUT_TASK_SUCCESS,
+  PUT_TASK_ERROR
 } from './constants';
 
 export const getTasksPending = () => {
@@ -33,62 +33,62 @@ export const getTasksError = (error) => {
   };
 };
 
-export const deleteTasksPending = () => {
+export const deleteTaskPending = () => {
   return {
-    type: DELETE_TASKS_PENDING
+    type: DELETE_TASK_PENDING
   };
 };
 
-export const deleteTasksSuccess = (data) => {
+export const deleteTaskSuccess = (data) => {
   return {
-    type: DELETE_TASKS_SUCCESS,
+    type: DELETE_TASK_SUCCESS,
     payload: data
   };
 };
 
-export const deleteTasksError = (error) => {
+export const deleteTaskError = (error) => {
   return {
-    type: DELETE_TASKS_ERROR,
+    type: DELETE_TASK_ERROR,
     payload: error
   };
 };
 
-export const postTasksPending = () => {
+export const postTaskPending = () => {
   return {
-    type: POST_TASKS_PENDING
+    type: POST_TASK_PENDING
   };
 };
 
-export const postTasksSuccess = (data) => {
+export const postTaskSuccess = (data) => {
   return {
-    type: POST_TASKS_SUCCESS,
+    type: POST_TASK_SUCCESS,
     payload: data
   };
 };
 
-export const postTasksError = (error) => {
+export const postTaskError = (error) => {
   return {
-    type: POST_TASKS_ERROR,
+    type: POST_TASK_ERROR,
     payload: error
   };
 };
 
-export const putTasksPending = () => {
+export const putTaskPending = () => {
   return {
-    type: PUT_TASKS_PENDING
+    type: PUT_TASK_PENDING
   };
 };
 
-export const putTasksSuccess = (data) => {
+export const putTaskSuccess = (data) => {
   return {
-    type: PUT_TASKS_SUCCESS,
+    type: PUT_TASK_SUCCESS,
     payload: data
   };
 };
 
-export const putTasksError = (error) => {
+export const putTaskError = (error) => {
   return {
-    type: PUT_TASKS_ERROR,
+    type: PUT_TASK_ERROR,
     payload: error
   };
 };
