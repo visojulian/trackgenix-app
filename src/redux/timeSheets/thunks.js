@@ -30,11 +30,13 @@ export const deleteTimesheet = (timesheetId) => {
     fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timesheetId}`, {
       method: 'DELETE'
     })
-      .then((response) => {
-        if (response.error) {
-          throw new Error(response.message);
+      .then(async (response) => {
+        const isJson = response.headers.get('content-type')?.includes('application/json');
+        const data = isJson && (await response.json());
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          throw new Error(error);
         }
-        dispatch(getTimesheets());
         dispatch(deleteTimesheetSuccess(timesheetId));
       })
       .catch((error) => {
