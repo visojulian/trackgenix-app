@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTimesheet, editTimesheet, getTimesheetById } from '../../../redux/timeSheets/thunks';
+import { addTimesheet, editTimesheet } from '../../../redux/timeSheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
-import { getProjects, getProjectsById } from '../../../redux/projects/thunks';
+import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/tasks/thunks';
 import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
@@ -26,19 +26,20 @@ function Form() {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [project, setProject] = useState();
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
   const { timesheet, isLoading, error } = useSelector((state) => state.timeSheets);
   const { tasks } = useSelector((state) => state.tasks);
   const { employees } = useSelector((state) => state.employees);
-  const { projects, project } = useSelector((state) => state.projects);
+  const { projects } = useSelector((state) => state.projects);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
 
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
-      dispatch(getProjectsById(selectedProject._id));
+      setProject(selectedProject);
     }
   };
 
@@ -98,11 +99,10 @@ function Form() {
       dispatch(getEmployees());
       dispatch(getProjects());
       if (id) {
-        dispatch(getTimesheetById(id));
         const selectedProject = projects.data.find(
           (project) => project._id === timesheet.data.project._id
         );
-        dispatch(getProjectsById(selectedProject._id));
+        setProject(selectedProject);
         setIsEditing(true);
         setInputTimeSheetValue({
           description: timesheet.data.description,

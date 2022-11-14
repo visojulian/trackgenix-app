@@ -4,21 +4,11 @@ import {
   POST_TIMESHEET_ERROR,
   PUT_TIMESHEET_SUCCESS,
   PUT_TIMESHEET_PENDING,
-  PUT_TIMESHEET_ERROR,
-  GET_TIMESHEETBYID_PENDING,
-  GET_TIMESHEETBYID_SUCCESS,
-  GET_TIMESHEETBYID_ERROR
+  PUT_TIMESHEET_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
-  timesheet: {
-    description: '',
-    date: '',
-    hours: '',
-    task: '',
-    employee: '',
-    project: ''
-  },
+  list: [],
   isLoading: false,
   error: ''
 };
@@ -35,14 +25,14 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: '',
-        timesheet: action.payload
+        list: action.payload
       };
     case POST_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
-        timesheet: {}
+        list: []
       };
     case PUT_TIMESHEET_PENDING:
       return {
@@ -54,33 +44,14 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: '',
-        timesheet: action.payload
+        list: action.payload
       };
     case PUT_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
-        timesheet: {}
-      };
-    case GET_TIMESHEETBYID_PENDING:
-      return {
-        ...state,
-        isLoading: true
-      };
-    case GET_TIMESHEETBYID_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        error: '',
-        timesheet: action.payload
-      };
-    case GET_TIMESHEETBYID_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
-        timesheet: {}
+        list: []
       };
     default:
       return state;
