@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getTasks, deleteTasks } from '../../redux/task/thunks';
+import { getTasks, deleteTask } from '../../redux/task/thunks';
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Table from '../Shared/Table';
@@ -14,6 +14,7 @@ const Tasks = () => {
   const [showModal, setShowModal] = useState(false);
   const tasks = useSelector((state) => state.tasks.list);
   const isLoading = useSelector((state) => state.tasks.isLoading);
+  const error = useSelector((state) => state.tasks.error);
   const dispatch = useDispatch();
   const values = ['description'];
   const headers = ['Description'];
@@ -35,6 +36,14 @@ const Tasks = () => {
     return <Spinner isLoading={isLoading} />;
   }
 
+  if (error) {
+    return (
+      <div className={styles.container} style={{ 'justify-content': 'center' }}>
+        <h1>{error}</h1>
+      </div>
+    );
+  }
+
   return (
     <section className={styles.container}>
       <h1>Tasks</h1>
@@ -49,7 +58,7 @@ const Tasks = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={true}
-        action={() => taskId && dispatch(deleteTasks(taskId))}
+        action={() => taskId && dispatch(deleteTask(taskId))}
         actionButton="Delete"
       >
         <div>
