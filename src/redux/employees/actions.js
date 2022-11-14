@@ -2,9 +2,9 @@ import {
   GET_EMPLOYEES_PENDING,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_ERROR,
-  DELETE_EMPLOYEES_PENDING,
-  DELETE_EMPLOYEES_SUCCESS,
-  DELETE_EMPLOYEES_ERROR
+  DELETE_EMPLOYEE_PENDING,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_ERROR
 } from './constants';
 
 export const getEmployeesPending = () => {
@@ -27,22 +27,22 @@ export const getEmployeesError = (error) => {
   };
 };
 
-export const deleteEmployeesPending = () => {
+export const deleteEmployeePending = () => {
   return {
-    type: DELETE_EMPLOYEES_PENDING
+    type: DELETE_EMPLOYEE_PENDING
   };
 };
 
-export const deleteEmployeesSuccess = (payload) => {
+export const deleteEmployeeSuccess = (payload) => {
   return {
-    type: DELETE_EMPLOYEES_SUCCESS,
+    type: DELETE_EMPLOYEE_SUCCESS,
     payload
   };
 };
 
-export const deleteEmployeesError = (error) => {
+export const deleteEmployeeError = (error) => {
   return {
-    type: DELETE_EMPLOYEES_ERROR,
+    type: DELETE_EMPLOYEE_ERROR,
     payload: error
   };
 };

@@ -2,9 +2,9 @@ import {
   GET_EMPLOYEES_PENDING,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_ERROR,
-  DELETE_EMPLOYEES_PENDING,
-  DELETE_EMPLOYEES_SUCCESS,
-  DELETE_EMPLOYEES_ERROR
+  DELETE_EMPLOYEE_PENDING,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -31,22 +31,22 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.error,
+        error: action.payload,
         list: []
       };
-    case DELETE_EMPLOYEES_PENDING:
+    case DELETE_EMPLOYEE_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case DELETE_EMPLOYEES_SUCCESS:
+    case DELETE_EMPLOYEE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         error: '',
         list: [...state.list.filter((employee) => employee._id !== action.payload)]
       };
-    case DELETE_EMPLOYEES_ERROR:
+    case DELETE_EMPLOYEE_ERROR:
       return {
         ...state,
         isLoading: false,

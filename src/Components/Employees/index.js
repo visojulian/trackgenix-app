@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees, deleteEmployees } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
 import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
@@ -15,7 +15,7 @@ function Employees() {
   const headers = ['Name', 'Last Name', 'Phone', 'Email'];
   const history = useHistory();
   const dispatch = useDispatch();
-  const { list: employeesList, isLoading } = useSelector((state) => state.employees);
+  const { list: employeesList, isLoading, error } = useSelector((state) => state.employees);
 
   useEffect(async () => {
     dispatch(getEmployees());
@@ -34,6 +34,14 @@ function Employees() {
     return <Spinner isLoading={isLoading} />;
   }
 
+  if (error) {
+    return (
+      <div className={styles.errorDiv}>
+        <h4>There was an error!</h4>
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <>
       <div className={styles.container}>
@@ -49,7 +57,7 @@ function Employees() {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={() => employeeId && dispatch(deleteEmployees(employeeId))}
+          action={() => employeeId && dispatch(deleteEmployee(employeeId))}
           actionButton="Delete"
         >
           <div>

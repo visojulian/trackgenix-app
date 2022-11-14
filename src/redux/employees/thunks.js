@@ -2,9 +2,9 @@ import {
   getEmployeesPending,
   getEmployeesSuccess,
   getEmployeesError,
-  deleteEmployeesPending,
-  deleteEmployeesSuccess,
-  deleteEmployeesError
+  deleteEmployeePending,
+  deleteEmployeeSuccess,
+  deleteEmployeeError
 } from './actions';
 
 const getEmployees = () => {
@@ -25,9 +25,9 @@ const getEmployees = () => {
   };
 };
 
-const deleteEmployees = (employeeId) => {
+const deleteEmployee = (employeeId) => {
   return (dispatch) => {
-    dispatch(deleteEmployeesPending());
+    dispatch(deleteEmployeePending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
       method: 'DELETE'
     })
@@ -38,12 +38,12 @@ const deleteEmployees = (employeeId) => {
           const error = (data && data.message) || response.status;
           throw new Error(error);
         }
-        dispatch(deleteEmployeesSuccess(employeeId));
+        dispatch(deleteEmployeeSuccess(employeeId));
       })
       .catch((error) => {
-        dispatch(deleteEmployeesError(error.toString()));
+        dispatch(deleteEmployeeError(error.toString()));
       });
   };
 };
 
-export { getEmployees, deleteEmployees };
+export { getEmployees, deleteEmployee };
