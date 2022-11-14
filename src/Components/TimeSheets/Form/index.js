@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addTimesheet, editTimesheet } from '../../../redux/timeSheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
-import { getTasks } from '../../../redux/tasks/thunks';
+import { getTasks } from '../../../redux/task/thunks';
 import Modal from '../../Shared/Modal';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
@@ -24,15 +24,16 @@ function Form() {
     employee: '',
     project: ''
   });
+  const { list: timesheets, isLoading, error } = useSelector((state) => state.timeSheets);
+  const { list: tasks } = useSelector((state) => state.tasks);
+  const { list: employees } = useSelector((state) => state.employees);
+  const { list: projects } = useSelector((state) => state.projects);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [project, setProject] = useState();
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
-  const { timesheet, isLoading, error } = useSelector((state) => state.timeSheets);
-  const { tasks } = useSelector((state) => state.tasks);
-  const { employees } = useSelector((state) => state.employees);
-  const { projects } = useSelector((state) => state.projects);
+  const [project, setProject] = useState();
+  const [selectedTimesheet, setSelectedTimesheet] = useState();
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
@@ -93,24 +94,26 @@ function Form() {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     try {
       dispatch(getTasks());
       dispatch(getEmployees());
       dispatch(getProjects());
       if (id) {
-        const selectedProject = projects.data.find(
-          (project) => project._id === timesheet.data.project._id
+        const thisTimesheet = timesheets.find((timesheet) => timesheet._id === id);
+        setSelectedTimesheet(thisTimesheet);
+        const selectedProject = projects.find(
+          (project) => project._id === selectedTimesheet.project._id
         );
         setProject(selectedProject);
         setIsEditing(true);
         setInputTimeSheetValue({
-          description: timesheet.data.description,
-          date: correctDate(timesheet.data.date),
-          hours: timesheet.data.hours,
-          task: timesheet.data.task['_id'],
-          employee: timesheet.data.employee['_id'],
-          project: timesheet.data.project['_id']
+          description: selectedTimesheet.data.description,
+          date: correctDate(selectedTimesheet.data.date),
+          hours: selectedTimesheet.data.hours,
+          task: selectedTimesheet.data.task['_id'],
+          employee: selectedTimesheet.data.employee['_id'],
+          project: selectedTimesheet.data.project['_id']
         });
       }
     } catch (error) {
