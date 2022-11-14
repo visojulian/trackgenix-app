@@ -5,14 +5,14 @@ import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Spinner from '../Shared/Spinner/spinner';
-import { getSuperAdmins, deleteSuperAdmins } from '../../redux/superAdmins/thunks';
+import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 
 const SuperAdmins = () => {
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
-  const { list: superAdmins, isLoading } = useSelector((state) => state.superAdmins);
+  const { list: superAdmins, isLoading, error } = useSelector((state) => state.superAdmins);
   const dispatch = useDispatch();
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
@@ -34,6 +34,15 @@ const SuperAdmins = () => {
     return <Spinner isLoading={isLoading} />;
   }
 
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <h4>There was an error</h4>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -49,7 +58,7 @@ const SuperAdmins = () => {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={() => superAdminId && dispatch(deleteSuperAdmins(superAdminId))}
+          action={() => superAdminId && dispatch(deleteSuperAdmin(superAdminId))}
           actionButton="Delete"
         >
           <div>
