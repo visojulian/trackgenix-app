@@ -55,7 +55,7 @@ export const deleteTasks = (taskId) => {
 export const postTasks = (description) => {
   return (dispatch) => {
     dispatch(postTasksPending());
-    fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -67,7 +67,7 @@ export const postTasks = (description) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(postTasksSuccess(response.data));
+          return dispatch(postTasksSuccess(response.data));
         }
       })
       .catch((err) => {
@@ -80,7 +80,7 @@ export const putTasks = (description, taskId) => {
   return (dispatch) => {
     console.log(description);
     dispatch(putTasksPending());
-    fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -90,11 +90,10 @@ export const putTasks = (description, taskId) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(putTasksSuccess(response.data));
+          return dispatch(putTasksSuccess(response.data));
         }
       })
       .catch((err) => {
