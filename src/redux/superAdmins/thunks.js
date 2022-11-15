@@ -93,7 +93,7 @@ const putSuperAdmin = (superAdmin, superAdminId) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          return dispatch(putSuperAdminSuccess(response.data));
+          return dispatch(putSuperAdminSuccess(superAdmin));
         }
       })
       .catch((error) => {
