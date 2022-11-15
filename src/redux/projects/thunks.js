@@ -4,7 +4,11 @@ import {
   deleteProjectSuccess,
   getProjectPending,
   getProjectError,
-  getProjectSuccess
+  getProjectSuccess,
+  postProjectPending,
+  postProjectError,
+  postProjectSuccess,
+  putProjectPending
 } from './actions';
 
 const getProjects = () => {
@@ -17,24 +21,6 @@ const getProjects = () => {
           throw new Error(res.message);
         } else {
           dispatch(getProjectSuccess(res.data));
-        }
-      })
-      .catch((err) => {
-        dispatch(getProjectError(err.toString()));
-      });
-  };
-};
-
-const getEmployees = () => {
-  return (dispatch) => {
-    dispatch(getProjectPending());
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw new Error(res.message);
-        } else {
-          return res.data;
         }
       })
       .catch((err) => {
@@ -64,9 +50,48 @@ const deleteProject = (projectId) => {
   };
 };
 
-const postProject = () => {
-  const employees = getEmployees();
-  console.log(employees);
+const postProject = (body) => {
+  return (dispatch) => {
+    dispatch(postProjectPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.error) {
+          return dispatch(postProjectSuccess(res.data));
+        } else {
+          throw new Error(res.message);
+        }
+      })
+      .catch((err) => {
+        dispatch(postProjectError(err.toString()));
+      });
+  };
 };
 
-export { getProjects, deleteProject, postProject };
+const putProject = (body, id) => {
+  return (dispatch) => {
+    dispatch(putProjectPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.error) {
+          dispatch(postProjectSuccess(res.data));
+        } else {
+          throw new Error(res.message);
+        }
+      })
+      .catch((err) => {
+        dispatch(postProjectError(err.toString()));
+      });
+  };
+};
+
+export { getProjects, deleteProject, postProject, putProject };

@@ -8,7 +8,8 @@ import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-import { postProject } from '../../../redux/projects/thunks';
+import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
+import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
 
 const ProjectForm = () => {
   const { id } = useParams();
@@ -23,14 +24,55 @@ const ProjectForm = () => {
   const [endDateValue, setEndDateValue] = useState();
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
-  const [isEditing, setIsEditing] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
-  const { isLoading } = useSelector((state) => state.projects);
+  const isEditing = Boolean(id);
+
+  const { list: projects, isLoading } = useSelector((state) => state.projects);
+  // const { employees: list } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/employees`)
+      .then((response) => response.json())
+      .then((content) => {
+        if (!content.error) {
+          setEmployees(content.data);
+        } else {
+          setServerError(content.message);
+          setShowModal(true);
+        }
+      })
+      .catch((error) => alert(error));
+  }, []);
+
+  useEffect(() => {
+    console.log(projects, isEditing);
+    if (projects.length > 0 && isEditing) {
+      const currentProject = projects.find((project) => project._id === id);
+      const employeeList = currentProject.employees.map((item) => {
+        return {
+          employee: item.employee,
+          role: item.role,
+          rate: item.rate
+        };
+      });
+      console.log(currentProject);
+      setNameValue(currentProject.name);
+      setClientValue(currentProject.clientName);
+      setStartDateValue(currentProject.startDate);
+      setEndDateValue(currentProject.endDate);
+      setDescriptionValue(currentProject.description);
+      setProjectEmployees(employeeList);
+    }
+  }, [id, isEditing, projects]);
 
   const newArr = () => {
     const headers = [];
@@ -147,90 +189,44 @@ const ProjectForm = () => {
     );
   };
 
-  const onSubmit = () => {
-    const body = JSON.stringify({
+  const onSubmit = async () => {
+    const body = {
       employees: projectEmployees,
       name: nameValue,
       startDate: startDateValue,
       endDate: endDateValue,
       description: descriptionValue,
       clientName: clientValue
-    });
+    };
 
-    if (isEditing) {
-      dispatch(postProject);
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      })
-        .then((response) => response.json())
-        .catch((error) => alert(error));
+    if (!isEditing) {
+      const result = await dispatch(postProject(body));
+      console.log(result);
+      if (result.type === POST_PROJECT_SUCCESS) {
+        history.goBack();
+      } else {
+        setShowModal(true);
+      }
     } else {
-      fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      })
-        .then((response) => response.json())
-        .then((content) => {
-          if (!content.error) {
-            history.push('/projects');
-          } else {
-            setServerError(content.message);
-            setShowModal(true);
-          }
-        })
-        .catch((error) => console.error(error));
+      const result = await dispatch(putProject(body, id));
+      console.log(result);
+      if (result.type === PUT_PROJECT_SUCCESS) {
+        history.goBack();
+      } else {
+        setShowModal(true);
+      }
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`)
-        .then((response) => response.json())
-        .then((response) => {
-          if (!response.error) {
-            const employeeList = response.data.employees.map((item) => {
-              return {
-                employee: item.employee,
-                role: item.role,
-                rate: item.rate
-              };
-            });
-            setNameValue(response.data.name);
-            setClientValue(response.data.clientName);
-            setStartDateValue(response.data.startDate);
-            setEndDateValue(response.data.endDate);
-            setDescriptionValue(response.data.description);
-            setProjectEmployees(employeeList);
-            setIsEditing(true);
-          } else {
-            setServerError(response.message);
-            setShowModal(true);
-          }
-        })
-        .catch((error) => alert(error));
-    }
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((response) => response.json())
-      .then((content) => {
-        if (!content.error) {
-          setEmployees(content.data);
-        } else {
-          setServerError(content.message);
-          setShowModal(true);
-        }
-      })
-      .catch((error) => alert(error));
-  }, []);
-
+  if (isLoading) {
+    return (
+      <>
+        <Spinner isLoading={isLoading} />
+      </>
+    );
+  }
   return (
     <>
-      <Spinner isLoading={isLoading} />
       <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
       <form className={styles.container}>
         <TextInput

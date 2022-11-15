@@ -55,7 +55,7 @@ const Projects = () => {
         </div>
       </Modal>
       <Button
-        text="Add New Project"
+        text="Add Project"
         type="submit"
         variant="primary"
         onClick={() => {

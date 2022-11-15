@@ -2,15 +2,15 @@ import {
   GET_PROJECTS_PENDING,
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
-  DELETE_PROJECTS_PENDING,
-  DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR,
-  POST_PROJECTS_PENDING,
-  POST_PROJECTS_SUCCESS,
-  POST_PROJECTS_ERROR,
-  PUT_PROJECTS_PENDING,
-  PUT_PROJECTS_SUCCESS,
-  PUT_PROJECTS_ERROR
+  DELETE_PROJECT_PENDING,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ERROR,
+  POST_PROJECT_PENDING,
+  POST_PROJECT_SUCCESS,
+  POST_PROJECT_ERROR,
+  PUT_PROJECT_PENDING,
+  PUT_PROJECT_SUCCESS,
+  PUT_PROJECT_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -43,13 +43,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     }
-    case DELETE_PROJECTS_PENDING: {
+    case DELETE_PROJECT_PENDING: {
       return {
         ...state,
         isLoading: true
       };
     }
-    case DELETE_PROJECTS_SUCCESS: {
+    case DELETE_PROJECT_SUCCESS: {
       return {
         ...state,
         list: [...state.list.filter((project) => project._id !== action.payload)],
@@ -57,7 +57,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: ''
       };
     }
-    case DELETE_PROJECTS_ERROR: {
+    case DELETE_PROJECT_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -65,46 +65,48 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     }
-    case POST_PROJECTS_PENDING: {
-      console.log(state);
+    case POST_PROJECT_PENDING: {
       return {
         ...state,
         isLoading: true
       };
     }
-    case POST_PROJECTS_SUCCESS: {
-      console.log(state);
+    case POST_PROJECT_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        list: action.payload
+      };
+    }
+    case POST_PROJECT_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        list: []
+      };
+    }
+    case PUT_PROJECT_PENDING: {
       return {
         ...state,
         isLoading: true
       };
     }
-    case POST_PROJECTS_ERROR: {
-      console.log(state);
+    case PUT_PROJECT_SUCCESS: {
       return {
         ...state,
-        isLoading: true
+        isLoading: false,
+        error: '',
+        list: action.payload
       };
     }
-    case PUT_PROJECTS_PENDING: {
-      console.log(state);
+    case PUT_PROJECT_ERROR: {
       return {
         ...state,
-        isLoading: true
-      };
-    }
-    case PUT_PROJECTS_SUCCESS: {
-      console.log(state);
-      return {
-        ...state,
-        isLoading: true
-      };
-    }
-    case PUT_PROJECTS_ERROR: {
-      console.log(state);
-      return {
-        ...state,
-        isLoading: true
+        isLoading: false,
+        error: action.payload,
+        list: []
       };
     }
     default:
