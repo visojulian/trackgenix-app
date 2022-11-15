@@ -89,7 +89,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: '',
-        list: action.payload
+        list: [...state.list]
       };
     case PUT_SUPER_ADMIN_ERROR:
       return {

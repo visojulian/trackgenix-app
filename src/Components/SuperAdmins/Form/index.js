@@ -3,15 +3,16 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postSuperAdmin } from '../../../redux/superAdmins/thunks';
+import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.superAdmins);
+  const { error, isLoading } = useSelector((state) => state.superAdmins);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -92,49 +93,21 @@ const Form = () => {
         setShowModal(true);
         setServerError(error.message);
       }
-      // const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
-      //   method: 'POST',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     name: superAdmin.name,
-      //     lastName: superAdmin.lastName,
-      //     email: superAdmin.email,
-      //     password: superAdmin.password
-      //   })
-      // });
-      // const content = await res.json();
-      // if (!content.error) {
-      //   history.goBack();
-      // } else {
-      //   setServerError(content.message);
-      //   setShowModal(true);
+    } else {
+      dispatch(putSuperAdmin(superAdmin, id));
+      if (!error) {
+        history.goBack();
+      } else {
+        console.log(error.message);
+        setShowModal(true);
+        setServerError(error.message);
+      }
     }
-    // } else {
-    //   const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //       name: superAdmin.name,
-    //       lastName: superAdmin.lastName,
-    //       email: superAdmin.email,
-    //       password: superAdmin.password
-    //     })
-    //   });
-    //   const content = await res.json();
-    //   if (!content.error) {
-    //     history.goBack();
-    //   } else {
-    //     setServerError(content.message);
-    //     setShowModal(true);
-    //   }
-    // }
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
 
   return (
     <div className={styles.container}>
