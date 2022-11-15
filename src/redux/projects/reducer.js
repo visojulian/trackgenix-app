@@ -76,7 +76,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: '',
-        list: action.payload
+        list: [...state.list, action.payload]
       };
     }
     case POST_PROJECT_ERROR: {
@@ -98,7 +98,9 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: '',
-        list: action.payload
+        list: [
+          ...state.list.map((item) => (item.id === action.payload._id ? action.payload : item))
+        ]
       };
     }
     case PUT_PROJECT_ERROR: {

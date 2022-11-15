@@ -8,7 +8,9 @@ import {
   postProjectPending,
   postProjectError,
   postProjectSuccess,
-  putProjectPending
+  putProjectPending,
+  putProjectError,
+  putProjectSuccess
 } from './actions';
 
 const getProjects = () => {
@@ -55,7 +57,10 @@ const postProject = (body) => {
     dispatch(postProjectPending());
     return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(body)
     })
       .then((res) => res.json())
@@ -67,7 +72,7 @@ const postProject = (body) => {
         }
       })
       .catch((err) => {
-        dispatch(postProjectError(err.toString()));
+        return dispatch(postProjectError(err.toString()));
       });
   };
 };
@@ -77,19 +82,22 @@ const putProject = (body, id) => {
     dispatch(putProjectPending());
     return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(body)
     })
       .then((res) => res.json())
       .then((res) => {
         if (!res.error) {
-          dispatch(postProjectSuccess(res.data));
+          return dispatch(putProjectSuccess(res.data));
         } else {
           throw new Error(res.message);
         }
       })
       .catch((err) => {
-        dispatch(postProjectError(err.toString()));
+        return dispatch(putProjectError(err.toString()));
       });
   };
 };

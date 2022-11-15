@@ -54,7 +54,6 @@ const ProjectForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log(projects, isEditing);
     if (projects.length > 0 && isEditing) {
       const currentProject = projects.find((project) => project._id === id);
       const employeeList = currentProject.employees.map((item) => {
@@ -64,7 +63,6 @@ const ProjectForm = () => {
           rate: item.rate
         };
       });
-      console.log(currentProject);
       setNameValue(currentProject.name);
       setClientValue(currentProject.clientName);
       setStartDateValue(currentProject.startDate);
@@ -135,10 +133,6 @@ const ProjectForm = () => {
     setProjectEmployees(newProjectEmployees);
   };
 
-  const onCancel = () => {
-    history.goBack();
-  };
-
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
@@ -198,7 +192,6 @@ const ProjectForm = () => {
       description: descriptionValue,
       clientName: clientValue
     };
-
     if (!isEditing) {
       const result = await dispatch(postProject(body));
       console.log(result);
@@ -209,6 +202,7 @@ const ProjectForm = () => {
       }
     } else {
       const result = await dispatch(putProject(body, id));
+      console.log(body, id);
       console.log(result);
       if (result.type === PUT_PROJECT_SUCCESS) {
         history.goBack();
@@ -329,7 +323,14 @@ const ProjectForm = () => {
             {getModalContent()}
           </Modal>
           <div className={styles.formButtons}>
-            <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+            <Button
+              text="Cancel"
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
             <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
