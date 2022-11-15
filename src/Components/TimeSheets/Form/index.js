@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTimesheet, editTimesheet } from '../../../redux/timeSheets/thunks';
+
+import styles from './form.module.css';
+
+import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeSheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/task/thunks';
 import Modal from '../../Shared/Modal';
-import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import Spinner from '../../Shared/Spinner';
@@ -16,6 +18,29 @@ function Form() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const {
+    list: timesheets,
+    isLoading: loadingTimesheet,
+    error: timesheetError
+  } = useSelector((state) => state.timeSheets);
+  const {
+    list: tasks,
+    isLoading: loadingTasks,
+    error: taskError
+  } = useSelector((state) => state.tasks);
+  const {
+    list: employees,
+    isLoading: loadingEmployees,
+    error: employeeError
+  } = useSelector((state) => state.employees);
+  const {
+    list: projects,
+    isLoading: loadingProjects,
+    error: projectError
+  } = useSelector((state) => state.projects);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [projectEmployees, setProjectEmployees] = useState();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
     description: '',
     date: '',
@@ -24,32 +49,50 @@ function Form() {
     employee: '',
     project: ''
   });
-  const { list: timesheets, isLoading, error } = useSelector((state) => state.timeSheets);
-  const { list: tasks } = useSelector((state) => state.tasks);
-  const { list: employees } = useSelector((state) => state.employees);
-  const { list: projects } = useSelector((state) => state.projects);
-  const [isEditing, setIsEditing] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
-  const [project, setProject] = useState();
-  const [selectedTimesheet, setSelectedTimesheet] = useState();
+
+  const isEditing = Boolean(id);
+
+  useEffect(() => {
+    dispatch(getTasks());
+    dispatch(getEmployees());
+    dispatch(getProjects());
+    dispatch(getTimesheets());
+  }, []);
+
+  useEffect(() => {
+    if (timesheets.length > 0 && isEditing) {
+      const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
+      const selectedProject = projects.find(
+        (project) => project._id === currentTimeSheet.project._id
+      );
+      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+      setProjectEmployees(projectEmployees);
+      setInputTimeSheetValue({
+        description: currentTimeSheet.description,
+        date: correctDate(currentTimeSheet.date),
+        hours: currentTimeSheet.hours,
+        task: currentTimeSheet.task['_id'],
+        employee: currentTimeSheet.employee['_id'],
+        project: currentTimeSheet.project['_id']
+      });
+    }
+  }, [id, isEditing, timesheets]);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
-
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
-      setProject(selectedProject);
+      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+      setProjectEmployees(projectEmployees);
     }
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (timesheetError) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{timesheetError}</p>
         </div>
       );
     }
@@ -94,36 +137,8 @@ function Form() {
     }
   };
 
-  useEffect(() => {
-    try {
-      dispatch(getTasks());
-      dispatch(getEmployees());
-      dispatch(getProjects());
-      if (id) {
-        const thisTimesheet = timesheets.find((timesheet) => timesheet._id === id);
-        setSelectedTimesheet(thisTimesheet);
-        const selectedProject = projects.find(
-          (project) => project._id === selectedTimesheet.project._id
-        );
-        setProject(selectedProject);
-        setIsEditing(true);
-        setInputTimeSheetValue({
-          description: selectedTimesheet.data.description,
-          date: correctDate(selectedTimesheet.data.date),
-          hours: selectedTimesheet.data.hours,
-          task: selectedTimesheet.data.task['_id'],
-          employee: selectedTimesheet.data.employee['_id'],
-          project: selectedTimesheet.data.project['_id']
-        });
-      }
-    } catch (error) {
-      setServerError(error);
-      setShowModal(true);
-    }
-  }, []);
-
   const correctDate = (date) => {
-    let dateFormated = date.substr(0, 10);
+    const dateFormated = date.substr(0, 10);
     return dateFormated;
   };
 
@@ -138,32 +153,30 @@ function Form() {
     };
     if (!isEditing) {
       dispatch(addTimesheet(newTimesheet));
-      if (!error) {
+      if (!timesheetError) {
         history.goBack();
       } else {
-        setServerError(error);
         setShowModal(true);
       }
     } else {
       dispatch(editTimesheet(newTimesheet, id));
-      if (!error) {
+      if (!timesheetError) {
         history.goBack();
       } else {
-        setServerError(error);
         setShowModal(true);
       }
     }
   };
 
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
+  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects) {
+    return <Spinner isLoading={true} />;
   }
 
-  if (error) {
+  if (timesheetError || taskError || projectError || employeeError) {
     <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
       <div>
         <h4>There was an error</h4>
-        <p>{error}</p>
+        <p>{timesheetError || taskError || projectError || employeeError}</p>
       </div>
     </Modal>;
   }
@@ -175,7 +188,6 @@ function Form() {
         isOpen={showModal}
         handleClose={() => {
           setShowModal();
-          setServerError();
         }}
         isActionModal={isActionModal}
         action={onSubmit}
@@ -248,22 +260,28 @@ function Form() {
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <Select
-              name="employee"
-              placeholder="Select an employee"
-              required
-              onSelect={onChangeInputValue}
-              data={project.employees.map((employee) => ({
-                id: employees.find((item) => item._id === employee)._id,
-                value: employees.find((item) => item._id === employee).name
-              }))}
-              value={
-                inputTimeSheetValue.employee !== '' &&
-                project.employees.map(
-                  (employee) => employees.find((item) => item._id === employee)._id
-                )
-              }
-            />
+            {projectEmployees ? (
+              <Select
+                name="employee"
+                placeholder="Select an employee"
+                required
+                onSelect={onChangeInputValue}
+                data={projectEmployees.map((employee) => ({
+                  id: employees.find((item) => item._id === employee)._id,
+                  value: employees.find((item) => item._id === employee).name
+                }))}
+                value={inputTimeSheetValue.employee}
+              />
+            ) : (
+              <Select
+                name="employee"
+                placeholder="Select a project first"
+                required
+                onSelect={onChangeInputValue}
+                data={['']}
+                value={inputTimeSheetValue.employee}
+              />
+            )}
           </div>
           <div className={styles.buttons}>
             <div>
@@ -285,5 +303,4 @@ function Form() {
     </div>
   );
 }
-
 export default Form;
