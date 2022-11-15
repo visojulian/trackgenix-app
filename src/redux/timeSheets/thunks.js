@@ -54,7 +54,7 @@ export const deleteTimesheet = (timesheetId) => {
 export const addTimesheet = (timesheet) => {
   return (dispatch) => {
     dispatch(addTimesheetPending());
-    fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -67,7 +67,7 @@ export const addTimesheet = (timesheet) => {
         if (response.error) {
           throw new Error(response.message);
         }
-        dispatch(addTimesheetSuccess(response.data));
+        return dispatch(addTimesheetSuccess(response.data));
       })
       .catch((error) => {
         dispatch(addTimesheetError(error.toString()));

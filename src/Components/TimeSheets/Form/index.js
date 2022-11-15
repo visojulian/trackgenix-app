@@ -13,6 +13,7 @@ import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import Spinner from '../../Shared/Spinner';
 import TextInput from '../../Shared/TextInput/index';
+import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
 
 function Form() {
   const dispatch = useDispatch();
@@ -152,15 +153,15 @@ function Form() {
       project: inputTimeSheetValue.project
     };
     if (!isEditing) {
-      dispatch(addTimesheet(newTimesheet));
-      if (!timesheetError) {
+      const result = await dispatch(addTimesheet(newTimesheet));
+      if (result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      dispatch(editTimesheet(newTimesheet, id));
-      if (!timesheetError) {
+      const result = await dispatch(editTimesheet(newTimesheet, id));
+      if (result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
