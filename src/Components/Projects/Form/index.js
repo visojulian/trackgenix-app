@@ -188,7 +188,6 @@ const ProjectForm = () => {
     };
     if (!isEditing) {
       const result = await dispatch(postProject(body));
-      console.log(result);
       if (result.type === POST_PROJECT_SUCCESS) {
         history.goBack();
       } else {
@@ -196,8 +195,6 @@ const ProjectForm = () => {
       }
     } else {
       const result = await dispatch(putProject(body, id));
-      console.log(body, id);
-      console.log(result);
       if (result.type === PUT_PROJECT_SUCCESS) {
         history.goBack();
       } else {
