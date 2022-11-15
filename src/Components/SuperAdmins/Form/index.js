@@ -7,6 +7,10 @@ import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
+import {
+  POST_SUPER_ADMIN_SUCCESS,
+  PUT_SUPER_ADMIN_SUCCESS
+} from '../../../redux/superAdmins/constants';
 
 const Form = () => {
   const { id } = useParams();
@@ -16,7 +20,6 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const [superAdmin, setSuperAdmin] = useState({
     name: '',
     lastName: '',
@@ -33,11 +36,11 @@ const Form = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (error) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -86,21 +89,20 @@ const Form = () => {
 
   const onSubmit = async () => {
     if (!isEditing) {
-      dispatch(postSuperAdmin(superAdmin));
-      if (!error) {
+      const res = await dispatch(postSuperAdmin(superAdmin));
+      if (res.type === POST_SUPER_ADMIN_SUCCESS) {
+        console.log('bien');
         history.goBack();
       } else {
         setShowModal(true);
-        setServerError(error.message);
       }
     } else {
-      dispatch(putSuperAdmin(superAdmin, id));
-      if (!error) {
+      const res = await dispatch(putSuperAdmin(superAdmin, id));
+      if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
+        console.log('bien');
         history.goBack();
       } else {
-        console.log(error.message);
         setShowModal(true);
-        setServerError(error.message);
       }
     }
   };

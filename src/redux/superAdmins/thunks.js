@@ -55,7 +55,7 @@ const deleteSuperAdmin = (superAdminId) => {
 const postSuperAdmin = (superAdmin) => {
   return (dispatch) => {
     dispatch(postSuperAdminPending());
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -80,7 +80,7 @@ const postSuperAdmin = (superAdmin) => {
 const putSuperAdmin = (superAdmin, superAdminId) => {
   return (dispatch) => {
     dispatch(putSuperAdminPending());
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -93,11 +93,11 @@ const putSuperAdmin = (superAdmin, superAdminId) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(putSuperAdminSuccess(response.data));
+          return dispatch(putSuperAdminSuccess(response.data));
         }
       })
       .catch((error) => {
-        dispatch(putSuperAdminError(error.toString()));
+        return dispatch(putSuperAdminError(error.toString()));
       });
   };
 };
