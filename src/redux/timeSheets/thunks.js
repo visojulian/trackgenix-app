@@ -70,7 +70,7 @@ export const addTimesheet = (timesheet) => {
         return dispatch(addTimesheetSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(addTimesheetError(error.toString()));
+        return dispatch(addTimesheetError(error.toString()));
       });
   };
 };
@@ -94,7 +94,7 @@ export const editTimesheet = (timesheet, id) => {
         return dispatch(editTimesheetSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(editTimesheetError(error.toString()));
+        return dispatch(editTimesheetError(error.toString()));
       });
   };
 };

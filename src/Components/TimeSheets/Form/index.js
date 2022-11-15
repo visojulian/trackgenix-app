@@ -154,16 +154,14 @@ function Form() {
     };
     if (!isEditing) {
       const result = await dispatch(addTimesheet(newTimesheet));
-      if (result && result.type === POST_TIMESHEET_SUCCESS) {
+      if (result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
       }
     } else {
       const result = await dispatch(editTimesheet(newTimesheet, id));
-      if (result && result.type === PUT_TIMESHEET_SUCCESS) {
+      if (result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
       }
-      setIsActionModal(false);
-      setShowModal(true);
     }
   };
 
@@ -172,7 +170,7 @@ function Form() {
   }
 
   if (timesheetError || taskError || projectError || employeeError) {
-    <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
+    <Modal isOpen={true} handleClose={setShowModal} isActionModal={false}>
       <div>
         <h4>There was an error</h4>
         <p>{timesheetError || taskError || projectError || employeeError}</p>
