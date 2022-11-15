@@ -72,7 +72,7 @@ export const putAdmin = (name, lastName, email, password, adminId) => {
         }
       })
       .catch((err) => {
-        dispatch(putAdminError(err.toString()));
+        return dispatch(putAdminError(err.toString()));
       });
   };
 };
@@ -96,7 +96,7 @@ export const postAdmin = (name, lastName, email, password) => {
         }
       })
       .catch((err) => {
-        dispatch(postAdminError(err.toString()));
+        return dispatch(postAdminError(err.toString()));
       });
   };
 };

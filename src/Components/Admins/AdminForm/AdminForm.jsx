@@ -19,9 +19,7 @@ const AdminForm = () => {
   const [edit, setEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const admins = useSelector((state) => state.admins.list);
-  const isLoading = useSelector((state) => state.admins.isLoading);
-  const error = useSelector((state) => state.admins.error);
+  const { list: admins, isLoading, error } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
 
   const onChangeName = (e) => {
@@ -77,10 +75,11 @@ const AdminForm = () => {
     try {
       if (id) {
         setEdit(true);
-        setName(admins.find((item) => item._id === id).name);
-        setLastName(admins.find((item) => item._id === id).lastName);
-        setEmail(admins.find((item) => item._id === id).email);
-        setPassword(admins.find((item) => item._id === id).password);
+        const currentAdmin = admins.find((item) => item._id === id);
+        setName(currentAdmin.name);
+        setLastName(currentAdmin.lastName);
+        setEmail(currentAdmin.email);
+        setPassword(currentAdmin.password);
       } else {
         setEdit(false);
       }
