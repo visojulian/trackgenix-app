@@ -55,7 +55,7 @@ const deleteSuperAdmin = (superAdminId) => {
 const postSuperAdmin = (superAdmin) => {
   return (dispatch) => {
     dispatch(postSuperAdminPending());
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -68,11 +68,11 @@ const postSuperAdmin = (superAdmin) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(postSuperAdminSuccess(superAdmin));
+          return dispatch(postSuperAdminSuccess(superAdmin));
         }
       })
       .catch((error) => {
-        dispatch(postSuperAdminError(error.toString()));
+        return dispatch(postSuperAdminError(error.toString()));
       });
   };
 };
