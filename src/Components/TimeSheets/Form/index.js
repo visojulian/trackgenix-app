@@ -154,18 +154,16 @@ function Form() {
     };
     if (!isEditing) {
       const result = await dispatch(addTimesheet(newTimesheet));
-      if (result.type === POST_TIMESHEET_SUCCESS) {
+      if (result && result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
-      } else {
-        setShowModal(true);
       }
     } else {
       const result = await dispatch(editTimesheet(newTimesheet, id));
-      if (result.type === PUT_TIMESHEET_SUCCESS) {
+      if (result && result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
-      } else {
-        setShowModal(true);
       }
+      setIsActionModal(false);
+      setShowModal(true);
     }
   };
 
