@@ -10,12 +10,12 @@ import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
 import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
 import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
+import getEmployees from '../../../redux/employees/thunks';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
-  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
   const [nameValue, setNameValue] = useState();
   const [descriptionValue, setDescriptionValue] = useState();
@@ -26,31 +26,25 @@ const ProjectForm = () => {
   const [rateValue, setRateValue] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const isEditing = Boolean(id);
-
-  const { list: projects, isLoading } = useSelector((state) => state.projects);
-  // const { employees: list } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
+
+  const {
+    list: projects,
+    isLoading: loadProjects,
+    error: errorProjects
+  } = useSelector((state) => state.projects);
+  const {
+    list: employees,
+    isLoading: loadEmployee,
+    error: errorEmployee
+  } = useSelector((state) => state.employees);
 
   useEffect(() => {
     dispatch(getProjects());
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((response) => response.json())
-      .then((content) => {
-        if (!content.error) {
-          setEmployees(content.data);
-        } else {
-          setServerError(content.message);
-          setShowModal(true);
-        }
-      })
-      .catch((error) => alert(error));
+    dispatch(getEmployees());
   }, []);
 
   useEffect(() => {
@@ -149,11 +143,11 @@ const ProjectForm = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (errorProjects || errorEmployee) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{errorProjects || errorEmployee}</p>
         </div>
       );
     }
@@ -212,10 +206,10 @@ const ProjectForm = () => {
     }
   };
 
-  if (isLoading) {
+  if (loadProjects || loadEmployee) {
     return (
       <>
-        <Spinner isLoading={isLoading} />
+        <Spinner isLoading={true} />
       </>
     );
   }
