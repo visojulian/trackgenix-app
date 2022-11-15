@@ -66,7 +66,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case POST_EMPLOYEE_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload],
+        list: [...state.list],
         isLoading: false,
         error: ''
       };
@@ -85,7 +85,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case PUT_EMPLOYEE_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload],
+        list: [...state.list],
         isLoading: false,
         error: ''
       };
