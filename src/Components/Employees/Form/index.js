@@ -2,39 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
+import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.employees);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  // const [employeeInput, setEmployeeInput] = useState(() => {
-  //   const currentEmployee = employees.find((employee) => employee._id === id);
-  //   if (currentEmployee)
-  //     return {
-  //       name: currentEmployee.data.name,
-  //       lastName: currentEmployee.data.lastName,
-  //       phone: currentEmployee.data.phone,
-  //       email: currentEmployee.data.email,
-  //       password: currentEmployee.data.password
-  //     };
-  //   return {
-  //     name: '',
-  //     lastName: '',
-  //     phone: '',
-  //     email: '',
-  //     password: ''
-  //   };
-  // });
+
+  const {
+    list: employees,
+    isLoading: loading,
+    error: employeeError
+  } = useSelector((state) => state.employees);
+
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -43,36 +31,20 @@ const Form = () => {
     password: ''
   });
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
-        setIsEditing(true);
-        setEmployeeInput({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          phone: data.data.phone,
-          email: data.data.email,
-          password: data.data.password
-        });
-      }
-    } catch (error) {
-      alert(error);
+  useEffect(() => {
+    if (employees.length > 0 && id) {
+      console.log('entra');
+      const currentEmployee = employees.find((employee) => employee._id === id);
+      setIsEditing(true);
+      setEmployeeInput({
+        name: currentEmployee.name,
+        lastName: currentEmployee.lastName,
+        phone: currentEmployee.phone,
+        email: currentEmployee.email,
+        password: currentEmployee.password
+      });
     }
   }, []);
-
-  // useEffect(async () => {
-  //   try {
-  //     if (id) {
-  //       setIsEditing(true);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
@@ -89,11 +61,11 @@ const Form = () => {
   };
 
   const getModalContent = () => {
-    if (error) {
+    if (employeeError) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{error}</p>
+          <p>{employeeError}</p>
         </div>
       );
     }
@@ -144,18 +116,9 @@ const Form = () => {
     }
   };
 
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
+  if (loading) {
+    return <Spinner isLoading={loading} />;
   }
-
-  // if (error) {
-  //   return (
-  //     <div className={styles.errorDiv}>
-  //       <h4>There was an error!</h4>
-  //       <p>{error}</p>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className={styles.container}>
