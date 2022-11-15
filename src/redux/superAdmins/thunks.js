@@ -7,10 +7,10 @@ import {
   deleteSuperAdminError,
   postSuperAdminPending,
   postSuperAdminSuccess,
-  postSuperAdminError
-  // putSuperAdminPending,
-  // putSuperAdminSuccess,
-  // putSuperAdminError
+  postSuperAdminError,
+  putSuperAdminPending,
+  putSuperAdminSuccess,
+  putSuperAdminError
 } from './actions';
 
 const getSuperAdmins = () => {
@@ -55,7 +55,7 @@ const deleteSuperAdmin = (superAdminId) => {
 const postSuperAdmin = (superAdmin) => {
   return (dispatch) => {
     dispatch(postSuperAdminPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
+    fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -77,36 +77,28 @@ const postSuperAdmin = (superAdmin) => {
   };
 };
 
-// const putSuperAdmin = (superAdmin, superAdminId) => {
-//   return (dispatch) => {
-//     dispatch(putSuperAdminPending());
-//     return (
-//       fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`),
-//       {
-//         method: 'PUT',
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//           name: superAdmin.name,
-//           lastName: superAdmin.lastName,
-//           email: superAdmin.email,
-//           password: superAdmin.password
-//         })
-//       }
-//         .then((response) => response.json())
-//         .then((response) => {
-//           if (response.error) {
-//             throw new Error(response.message);
-//           } else {
-//             dispatch(putSuperAdminSuccess(response.data));
-//           }
-//         })
-//         .catch((error) => {
-//           dispatch(putSuperAdminError(error.toString()));
-//         })
-//     );
-//   };
-// };
-export { getSuperAdmins, deleteSuperAdmin, postSuperAdmin };
+const putSuperAdmin = (superAdmin, superAdminId) => {
+  return (dispatch) => {
+    dispatch(putSuperAdminPending());
+    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(superAdmin)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          dispatch(putSuperAdminSuccess(response.data));
+        }
+      })
+      .catch((error) => {
+        dispatch(putSuperAdminError(error.toString()));
+      });
+  };
+};
+export { getSuperAdmins, deleteSuperAdmin, postSuperAdmin, putSuperAdmin };

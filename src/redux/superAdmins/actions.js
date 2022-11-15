@@ -19,10 +19,10 @@ export const getSuperAdminsPending = () => {
   };
 };
 
-export const getSuperAdminsSuccess = (payload) => {
+export const getSuperAdminsSuccess = (data) => {
   return {
     type: GET_SUPER_ADMINS_SUCCESS,
-    payload
+    payload: data
   };
 };
 
@@ -59,10 +59,10 @@ export const postSuperAdminPending = () => {
   };
 };
 
-export const postSuperAdminSuccess = (payload) => {
+export const postSuperAdminSuccess = (data) => {
   return {
     type: POST_SUPER_ADMIN_SUCCESS,
-    payload
+    payload: data
   };
 };
 
@@ -79,10 +79,10 @@ export const putSuperAdminPending = () => {
   };
 };
 
-export const putSuperAdminSuccess = (payload) => {
+export const putSuperAdminSuccess = (data) => {
   return {
     type: PUT_SUPER_ADMIN_SUCCESS,
-    payload
+    payload: data
   };
 };
 
