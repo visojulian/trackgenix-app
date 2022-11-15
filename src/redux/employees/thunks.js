@@ -55,7 +55,7 @@ const deleteEmployee = (employeeId) => {
 const postEmployee = (employee) => {
   return (dispatch) => {
     dispatch(postEmployeePending());
-    fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -68,11 +68,11 @@ const postEmployee = (employee) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(postEmployeeSuccess(employee));
+          return dispatch(postEmployeeSuccess(employee));
         }
       })
       .catch((error) => {
-        dispatch(postEmployeeError(error.toString()));
+        return dispatch(postEmployeeError(error.toString()));
       });
   };
 };
@@ -80,7 +80,7 @@ const postEmployee = (employee) => {
 const putEmployee = (employee, employeeId) => {
   return (dispatch) => {
     dispatch(putEmployeePending());
-    fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -93,11 +93,11 @@ const putEmployee = (employee, employeeId) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          dispatch(putEmployeeSuccess(employee));
+          return dispatch(putEmployeeSuccess(employee));
         }
       })
       .catch((error) => {
-        dispatch(putEmployeeError(error.toString()));
+        return dispatch(putEmployeeError(error.toString()));
       });
   };
 };

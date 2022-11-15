@@ -19,10 +19,10 @@ export const getEmployeesPending = () => {
   };
 };
 
-export const getEmployeesSuccess = (payload) => {
+export const getEmployeesSuccess = (data) => {
   return {
     type: GET_EMPLOYEES_SUCCESS,
-    payload
+    payload: data
   };
 };
 
@@ -39,10 +39,10 @@ export const deleteEmployeePending = () => {
   };
 };
 
-export const deleteEmployeeSuccess = (payload) => {
+export const deleteEmployeeSuccess = (data) => {
   return {
     type: DELETE_EMPLOYEE_SUCCESS,
-    payload
+    payload: data
   };
 };
 
@@ -59,10 +59,10 @@ export const postEmployeePending = () => {
   };
 };
 
-export const postEmployeeSuccess = (payload) => {
+export const postEmployeeSuccess = (data) => {
   return {
     type: POST_EMPLOYEE_SUCCESS,
-    payload
+    payload: data
   };
 };
 
@@ -79,10 +79,10 @@ export const putEmployeePending = () => {
   };
 };
 
-export const putEmployeeSuccess = (payload) => {
+export const putEmployeeSuccess = (data) => {
   return {
     type: PUT_EMPLOYEE_SUCCESS,
-    payload
+    payload: data
   };
 };
 

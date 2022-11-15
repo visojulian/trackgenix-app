@@ -7,6 +7,7 @@ import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
+import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
 
 const Form = () => {
   const { id } = useParams();
@@ -16,6 +17,24 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
+  // const [employeeInput, setEmployeeInput] = useState(() => {
+  //   const currentEmployee = employees.find((employee) => employee._id === id);
+  //   if (currentEmployee)
+  //     return {
+  //       name: currentEmployee.data.name,
+  //       lastName: currentEmployee.data.lastName,
+  //       phone: currentEmployee.data.phone,
+  //       email: currentEmployee.data.email,
+  //       password: currentEmployee.data.password
+  //     };
+  //   return {
+  //     name: '',
+  //     lastName: '',
+  //     phone: '',
+  //     email: '',
+  //     password: ''
+  //   };
+  // });
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -45,14 +64,25 @@ const Form = () => {
     }
   }, []);
 
+  // useEffect(async () => {
+  //   try {
+  //     if (id) {
+  //       setIsEditing(true);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
+
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
     if (
-      employeeInput.name !== '' &&
-      employeeInput.lastName !== '' &&
-      employeeInput.email !== '' &&
-      employeeInput.password !== ''
+      employeeInput.name &&
+      employeeInput.lastName &&
+      employeeInput.phone &&
+      employeeInput.email &&
+      employeeInput.password
     ) {
       setIsActionModal(true);
     }
@@ -68,10 +98,11 @@ const Form = () => {
       );
     }
     if (
-      employeeInput.name !== '' &&
-      employeeInput.lastName !== '' &&
-      employeeInput.email !== '' &&
-      employeeInput.password !== ''
+      employeeInput.name &&
+      employeeInput.lastName &&
+      employeeInput.phone &&
+      employeeInput.email &&
+      employeeInput.password
     ) {
       return (
         <div>
@@ -97,15 +128,15 @@ const Form = () => {
 
   const onSubmit = async () => {
     if (!isEditing) {
-      dispatch(postEmployee(employeeInput));
-      if (!error) {
+      const res = await dispatch(postEmployee(employeeInput));
+      if (res.type === POST_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      dispatch(putEmployee(employeeInput, id));
-      if (!error) {
+      const res = await dispatch(putEmployee(employeeInput, id));
+      if (res.type === PUT_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
@@ -117,14 +148,14 @@ const Form = () => {
     return <Spinner isLoading={isLoading} />;
   }
 
-  if (error) {
-    return (
-      <div className={styles.errorDiv}>
-        <h4>There was an error!</h4>
-        <p>{error}</p>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className={styles.errorDiv}>
+  //       <h4>There was an error!</h4>
+  //       <p>{error}</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className={styles.container}>

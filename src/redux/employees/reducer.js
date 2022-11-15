@@ -85,15 +85,16 @@ const reducer = (state = INITIAL_STATE, action) => {
     case PUT_EMPLOYEE_SUCCESS:
       return {
         ...state,
-        list: [...state.list],
         isLoading: false,
+        list: [...state.list],
         error: ''
       };
     case PUT_EMPLOYEE_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.error
+        list: [],
+        error: action.payload
       };
     default:
       return state;
