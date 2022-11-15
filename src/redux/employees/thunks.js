@@ -7,7 +7,10 @@ import {
   deleteEmployeeError,
   postEmployeePending,
   postEmployeeSuccess,
-  postEmployeeError
+  postEmployeeError,
+  putEmployeePending,
+  putEmployeeSuccess,
+  putEmployeeError
 } from './actions';
 
 const getEmployees = () => {
@@ -74,4 +77,29 @@ const postEmployee = (employee) => {
   };
 };
 
-export { getEmployees, deleteEmployee, postEmployee };
+const putEmployee = (employee, employeeId) => {
+  return (dispatch) => {
+    dispatch(putEmployeePending());
+    fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(employee)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          dispatch(putEmployeeSuccess(employee));
+        }
+      })
+      .catch((error) => {
+        dispatch(putEmployeeError(error.toString()));
+      });
+  };
+};
+
+export { getEmployees, deleteEmployee, postEmployee, putEmployee };
