@@ -26,6 +26,25 @@ const Form = () => {
     email: '',
     password: ''
   });
+  const superAdminParam = useSelector((state) =>
+    state.superAdmins.list.find((superAdmin) => superAdmin._id === id)
+  );
+
+  useEffect(async () => {
+    try {
+      if (id && superAdminParam) {
+        setIsEditing(true);
+        setSuperAdmin({
+          name: superAdminParam.name,
+          lastName: superAdminParam.lastName,
+          email: superAdminParam.email,
+          password: superAdminParam.password
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [superAdminParam]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
@@ -67,31 +86,10 @@ const Form = () => {
     setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
   };
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
-        setIsEditing(true);
-        setSuperAdmin({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          email: data.data.email,
-          password: data.data.password
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   const onSubmit = async () => {
     if (!isEditing) {
       const res = await dispatch(postSuperAdmin(superAdmin));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
-        console.log('bien');
         history.goBack();
       } else {
         setShowModal(true);
@@ -99,7 +97,6 @@ const Form = () => {
     } else {
       const res = await dispatch(putSuperAdmin(superAdmin, id));
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
-        console.log('bien');
         history.goBack();
       } else {
         setShowModal(true);
