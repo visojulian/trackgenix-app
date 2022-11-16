@@ -33,7 +33,6 @@ const Form = () => {
 
   useEffect(() => {
     if (employees.length > 0 && id) {
-      console.log('entra');
       const currentEmployee = employees.find((employee) => employee._id === id);
       setIsEditing(true);
       setEmployeeInput({
@@ -44,7 +43,7 @@ const Form = () => {
         password: currentEmployee.password
       });
     }
-  }, []);
+  }, [employees.length, id]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
