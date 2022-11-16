@@ -16,7 +16,7 @@ const Form = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { error, isLoading } = useSelector((state) => state.superAdmins);
+  const { list: superAdmins, error, isLoading } = useSelector((state) => state.superAdmins);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -26,25 +26,23 @@ const Form = () => {
     email: '',
     password: ''
   });
-  const superAdminParam = useSelector((state) =>
-    state.superAdmins.list.find((superAdmin) => superAdmin._id === id)
-  );
+  const foundSuperAdmin = superAdmins.find((superAdmin) => superAdmin._id === id);
 
   useEffect(async () => {
     try {
-      if (id && superAdminParam) {
+      if (id && foundSuperAdmin) {
         setIsEditing(true);
         setSuperAdmin({
-          name: superAdminParam.name,
-          lastName: superAdminParam.lastName,
-          email: superAdminParam.email,
-          password: superAdminParam.password
+          name: foundSuperAdmin.name,
+          lastName: foundSuperAdmin.lastName,
+          email: foundSuperAdmin.email,
+          password: foundSuperAdmin.password
         });
       }
     } catch (error) {
       console.error(error);
     }
-  }, [superAdminParam]);
+  }, [id, foundSuperAdmin]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
