@@ -83,7 +83,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         isLoading: true
       };
     case PUT_TASK_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         list: [

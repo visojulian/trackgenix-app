@@ -78,7 +78,6 @@ export const postTask = (description) => {
 
 export const putTask = (description, taskId) => {
   return (dispatch) => {
-    console.log(description);
     dispatch(putTaskPending());
     return fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'PUT',
