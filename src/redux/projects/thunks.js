@@ -1,16 +1,16 @@
 import {
+  getProjectPending,
+  getProjectSuccess,
+  getProjectError,
   deleteProjectPending,
   deleteProjectError,
   deleteProjectSuccess,
-  getProjectPending,
-  getProjectError,
-  getProjectSuccess,
   postProjectPending,
-  postProjectError,
   postProjectSuccess,
+  postProjectError,
   putProjectPending,
-  putProjectError,
-  putProjectSuccess
+  putProjectSuccess,
+  putProjectError
 } from './actions';
 
 const getProjects = () => {

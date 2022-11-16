@@ -30,39 +30,43 @@ const Projects = () => {
     history.push(`/projects/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
   return (
-    <div className={styles.container}>
-      <Spinner isLoading={isLoading} />
-      <h1>Projects</h1>
-      <Table
-        data={projects}
-        headers={headers}
-        values={values}
-        onDelete={onDelete}
-        onRowClick={onRowClick}
-      />
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => projectId && dispatch(deleteProject(projectId))}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Project</h4>
-          <p>Are you sure you want to remove project?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
-      <Button
-        text="Add Project"
-        type="submit"
-        variant="primary"
-        onClick={() => {
-          history.push(`/projects/form`);
-        }}
-      />
-    </div>
+    <>
+      <div className={styles.container}>
+        <h1>Projects</h1>
+        <Table
+          data={projects}
+          headers={headers}
+          values={values}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => projectId && dispatch(deleteProject(projectId))}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Project</h4>
+            <p>Are you sure you want to remove project?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Project"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`/projects/form`);
+          }}
+        />
+      </div>
+    </>
   );
 };
 
