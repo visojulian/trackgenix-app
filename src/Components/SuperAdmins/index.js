@@ -4,31 +4,22 @@ import styles from './super-admins.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
+import Spinner from '../Shared/Spinner/spinner';
+import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
 
 const SuperAdmins = () => {
   const history = useHistory();
-  const [superAdmins, setSuperAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
+  const { list: superAdmins, isLoading, error } = useSelector((state) => state.superAdmins);
+  const dispatch = useDispatch();
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
-      const data = await response.json();
-      setSuperAdmins(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getSuperAdmins());
   }, []);
-
-  const deleteSuperAdmin = async () => {
-    setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== superAdminId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
-      method: 'DELETE'
-    });
-  };
 
   const onDelete = (id, showModal) => {
     setSuperAdminId(id);
@@ -38,6 +29,19 @@ const SuperAdmins = () => {
   const onRowClick = (id) => {
     history.push(`/super-admins/form/${id}`);
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <h4>There was an error</h4>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -54,7 +58,7 @@ const SuperAdmins = () => {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={deleteSuperAdmin}
+          action={() => superAdminId && dispatch(deleteSuperAdmin(superAdminId))}
           actionButton="Delete"
         >
           <div>
