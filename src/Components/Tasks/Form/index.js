@@ -16,9 +16,7 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const tasks = useSelector((state) => state.tasks.list);
-  const isLoading = useSelector((state) => state.tasks.isLoading);
-  const error = useSelector((state) => state.tasks.error);
+  const { list: tasks, isLoading, error } = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
 
   const onChangeTaskNameInput = (event) => {

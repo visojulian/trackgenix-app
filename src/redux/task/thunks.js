@@ -71,7 +71,7 @@ export const postTask = (description) => {
         }
       })
       .catch((err) => {
-        dispatch(postTaskError(err.toString()));
+        return dispatch(postTaskError(err.toString()));
       });
   };
 };
@@ -97,7 +97,7 @@ export const putTask = (description, taskId) => {
         }
       })
       .catch((err) => {
-        dispatch(putTaskError(err.toString()));
+        return dispatch(putTaskError(err.toString()));
       });
   };
 };
