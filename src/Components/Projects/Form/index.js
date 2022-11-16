@@ -33,12 +33,12 @@ const ProjectForm = () => {
 
   const {
     list: projects,
-    isLoading: loadProjects,
+    isLoading: projectsIsLoading,
     error: errorProjects
   } = useSelector((state) => state.projects);
   const {
     list: employees,
-    isLoading: loadEmployee,
+    isLoading: employeesIsLoading,
     error: errorEmployee
   } = useSelector((state) => state.employees);
 
@@ -203,12 +203,8 @@ const ProjectForm = () => {
     }
   };
 
-  if (loadProjects || loadEmployee) {
-    return (
-      <>
-        <Spinner isLoading={true} />
-      </>
-    );
+  if (projectsIsLoading || employeesIsLoading) {
+    return <Spinner isLoading={true} />;
   }
   return (
     <>
