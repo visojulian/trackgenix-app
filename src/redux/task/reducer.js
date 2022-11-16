@@ -66,7 +66,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case POST_TASK_SUCCESS:
       return {
         ...state,
-        list: [...state.list],
+        list: [...state.list, action.payload],
         isLoading: false,
         error: ''
       };
