@@ -10,7 +10,7 @@ import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
 import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
 import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
-import getEmployees from '../../../redux/employees/thunks';
+import { getEmployees } from '../../../redux/employees/thunks';
 
 const ProjectForm = () => {
   const { id } = useParams();
