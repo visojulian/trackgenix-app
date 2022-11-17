@@ -39,7 +39,7 @@ const ProjectForm = () => {
   const {
     list: employees,
     isLoading: employeesIsLoading,
-    error: errorEmployee
+    error: errorEmployees
   } = useSelector((state) => state.employees);
 
   useEffect(() => {
@@ -143,11 +143,11 @@ const ProjectForm = () => {
   };
 
   const getModalContent = () => {
-    if (errorProjects || errorEmployee) {
+    if (errorProjects || errorEmployees) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{errorProjects || errorEmployee}</p>
+          <p>{errorProjects || errorEmployees}</p>
         </div>
       );
     }
