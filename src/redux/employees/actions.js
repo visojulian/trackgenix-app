@@ -1,23 +1,48 @@
-import { GET_EMPLOYEES_PENDING, GET_EMPLOYEES_SUCCESS, GET_EMPLOYEES_ERROR } from './constants';
+import {
+  GET_EMPLOYEES_PENDING,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_ERROR,
+  DELETE_EMPLOYEE_PENDING,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_ERROR
+} from './constants';
 
-const getEmployeesPending = () => {
+export const getEmployeesPending = () => {
   return {
     type: GET_EMPLOYEES_PENDING
   };
 };
 
-const getEmployeesSuccess = (payload) => {
+export const getEmployeesSuccess = (payload) => {
   return {
     type: GET_EMPLOYEES_SUCCESS,
     payload
   };
 };
 
-const getEmployeesError = (err) => {
+export const getEmployeesError = (error) => {
   return {
     type: GET_EMPLOYEES_ERROR,
-    payload: err
+    payload: error
   };
 };
 
-export { getEmployeesPending, getEmployeesSuccess, getEmployeesError };
+export const deleteEmployeePending = () => {
+  return {
+    type: DELETE_EMPLOYEE_PENDING
+  };
+};
+
+export const deleteEmployeeSuccess = (payload) => {
+  return {
+    type: DELETE_EMPLOYEE_SUCCESS,
+    payload
+  };
+};
+
+export const deleteEmployeeError = (error) => {
+  return {
+    type: DELETE_EMPLOYEE_ERROR,
+    payload: error
+  };
+};
