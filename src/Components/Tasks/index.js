@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import Spinner from '../Shared/Spinner';
 import Modal from '../Shared/Modal';
 
 const Tasks = () => {

@@ -4,7 +4,7 @@ import styles from './super-admins.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import Spinner from '../Shared/Spinner';
 import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 

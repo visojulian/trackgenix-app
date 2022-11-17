@@ -6,7 +6,7 @@ import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import Spinner from '../Shared/Spinner';
 
 function Employees() {
   const [employeeId, setEmployeeId] = useState();
