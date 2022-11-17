@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   // admins: adminsReducer
   // projects: projectsReducer,
   // admins: adminsReducer
-  projects: projectsReducer
+  projects: projectsReducer,
   // superAdmins: superAdminsReducer,
   tasks: tasksReducer
   // timeSheets: timeSheetsReducer
