@@ -1,5 +1,5 @@
 .modalOverlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -25,7 +25,7 @@
 
 .modalWrapper h1, .modalWrapper h2, .modalWrapper h3, .modalWrapper h4, .modalWrapper h5, .modalWrapper h6 {
   margin: 30px 0;
-  color:black;
+  color: black;
 }
 
 .modalWrapper p {
