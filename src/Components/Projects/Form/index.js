@@ -11,6 +11,9 @@ import Spinner from '../../Shared/Spinner/spinner';
 import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
 import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
 import { getEmployees } from '../../../redux/employees/thunks';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/projects';
 
 const ProjectForm = () => {
   const { id } = useParams();
