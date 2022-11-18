@@ -1,35 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
 import styles from './employees.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
+import Spinner from '../Shared/Spinner/spinner';
 
 function Employees() {
-  const history = useHistory();
-  const [employees, saveEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState();
   const [showModal, setShowModal] = useState(false);
   const values = ['name', 'lastName', 'phone', 'email'];
   const headers = ['Name', 'Last Name', 'Phone', 'Email'];
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { list: employeesList, isLoading, error } = useSelector((state) => state.employees);
 
   useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      saveEmployees(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getEmployees());
   }, []);
-
-  const deleteEmployee = async () => {
-    const id = employeeId;
-    await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-      method: 'DELETE'
-    });
-    saveEmployees([...employees.filter((employee) => employee._id !== id)]);
-  };
 
   const onDelete = (id, showModal) => {
     setEmployeeId(id);
@@ -40,12 +30,24 @@ function Employees() {
     history.push(`/employees/form/${id}`);
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.errorDiv}>
+        <h4>There was an error!</h4>
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <>
       <div className={styles.container}>
         <h1>Employees</h1>
         <Table
-          data={employees}
+          data={employeesList}
           headers={headers}
           values={values}
           onDelete={onDelete}
@@ -55,7 +57,7 @@ function Employees() {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={deleteEmployee}
+          action={() => employeeId && dispatch(deleteEmployee(employeeId))}
           actionButton="Delete"
         >
           <div>
