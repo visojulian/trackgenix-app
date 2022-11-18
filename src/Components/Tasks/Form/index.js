@@ -8,6 +8,9 @@ import Button from '../../Shared/Button/index';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/task';
 
 const Form = () => {
   const { id } = useParams();
