@@ -2,15 +2,15 @@ import {
   GET_PROJECTS_PENDING,
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
-  DELETE_PROJECTS_PENDING,
-  DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR,
-  POST_PROJECTS_PENDING,
-  POST_PROJECTS_SUCCESS,
-  POST_PROJECTS_ERROR,
-  PUT_PROJECTS_PENDING,
-  PUT_PROJECTS_SUCCESS,
-  PUT_PROJECTS_ERROR
+  DELETE_PROJECT_PENDING,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ERROR,
+  POST_PROJECT_PENDING,
+  POST_PROJECT_SUCCESS,
+  POST_PROJECT_ERROR,
+  PUT_PROJECT_PENDING,
+  PUT_PROJECT_SUCCESS,
+  PUT_PROJECT_ERROR
 } from './constants';
 
 const getProjectPending = () => {
@@ -35,56 +35,61 @@ const getProjectError = (err) => {
 
 const deleteProjectPending = () => {
   return {
-    type: DELETE_PROJECTS_PENDING
+    type: DELETE_PROJECT_PENDING
   };
 };
 
 const deleteProjectSuccess = (id) => {
   return {
-    type: DELETE_PROJECTS_SUCCESS,
+    type: DELETE_PROJECT_SUCCESS,
     payload: id
   };
 };
 
 const deleteProjectError = (err) => {
   return {
-    type: DELETE_PROJECTS_ERROR,
+    type: DELETE_PROJECT_ERROR,
     payload: err
   };
 };
 
 const postProjectPending = () => {
   return {
-    type: POST_PROJECTS_PENDING
+    type: POST_PROJECT_PENDING
   };
 };
+
 const postProjectSuccess = (body) => {
   return {
-    type: POST_PROJECTS_SUCCESS,
+    type: POST_PROJECT_SUCCESS,
     payload: body
   };
 };
-const postProjectError = (error) => {
+
+const postProjectError = (err) => {
   return {
-    type: POST_PROJECTS_ERROR,
-    payload: error
+    type: POST_PROJECT_ERROR,
+    payload: err
   };
 };
+
 const putProjectPending = () => {
   return {
-    type: PUT_PROJECTS_PENDING
+    type: PUT_PROJECT_PENDING
   };
 };
-const putProjectSuccess = (id) => {
+
+const putProjectSuccess = (body) => {
   return {
-    type: PUT_PROJECTS_SUCCESS,
-    payload: id
+    type: PUT_PROJECT_SUCCESS,
+    payload: body
   };
 };
-const putProjectError = (error) => {
+
+const putProjectError = (err) => {
   return {
-    type: PUT_PROJECTS_ERROR,
-    payload: error
+    type: PUT_PROJECT_ERROR,
+    payload: err
   };
 };
 

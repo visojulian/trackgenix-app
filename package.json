@@ -17,7 +17,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-fix": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
