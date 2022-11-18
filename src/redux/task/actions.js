@@ -4,7 +4,13 @@ import {
   GET_TASKS_ERROR,
   DELETE_TASK_PENDING,
   DELETE_TASK_SUCCESS,
-  DELETE_TASK_ERROR
+  DELETE_TASK_ERROR,
+  POST_TASK_PENDING,
+  POST_TASK_SUCCESS,
+  POST_TASK_ERROR,
+  PUT_TASK_PENDING,
+  PUT_TASK_SUCCESS,
+  PUT_TASK_ERROR
 } from './constants';
 
 export const getTasksPending = () => {
@@ -43,6 +49,46 @@ export const deleteTaskSuccess = (data) => {
 export const deleteTaskError = (error) => {
   return {
     type: DELETE_TASK_ERROR,
+    payload: error
+  };
+};
+
+export const postTaskPending = () => {
+  return {
+    type: POST_TASK_PENDING
+  };
+};
+
+export const postTaskSuccess = (data) => {
+  return {
+    type: POST_TASK_SUCCESS,
+    payload: data
+  };
+};
+
+export const postTaskError = (error) => {
+  return {
+    type: POST_TASK_ERROR,
+    payload: error
+  };
+};
+
+export const putTaskPending = () => {
+  return {
+    type: PUT_TASK_PENDING
+  };
+};
+
+export const putTaskSuccess = (data) => {
+  return {
+    type: PUT_TASK_SUCCESS,
+    payload: data
+  };
+};
+
+export const putTaskError = (error) => {
+  return {
+    type: PUT_TASK_ERROR,
     payload: error
   };
 };
