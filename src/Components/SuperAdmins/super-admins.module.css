@@ -14,3 +14,22 @@
   color: #373867;
   text-align: center;
 }
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 50%;
+  border-radius: 10px;
+  background-color: #F0F4F9;
+}
+
+.error h4 {
+  font-size: 20px;
+  color: #373867;
+}
+
+.error p {
+  text-align: center;
+  color: #373867;
+}

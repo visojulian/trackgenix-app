@@ -4,19 +4,23 @@ import Modal from '../../Shared/Modal';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
 import TextInput from '../../Shared/TextInput/index';
+import { useSelector, useDispatch } from 'react-redux';
+import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
+import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
+import Spinner from '../../Shared/Spinner/spinner';
 
 const AdminForm = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [name, setName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [adminId, setAdminId] = useState();
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [edit, setEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
+  const { list: admins, isLoading, error } = useSelector((state) => state.admins);
+  const dispatch = useDispatch();
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -40,11 +44,11 @@ const AdminForm = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (error) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -68,57 +72,51 @@ const AdminForm = () => {
   };
 
   useEffect(async () => {
-    if (id) {
-      setAdminId(id);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
-        method: 'GET'
-      });
-      const data = await response.json();
-      setEdit(true);
-      setName(data.data.name);
-      setLastName(data.data.lastName);
-      setEmail(data.data.email);
-      setPassword(data.data.password);
-    } else {
-      setEdit(false);
+    try {
+      if (id) {
+        setEdit(true);
+        const currentAdmin = admins.find((item) => item._id === id);
+        setName(currentAdmin.name);
+        setLastName(currentAdmin.lastName);
+        setEmail(currentAdmin.email);
+        setPassword(currentAdmin.password);
+      } else {
+        setEdit(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, []);
 
   const onSubmit = async () => {
     if (!edit) {
-      const newAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
-      });
-      const content = await newAdmin.json();
-      if (!content.error) {
+      const reponse = await dispatch(postAdmin(name, lastName, email, password));
+      if (reponse.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     } else {
-      const editAdmin = await fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
-      });
-      const content = await editAdmin.json();
-      if (!content.error) {
+      const reponse = await dispatch(putAdmin(name, lastName, email, password, id));
+      if (reponse.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     }
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <h1>{error}</h1>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
