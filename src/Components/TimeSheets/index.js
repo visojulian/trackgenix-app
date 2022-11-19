@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './list.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button/index';
-import Modal from '../Shared/Modal';
+import { Button, Modal, Table } from 'Components/Shared';
 
 const TimeSheets = () => {
   const history = useHistory();
@@ -50,6 +48,16 @@ const TimeSheets = () => {
     history.push(`/time-sheets/form/${id}`);
   };
 
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete Timesheet</h4>
+        <p>Are you sure you want to delete this timesheet?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <h1>TimeSheets</h1>
@@ -66,13 +74,8 @@ const TimeSheets = () => {
         isActionModal={true}
         action={deleteTimeSheet}
         actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Timesheet</h4>
-          <p>Are you sure you want to delete this timesheet?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
+        getModalContent={getModalContent}
+      ></Modal>
       <Button
         text="Add Timesheet"
         type="submit"

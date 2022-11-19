@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { postTask, putTask } from '../../../redux/task/thunks';
-import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from '../../../redux/task/constants';
+import { postTask, putTask } from 'redux/task/thunks';
+import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from 'redux/task/constants';
 import styles from './form.module.css';
-import Button from '../../Shared/Button/index';
-import Modal from '../../Shared/Modal';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/task';
@@ -112,9 +109,8 @@ const Form = () => {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-      >
-        {getModalContent()}
-      </Modal>
+        getModalContent={getModalContent}
+      ></Modal>
       <form className={styles.formFlexBox}>
         <div>
           <TextInput

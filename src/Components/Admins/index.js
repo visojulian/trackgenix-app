@@ -3,10 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
 import styles from './admins.module.css';
-import Table from '../Shared/Table/index';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Admins = () => {
   const history = useHistory();
@@ -30,6 +27,16 @@ const Admins = () => {
 
   const onRowClick = (id) => {
     history.push(`/admins/form/${id}`);
+  };
+
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete Admin</h4>
+        <p>Are you sure you want to delete this employee from admins?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -61,13 +68,8 @@ const Admins = () => {
           isActionModal={true}
           action={() => adminId && dispatch(deleteAdmin(adminId))}
           actionButton="Delete"
-        >
-          <div>
-            <h4>Delete Admin</h4>
-            <p>Are you sure you want to delete this employee from admins?</p>
-            <p>Changes cannot be undone.</p>
-          </div>
-        </Modal>
+          getModalContent={getModalContent}
+        ></Modal>
         <Button
           text="Add Admin"
           type="submit"

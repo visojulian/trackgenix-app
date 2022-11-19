@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
 import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/employees';
@@ -189,9 +186,8 @@ const Form = () => {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-      >
-        {getModalContent()}
-      </Modal>
+        getModalContent={getModalContent}
+      ></Modal>
     </div>
   );
 };

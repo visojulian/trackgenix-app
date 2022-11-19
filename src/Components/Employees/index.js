@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
 import styles from './employees.module.css';
-import Table from '../Shared/Table/index';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 function Employees() {
   const [employeeId, setEmployeeId] = useState();
@@ -28,6 +25,16 @@ function Employees() {
 
   const onRowClick = (id) => {
     history.push(`/employees/form/${id}`);
+  };
+
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete employee</h4>
+        <p>Are you sure you want to delete this employee?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -60,13 +67,8 @@ function Employees() {
           isActionModal={true}
           action={() => employeeId && dispatch(deleteEmployee(employeeId))}
           actionButton="Delete"
-        >
-          <div>
-            <h4>Delete employee</h4>
-            <p>Are you sure you want to delete this employee?</p>
-            <p>Changes cannot be undone.</p>
-          </div>
-        </Modal>
+          getModalContent={getModalContent}
+        ></Modal>
         <Button
           text="Add Employee"
           type="submit"

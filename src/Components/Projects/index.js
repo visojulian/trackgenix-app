@@ -3,10 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProject, getProjects } from '../../redux/projects/thunks';
 import styles from './projects.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import Modal from '../Shared/Modal';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Projects = () => {
   const history = useHistory();
@@ -30,6 +27,16 @@ const Projects = () => {
     history.push(`/projects/form/${id}`);
   };
 
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete Project</h4>
+        <p>Are you sure you want to remove project?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
   }
@@ -50,13 +57,8 @@ const Projects = () => {
           isActionModal={true}
           action={() => projectId && dispatch(deleteProject(projectId))}
           actionButton="Delete"
-        >
-          <div>
-            <h4>Delete Project</h4>
-            <p>Are you sure you want to remove project?</p>
-            <p>Changes cannot be undone.</p>
-          </div>
-        </Modal>
+          getModalContent={getModalContent}
+        ></Modal>
         <Button
           text="Add Project"
           type="submit"

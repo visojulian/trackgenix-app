@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import Modal from '../../Shared/Modal';
+import { Button, Modal, Select, TextInput } from 'Components/Shared';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import Select from '../../Shared/Select';
-import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
@@ -202,9 +199,8 @@ function Form() {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-      >
-        {getModalContent()}
-      </Modal>
+        getModalContent={getModalContent}
+      ></Modal>
       <form>
         <div>
           <TextInput

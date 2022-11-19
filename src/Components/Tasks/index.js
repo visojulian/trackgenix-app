@@ -1,12 +1,9 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { getTasks, deleteTask } from '../../redux/task/thunks';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTasks, deleteTask } from 'redux/task/thunks';
 import styles from './tasks.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
-import Modal from '../Shared/Modal';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Tasks = () => {
   const history = useHistory();
@@ -30,6 +27,16 @@ const Tasks = () => {
 
   const onRowClick = (id) => {
     history.push(`/tasks/form/${id}`);
+  };
+
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete Task</h4>
+        <p>Are you sure you want to delete this task?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -60,13 +67,8 @@ const Tasks = () => {
         isActionModal={true}
         action={() => taskId && dispatch(deleteTask(taskId))}
         actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Task</h4>
-          <p>Are you sure you want to delete this task?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
+        getModalContent={getModalContent}
+      ></Modal>
       <Button
         text="Add new task"
         type="submit"

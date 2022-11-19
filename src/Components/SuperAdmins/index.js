@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './super-admins.module.css';
-import Table from '../Shared/Table/index';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -28,6 +25,16 @@ const SuperAdmins = () => {
 
   const onRowClick = (id) => {
     history.push(`/super-admins/form/${id}`);
+  };
+
+  const getModalContent = () => {
+    return (
+      <div>
+        <h4>Delete Super Admin</h4>
+        <p>Are you sure you want to delete this employee from super admins?</p>
+        <p>Changes cannot be undone.</p>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -60,13 +67,8 @@ const SuperAdmins = () => {
           isActionModal={true}
           action={() => superAdminId && dispatch(deleteSuperAdmin(superAdminId))}
           actionButton="Delete"
-        >
-          <div>
-            <h4>Delete Super Admin</h4>
-            <p>Are you sure you want to delete this employee from super admins?</p>
-            <p>Changes cannot be undone.</p>
-          </div>
-        </Modal>
+          getModalContent={getModalContent}
+        ></Modal>
         <Button
           text="Add Super Admin"
           type="submit"
