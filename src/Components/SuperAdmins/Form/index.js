@@ -20,6 +20,7 @@ const Form = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { list: superAdmins, error, isLoading } = useSelector((state) => state.superAdmins);
+  const [reveal, setReveal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -152,8 +153,20 @@ const Form = () => {
     }
   };
 
+  const revealFunc = () => {
+    setReveal(reveal ? false : true);
+  };
+
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <h1>{error}</h1>
+      </div>
+    );
   }
 
   return (
@@ -194,13 +207,24 @@ const Form = () => {
           error={errors.email?.message}
         />
         <TextInput
+          label="Repeat Email"
+          id="repeatEmail"
+          name="repeatEmail"
+          register={register}
+          //value={email}
+          //onChange={onChangeEmail}
+          type="text"
+          placeholder="Repeat Email"
+          error={errors.repeatEmail?.message}
+        />
+        <TextInput
           label="Password"
           id="password"
           name="password"
           register={register}
           //value={superAdmin.password}
           //onChange={onChange}
-          type="password"
+          type={reveal ? 'text' : 'password'}
           placeholder="Password"
           error={errors.password?.message}
         />
@@ -211,7 +235,7 @@ const Form = () => {
           register={register}
           //value={superAdmin.password}
           //onChange={onChange}
-          type="password"
+          type={reveal ? 'text' : 'password'}
           placeholder="Repeat Password"
           error={errors.repeatPassword?.message}
         />
@@ -225,6 +249,12 @@ const Form = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
+          <Button
+            text={reveal ? 'Hide password' : 'Reveal password'}
+            type="button"
+            variant="secondary"
+            onClick={revealFunc}
+          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>

@@ -37,6 +37,9 @@ export const schema = Joi.object({
       'string.email': 'Email needs to be a valid address',
       'string.required': 'Email is required'
     }),
+  repeatEmail: Joi.any().valid(Joi.ref('email')).required().messages({
+    'any.only': 'Emails must match'
+  }),
   password: Joi.string().min(8).alphanum().required().messages({
     'string.empty': 'Password cannot be empty',
     'string.min': 'Password must have at least 8 characters',
