@@ -63,7 +63,8 @@ const Form = () => {
           name: foundSuperAdmin.name,
           lastName: foundSuperAdmin.lastName,
           email: foundSuperAdmin.email,
-          password: foundSuperAdmin.password
+          password: foundSuperAdmin.password,
+          repeatPassword: foundSuperAdmin.password
         });
       }
     } catch (error) {
@@ -202,6 +203,17 @@ const Form = () => {
           type="password"
           placeholder="Password"
           error={errors.password?.message}
+        />
+        <TextInput
+          label="Repeat Password"
+          id="repeatPassword"
+          name="repeatPassword"
+          register={register}
+          //value={superAdmin.password}
+          //onChange={onChange}
+          type="password"
+          placeholder="Repeat Password"
+          error={errors.repeatPassword?.message}
         />
         <div className={styles.butCont}>
           <Button

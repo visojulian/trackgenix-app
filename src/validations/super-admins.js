@@ -42,5 +42,8 @@ export const schema = Joi.object({
     'string.min': 'Password must have at least 8 characters',
     'string.alphanum': 'Password cannot contain special characters',
     'string.required': 'Password is required'
+  }),
+  repeatPassword: Joi.any().valid(Joi.ref('password')).required().messages({
+    'any.only': 'Passwords must match'
   })
 });
