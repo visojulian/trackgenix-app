@@ -212,6 +212,7 @@ const Form = () => {
               history.push('/super-admins');
             }}
           />
+          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
