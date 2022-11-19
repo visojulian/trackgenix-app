@@ -11,9 +11,9 @@ import {
   POST_SUPER_ADMIN_SUCCESS,
   PUT_SUPER_ADMIN_SUCCESS
 } from '../../../redux/superAdmins/constants';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/super-admins';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/super-admins';
 
 const Form = () => {
   const { id } = useParams();
@@ -23,19 +23,43 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [superAdmin, setSuperAdmin] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    password: ''
-  });
+  // const [superAdmin, setSuperAdmin] = useState({
+  //   name: '',
+  //   lastName: '',
+  //   email: '',
+  //   password: ''
+  // });
   const foundSuperAdmin = superAdmins.find((superAdmin) => superAdmin._id === id);
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
+
+  const check =
+    errors &&
+    Object.keys(errors).length === 0 &&
+    Object.getPrototypeOf(errors) === Object.prototype;
+
+  //console.log(getValues());
+  //console.log(errors);
 
   useEffect(async () => {
     try {
       if (id && foundSuperAdmin) {
         setIsEditing(true);
-        setSuperAdmin({
+        // setSuperAdmin({
+        //   name: foundSuperAdmin.name,
+        //   lastName: foundSuperAdmin.lastName,
+        //   email: foundSuperAdmin.email,
+        //   password: foundSuperAdmin.password
+        // });
+        reset({
           name: foundSuperAdmin.name,
           lastName: foundSuperAdmin.lastName,
           email: foundSuperAdmin.email,
@@ -50,7 +74,14 @@ const Form = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+    //if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('password') &&
+      check
+    ) {
       setIsActionModal(true);
     }
   };
@@ -64,14 +95,29 @@ const Form = () => {
         </div>
       );
     }
-    if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+    //if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('password') &&
+      check
+    ) {
       return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Superadmin</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {superAdmin.name}{' '}
-            {superAdmin.lastName} {isEditing ? 'changes' : 'as Superadmin'}?
+            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
+            {getValues('lastName')} {isEditing ? 'changes' : 'as Superadmin'}?
           </p>
+        </div>
+      );
+    }
+    if (!check) {
+      return (
+        <div>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
         </div>
       );
     }
@@ -83,20 +129,20 @@ const Form = () => {
     );
   };
 
-  const onChange = (e) => {
-    setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e) => {
+  //   setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
+  // };
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     if (!isEditing) {
-      const res = await dispatch(postSuperAdmin(superAdmin));
+      const res = await dispatch(postSuperAdmin(data));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putSuperAdmin(superAdmin, id));
+      const res = await dispatch(putSuperAdmin(data, id));
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
@@ -117,37 +163,45 @@ const Form = () => {
           label="Name"
           id="name"
           name="name"
-          value={superAdmin.name}
-          onChange={onChange}
+          register={register}
+          //value={superAdmin.name}
+          //onChange={onChange}
           type="text"
           placeholder="Name"
+          error={errors.name?.message}
         />
         <TextInput
           label="Last Name"
           id="lastName"
           name="lastName"
-          value={superAdmin.lastName}
-          onChange={onChange}
+          register={register}
+          //value={superAdmin.lastName}
+          //onChange={onChange}
           type="text"
           placeholder="Last Name"
+          error={errors.lastName?.message}
         />
         <TextInput
           label="Email"
           id="email"
           name="email"
-          value={superAdmin.email}
-          onChange={onChange}
+          register={register}
+          //value={superAdmin.email}
+          //onChange={onChange}
           type="text"
           placeholder="Email"
+          error={errors.email?.message}
         />
         <TextInput
           label="Password"
           id="password"
           name="password"
-          value={superAdmin.password}
-          onChange={onChange}
+          register={register}
+          //value={superAdmin.password}
+          //onChange={onChange}
           type="password"
           placeholder="Password"
+          error={errors.password?.message}
         />
         <div className={styles.butCont}>
           <Button
@@ -165,7 +219,7 @@ const Form = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
