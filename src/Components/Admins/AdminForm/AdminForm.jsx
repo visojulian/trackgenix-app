@@ -260,7 +260,7 @@ const AdminForm = () => {
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button
-            text={reveal ? 'Hide' : 'Reveal'}
+            text={reveal ? 'Hide password' : 'Reveal password'}
             type="button"
             variant="secondary"
             onClick={revealFunc}
