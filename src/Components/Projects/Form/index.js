@@ -7,7 +7,7 @@ import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
+import Spinner from '../../Shared/Spinner';
 import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
 import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
 import { getEmployees } from '../../../redux/employees/thunks';
