@@ -7,7 +7,7 @@ import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
+import Spinner from '../../Shared/Spinner';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/employees';
