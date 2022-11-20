@@ -3,21 +3,49 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
+import {
+  POST_SUPER_ADMIN_SUCCESS,
+  PUT_SUPER_ADMIN_SUCCESS
+} from '../../../redux/superAdmins/constants';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/super-admins';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { list: superAdmins, error, isLoading } = useSelector((state) => state.superAdmins);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const [superAdmin, setSuperAdmin] = useState({
     name: '',
     lastName: '',
     email: '',
     password: ''
   });
+  const foundSuperAdmin = superAdmins.find((superAdmin) => superAdmin._id === id);
+
+  useEffect(async () => {
+    try {
+      if (id && foundSuperAdmin) {
+        setIsEditing(true);
+        setSuperAdmin({
+          name: foundSuperAdmin.name,
+          lastName: foundSuperAdmin.lastName,
+          email: foundSuperAdmin.email,
+          password: foundSuperAdmin.password
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [id, foundSuperAdmin]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
@@ -28,11 +56,11 @@ const Form = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (error) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -59,71 +87,27 @@ const Form = () => {
     setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
   };
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
-        setIsEditing(true);
-        setSuperAdmin({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          email: data.data.email,
-          password: data.data.password
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   const onSubmit = async () => {
     if (!isEditing) {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: superAdmin.name,
-          lastName: superAdmin.lastName,
-          email: superAdmin.email,
-          password: superAdmin.password
-        })
-      });
-      const content = await res.json();
-      if (!content.error) {
+      const res = await dispatch(postSuperAdmin(superAdmin));
+      if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     } else {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: superAdmin.name,
-          lastName: superAdmin.lastName,
-          email: superAdmin.email,
-          password: superAdmin.password
-        })
-      });
-      const content = await res.json();
-      if (!content.error) {
+      const res = await dispatch(putSuperAdmin(superAdmin, id));
+      if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     }
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
 
   return (
     <div className={styles.container}>

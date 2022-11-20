@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { postTask, putTask } from '../../../redux/task/thunks';
+import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from '../../../redux/task/constants';
 import styles from './form.module.css';
 import Button from '../../Shared/Button/index';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
-import { useHistory, useParams } from 'react-router-dom';
+import Spinner from '../../Shared/Spinner/spinner';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/task';
 
 const Form = () => {
   const { id } = useParams();
@@ -12,7 +19,8 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [serverError, setServerError] = useState();
+  const { list: tasks, isLoading, error } = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
 
   const onChangeTaskNameInput = (event) => {
     setTaskName(event.target.value);
@@ -27,11 +35,11 @@ const Form = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (error) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -57,12 +65,8 @@ const Form = () => {
   useEffect(async () => {
     try {
       if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
         setIsEditing(true);
-        setTaskName(data.data.description);
+        setTaskName(tasks.find((item) => item._id === id).description);
       }
     } catch (error) {
       console.error(error);
@@ -71,41 +75,33 @@ const Form = () => {
 
   const onSubmit = async () => {
     if (!isEditing) {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description: taskName })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      const result = await dispatch(postTask(taskName));
+      if (result.type === POST_TASK_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description: taskName })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      const result = await dispatch(putTask(taskName, id));
+      if (result.type === PUT_TASK_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(content.message);
         setShowModal(true);
       }
     }
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container} style={{ 'justify-content': 'center' }}>
+        <h1>{error}</h1>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

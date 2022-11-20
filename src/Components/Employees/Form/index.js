@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
+import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
-import { useHistory, useParams } from 'react-router-dom';
+import Spinner from '../../Shared/Spinner/spinner';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/employees';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
+
+  const {
+    list: employees,
+    isLoading: loading,
+    error: employeeError
+  } = useSelector((state) => state.employees);
+
   const [employeeInput, setEmployeeInput] = useState({
     name: '',
     lastName: '',
@@ -20,54 +34,49 @@ const Form = () => {
     password: ''
   });
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-          method: 'GET'
-        });
-        const data = await response.json();
-        setIsEditing(true);
-        setEmployeeInput({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          phone: data.data.phone,
-          email: data.data.email,
-          password: data.data.password
-        });
-      }
-    } catch (error) {
-      alert(error);
+  useEffect(() => {
+    if (employees.length > 0 && id) {
+      const currentEmployee = employees.find((employee) => employee._id === id);
+      setIsEditing(true);
+      setEmployeeInput({
+        name: currentEmployee.name,
+        lastName: currentEmployee.lastName,
+        phone: currentEmployee.phone,
+        email: currentEmployee.email,
+        password: currentEmployee.password
+      });
     }
-  }, []);
+  }, [employees.length, id]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
     if (
-      employeeInput.name !== '' &&
-      employeeInput.lastName !== '' &&
-      employeeInput.email !== '' &&
-      employeeInput.password !== ''
+      employeeInput.name &&
+      employeeInput.lastName &&
+      employeeInput.phone &&
+      employeeInput.email &&
+      employeeInput.password
     ) {
       setIsActionModal(true);
     }
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (employeeError) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{employeeError}</p>
         </div>
       );
     }
     if (
-      employeeInput.name !== '' &&
-      employeeInput.lastName !== '' &&
-      employeeInput.email !== '' &&
-      employeeInput.password !== ''
+      employeeInput.name &&
+      employeeInput.lastName &&
+      employeeInput.phone &&
+      employeeInput.email &&
+      employeeInput.password
     ) {
       return (
         <div>
@@ -87,58 +96,31 @@ const Form = () => {
     );
   };
 
+  const onChange = (e) => {
+    setEmployeeInput({ ...employeeInput, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = async () => {
     if (!isEditing) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: employeeInput.name,
-          lastName: employeeInput.lastName,
-          phone: employeeInput.phone,
-          email: employeeInput.email,
-          password: employeeInput.password
-        })
-      });
-
-      const result = await response.json();
-      if (!result.error) {
+      const res = await dispatch(postEmployee(employeeInput));
+      if (res.type === POST_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(result.message);
         setShowModal(true);
       }
     } else {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: employeeInput.name,
-          lastName: employeeInput.lastName,
-          phone: employeeInput.phone,
-          email: employeeInput.email,
-          password: employeeInput.password
-        })
-      });
-      const result = await response.json();
-      if (!result.error) {
+      const res = await dispatch(putEmployee(employeeInput, id));
+      if (res.type === PUT_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
-        setServerError(result.message);
         setShowModal(true);
       }
     }
   };
 
-  const onChange = (e) => {
-    setEmployeeInput({ ...employeeInput, [e.target.name]: e.target.value });
-  };
+  if (loading) {
+    return <Spinner isLoading={loading} />;
+  }
 
   return (
     <div className={styles.container}>
