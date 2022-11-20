@@ -9,8 +9,7 @@
 
 .table {
   height: auto;
-  width: 916px;
-  margin: 30px;
+  margin: 30px auto;
   border: 1px solid #DFE4DE;
   border-radius: 5px;
   border-collapse: collapse;
@@ -24,6 +23,8 @@
 }
 
 .table td {
+width: fit-content;
+padding: 5px 20px;
   height: 40px;
   text-align: center;
   border-top: 1px solid #DFE4DE;
