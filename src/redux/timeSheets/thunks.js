@@ -4,7 +4,13 @@ import {
   getTimesheetsError,
   deleteTimesheetPending,
   deleteTimesheetSuccess,
-  deleteTimesheetError
+  deleteTimesheetError,
+  addTimesheetPending,
+  addTimesheetSuccess,
+  addTimesheetError,
+  editTimesheetPending,
+  editTimesheetSuccess,
+  editTimesheetError
 } from './actions';
 
 export const getTimesheets = () => {
@@ -41,6 +47,54 @@ export const deleteTimesheet = (timesheetId) => {
       })
       .catch((error) => {
         dispatch(deleteTimesheetError(error.toString()));
+      });
+  };
+};
+
+export const addTimesheet = (timesheet) => {
+  return (dispatch) => {
+    dispatch(addTimesheetPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(timesheet)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        }
+        return dispatch(addTimesheetSuccess(response.data));
+      })
+      .catch((error) => {
+        return dispatch(addTimesheetError(error.toString()));
+      });
+  };
+};
+
+export const editTimesheet = (timesheet, id) => {
+  return (dispatch) => {
+    dispatch(editTimesheetPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(timesheet)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        }
+        return dispatch(editTimesheetSuccess(response.data));
+      })
+      .catch((error) => {
+        return dispatch(editTimesheetError(error.toString()));
       });
   };
 };
