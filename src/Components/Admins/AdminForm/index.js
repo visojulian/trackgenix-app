@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
-import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { useSelector, useDispatch } from 'react-redux';
-import { postAdmin, putAdmin } from 'redux/admins/thunks';
-import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from 'redux/admins/constants';
+import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
+import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
+
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/admins';
@@ -90,15 +91,15 @@ const AdminForm = () => {
 
   const onSubmit = async () => {
     if (!edit) {
-      const response = await dispatch(postAdmin(name, lastName, email, password));
-      if (response.type === POST_ADMIN_SUCCESS) {
+      const reponse = await dispatch(postAdmin(name, lastName, email, password));
+      if (reponse.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const response = await dispatch(putAdmin(name, lastName, email, password, id));
-      if (response.type === PUT_ADMIN_SUCCESS) {
+      const reponse = await dispatch(putAdmin(name, lastName, email, password, id));
+      if (reponse.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);

@@ -27,16 +27,6 @@ const SuperAdmins = () => {
     history.push(`/super-admins/form/${id}`);
   };
 
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete Super Admin</h4>
-        <p>Are you sure you want to delete this employee from super admins?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
-  };
-
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
   }
@@ -67,8 +57,13 @@ const SuperAdmins = () => {
           isActionModal={true}
           action={() => superAdminId && dispatch(deleteSuperAdmin(superAdminId))}
           actionButton="Delete"
-          getModalContent={getModalContent}
-        ></Modal>
+        >
+          <div>
+            <h4>Delete Super Admin</h4>
+            <p>Are you sure you want to delete this employee from super admins?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
         <Button
           text="Add Super Admin"
           type="submit"

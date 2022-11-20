@@ -29,16 +29,6 @@ const Admins = () => {
     history.push(`/admins/form/${id}`);
   };
 
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete Admin</h4>
-        <p>Are you sure you want to delete this employee from admins?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
-  };
-
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
   }
@@ -68,8 +58,13 @@ const Admins = () => {
           isActionModal={true}
           action={() => adminId && dispatch(deleteAdmin(adminId))}
           actionButton="Delete"
-          getModalContent={getModalContent}
-        ></Modal>
+        >
+          <div>
+            <h4>Delete Admin</h4>
+            <p>Are you sure you want to delete this employee from admins?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
         <Button
           text="Add Admin"
           type="submit"

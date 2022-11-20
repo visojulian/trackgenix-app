@@ -27,16 +27,6 @@ const Projects = () => {
     history.push(`/projects/form/${id}`);
   };
 
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete Project</h4>
-        <p>Are you sure you want to remove project?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
-  };
-
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
   }
@@ -57,8 +47,13 @@ const Projects = () => {
           isActionModal={true}
           action={() => projectId && dispatch(deleteProject(projectId))}
           actionButton="Delete"
-          getModalContent={getModalContent}
-        ></Modal>
+        >
+          <div>
+            <h4>Delete Project</h4>
+            <p>Are you sure you want to remove project?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
         <Button
           text="Add Project"
           type="submit"

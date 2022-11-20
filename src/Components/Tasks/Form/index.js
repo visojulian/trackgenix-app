@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { postTask, putTask } from 'redux/task/thunks';
-import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from 'redux/task/constants';
+import { postTask, putTask } from '../../../redux/task/thunks';
+import { POST_TASK_SUCCESS, PUT_TASK_SUCCESS } from '../../../redux/task/constants';
 import styles from './form.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 // import { joiResolver } from '@hookform/resolvers/joi';

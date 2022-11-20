@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTasks, deleteTask } from 'redux/task/thunks';
+import { useHistory } from 'react-router-dom';
+import { getTasks, deleteTask } from '../../redux/task/thunks';
+import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
@@ -27,16 +27,6 @@ const Tasks = () => {
 
   const onRowClick = (id) => {
     history.push(`/tasks/form/${id}`);
-  };
-
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete Task</h4>
-        <p>Are you sure you want to delete this task?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
   };
 
   if (isLoading) {
@@ -67,8 +57,13 @@ const Tasks = () => {
         isActionModal={true}
         action={() => taskId && dispatch(deleteTask(taskId))}
         actionButton="Delete"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        <div>
+          <h4>Delete Task</h4>
+          <p>Are you sure you want to delete this task?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <Button
         text="Add new task"
         type="submit"

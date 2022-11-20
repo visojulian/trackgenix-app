@@ -37,16 +37,6 @@ const TimeSheets = () => {
     history.push(`/time-sheets/form/${id}`);
   };
 
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete Timesheet</h4>
-        <p>Are you sure you want to delete this timesheet?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
-  };
-
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
   }
@@ -77,7 +67,11 @@ const TimeSheets = () => {
         action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
         actionButton="Delete"
       >
-        {getModalContent()}
+        <div>
+          <h4>Delete Timesheet</h4>
+          <p>Are you sure you want to delete this timesheet?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
       </Modal>
       <Button
         text="Add Timesheet"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
 import styles from './employees.module.css';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
@@ -25,16 +25,6 @@ function Employees() {
 
   const onRowClick = (id) => {
     history.push(`/employees/form/${id}`);
-  };
-
-  const getModalContent = () => {
-    return (
-      <div>
-        <h4>Delete employee</h4>
-        <p>Are you sure you want to delete this employee?</p>
-        <p>Changes cannot be undone.</p>
-      </div>
-    );
   };
 
   if (isLoading) {
@@ -67,8 +57,13 @@ function Employees() {
           isActionModal={true}
           action={() => employeeId && dispatch(deleteEmployee(employeeId))}
           actionButton="Delete"
-          getModalContent={getModalContent}
-        ></Modal>
+        >
+          <div>
+            <h4>Delete employee</h4>
+            <p>Are you sure you want to delete this employee?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
         <Button
           text="Add Employee"
           type="submit"
