@@ -296,6 +296,7 @@ const ProjectForm = () => {
               </div>
             </div>
             <Table
+              className={styles.employeeList}
               data={newArr()}
               headers={['name', 'role', 'rate']}
               onDelete={handleDelete}
