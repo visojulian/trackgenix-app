@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
 import { useHistory, useParams } from 'react-router-dom';
-import styles from './adminForm.module.css';
-import TextInput from '../../Shared/TextInput/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
 import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
-import Spinner from '../../Shared/Spinner/spinner';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/admins';
+import Button from '../../Shared/Button';
+import Modal from '../../Shared/Modal';
+import styles from './adminForm.module.css';
+import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
 
 const AdminForm = () => {
   const { id } = useParams();
   const history = useHistory();
-  //const [name, setName] = useState('');
-  //const [lastName, setLastName] = useState('');
-  //const [email, setEmail] = useState('');
-  //const [password, setPassword] = useState('');
   const [edit, setEdit] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -37,19 +33,6 @@ const AdminForm = () => {
     resolver: joiResolver(schema)
   });
 
-  // const onChangeName = (e) => {
-  //   setName(e.target.value);
-  // };
-  // const onChangeLastName = (e) => {
-  //   setLastName(e.target.value);
-  // };
-  // const onChangeEmail = (e) => {
-  //   setEmail(e.target.value);
-  // };
-  // const onChangePassword = (e) => {
-  //   setPassword(e.target.value);
-  // };
-
   const check =
     errors &&
     Object.keys(errors).length === 0 &&
@@ -58,7 +41,6 @@ const AdminForm = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    //if (name && lastName && email && password) {
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -79,7 +61,6 @@ const AdminForm = () => {
         </div>
       );
     }
-    //if (name && lastName && email && password) {
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -118,10 +99,6 @@ const AdminForm = () => {
       if (id) {
         setEdit(true);
         const currentAdmin = admins.find((item) => item._id === id);
-        // setName(currentAdmin.name);
-        // setLastName(currentAdmin.lastName);
-        // setEmail(currentAdmin.email);
-        // setPassword(currentAdmin.password);
         reset({
           name: currentAdmin.name,
           lastName: currentAdmin.lastName,
@@ -186,8 +163,6 @@ const AdminForm = () => {
           id="name"
           name="name"
           register={register}
-          //value={name}
-          //onChange={onChangeName}
           type="text"
           placeholder="Name"
           error={errors.name?.message}
@@ -197,8 +172,6 @@ const AdminForm = () => {
           id="lastName"
           name="lastName"
           register={register}
-          //value={lastName}
-          //onChange={onChangeLastName}
           type="text"
           placeholder="Last Name"
           error={errors.lastName?.message}
@@ -208,8 +181,6 @@ const AdminForm = () => {
           id="email"
           name="email"
           register={register}
-          //value={email}
-          //onChange={onChangeEmail}
           type="text"
           placeholder="Email"
           error={errors.email?.message}
@@ -219,8 +190,6 @@ const AdminForm = () => {
           id="repeatEmail"
           name="repeatEmail"
           register={register}
-          //value={email}
-          //onChange={onChangeEmail}
           type="text"
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
@@ -230,9 +199,6 @@ const AdminForm = () => {
           id="password"
           name="password"
           register={register}
-          //value={password}
-          //onChange={onChangePassword}
-          //type="password"
           type={reveal ? 'text' : 'password'}
           placeholder="Password"
           error={errors.password?.message}
@@ -242,9 +208,6 @@ const AdminForm = () => {
           id="repeatPassword"
           name="repeatPassword"
           register={register}
-          //value={superAdmin.password}
-          //onChange={onChange}
-          //type="password"
           type={reveal ? 'text' : 'password'}
           placeholder="Repeat Password"
           error={errors.repeatPassword?.message}
