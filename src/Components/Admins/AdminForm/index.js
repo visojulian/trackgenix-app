@@ -90,15 +90,15 @@ const AdminForm = () => {
 
   const onSubmit = async () => {
     if (!edit) {
-      const reponse = await dispatch(postAdmin(name, lastName, email, password));
-      if (reponse.type === POST_ADMIN_SUCCESS) {
+      const response = await dispatch(postAdmin(name, lastName, email, password));
+      if (response.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const reponse = await dispatch(putAdmin(name, lastName, email, password, id));
-      if (reponse.type === PUT_ADMIN_SUCCESS) {
+      const response = await dispatch(putAdmin(name, lastName, email, password, id));
+      if (response.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);

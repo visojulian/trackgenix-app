@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTimesheets, deleteTimesheet } from '../../redux/timeSheets/thunks';
 import styles from './list.module.css';
-import { Button, Modal, Table } from 'Components/Shared';
+import { Button, Modal, Table, Spinner } from 'Components/Shared';
 
 const TimeSheets = () => {
+  const { list: timeSheets, isLoading, error } = useSelector((state) => state.timeSheets);
+  const dispatch = useDispatch();
   const history = useHistory();
-  const [timeSheets, setTimeSheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState();
-  const values = ['description', 'date', 'hours', 'task', 'employee', 'project'];
   const headers = ['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project'];
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`);
-      const data = await response.json();
-      setTimeSheet(data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getTimesheets());
   }, []);
 
   const getTableData = () => {
@@ -29,13 +25,6 @@ const TimeSheets = () => {
         employee: `${timesheet.employee.name} ${timesheet.employee.lastName}`,
         project: timesheet.project.name
       };
-    });
-  };
-
-  const deleteTimeSheet = async () => {
-    setTimeSheet([...timeSheets.filter((timeSheet) => timeSheet._id !== timeSheetId)]);
-    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`, {
-      method: 'DELETE'
     });
   };
 
@@ -58,13 +47,26 @@ const TimeSheets = () => {
     );
   };
 
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
+      <div>
+        <h4>There was an error</h4>
+        <p>{error}</p>
+      </div>
+    </Modal>;
+  }
+
   return (
     <div className={styles.container}>
       <h1>TimeSheets</h1>
       <Table
         data={getTableData()}
         headers={headers}
-        values={values}
+        values={headers.map((header) => header.toLowerCase())}
         onDelete={onDelete}
         onRowClick={onRowClick}
       />
@@ -72,10 +74,11 @@ const TimeSheets = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={true}
-        action={deleteTimeSheet}
+        action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
         actionButton="Delete"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        {getModalContent()}
+      </Modal>
       <Button
         text="Add Timesheet"
         type="submit"
