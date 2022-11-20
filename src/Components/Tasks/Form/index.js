@@ -109,8 +109,9 @@ const Form = () => {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        {getModalContent()}
+      </Modal>
       <form className={styles.formFlexBox}>
         <div>
           <TextInput

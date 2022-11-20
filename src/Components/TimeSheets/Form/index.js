@@ -199,8 +199,9 @@ function Form() {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        {getModalContent()}
+      </Modal>
       <form>
         <div>
           <TextInput

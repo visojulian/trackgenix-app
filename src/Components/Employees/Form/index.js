@@ -186,8 +186,9 @@ const Form = () => {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        {getModalContent()}
+      </Modal>
     </div>
   );
 };

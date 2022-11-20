@@ -176,8 +176,9 @@ const AdminForm = () => {
         isActionModal={isActionModal}
         action={onSubmit}
         actionButton="Submit"
-        getModalContent={getModalContent}
-      ></Modal>
+      >
+        {getModalContent()}
+      </Modal>
     </div>
   );
 };

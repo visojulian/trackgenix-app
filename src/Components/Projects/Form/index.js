@@ -304,8 +304,9 @@ const ProjectForm = () => {
             isActionModal={isActionModal}
             action={onSubmit}
             actionButton="Submit"
-            getModalContent={getModalContent}
-          ></Modal>
+          >
+            {getModalContent()}
+          </Modal>
           <div className={styles.formButtons}>
             <Button
               text="Cancel"

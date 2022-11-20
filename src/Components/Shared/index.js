@@ -9,7 +9,7 @@ const Button = ({ text, onClick, type, variant }) => {
   return <ButtonComponent text={text} type={type} variant={variant} onClick={onClick} />;
 };
 
-const Modal = ({ isOpen, handleClose, isActionModal, action, actionButton, getModalContent }) => {
+const Modal = ({ children, isOpen, handleClose, isActionModal, action, actionButton }) => {
   return (
     <ModalComponent
       isOpen={isOpen}
@@ -18,7 +18,7 @@ const Modal = ({ isOpen, handleClose, isActionModal, action, actionButton, getMo
       action={action}
       actionButton={actionButton}
     >
-      {getModalContent()}
+      {children}
     </ModalComponent>
   );
 };
