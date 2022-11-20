@@ -1,9 +1,3 @@
-import styles from './form.module.css';
-import React, { useState, useEffect } from 'react';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
@@ -14,6 +8,12 @@ import {
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/super-admins';
+import React, { useState, useEffect } from 'react';
+import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import Modal from '../../Shared/Modal';
+import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
 
 const Form = () => {
   const { id } = useParams();
@@ -24,12 +24,7 @@ const Form = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  // const [superAdmin, setSuperAdmin] = useState({
-  //   name: '',
-  //   lastName: '',
-  //   email: '',
-  //   password: ''
-  // });
+
   const foundSuperAdmin = superAdmins.find((superAdmin) => superAdmin._id === id);
   const {
     handleSubmit,
@@ -47,19 +42,10 @@ const Form = () => {
     Object.keys(errors).length === 0 &&
     Object.getPrototypeOf(errors) === Object.prototype;
 
-  //console.log(getValues());
-  //console.log(errors);
-
   useEffect(async () => {
     try {
       if (id && foundSuperAdmin) {
         setIsEditing(true);
-        // setSuperAdmin({
-        //   name: foundSuperAdmin.name,
-        //   lastName: foundSuperAdmin.lastName,
-        //   email: foundSuperAdmin.email,
-        //   password: foundSuperAdmin.password
-        // });
         reset({
           name: foundSuperAdmin.name,
           lastName: foundSuperAdmin.lastName,
@@ -76,7 +62,6 @@ const Form = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    //if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -97,7 +82,6 @@ const Form = () => {
         </div>
       );
     }
-    //if (superAdmin.name && superAdmin.lastName && superAdmin.email && superAdmin.password) {
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -130,10 +114,6 @@ const Form = () => {
       </div>
     );
   };
-
-  // const onChange = (e) => {
-  //   setSuperAdmin({ ...superAdmin, [e.target.name]: e.target.value });
-  // };
 
   const onSubmit = async (data) => {
     if (!isEditing) {
@@ -178,8 +158,6 @@ const Form = () => {
           id="name"
           name="name"
           register={register}
-          //value={superAdmin.name}
-          //onChange={onChange}
           type="text"
           placeholder="Name"
           error={errors.name?.message}
@@ -189,8 +167,6 @@ const Form = () => {
           id="lastName"
           name="lastName"
           register={register}
-          //value={superAdmin.lastName}
-          //onChange={onChange}
           type="text"
           placeholder="Last Name"
           error={errors.lastName?.message}
@@ -200,8 +176,6 @@ const Form = () => {
           id="email"
           name="email"
           register={register}
-          //value={superAdmin.email}
-          //onChange={onChange}
           type="text"
           placeholder="Email"
           error={errors.email?.message}
@@ -211,8 +185,6 @@ const Form = () => {
           id="repeatEmail"
           name="repeatEmail"
           register={register}
-          //value={email}
-          //onChange={onChangeEmail}
           type="text"
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
@@ -222,8 +194,6 @@ const Form = () => {
           id="password"
           name="password"
           register={register}
-          //value={superAdmin.password}
-          //onChange={onChange}
           type={reveal ? 'text' : 'password'}
           placeholder="Password"
           error={errors.password?.message}
@@ -233,8 +203,6 @@ const Form = () => {
           id="repeatPassword"
           name="repeatPassword"
           register={register}
-          //value={superAdmin.password}
-          //onChange={onChange}
           type={reveal ? 'text' : 'password'}
           placeholder="Repeat Password"
           error={errors.repeatPassword?.message}
