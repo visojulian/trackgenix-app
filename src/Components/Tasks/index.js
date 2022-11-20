@@ -3,10 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { getTasks, deleteTask } from '../../redux/task/thunks';
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner';
-import Modal from '../Shared/Modal';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Tasks = () => {
   const history = useHistory();

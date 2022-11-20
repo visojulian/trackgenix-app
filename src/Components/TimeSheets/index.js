@@ -3,10 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimesheets, deleteTimesheet } from '../../redux/timeSheets/thunks';
 import styles from './list.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button/index';
-import Modal from '../Shared/Modal';
-import Spinner from '../Shared/Spinner';
+import { Button, Modal, Table, Spinner } from 'Components/Shared';
 
 const TimeSheets = () => {
   const { list: timeSheets, isLoading, error } = useSelector((state) => state.timeSheets);

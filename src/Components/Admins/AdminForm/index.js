@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './adminForm.module.css';
-import TextInput from '../../Shared/TextInput/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
 import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
-import Spinner from '../../Shared/Spinner';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
+
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/admins';

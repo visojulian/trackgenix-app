@@ -6,11 +6,7 @@ import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeS
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/task/thunks';
-import Modal from '../../Shared/Modal';
-import Button from '../../Shared/Button';
-import Select from '../../Shared/Select';
-import Spinner from '../../Shared/Spinner';
-import TextInput from '../../Shared/TextInput/index';
+import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
 import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
 
 function Form() {

@@ -1,11 +1,8 @@
-import styles from './form.module.css';
 import React, { useState, useEffect } from 'react';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
+import styles from './form.module.css';
 import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
 import {
   POST_SUPER_ADMIN_SUCCESS,

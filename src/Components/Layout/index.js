@@ -1,50 +1,31 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Header from '../Header/index';
-import Footer from '../Footer/index';
-import Admins from '../Admins/index';
-import AdminForm from '../Admins/AdminForm/AdminForm';
-import SuperAdmins from '../SuperAdmins/index';
-import SuperAdminsForm from '../SuperAdmins/Form/index';
-import Home from '../Home/index';
+import { Spinner } from 'Components/Shared';
 import styles from './layout.module.css';
-import Employees from '../Employees/index';
-import EmployeesForm from '../Employees/Form/index';
-import Projects from '../Projects';
-import ProjectsForm from '../Projects/Form';
-import TimeSheets from '../TimeSheets/index';
-import TimeSheetsForm from '../TimeSheets/Form/index';
-import Tasks from '../Tasks/index';
-import TasksForm from '../Tasks/Form/index';
+
+const Header = lazy(() => import('Components/Header'));
+const Footer = lazy(() => import('Components/Footer'));
+const Home = lazy(() => import('Components/Home'));
+const admins = lazy(() => import('routes/admins'));
+const superAdmins = lazy(() => import('routes/superAdmins'));
+const employees = lazy(() => import('routes/employees'));
 
 const Layout = () => {
   return (
     <Router>
-      <div className={styles.container}>
-        <Header />
-        <Switch>
-          <Route exact path="/admins" component={Admins} />
-          <Route exact path="/admins/form" component={AdminForm} />
-          <Route path="/admins/form/:id" component={AdminForm} />
-          <Route exact path="/super-admins" component={SuperAdmins} />
-          <Route exact path="/super-admins/form" component={SuperAdminsForm} />
-          <Route path="/super-admins/form/:id" component={SuperAdminsForm} />
-          <Route exact path="/employees" component={Employees} />
-          <Route exact path="/employees/form" component={EmployeesForm} />
-          <Route path="/employees/form/:id" component={EmployeesForm} />
-          <Route exact path="/projects" component={Projects} />
-          <Route exact path="/projects/form" component={ProjectsForm} />
-          <Route path="/projects/form/:id" component={ProjectsForm} />
-          <Route exact path="/time-sheets" component={TimeSheets} />
-          <Route exact path="/time-sheets/form" component={TimeSheetsForm} />
-          <Route path="/time-sheets/form/:id" component={TimeSheetsForm} />
-          <Route exact path="/tasks" component={Tasks} />
-          <Route exact path="/tasks/form" component={TasksForm} />
-          <Route path="/tasks/form/:id" component={TasksForm} />
-          <Route exact path="/" component={Home} />
-          <Redirect to="/home" />
-        </Switch>
-        <Footer />
-      </div>
+      <Suspense fallback={<Spinner isLoading={true} />}>
+        <div className={styles.container}>
+          <Header />
+          <Switch>
+            <Route path="/admins" component={admins} />
+            <Route path="/super-admins" component={superAdmins} />
+            <Route path="/employees" component={employees} />
+            <Route exact path="/" component={Home} />
+            <Redirect to="/home" />
+          </Switch>
+          <Footer />
+        </div>
+      </Suspense>
     </Router>
   );
 };
