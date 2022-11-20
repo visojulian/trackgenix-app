@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
+import Spinner from '../../Shared/Spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';

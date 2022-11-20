@@ -7,7 +7,7 @@ import TextInput from '../../Shared/TextInput/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
 import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
-import Spinner from '../../Shared/Spinner/spinner';
+import Spinner from '../../Shared/Spinner';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
 // import { schema } from '../../../validations/admins';
