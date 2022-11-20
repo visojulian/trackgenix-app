@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
-import { addTimesheet, editTimesheet, getTimesheets } from 'redux/timeSheets/thunks';
-import { getEmployees } from 'redux/employees/thunks';
-import { getProjects } from 'redux/projects/thunks';
-import { getTasks } from 'redux/task/thunks';
+import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeSheets/thunks';
+import { getEmployees } from '../../../redux/employees/thunks';
+import { getProjects } from '../../../redux/projects/thunks';
+import { getTasks } from '../../../redux/task/thunks';
 import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
-import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from 'redux/timeSheets/constants';
+import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
 
 function Form() {
   const dispatch = useDispatch();
@@ -213,7 +213,7 @@ function Form() {
             value={inputTimeSheetValue.hours}
             onChange={onChangeInputValue}
             type="number"
-            placeholder="Hours spend in the task"
+            placeholder="Hours spend in the taks"
           />
           <div className={styles.box}>
             <label>Task</label>
