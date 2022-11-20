@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
 import styles from './form.module.css';
-
 import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeSheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';

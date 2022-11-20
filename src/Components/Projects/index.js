@@ -31,50 +31,43 @@ const Projects = () => {
   };
 
   if (isLoading) {
-    return (
-      <>
-        <div className={styles.container}>
-          <Spinner isLoading={isLoading} />
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className={styles.container}>
-          <h1>Projects</h1>
-          <Table
-            data={projects}
-            headers={headers}
-            values={values}
-            onDelete={onDelete}
-            onRowClick={onRowClick}
-          />
-          <Modal
-            isOpen={showModal}
-            handleClose={setShowModal}
-            isActionModal={true}
-            action={() => projectId && dispatch(deleteProject(projectId))}
-            actionButton="Delete"
-          >
-            <div>
-              <h4>Delete Project</h4>
-              <p>Are you sure you want to remove project?</p>
-              <p>Changes cannot be undone.</p>
-            </div>
-          </Modal>
-          <Button
-            text="Add New Project"
-            type="submit"
-            variant="primary"
-            onClick={() => {
-              history.push(`/projects/form`);
-            }}
-          />
-        </div>
-      </>
-    );
+    return <Spinner isLoading={isLoading} />;
   }
+  return (
+    <>
+      <div className={styles.container}>
+        <h1>Projects</h1>
+        <Table
+          data={projects}
+          headers={headers}
+          values={values}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => projectId && dispatch(deleteProject(projectId))}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Project</h4>
+            <p>Are you sure you want to remove project?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Project"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`/projects/form`);
+          }}
+        />
+      </div>
+    </>
+  );
 };
 
 export default Projects;

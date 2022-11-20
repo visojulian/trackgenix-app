@@ -2,9 +2,15 @@ import {
   getAdminsPending,
   getAdminsSuccess,
   getAdminsError,
-  deleteAdminsPending,
-  deleteAdminsSuccess,
-  deleteAdminsError
+  deleteAdminPending,
+  deleteAdminSuccess,
+  deleteAdminError,
+  putAdminPending,
+  putAdminSuccess,
+  putAdminError,
+  postAdminPending,
+  postAdminSuccess,
+  postAdminError
 } from './actions';
 
 export const getAdmins = () => {
@@ -25,9 +31,9 @@ export const getAdmins = () => {
   };
 };
 
-export const deleteAdmins = (adminId) => {
+export const deleteAdmin = (adminId) => {
   return (dispatch) => {
-    dispatch(deleteAdminsPending());
+    dispatch(deleteAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
       method: 'DELETE'
     })
@@ -38,10 +44,59 @@ export const deleteAdmins = (adminId) => {
           const error = (data && data.message) || response.status;
           throw new Error(error);
         }
-        dispatch(deleteAdminsSuccess(adminId));
+        dispatch(deleteAdminSuccess(adminId));
       })
       .catch((err) => {
-        dispatch(deleteAdminsError(err.toString()));
+        dispatch(deleteAdminError(err.toString()));
+      });
+  };
+};
+
+export const putAdmin = (name, lastName, email, password, adminId) => {
+  return (dispatch) => {
+    dispatch(putAdminPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          return dispatch(putAdminSuccess(response.data));
+        }
+      })
+      .catch((err) => {
+        return dispatch(putAdminError(err.toString()));
+      });
+  };
+};
+
+export const postAdmin = (name, lastName, email, password) => {
+  return (dispatch) => {
+    dispatch(postAdminPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/admins`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          return dispatch(postAdminSuccess(response.data));
+        }
+      })
+      .catch((err) => {
+        return dispatch(postAdminError(err.toString()));
       });
   };
 };

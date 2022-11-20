@@ -4,7 +4,13 @@ import {
   GET_SUPER_ADMINS_ERROR,
   DELETE_SUPER_ADMIN_PENDING,
   DELETE_SUPER_ADMIN_SUCCESS,
-  DELETE_SUPER_ADMIN_ERROR
+  DELETE_SUPER_ADMIN_ERROR,
+  POST_SUPER_ADMIN_PENDING,
+  POST_SUPER_ADMIN_SUCCESS,
+  POST_SUPER_ADMIN_ERROR,
+  PUT_SUPER_ADMIN_PENDING,
+  PUT_SUPER_ADMIN_SUCCESS,
+  PUT_SUPER_ADMIN_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -51,6 +57,46 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: action.error
+      };
+    case POST_SUPER_ADMIN_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: ''
+      };
+    case POST_SUPER_ADMIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        list: [...state.list, action.payload]
+      };
+    case POST_SUPER_ADMIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        list: []
+      };
+    case PUT_SUPER_ADMIN_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: ''
+      };
+    case PUT_SUPER_ADMIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        list: state.list.map((item) => (item._id === action.payload._id ? action.payload : item))
+      };
+    case PUT_SUPER_ADMIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        list: []
       };
     default:
       return state;

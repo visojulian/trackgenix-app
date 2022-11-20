@@ -1,10 +1,16 @@
 import {
+  getProjectPending,
+  getProjectSuccess,
+  getProjectError,
   deleteProjectPending,
   deleteProjectError,
   deleteProjectSuccess,
-  getProjectPending,
-  getProjectError,
-  getProjectSuccess
+  postProjectPending,
+  postProjectSuccess,
+  postProjectError,
+  putProjectPending,
+  putProjectSuccess,
+  putProjectError
 } from './actions';
 
 const getProjects = () => {
@@ -32,7 +38,7 @@ const deleteProject = (projectId) => {
       method: 'DELETE'
     })
       .then(async (res) => {
-        const isJson = res.headers.get('content-type')?.includes('application/json');
+        const isJson = res.headers.get('res-type')?.includes('application/json');
         const data = isJson && (await res.json());
         if (!res.ok) {
           const error = (data && data.message) || res.status;
@@ -46,4 +52,54 @@ const deleteProject = (projectId) => {
   };
 };
 
-export { getProjects, deleteProject };
+const postProject = (body) => {
+  return (dispatch) => {
+    dispatch(postProjectPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.error) {
+          return dispatch(postProjectSuccess(res.data));
+        } else {
+          throw new Error(res.message);
+        }
+      })
+      .catch((err) => {
+        return dispatch(postProjectError(err.toString()));
+      });
+  };
+};
+
+const putProject = (body, id) => {
+  return (dispatch) => {
+    dispatch(putProjectPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.error) {
+          return dispatch(putProjectSuccess(res.data));
+        } else {
+          throw new Error(res.message);
+        }
+      })
+      .catch((err) => {
+        return dispatch(putProjectError(err.toString()));
+      });
+  };
+};
+
+export { getProjects, deleteProject, postProject, putProject };

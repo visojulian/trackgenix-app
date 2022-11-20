@@ -4,7 +4,13 @@ import {
   getTasksError,
   deleteTaskPending,
   deleteTaskSuccess,
-  deleteTaskError
+  deleteTaskError,
+  postTaskPending,
+  postTaskSuccess,
+  postTaskError,
+  putTaskPending,
+  putTaskSuccess,
+  putTaskError
 } from './actions';
 
 export const getTasks = () => {
@@ -42,6 +48,55 @@ export const deleteTask = (taskId) => {
       })
       .catch((err) => {
         dispatch(deleteTaskError(err.toString()));
+      });
+  };
+};
+
+export const postTask = (description) => {
+  return (dispatch) => {
+    dispatch(postTaskPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ description: description })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          return dispatch(postTaskSuccess(response.data));
+        }
+      })
+      .catch((err) => {
+        return dispatch(postTaskError(err.toString()));
+      });
+  };
+};
+
+export const putTask = (description, taskId) => {
+  return (dispatch) => {
+    dispatch(putTaskPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ description: description })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          throw new Error(response.message);
+        } else {
+          return dispatch(putTaskSuccess(response.data));
+        }
+      })
+      .catch((err) => {
+        return dispatch(putTaskError(err.toString()));
       });
   };
 };

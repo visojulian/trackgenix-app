@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getAdmins, deleteAdmins } from '../../redux/admins/thunks';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
 import styles from './admins.module.css';
 import Table from '../Shared/Table/index';
 import Modal from '../Shared/Modal';
@@ -16,6 +16,7 @@ const Admins = () => {
   const isLoading = useSelector((state) => state.admins.isLoading);
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
+  const error = useSelector((state) => state.admins.error);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,6 +36,14 @@ const Admins = () => {
     return <Spinner isLoading={isLoading} />;
   }
 
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <h1>{error}</h1>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -50,7 +59,7 @@ const Admins = () => {
           isOpen={showModal}
           handleClose={setShowModal}
           isActionModal={true}
-          action={() => adminId && dispatch(deleteAdmins(adminId))}
+          action={() => adminId && dispatch(deleteAdmin(adminId))}
           actionButton="Delete"
         >
           <div>

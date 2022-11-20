@@ -17,7 +17,7 @@ function Employees() {
   const dispatch = useDispatch();
   const { list: employeesList, isLoading, error } = useSelector((state) => state.employees);
 
-  useEffect(async () => {
+  useEffect(() => {
     dispatch(getEmployees());
   }, []);
 
@@ -42,6 +42,7 @@ function Employees() {
       </div>
     );
   }
+
   return (
     <>
       <div className={styles.container}>

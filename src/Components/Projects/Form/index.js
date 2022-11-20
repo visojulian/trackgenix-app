@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
+import Spinner from '../../Shared/Spinner/spinner';
+import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
+import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
+import { getEmployees } from '../../../redux/employees/thunks';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import { useForm } from 'react-hook-form';
+// import { schema } from '../../../validations/projects';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
-  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
   const [nameValue, setNameValue] = useState();
   const [descriptionValue, setDescriptionValue] = useState();
@@ -20,11 +27,47 @@ const ProjectForm = () => {
   const [endDateValue, setEndDateValue] = useState();
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
-  const [isEditing, setIsEditing] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
   const roles = ['PM', 'QA', 'DEV', 'TL'];
+
+  const isEditing = Boolean(id);
+  const dispatch = useDispatch();
+
+  const {
+    list: projects,
+    isLoading: projectsIsLoading,
+    error: errorProjects
+  } = useSelector((state) => state.projects);
+  const {
+    list: employees,
+    isLoading: employeesIsLoading,
+    error: errorEmployees
+  } = useSelector((state) => state.employees);
+
+  useEffect(() => {
+    dispatch(getProjects());
+    dispatch(getEmployees());
+  }, []);
+
+  useEffect(() => {
+    if (projects.length > 0 && isEditing) {
+      const currentProject = projects.find((project) => project._id === id);
+      const employeeList = currentProject.employees.map((item) => {
+        return {
+          employee: item.employee,
+          role: item.role,
+          rate: item.rate
+        };
+      });
+      setNameValue(currentProject.name);
+      setClientValue(currentProject.clientName);
+      setStartDateValue(currentProject.startDate);
+      setEndDateValue(currentProject.endDate);
+      setDescriptionValue(currentProject.description);
+      setProjectEmployees(employeeList);
+    }
+  }, [id, isEditing, projects]);
 
   const newArr = () => {
     const headers = [];
@@ -59,15 +102,12 @@ const ProjectForm = () => {
   const onChangeEndDateInput = (event) => {
     setEndDateValue(event.target.value);
   };
-
   const onChangeRateInput = (event) => {
     setRateValue(event.target.value);
   };
-
   const handleRoleChange = (event) => {
     setRoleValue(event.target.value);
   };
-
   const handleEmployeeChange = (event) => {
     setSelectedEmployee(event.target.value);
   };
@@ -90,10 +130,6 @@ const ProjectForm = () => {
     setProjectEmployees(newProjectEmployees);
   };
 
-  const onCancel = () => {
-    history.goBack();
-  };
-
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
@@ -110,11 +146,11 @@ const ProjectForm = () => {
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (errorProjects || errorEmployees) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{errorProjects || errorEmployees}</p>
         </div>
       );
     }
@@ -144,86 +180,35 @@ const ProjectForm = () => {
     );
   };
 
-  const onSubmit = () => {
-    const body = JSON.stringify({
+  const onSubmit = async () => {
+    const body = {
       employees: projectEmployees,
       name: nameValue,
       startDate: startDateValue,
       endDate: endDateValue,
       description: descriptionValue,
       clientName: clientValue
-    });
-
-    if (isEditing) {
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      })
-        .then((response) => response.json())
-        .catch((error) => alert(error));
+    };
+    if (!isEditing) {
+      const result = await dispatch(postProject(body));
+      if (result.type === POST_PROJECT_SUCCESS) {
+        history.goBack();
+      } else {
+        setShowModal(true);
+      }
     } else {
-      fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      })
-        .then((response) => response.json())
-        .then((content) => {
-          if (!content.error) {
-            history.push('/projects');
-          } else {
-            setServerError(content.message);
-            setShowModal(true);
-          }
-        })
-        .catch((error) => console.error(error));
+      const result = await dispatch(putProject(body, id));
+      if (result.type === PUT_PROJECT_SUCCESS) {
+        history.goBack();
+      } else {
+        setShowModal(true);
+      }
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`)
-        .then((response) => response.json())
-        .then((response) => {
-          if (!response.error) {
-            const employeeList = response.data.employees.map((item) => {
-              return {
-                employee: item.employee,
-                role: item.role,
-                rate: item.rate
-              };
-            });
-            setNameValue(response.data.name);
-            setClientValue(response.data.clientName);
-            setStartDateValue(response.data.startDate);
-            setEndDateValue(response.data.endDate);
-            setDescriptionValue(response.data.description);
-            setProjectEmployees(employeeList);
-            setIsEditing(true);
-          } else {
-            setServerError(response.message);
-            setShowModal(true);
-          }
-        })
-        .catch((error) => alert(error));
-    }
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((response) => response.json())
-      .then((content) => {
-        if (!content.error) {
-          setEmployees(content.data);
-        } else {
-          setServerError(content.message);
-          setShowModal(true);
-        }
-      })
-      .catch((error) => alert(error));
-  }, []);
-
+  if (projectsIsLoading || employeesIsLoading) {
+    return <Spinner isLoading={true} />;
+  }
   return (
     <>
       <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
@@ -328,7 +313,14 @@ const ProjectForm = () => {
             {getModalContent()}
           </Modal>
           <div className={styles.formButtons}>
-            <Button text="Cancel" type="button" variant="secondary" onClick={onCancel} />
+            <Button
+              text="Cancel"
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
             <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
