@@ -8,9 +8,9 @@ import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/employees';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/employees';
 
 const Form = () => {
   const { id } = useParams();
@@ -21,24 +21,32 @@ const Form = () => {
   const [isActionModal, setIsActionModal] = useState(false);
 
   const {
+    handleSubmit,
+    register,
+    getValues,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
+
+  const {
     list: employees,
     isLoading: loading,
     error: employeeError
   } = useSelector((state) => state.employees);
 
-  const [employeeInput, setEmployeeInput] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: ''
-  });
+  const check =
+    errors &&
+    Object.keys(errors).length === 0 &&
+    Object.getPrototypeOf(errors) === Object.prototype;
 
   useEffect(() => {
     if (employees.length > 0 && id) {
       const currentEmployee = employees.find((employee) => employee._id === id);
       setIsEditing(true);
-      setEmployeeInput({
+      reset({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
         phone: currentEmployee.phone,
@@ -52,11 +60,12 @@ const Form = () => {
     e.preventDefault();
     setShowModal(true);
     if (
-      employeeInput.name &&
-      employeeInput.lastName &&
-      employeeInput.phone &&
-      employeeInput.email &&
-      employeeInput.password
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password') &&
+      check
     ) {
       setIsActionModal(true);
     }
@@ -72,18 +81,19 @@ const Form = () => {
       );
     }
     if (
-      employeeInput.name &&
-      employeeInput.lastName &&
-      employeeInput.phone &&
-      employeeInput.email &&
-      employeeInput.password
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password') &&
+      check
     ) {
       return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {employeeInput.name}{' '}
-            {employeeInput.lastName} {isEditing ? 'changes' : ''}?
+            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
+            {getValues('lastName')} {isEditing ? 'changes' : ''}?
           </p>
         </div>
       );
@@ -96,20 +106,16 @@ const Form = () => {
     );
   };
 
-  const onChange = (e) => {
-    setEmployeeInput({ ...employeeInput, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     if (!isEditing) {
-      const res = await dispatch(postEmployee(employeeInput));
+      const res = await dispatch(postEmployee(data));
       if (res.type === POST_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putEmployee(employeeInput, id));
+      const res = await dispatch(putEmployee(data, id));
       if (res.type === PUT_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
@@ -130,46 +136,46 @@ const Form = () => {
           label="Name"
           id="name"
           name="name"
-          value={employeeInput.name}
-          onChange={onChange}
           type="text"
           placeholder="Name"
+          register={register}
+          error={errors.name?.message}
         />
         <TextInput
           label="Last Name"
           id="lastName"
           name="lastName"
-          value={employeeInput.lastName}
-          onChange={onChange}
           type="text"
           placeholder="Last Name"
+          register={register}
+          error={errors.lastName?.message}
         />
         <TextInput
           label="Phone"
           id="phone"
           name="phone"
-          value={employeeInput.phone}
-          onChange={onChange}
           type="text"
           placeholder="Phone"
+          register={register}
+          error={errors.phone?.message}
         />
         <TextInput
           label="Email"
           id="email"
           name="email"
-          value={employeeInput.email}
-          onChange={onChange}
           type="text"
           placeholder="Email"
+          register={register}
+          error={errors.email?.message}
         />
         <TextInput
           label="Password"
           id="password"
           name="password"
-          value={employeeInput.password}
-          onChange={onChange}
           type="password"
           placeholder="Password"
+          register={register}
+          error={errors.password?.message}
         />
         <div className={styles.butCont}>
           <Button
@@ -187,7 +193,7 @@ const Form = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
