@@ -25,6 +25,7 @@ const Form = () => {
     handleSubmit,
     register,
     getValues,
+    trigger,
     reset,
     formState: { errors }
   } = useForm({
@@ -37,11 +38,6 @@ const Form = () => {
     isLoading: loading,
     error: employeeError
   } = useSelector((state) => state.employees);
-
-  const check =
-    errors &&
-    Object.keys(errors).length === 0 &&
-    Object.getPrototypeOf(errors) === Object.prototype;
 
   useEffect(() => {
     if (employees.length > 0 && id) {
@@ -62,13 +58,14 @@ const Form = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    trigger();
     if (
       getValues('name') &&
       getValues('lastName') &&
       getValues('phone') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       setIsActionModal(true);
     }
@@ -89,7 +86,7 @@ const Form = () => {
       getValues('phone') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       return (
         <div>
@@ -101,7 +98,7 @@ const Form = () => {
         </div>
       );
     }
-    if (!check) {
+    if (Object.values(errors).length) {
       return (
         <div>
           <h4>Form fields have errors</h4>
