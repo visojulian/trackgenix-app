@@ -5,7 +5,7 @@ import { getTimesheets } from 'redux/timeSheets/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './list.module.css';
 
-const ListWorkedHours = () => {
+const Timesheets = () => {
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -35,12 +35,11 @@ const ListWorkedHours = () => {
   }
 
   if (timesheetsError) {
-    console.log('error');
     return (
       <Modal
         isOpen={showModal}
         handleClose={() => {
-          setShowModal();
+          setShowModal(false);
         }}
         isActionModal={false}
         action={() => history.goBack()}
@@ -72,4 +71,4 @@ const ListWorkedHours = () => {
   );
 };
 
-export default ListWorkedHours;
+export default Timesheets;
