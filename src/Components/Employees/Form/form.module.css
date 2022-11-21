@@ -1,4 +1,5 @@
-.container, .form {
+.container,
+.form {
   padding: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -8,7 +9,7 @@
 }
 
 .butCont {
-  width: 290px;
+  width: 90%;
   padding: 20px;
   display: flex;
   flex-direction: row;

@@ -25,12 +25,16 @@ export const schema = Joi.object({
       'string.max': 'Last Name cannot exceed 25 characters',
       'string.pattern.base': 'Last Name can only have letters'
     }),
-  phone: Joi.number().required().min(8).max(10).messages({
-    'number.required': ' Phone is required',
-    'number.empty': 'Phone cannot be empty',
-    'number.min': ' Phone must have at least 8 numbers',
-    'number.max': ' Phone must cannot exceed 10 numbers'
-  }),
+  phone: Joi.string()
+    .required()
+    .length(10)
+    .pattern(/^[0-9]+$/)
+    .messages({
+      'string.required': ' Phone is required',
+      'string.empty': 'Phone cannot be empty',
+      'string.length': ' Phone must cannot exceed 10 numbers',
+      'string.pattern.base': ' Phone only can have numbers'
+    }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required()

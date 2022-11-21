@@ -3,19 +3,20 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
 import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/employees';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import Modal from '../../Shared/Modal';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-import { joiResolver } from '@hookform/resolvers/joi';
-import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/employees';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [reveal, setReveal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -98,6 +99,14 @@ const Form = () => {
         </div>
       );
     }
+    if (!check) {
+      return (
+        <div>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
+        </div>
+      );
+    }
     return (
       <div>
         <h4>Form incomplete</h4>
@@ -122,6 +131,10 @@ const Form = () => {
         setShowModal(true);
       }
     }
+  };
+
+  const revealFunc = () => {
+    setReveal(reveal ? false : true);
   };
 
   if (loading) {
@@ -172,7 +185,7 @@ const Form = () => {
           label="Password"
           id="password"
           name="password"
-          type="password"
+          type={reveal ? 'text' : 'password'}
           placeholder="Password"
           register={register}
           error={errors.password?.message}
@@ -187,6 +200,12 @@ const Form = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
+          <Button
+            text={reveal ? 'Hide password' : 'Reveal password'}
+            type="button"
+            variant="secondary"
+            onClick={revealFunc}
+          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
