@@ -184,7 +184,7 @@ const AdminForm = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <div style={{ display: 'flex', alignItems: 'center', marginLeft: '100px' }}>
+        <div className={styles.passwordDiv}>
           <TextInput
             label="Password"
             id="password"
@@ -194,7 +194,7 @@ const AdminForm = () => {
             placeholder="Password"
             error={errors.password?.message}
           />
-          <div style={{ marginTop: '20px' }}>
+          <div className={styles.revealButton}>
             <Button
               text={reveal ? 'Hide password' : 'Reveal password'}
               type="button"
