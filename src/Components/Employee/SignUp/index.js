@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee } from 'redux/employees/thunks';
 import { POST_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
-import styles from './sing-up.module.css';
+import styles from 'Components/Employee/SignUp/sing-up.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 // import { joiResolver } from '@hookform/resolvers/joi';
 // import { useForm } from 'react-hook-form';
