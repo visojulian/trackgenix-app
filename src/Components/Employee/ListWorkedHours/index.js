@@ -24,7 +24,6 @@ const ListWorkedHours = () => {
 
   const tableData = employeeTimesheets.map((timesheet) => {
     return {
-      description: timesheet.description,
       hours: timesheet.hours,
       task: timesheet.task.description,
       project: timesheet.project.name
@@ -56,11 +55,13 @@ const ListWorkedHours = () => {
       <h2>List of worked hours by projects and tasks</h2>
       <Table
         data={tableData}
-        headers={['Timsheet', 'Task', 'Project', 'Hours']}
-        values={['description', 'task', 'project', 'hours']}
+        headers={['Project', 'Task', 'Hours']}
+        values={['project', 'task', 'hours']}
+        onDelete={() => {}}
+        onRowClick={() => {}}
       />
       <Button
-        text="Cancel"
+        text="Go Back"
         type="button"
         variant="secondary"
         onClick={() => {
