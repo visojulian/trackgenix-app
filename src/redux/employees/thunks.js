@@ -52,7 +52,7 @@ const deleteEmployee = (employeeId) => {
   };
 };
 
-const postEmployee = (employee) => {
+const postEmployee = (name, lastName, phone, email, password) => {
   return (dispatch) => {
     dispatch(postEmployeePending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
@@ -61,14 +61,20 @@ const postEmployee = (employee) => {
         Accept: 'application/json',
         'Content-type': 'application/json'
       },
-      body: JSON.stringify(employee)
+      body: JSON.stringify({
+        name: name,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        password: password
+      })
     })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          return dispatch(postEmployeeSuccess(employee));
+          return dispatch(postEmployeeSuccess(response.data));
         }
       })
       .catch((error) => {
@@ -77,7 +83,7 @@ const postEmployee = (employee) => {
   };
 };
 
-const putEmployee = (employee, employeeId) => {
+const putEmployee = (name, lastName, phone, email, password, employeeId) => {
   return (dispatch) => {
     dispatch(putEmployeePending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
@@ -86,14 +92,20 @@ const putEmployee = (employee, employeeId) => {
         Accept: 'application/json',
         'Content-type': 'application/json'
       },
-      body: JSON.stringify(employee)
+      body: JSON.stringify({
+        name: name,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        password: password
+      })
     })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {
           throw new Error(response.message);
         } else {
-          return dispatch(putEmployeeSuccess(employee));
+          return dispatch(putEmployeeSuccess(response.data));
         }
       })
       .catch((error) => {

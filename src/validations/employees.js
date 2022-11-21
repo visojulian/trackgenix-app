@@ -32,8 +32,8 @@ export const schema = Joi.object({
     .messages({
       'string.required': ' Phone is required',
       'string.empty': 'Phone cannot be empty',
-      'string.length': ' Phone must cannot exceed 10 numbers',
-      'string.pattern.base': ' Phone only can have numbers'
+      'string.length': ' Phone cannot exceed 10 numbers',
+      'string.pattern.base': ' Phone can only have numbers'
     }),
   email: Joi.string()
     .email({ tlds: { allow: false } })

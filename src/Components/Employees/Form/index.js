@@ -119,14 +119,18 @@ const Form = () => {
 
   const onSubmit = async (data) => {
     if (!isEditing) {
-      const res = await dispatch(postEmployee(data));
+      const res = await dispatch(
+        postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
+      );
       if (res.type === POST_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putEmployee(data, id));
+      const res = await dispatch(
+        putEmployee(data.name, data.lastName, data.phone, data.email, data.password, id)
+      );
       if (res.type === PUT_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {
