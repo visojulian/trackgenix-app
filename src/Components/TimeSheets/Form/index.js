@@ -6,7 +6,11 @@ import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeS
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/task/thunks';
-import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
+import Modal from '../../Shared/Modal';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
+import Spinner from '../../Shared/Spinner/spinner';
+import TextInput from '../../Shared/TextInput/index';
 import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
 
 function Form() {
@@ -55,13 +59,15 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    if (timesheets.length > 0 && isEditing) {
+    if (timesheets.length > 0 && isEditing && projects.length > 0) {
       const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
       const selectedProject = projects.find(
         (project) => project._id === currentTimeSheet.project._id
       );
-      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      setProjectEmployees(projectEmployees);
+      if (selectedProject) {
+        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+        setProjectEmployees(projectEmployees);
+      }
       setInputTimeSheetValue({
         description: currentTimeSheet.description,
         date: correctDate(currentTimeSheet.date),
@@ -228,7 +234,7 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.task !== '' &&
-                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+                tasks.find((task) => task._id === inputTimeSheetValue.task)?._id
               }
             />
           </div>
@@ -245,7 +251,7 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.project !== '' &&
-                projects.find((project) => project._id === inputTimeSheetValue.project)._id
+                projects.find((project) => project._id === inputTimeSheetValue.project)?._id
               }
             />
           </div>

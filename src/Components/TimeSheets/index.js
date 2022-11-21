@@ -50,39 +50,43 @@ const TimeSheets = () => {
     </Modal>;
   }
 
-  return (
-    <div className={styles.container}>
-      <h1>TimeSheets</h1>
-      <Table
-        data={getTableData()}
-        headers={headers}
-        values={headers.map((header) => header.toLowerCase())}
-        onDelete={onDelete}
-        onRowClick={onRowClick}
-      />
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Timesheet</h4>
-          <p>Are you sure you want to delete this timesheet?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
-      <Button
-        text="Add Timesheet"
-        type="submit"
-        variant="primary"
-        onClick={() => {
-          history.push(`/time-sheets/form`);
-        }}
-      />
-    </div>
-  );
+  if (timeSheets.length > 0) {
+    return (
+      <div className={styles.container}>
+        <h1>TimeSheets</h1>
+        <Table
+          data={getTableData()}
+          headers={headers}
+          values={headers.map((header) => header.toLowerCase())}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Timesheet</h4>
+            <p>Are you sure you want to delete this timesheet?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Timesheet"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`/time-sheets/form`);
+          }}
+        />
+      </div>
+    );
+  } else {
+    dispatch(getTimesheets());
+  }
 };
 
 export default TimeSheets;
