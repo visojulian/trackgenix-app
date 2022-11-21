@@ -66,7 +66,6 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    // On edit
     if (currentTimeSheet) {
       reset({
         description: currentTimeSheet.description,
@@ -80,7 +79,7 @@ function Form() {
   }, [currentTimeSheet]);
 
   useEffect(() => {
-    if (currentTimeSheet.project !== selectedProjectId) {
+    if (currentTimeSheet?.project !== selectedProjectId) {
       resetField('employee');
     }
   }, [currentTimeSheet, selectedProjectId]);
