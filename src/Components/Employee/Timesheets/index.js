@@ -26,7 +26,9 @@ const Timesheets = () => {
     return {
       hours: timesheet.hours,
       task: timesheet.task.description,
-      project: timesheet.project.name
+      project: timesheet.project.name,
+      description: timesheet.description,
+      date: timesheet.date
     };
   });
 
@@ -54,8 +56,8 @@ const Timesheets = () => {
       <h2>List of worked hours by projects and tasks</h2>
       <Table
         data={tableData}
-        headers={['Project', 'Task', 'Hours']}
-        values={['project', 'task', 'hours']}
+        headers={['Timesheet', 'Project', 'Task', 'Hours', 'Date']}
+        values={['description', 'project', 'task', 'hours', 'date']}
         onDelete={() => {}}
         onRowClick={() => {}}
       />
