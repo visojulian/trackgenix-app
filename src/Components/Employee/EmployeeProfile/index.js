@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../../redux/employees/thunks';
 import styles from './profile.module.css';
-import { Button, Spinner } from 'Components/Shared';
+import { Button, Modal, Spinner } from 'Components/Shared';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 // import {} from '../../../redux/employees/constants';
 // import { getProjects } from 'redux/projects/thunks';
@@ -12,8 +12,10 @@ const EmployeeProfile = () => {
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const [employeeId, setEmployeeId] = useState();
   const { list: employees, isLoading: employeeIsLoading } = useSelector((state) => state.employees);
-  const [employeeInput, setEmployeeInput] = useState({
+  const [employeeAccount, setEmployeeAccount] = useState({
     name: '',
     lastName: '',
     email: '',
@@ -28,7 +30,8 @@ const EmployeeProfile = () => {
 
   useEffect(() => {
     if (currentEmployee && id) {
-      setEmployeeInput({
+      setEmployeeId(id);
+      setEmployeeAccount({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
         phone: currentEmployee.phone,
@@ -46,6 +49,10 @@ const EmployeeProfile = () => {
     history.push(`/employees/edit-employee/${id}`);
   };
 
+  const goBack = () => {
+    history.push('/home');
+  };
+
   return (
     <div className={styles.container}>
       <h1>Profile information</h1>
@@ -53,21 +60,21 @@ const EmployeeProfile = () => {
         <div className={styles.box1}>
           <div className={styles.fields}>
             <h4>Name</h4>
-            <p>{employeeInput.name}</p>
+            <p>{employeeAccount.name}</p>
           </div>
           <div className={styles.fields}>
             <h4>Last Name</h4>
-            <p>{employeeInput.lastName}</p>
+            <p>{employeeAccount.lastName}</p>
           </div>
         </div>
         <div className={styles.box2}>
           <div className={styles.fields}>
             <h4>Email</h4>
-            <p>{employeeInput.email}</p>
+            <p>{employeeAccount.email}</p>
           </div>
           <div className={styles.fields}>
             <h4>Phone</h4>
-            <p>{employeeInput.phone}</p>
+            <p>{employeeAccount.phone}</p>
           </div>
         </div>
       </div>
@@ -80,8 +87,29 @@ const EmployeeProfile = () => {
             editAccount(id);
           }}
         />
-        <Button text="Delete" type="submit" variant="secondary" onClick={() => editAccount(id)} />
+        <Button
+          text="Delete"
+          type="submit"
+          variant="secondary"
+          onClick={() => setShowModal(true)}
+        />
       </div>
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={() => {
+          employeeId && dispatch(deleteEmployee(employeeId));
+          goBack();
+        }}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete employee</h4>
+          <p>Are you sure you want to delete this employee?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
     </div>
   );
 };

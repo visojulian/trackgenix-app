@@ -159,6 +159,15 @@ const EditEmployee = () => {
           type="password"
           placeholder="Password"
         />
+        <TextInput
+          label="Repeat Password"
+          id="password"
+          name="password"
+          value={employeeInput.password}
+          onChange={onChange}
+          type="password"
+          placeholder="Password"
+        />
         <div className={styles.butCont}>
           <Button
             text="Cancel"
