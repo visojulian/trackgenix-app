@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimesheets } from 'redux/timeSheets/thunks';
-import { getProjects } from 'redux/projects/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './list.module.css';
-import { getTasks } from 'redux/task/thunks';
 
 const ListWorkedHours = () => {
   const history = useHistory();
@@ -20,8 +18,6 @@ const ListWorkedHours = () => {
 
   useEffect(() => {
     dispatch(getTimesheets());
-    dispatch(getProjects());
-    dispatch(getTasks());
   }, []);
 
   const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === id);
@@ -57,6 +53,7 @@ const ListWorkedHours = () => {
 
   return (
     <div className={styles.container}>
+      <h2>List of worked hours by projects and tasks</h2>
       <Table
         data={tableData}
         headers={['Timsheet', 'Task', 'Project', 'Hours']}
