@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const schema = Joi.object({
-  description: Joi.string().min(3).max(150).required().messages({
+  description: Joi.string().trim().min(3).max(150).required().messages({
     'string.empty': 'Description cannot be empty',
     'string.min': 'Description must have at least 3 characters',
     'string.max': 'Description cannot exceed 150 characters',
