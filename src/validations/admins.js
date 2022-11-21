@@ -14,7 +14,6 @@ export const schema = Joi.object({
       'string.max': 'Name cannot exceed 20 characters',
       'string.alphanum': 'Name cannot not have special characters',
       'string.pattern.base': 'Name can only have letters',
-      'string.trim': 'Name cannot have spaces before or after',
       'string.required': 'Name is required'
     }),
   lastName: Joi.string()
@@ -30,7 +29,6 @@ export const schema = Joi.object({
       'string.max': 'Last Name cannot exceed 25 characters',
       'string.alphanum': 'Last Name cannot not have special characters',
       'string.pattern.base': 'Last Name can only have letters',
-      'string.trim': 'Name cannot have spaces before or after',
       'string.required': 'Last Name is required'
     }),
   email: Joi.string()
@@ -40,7 +38,6 @@ export const schema = Joi.object({
     .messages({
       'string.empty': 'Email cannot be empty',
       'string.email': 'Email needs to be a valid email address',
-      'string.trim': 'Name cannot have spaces before or after',
       'string.required': 'Email is required'
     }),
   repeatEmail: Joi.any().valid(Joi.ref('email')).required().messages({
@@ -50,7 +47,6 @@ export const schema = Joi.object({
     'string.empty': 'Password cannot be empty',
     'string.min': 'Password must have at least 8 characters',
     'string.alphanum': 'Password cannot contain special characters',
-    'string.trim': 'Name cannot have spaces before or after',
     'string.required': 'Password is required'
   }),
   repeatPassword: Joi.any().valid(Joi.ref('password')).required().messages({
