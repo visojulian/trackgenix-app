@@ -30,3 +30,9 @@
     color: #373867;
     opacity: 0.5;
 }
+
+.error {
+  color: orange;
+  margin: 0px 0px 10px 0px;
+  font-size: 15px;
+}
