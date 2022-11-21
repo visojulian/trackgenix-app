@@ -11,20 +11,20 @@ import Spinner from '../../Shared/Spinner/spinner';
 import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
 import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
 import { getEmployees } from '../../../redux/employees/thunks';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/projects';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/projects';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
-  const [nameValue, setNameValue] = useState();
-  const [descriptionValue, setDescriptionValue] = useState();
-  const [clientValue, setClientValue] = useState();
-  const [startDateValue, setStartDateValue] = useState();
-  const [endDateValue, setEndDateValue] = useState();
+  // const [nameValue, setNameValue] = useState();
+  // const [descriptionValue, setDescriptionValue] = useState();
+  // const [clientValue, setClientValue] = useState();
+  // const [startDateValue, setStartDateValue] = useState();
+  // const [endDateValue, setEndDateValue] = useState();
   const [roleValue, setRoleValue] = useState();
   const [rateValue, setRateValue] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -33,6 +33,17 @@ const ProjectForm = () => {
 
   const isEditing = Boolean(id);
   const dispatch = useDispatch();
+
+  const {
+    handleSubmit,
+    register,
+    // getValues,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
 
   const {
     list: projects,
@@ -60,12 +71,14 @@ const ProjectForm = () => {
           rate: item.rate
         };
       });
-      setNameValue(currentProject.name);
-      setClientValue(currentProject.clientName);
-      setStartDateValue(currentProject.startDate);
-      setEndDateValue(currentProject.endDate);
-      setDescriptionValue(currentProject.description);
-      setProjectEmployees(employeeList);
+      reset({
+        name: currentProject.name,
+        description: currentProject.description,
+        startDate: currentProject.startDate,
+        endDate: currentProject.endDate,
+        clientName: currentProject.clientName,
+        employee: employeeList._id
+      });
     }
   }, [id, isEditing, projects]);
 
@@ -87,21 +100,21 @@ const ProjectForm = () => {
 
   const onRowClick = () => {};
 
-  const onChangeNameInput = (event) => {
-    setNameValue(event.target.value);
-  };
-  const onChangeDescriptionInput = (event) => {
-    setDescriptionValue(event.target.value);
-  };
-  const onChangeClientInput = (event) => {
-    setClientValue(event.target.value);
-  };
-  const onChangeStartDateInput = (event) => {
-    setStartDateValue(event.target.value);
-  };
-  const onChangeEndDateInput = (event) => {
-    setEndDateValue(event.target.value);
-  };
+  // const onChangeNameInput = (event) => {
+  //   setNameValue(event.target.value);
+  // };
+  // const onChangeDescriptionInput = (event) => {
+  //   setDescriptionValue(event.target.value);
+  // };
+  // const onChangeClientInput = (event) => {
+  //   setClientValue(event.target.value);
+  // };
+  // const onChangeStartDateInput = (event) => {
+  //   setStartDateValue(event.target.value);
+  // };
+  // const onChangeEndDateInput = (event) => {
+  //   setEndDateValue(event.target.value);
+  // };
   const onChangeRateInput = (event) => {
     setRateValue(event.target.value);
   };
@@ -133,15 +146,10 @@ const ProjectForm = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    if (
-      projectEmployees.length &&
-      nameValue &&
-      startDateValue &&
-      endDateValue &&
-      descriptionValue &&
-      clientValue
-    ) {
+    if (!Object.values(errors).length) {
       setIsActionModal(true);
+    } else {
+      setIsActionModal(false);
     }
   };
 
@@ -154,19 +162,12 @@ const ProjectForm = () => {
         </div>
       );
     }
-    if (
-      projectEmployees.length &&
-      nameValue &&
-      startDateValue &&
-      endDateValue &&
-      descriptionValue &&
-      clientValue
-    ) {
+    if (!Object.values(errors).length) {
       return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {nameValue}{' '}
+            Are you sure you want to {isEditing ? 'save' : 'add'}
             {isEditing ? 'changes' : ''}?
           </p>
         </div>
@@ -180,24 +181,35 @@ const ProjectForm = () => {
     );
   };
 
-  const onSubmit = async () => {
-    const body = {
-      employees: projectEmployees,
-      name: nameValue,
-      startDate: startDateValue,
-      endDate: endDateValue,
-      description: descriptionValue,
-      clientName: clientValue
-    };
+  const onSubmit = async (data) => {
     if (!isEditing) {
-      const result = await dispatch(postProject(body));
+      const result = await dispatch(
+        postProject(
+          data.name,
+          data.description,
+          data.startDate,
+          data.endDate,
+          data.clientName,
+          data.employee
+        )
+      );
       if (result.type === POST_PROJECT_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const result = await dispatch(putProject(body, id));
+      const result = await dispatch(
+        putProject(
+          data.name,
+          data.description,
+          data.startDate,
+          data.endDate,
+          data.clientName,
+          data.employee,
+          id
+        )
+      );
       if (result.type === PUT_PROJECT_SUCCESS) {
         history.goBack();
       } else {
@@ -217,46 +229,46 @@ const ProjectForm = () => {
           label="Project Name"
           id="name"
           name="name"
-          value={nameValue}
-          onChange={onChangeNameInput}
           type="text"
           placeholder="Project Name"
+          register={register}
+          error={errors.name?.message}
         />
         <TextInput
           label="Client Name"
-          id="client"
-          name="client"
-          value={clientValue}
-          onChange={onChangeClientInput}
+          id="clientName"
+          name="clientName"
           type="text"
           placeholder="Client Name"
+          register={register}
+          error={errors.clientName?.message}
         />
         <TextInput
           label="Description"
           id="description"
           name="description"
-          value={descriptionValue}
-          onChange={onChangeDescriptionInput}
           type="text"
           placeholder="Description"
+          register={register}
+          error={errors.description?.message}
         />
         <TextInput
           label="Start date"
           id="startDate"
           name="startDate"
-          value={startDateValue}
-          onChange={onChangeStartDateInput}
           type="date"
           placeholder="Start date"
+          register={register}
+          error={errors.startDate?.message}
         />
         <TextInput
           label="End date"
           id="endDate"
           name="endDate"
-          value={endDateValue}
-          onChange={onChangeEndDateInput}
           type="date"
           placeholder="End date"
+          register={register}
+          error={errors.endDate?.message}
         />
         <div className={styles.listContainer}>
           <div>
@@ -307,7 +319,7 @@ const ProjectForm = () => {
             isOpen={showModal}
             handleClose={setShowModal}
             isActionModal={isActionModal}
-            action={onSubmit}
+            action={handleSubmit(onSubmit)}
             actionButton="Submit"
           >
             {getModalContent()}
@@ -321,6 +333,7 @@ const ProjectForm = () => {
                 history.goBack();
               }}
             />
+            <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
             <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
