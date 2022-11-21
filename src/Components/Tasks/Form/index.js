@@ -26,21 +26,18 @@ const Form = () => {
     register,
     getValues,
     reset,
+    trigger,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema)
   });
 
-  const check =
-    errors &&
-    Object.keys(errors).length === 0 &&
-    Object.getPrototypeOf(errors) === Object.prototype;
-
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    if (getValues('description') && check) {
+    trigger();
+    if (getValues('description') && !Object.values(errors).length) {
       setIsActionModal(true);
     }
   };
@@ -54,7 +51,7 @@ const Form = () => {
         </div>
       );
     }
-    if (getValues('description') && check) {
+    if (getValues('description') && !Object.values(errors).length) {
       return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Task</h4>
@@ -65,7 +62,7 @@ const Form = () => {
         </div>
       );
     }
-    if (!check) {
+    if (Object.values(errors).length) {
       return (
         <div>
           <h4>Form field have errors</h4>
@@ -81,16 +78,12 @@ const Form = () => {
     );
   };
 
-  useEffect(async () => {
-    try {
-      if (id && foundTask) {
-        setIsEditing(true);
-        reset({
-          description: foundTask.description
-        });
-      }
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    if (id && foundTask) {
+      setIsEditing(true);
+      reset({
+        description: foundTask.description
+      });
     }
   }, [id, foundTask]);
 
@@ -160,7 +153,7 @@ const Form = () => {
             />
           </div>
           <div>
-            <Button type="button" text="Reset fields" variant="secondary" onClick={() => reset()} />
+            <Button type="button" text="Reset field" variant="secondary" onClick={() => reset()} />
           </div>
           <div>
             <Button text="Confirm" type="submit" variant="primary" onClick={handleConfirmModal} />
