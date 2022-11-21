@@ -52,7 +52,9 @@ const Form = () => {
         lastName: currentEmployee.lastName,
         phone: currentEmployee.phone,
         email: currentEmployee.email,
-        password: currentEmployee.password
+        repeatEmail: currentEmployee.repeatEmail,
+        password: currentEmployee.password,
+        repeatPassword: currentEmployee.repeatPassword
       });
     }
   }, [employees.length, id]);
@@ -182,6 +184,15 @@ const Form = () => {
           error={errors.email?.message}
         />
         <TextInput
+          label="Repeat Email"
+          id="repeatEmail"
+          name="repeatEmail"
+          register={register}
+          type="text"
+          placeholder="Repeat Email"
+          error={errors.repeatEmail?.message}
+        />
+        <TextInput
           label="Password"
           id="password"
           name="password"
@@ -189,6 +200,15 @@ const Form = () => {
           placeholder="Password"
           register={register}
           error={errors.password?.message}
+        />
+        <TextInput
+          label="Repeat Password"
+          id="repeatPassword"
+          name="repeatPassword"
+          register={register}
+          type={reveal ? 'text' : 'password'}
+          placeholder="Repeat Password"
+          error={errors.repeatPassword?.message}
         />
         <div className={styles.butCont}>
           <Button
