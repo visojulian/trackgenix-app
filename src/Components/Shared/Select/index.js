@@ -1,8 +1,8 @@
 import styles from './select.module.css';
 
-const Select = ({ name, value, onSelect, placeholder, data }) => {
+const Select = ({ name, placeholder, data, register, error }) => {
   return (
-    <select name={name} onChange={onSelect} value={value} className={styles.select}>
+    <select name={name} className={styles.select} {...register(name)}>
       <option hidden value="">
         {placeholder}
       </option>
@@ -13,6 +13,7 @@ const Select = ({ name, value, onSelect, placeholder, data }) => {
           </option>
         );
       })}
+      {error && <p className={styles.error}>{error}</p>}
     </select>
   );
 };

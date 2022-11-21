@@ -23,7 +23,7 @@ const Modal = ({ children, isOpen, handleClose, isActionModal, action, actionBut
   );
 };
 
-const Select = ({ name, onSelect, placeholder, data }) => {
+const Select = ({ name, onSelect, placeholder, data, value }) => {
   return (
     <SelectComponent
       name={name}
@@ -31,6 +31,7 @@ const Select = ({ name, onSelect, placeholder, data }) => {
       required
       onSelect={onSelect}
       data={data}
+      value={value}
     />
   );
 };

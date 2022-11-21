@@ -6,8 +6,15 @@ import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeS
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/task/thunks';
-import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
+import Modal from '../../Shared/Modal';
+import Button from '../../Shared/Button';
+import Select from '../../Shared/Select';
+import Spinner from '../../Shared/Spinner/spinner';
+import TextInput from '../../Shared/TextInput/index';
 import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/time-sheets';
 
 function Form() {
   const dispatch = useDispatch();
@@ -36,16 +43,32 @@ function Form() {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const [projectEmployees, setProjectEmployees] = useState();
-  const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
-    description: '',
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
+  /*   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
+      description: '',
     date: '',
-    hours: '',
+    hours: '', 
     task: '',
     employee: '',
     project: ''
-  });
+  }); */
 
   const isEditing = Boolean(id);
+  console.log(getValues('project'));
+
+  const check =
+    errors &&
+    Object.keys(errors).length === 0 &&
+    Object.getPrototypeOf(errors) === Object.prototype;
 
   useEffect(() => {
     dispatch(getTasks());
@@ -64,7 +87,8 @@ function Form() {
         const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
         setProjectEmployees(projectEmployees);
       }
-      setInputTimeSheetValue({
+      /* setInputTimeSheetValue({ */
+      reset({
         description: currentTimeSheet.description,
         date: correctDate(currentTimeSheet.date),
         hours: currentTimeSheet.hours,
@@ -72,17 +96,25 @@ function Form() {
         employee: currentTimeSheet.employee['_id'],
         project: currentTimeSheet.project['_id']
       });
+    } else if (!isEditing && getValues('project')) {
+      const selectedProject = projects.find((project) => project._id === getValues('project'));
+      console.log('selected project', selectedProject);
+      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+      setProjectEmployees(projectEmployees);
+      console.log('projectEmployees', projectEmployees);
+      console.log('Employees', employees);
     }
-  }, [id, isEditing, timesheets]);
+  }, [id, isEditing, timesheets, getValues('project')]);
 
-  const onChangeInputValue = (e) => {
+  /*  const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
       const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
       setProjectEmployees(projectEmployees);
     }
-  };
+    id, isEditing, timesheets, getValues('project')
+  }; */
 
   const getModalContent = () => {
     if (timesheetError) {
@@ -94,12 +126,19 @@ function Form() {
       );
     }
     if (
-      inputTimeSheetValue.description &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project') &&
+      check
+      /* inputTimeSheetValue.description &&
       inputTimeSheetValue.date &&
       inputTimeSheetValue.hours &&
       inputTimeSheetValue.task &&
       inputTimeSheetValue.employee &&
-      inputTimeSheetValue.project
+      inputTimeSheetValue.project */
     ) {
       return (
         <div>
@@ -108,6 +147,14 @@ function Form() {
             Are you sure you want to {isEditing ? 'save' : 'add'} {isEditing ? 'changes in' : ''}{' '}
             this timesheet?
           </p>
+        </div>
+      );
+    }
+    if (!check) {
+      return (
+        <div>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
         </div>
       );
     }
@@ -123,12 +170,19 @@ function Form() {
     e.preventDefault();
     setShowModal(true);
     if (
-      inputTimeSheetValue.description &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project') &&
+      check
+      /* inputTimeSheetValue.description &&
       inputTimeSheetValue.date &&
       inputTimeSheetValue.hours &&
       inputTimeSheetValue.task &&
       inputTimeSheetValue.employee &&
-      inputTimeSheetValue.project
+      inputTimeSheetValue.project */
     ) {
       setIsActionModal(true);
     }
@@ -139,22 +193,22 @@ function Form() {
     return dateFormated;
   };
 
-  const onSubmit = async () => {
-    const newTimesheet = {
+  const onSubmit = async (data) => {
+    /*   const newTimesheet = {
       description: inputTimeSheetValue.description,
       date: inputTimeSheetValue.date,
       hours: inputTimeSheetValue.hours,
       task: inputTimeSheetValue.task,
       employee: inputTimeSheetValue.employee,
       project: inputTimeSheetValue.project
-    };
+    }; */
     if (!isEditing) {
-      const result = await dispatch(addTimesheet(newTimesheet));
+      const result = await dispatch(addTimesheet(data));
       if (result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
       }
     } else {
-      const result = await dispatch(editTimesheet(newTimesheet, id));
+      const result = await dispatch(editTimesheet(data, id));
       if (result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
       }
@@ -183,7 +237,7 @@ function Form() {
           setShowModal();
         }}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
@@ -194,8 +248,10 @@ function Form() {
             label="Time Sheet description"
             id="description"
             name="description"
-            value={inputTimeSheetValue.description}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.description?.message}
+            /*  value={inputTimeSheetValue.description}
+            onChange={onChangeInputValue} */
             type="text"
             placeholder="Time Sheet Description"
           />
@@ -203,8 +259,10 @@ function Form() {
             label="Date"
             id="date"
             name="date"
-            value={inputTimeSheetValue.date}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.date?.message}
+            /*   value={inputTimeSheetValue.date}
+            onChange={onChangeInputValue} */
             type="date"
             placeholder="Date"
           />
@@ -212,8 +270,10 @@ function Form() {
             label="Hours"
             id="hours"
             name="hours"
-            value={inputTimeSheetValue.hours}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.hours?.message}
+            /* value={inputTimeSheetValue.hours}
+            onChange={onChangeInputValue} */
             type="number"
             placeholder="Hours spend in the taks"
           />
@@ -222,16 +282,18 @@ function Form() {
             <Select
               name="task"
               placeholder="Select a task"
-              required
-              onSelect={onChangeInputValue}
+              /* required */
+              register={register}
+              error={errors.task?.message}
+              /* onSelect={onChangeInputValue} */
               data={tasks.map((task) => ({
                 id: task._id,
                 value: task.description
               }))}
-              value={
+              /* value={
                 inputTimeSheetValue.task !== '' &&
                 tasks.find((task) => task._id === inputTimeSheetValue.task)?._id
-              }
+              } */
             />
           </div>
           <div className={styles.box}>
@@ -239,16 +301,17 @@ function Form() {
             <Select
               name="project"
               placeholder="Select a project"
-              required
-              onSelect={onChangeInputValue}
+              register={register}
+              error={errors.project?.message}
+              /* onSelect={onChangeInputValue} */
               data={projects.map((project) => ({
                 id: project._id,
                 value: project.name
               }))}
-              value={
+              /*  value={
                 inputTimeSheetValue.project !== '' &&
                 projects.find((project) => project._id === inputTimeSheetValue.project)?._id
-              }
+              } */
             />
           </div>
           <div className={styles.box}>
@@ -257,22 +320,25 @@ function Form() {
               <Select
                 name="employee"
                 placeholder="Select an employee"
-                required
-                onSelect={onChangeInputValue}
+                register={register}
+                error={errors.employee?.message}
+                /* required */
+                /* onSelect={onChangeInputValue} */
                 data={projectEmployees.map((employee) => ({
                   id: employees.find((item) => item._id === employee)._id,
                   value: employees.find((item) => item._id === employee).name
                 }))}
-                value={inputTimeSheetValue.employee}
+                /* value={inputTimeSheetValue.employee} */
               />
             ) : (
               <Select
                 name="employee"
                 placeholder="Select a project first"
-                required
-                onSelect={onChangeInputValue}
+                register={register}
+                /* required
+                onSelect={onChangeInputValue} */
                 data={['']}
-                value={inputTimeSheetValue.employee}
+                /* value={inputTimeSheetValue.employee} */
               />
             )}
           </div>
