@@ -37,7 +37,7 @@ const ProjectForm = () => {
   const {
     handleSubmit,
     register,
-    // getValues,
+    getValues,
     reset,
     formState: { errors }
   } = useForm({
@@ -77,7 +77,7 @@ const ProjectForm = () => {
         startDate: currentProject.startDate,
         endDate: currentProject.endDate,
         clientName: currentProject.clientName,
-        employee: employeeList._id
+        setProjectEmployees: employeeList
       });
     }
   }, [id, isEditing, projects]);
@@ -167,7 +167,7 @@ const ProjectForm = () => {
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'}
+            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
             {isEditing ? 'changes' : ''}?
           </p>
         </div>
@@ -175,41 +175,30 @@ const ProjectForm = () => {
     }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
+        <h4>Form fields have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
+    const body = {
+      employees: projectEmployees,
+      name: getValues('name'),
+      description: getValues('description'),
+      startDate: getValues('startDate'),
+      endDate: getValues('endDate'),
+      clientName: getValues('clientName')
+    };
     if (!isEditing) {
-      const result = await dispatch(
-        postProject(
-          data.name,
-          data.description,
-          data.startDate,
-          data.endDate,
-          data.clientName,
-          data.employee
-        )
-      );
+      const result = await dispatch(postProject(body));
       if (result.type === POST_PROJECT_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const result = await dispatch(
-        putProject(
-          data.name,
-          data.description,
-          data.startDate,
-          data.endDate,
-          data.clientName,
-          data.employee,
-          id
-        )
-      );
+      const result = await dispatch(putProject(body, id));
       if (result.type === PUT_PROJECT_SUCCESS) {
         history.goBack();
       } else {
@@ -308,6 +297,7 @@ const ProjectForm = () => {
               </div>
             </div>
             <Table
+              className={styles.employeeList}
               data={newArr()}
               headers={['name', 'role', 'rate']}
               onDelete={handleDelete}

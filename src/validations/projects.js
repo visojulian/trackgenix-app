@@ -25,9 +25,10 @@ export const schema = Joi.object({
     'string.min': 'Name must have at least 3 characters',
     'string.max': 'Name cannot exceed 50 characters'
   }),
-  description: Joi.string().required().max(150).messages({
+  description: Joi.string().required().min(3).max(150).messages({
     'string.required': 'Description is required',
     'string.empty': 'Description cannot be empty',
+    'string.min': 'Name must have at least 3 characters',
     'string.max': 'Description cannot exceed 50 characters'
   }),
   startDate: Joi.date().required().messages({
