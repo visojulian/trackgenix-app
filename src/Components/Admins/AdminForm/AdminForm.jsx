@@ -27,26 +27,23 @@ const AdminForm = () => {
     register,
     getValues,
     reset,
+    trigger,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema)
   });
 
-  const check =
-    errors &&
-    Object.keys(errors).length === 0 &&
-    Object.getPrototypeOf(errors) === Object.prototype;
-
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    trigger();
     if (
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       setIsActionModal(true);
     }
@@ -66,7 +63,7 @@ const AdminForm = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       return (
         <div>
@@ -78,7 +75,7 @@ const AdminForm = () => {
         </div>
       );
     }
-    if (!check) {
+    if (Object.values(errors).length) {
       return (
         <div>
           <h4>Form fields have errors</h4>
@@ -89,34 +86,27 @@ const AdminForm = () => {
     return (
       <div>
         <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
+        <p>Please make sure to fill all fields before submit.</p>
       </div>
     );
   };
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        setEdit(true);
-        const currentAdmin = admins.find((item) => item._id === id);
-        reset({
-          name: currentAdmin.name,
-          lastName: currentAdmin.lastName,
-          email: currentAdmin.email,
-          repeatEmail: currentAdmin.email,
-          password: currentAdmin.password,
-          repeatPassword: currentAdmin.password
-        });
-      } else {
-        setEdit(false);
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      const currentAdmin = admins.find((item) => item._id === id);
+      reset({
+        name: currentAdmin.name,
+        lastName: currentAdmin.lastName,
+        email: currentAdmin.email,
+        repeatEmail: currentAdmin.email,
+        password: currentAdmin.password,
+        repeatPassword: currentAdmin.password
+      });
     }
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (!edit) {
       const reponse = await dispatch(
         postAdmin(data.name, data.lastName, data.email, data.password)
@@ -138,7 +128,7 @@ const AdminForm = () => {
     }
   };
 
-  const revealFunc = () => {
+  const showPassword = () => {
     setReveal(reveal ? false : true);
   };
 
@@ -194,15 +184,25 @@ const AdminForm = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          register={register}
-          type={reveal ? 'text' : 'password'}
-          placeholder="Password"
-          error={errors.password?.message}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', marginLeft: '100px' }}>
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            register={register}
+            type={reveal ? 'text' : 'password'}
+            placeholder="Password"
+            error={errors.password?.message}
+          />
+          <div style={{ marginTop: '20px' }}>
+            <Button
+              text={reveal ? 'Hide password' : 'Reveal password'}
+              type="button"
+              variant="secondary"
+              onClick={showPassword}
+            />
+          </div>
+        </div>
         <TextInput
           label="Repeat Password"
           id="repeatPassword"
@@ -222,12 +222,6 @@ const AdminForm = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
-          <Button
-            text={reveal ? 'Hide password' : 'Reveal password'}
-            type="button"
-            variant="secondary"
-            onClick={revealFunc}
-          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
