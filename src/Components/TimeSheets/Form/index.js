@@ -47,6 +47,7 @@ function Form() {
     register,
     watch,
     reset,
+    trigger,
     resetField,
     formState: { errors }
   } = useForm({
@@ -104,16 +105,25 @@ function Form() {
         </div>
       );
     }
+    if (Object.values(errors).length) {
+      return (
+        <div>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
+        </div>
+      );
+    }
     return (
       <div>
-        <h4>Form fields have errors</h4>
-        <p>Please make sure to amend all errors before submit.</p>
+        <h4>Form incomplete</h4>
+        <p>Please make sure to fill all fields before submit.</p>
       </div>
     );
   };
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
+    trigger();
     setShowModal(true);
     if (!Object.values(errors).length) {
       setIsActionModal(true);
