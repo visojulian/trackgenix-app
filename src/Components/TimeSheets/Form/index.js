@@ -55,13 +55,15 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    if (timesheets.length > 0 && isEditing) {
+    if (timesheets.length > 0 && isEditing && projects.length > 0) {
       const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
       const selectedProject = projects.find(
         (project) => project._id === currentTimeSheet.project._id
       );
-      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      setProjectEmployees(projectEmployees);
+      if (selectedProject) {
+        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+        setProjectEmployees(projectEmployees);
+      }
       setInputTimeSheetValue({
         description: currentTimeSheet.description,
         date: correctDate(currentTimeSheet.date),
@@ -228,7 +230,7 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.task !== '' &&
-                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+                tasks.find((task) => task._id === inputTimeSheetValue.task)?._id
               }
             />
           </div>
@@ -245,7 +247,7 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.project !== '' &&
-                projects.find((project) => project._id === inputTimeSheetValue.project)._id
+                projects.find((project) => project._id === inputTimeSheetValue.project)?._id
               }
             />
           </div>
