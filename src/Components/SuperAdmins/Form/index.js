@@ -31,16 +31,12 @@ const Form = () => {
     register,
     getValues,
     reset,
+    trigger,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema)
   });
-
-  const check =
-    errors &&
-    Object.keys(errors).length === 0 &&
-    Object.getPrototypeOf(errors) === Object.prototype;
 
   useEffect(async () => {
     try {
@@ -62,12 +58,13 @@ const Form = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    trigger();
     if (
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       setIsActionModal(true);
     }
@@ -87,7 +84,7 @@ const Form = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
-      check
+      !Object.values(errors).length
     ) {
       return (
         <div>
@@ -99,7 +96,7 @@ const Form = () => {
         </div>
       );
     }
-    if (!check) {
+    if (Object.values(errors).length) {
       return (
         <div>
           <h4>Form fields have errors</h4>
@@ -110,7 +107,7 @@ const Form = () => {
     return (
       <div>
         <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
+        <p>Please make sure to fill all fields before submit.</p>
       </div>
     );
   };
@@ -133,7 +130,7 @@ const Form = () => {
     }
   };
 
-  const revealFunc = () => {
+  const showPassword = () => {
     setReveal(reveal ? false : true);
   };
 
@@ -189,15 +186,25 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          register={register}
-          type={reveal ? 'text' : 'password'}
-          placeholder="Password"
-          error={errors.password?.message}
-        />
+        <div className={styles.passwordDiv}>
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            register={register}
+            type={reveal ? 'text' : 'password'}
+            placeholder="Password"
+            error={errors.password?.message}
+          />
+          <div className={styles.revealButton}>
+            <Button
+              text={reveal ? 'Hide password' : 'Reveal password'}
+              type="button"
+              variant="secondary"
+              onClick={showPassword}
+            />
+          </div>
+        </div>
         <TextInput
           label="Repeat Password"
           id="repeatPassword"
@@ -217,12 +224,6 @@ const Form = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
-          <Button
-            text={reveal ? 'Hide password' : 'Reveal password'}
-            type="button"
-            variant="secondary"
-            onClick={revealFunc}
-          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>

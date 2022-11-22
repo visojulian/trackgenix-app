@@ -5,6 +5,7 @@ export const schema = Joi.object({
     .min(3)
     .max(20)
     .alphanum()
+    .trim()
     .pattern(/^([^0-9]*)$/i)
     .required()
     .messages({
@@ -19,6 +20,7 @@ export const schema = Joi.object({
     .min(3)
     .max(25)
     .alphanum()
+    .trim()
     .pattern(/^([^0-9]*)$/i)
     .required()
     .messages({
@@ -31,16 +33,17 @@ export const schema = Joi.object({
     }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
+    .trim()
     .required()
     .messages({
       'string.empty': 'Email cannot be empty',
-      'string.email': 'Email needs to be a valid address',
+      'string.email': 'Email needs to be a valid email address',
       'string.required': 'Email is required'
     }),
   repeatEmail: Joi.any().valid(Joi.ref('email')).required().messages({
     'any.only': 'Emails must match'
   }),
-  password: Joi.string().min(8).alphanum().required().messages({
+  password: Joi.string().min(8).alphanum().trim().required().messages({
     'string.empty': 'Password cannot be empty',
     'string.min': 'Password must have at least 8 characters',
     'string.alphanum': 'Password cannot contain special characters',

@@ -23,3 +23,13 @@ h1 {
   color: #373867;
   text-align: center;
 }
+
+.passwordDiv {
+  display: flex;
+  align-items: center;
+  margin-left: 100px;
+}
+
+.revealButton {
+  margin-top: 20px;
+}
