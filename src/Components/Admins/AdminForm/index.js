@@ -15,7 +15,7 @@ import Spinner from '../../Shared/Spinner/spinner';
 const AdminForm = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [isEditing, setEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -93,7 +93,7 @@ const AdminForm = () => {
 
   useEffect(() => {
     if (id) {
-      setEdit(true);
+      setIsEditing(true);
       const currentAdmin = admins.find((item) => item._id === id);
       reset({
         name: currentAdmin.name,
