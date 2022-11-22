@@ -136,7 +136,7 @@ const Form = () => {
     }
   };
 
-  const revealFunc = () => {
+  const revealPassword = () => {
     setReveal(reveal ? false : true);
   };
 
@@ -193,15 +193,25 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          type={reveal ? 'text' : 'password'}
-          placeholder="Password"
-          register={register}
-          error={errors.password?.message}
-        />
+        <div className={styles.revealPassword}>
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            register={register}
+            type={reveal ? 'text' : 'password'}
+            placeholder="Password"
+            error={errors.password?.message}
+          />
+          <div className={styles.revealButton}>
+            <Button
+              text={reveal ? 'Hide password' : 'Reveal password'}
+              type="button"
+              variant="secondary"
+              onClick={revealPassword}
+            />
+          </div>
+        </div>
         <TextInput
           label="Repeat Password"
           id="repeatPassword"
@@ -221,12 +231,6 @@ const Form = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
-          <Button
-            text={reveal ? 'Hide password' : 'Reveal password'}
-            type="button"
-            variant="secondary"
-            onClick={revealFunc}
-          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
