@@ -62,18 +62,10 @@ const Form = () => {
         </div>
       );
     }
-    if (Object.values(errors).length) {
-      return (
-        <div>
-          <h4>Form field have errors</h4>
-          <p>Please make sure to amend all errors before submit.</p>
-        </div>
-      );
-    }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete the field before submit.</p>
+        <h4>Form field have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
