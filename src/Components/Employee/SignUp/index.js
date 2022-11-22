@@ -180,6 +180,14 @@ const SignUp = () => {
           </div>
         </div>
         <div className={styles.butCont}>
+          <Button
+            text="Cancel"
+            type="reset"
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button
             text={reveal ? 'Hide password' : 'Reveal password'}
