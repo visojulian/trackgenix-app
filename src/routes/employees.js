@@ -4,6 +4,7 @@ const Employees = lazy(() => import('Components/Employees'));
 const EmployeesForm = lazy(() => import('Components/Employees/Form'));
 const EmployeeProfile = lazy(() => import('Components/Employee/EmployeeProfile'));
 const EditEmployee = lazy(() => import('Components/Employee/EditEmployee'));
+const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 
 const employees = () => {
   return (
@@ -13,6 +14,7 @@ const employees = () => {
       <Route path="/employees/form/:id" component={EmployeesForm} />
       <Route path="/employees/employee-profile/:id" component={EmployeeProfile} />
       <Route path="/employees/edit-employee/:id" component={EditEmployee} />
+      <Route path="/employees/timesheets/:id" component={Timesheets} />
     </Switch>
   );
 };
