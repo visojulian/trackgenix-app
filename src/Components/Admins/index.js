@@ -3,10 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
 import styles from './admins.module.css';
-import Table from '../Shared/Table/index';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Admins = () => {
   const history = useHistory();

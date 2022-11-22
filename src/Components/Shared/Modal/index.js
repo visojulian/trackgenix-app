@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../Button';
+import { Button } from 'Components/Shared';
 import styles from './modal.module.css';
 
 const Modal = (props) => {
