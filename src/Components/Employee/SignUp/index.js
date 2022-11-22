@@ -5,38 +5,41 @@ import { postEmployee } from 'redux/employees/thunks';
 import { POST_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
 import styles from 'Components/Employee/SignUp/sing-up.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../validations/employees';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from 'validations/employees';
 
 const SignUp = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [isOk, setIsOk] = useState(false);
-
   const { isLoading: loading, error: employeeError } = useSelector((state) => state.employees);
+  const [reveal, setReveal] = useState(false);
 
-  const [employeeInput, setEmployeeInput] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    repeatEmail: '',
-    repeatPassword: '',
-    phone: ''
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    trigger,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
   });
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    trigger();
     if (
-      employeeInput.name &&
-      employeeInput.lastName &&
-      employeeInput.phone &&
-      employeeInput.email &&
-      employeeInput.password &&
-      isOk
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password') &&
+      !Object.values(errors).length
     ) {
       setIsActionModal(true);
     }
@@ -52,27 +55,27 @@ const SignUp = () => {
       );
     }
     if (
-      employeeInput.name &&
-      employeeInput.lastName &&
-      employeeInput.phone &&
-      employeeInput.email &&
-      employeeInput.password &&
-      isOk
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password') &&
+      !Object.values(errors).length
     ) {
       return (
         <div>
           <h4>Create a New Account</h4>
           <p>
-            Are you sure you want to add {employeeInput.name} {employeeInput.lastName}?
+            Are you sure you want to add {getValues('name')} {getValues('lastName')}?
           </p>
         </div>
       );
     }
-    if (!isOk) {
+    if (Object.values(errors).length) {
       return (
         <div>
-          <h4>Email or Password don`t match</h4>
-          <p>Correct these fields before sending.</p>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
         </div>
       );
     }
@@ -84,27 +87,19 @@ const SignUp = () => {
     );
   };
 
-  const onChange = (e) => {
-    setEmployeeInput({ ...employeeInput, [e.target.name]: e.target.value });
-    if (
-      employeeInput.repeatEmail === employeeInput.email &&
-      employeeInput.repeatPassword === employeeInput.password
-    ) {
-      setIsOk(true);
+  const onSubmit = async (data) => {
+    const res = await dispatch(
+      postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
+    );
+    if (res.type === POST_EMPLOYEE_SUCCESS) {
+      history.goBack();
     } else {
-      setIsOk(false);
+      setShowModal(true);
     }
   };
 
-  const onSubmit = async () => {
-    if (isOk) {
-      const res = await dispatch(postEmployee(employeeInput));
-      if (res.type === POST_EMPLOYEE_SUCCESS) {
-        history.goBack();
-      } else {
-        setShowModal(true);
-      }
-    }
+  const revealFunc = () => {
+    setReveal(reveal ? false : true);
   };
 
   if (loading) {
@@ -121,28 +116,28 @@ const SignUp = () => {
               label="Name"
               id="name"
               name="name"
-              value={employeeInput.name}
-              onChange={onChange}
               type="text"
               placeholder="Name"
+              register={register}
+              error={errors.name?.message}
             />
             <TextInput
               label="Last Name"
               id="lastName"
               name="lastName"
-              value={employeeInput.lastName}
-              onChange={onChange}
               type="text"
               placeholder="Last Name"
+              register={register}
+              error={errors.lastName?.message}
             />
             <TextInput
               label="Phone"
               id="phone"
               name="phone"
-              value={employeeInput.phone}
-              onChange={onChange}
               type="text"
               placeholder="Phone"
+              register={register}
+              error={errors.phone?.message}
             />
           </div>
           <div>
@@ -150,48 +145,47 @@ const SignUp = () => {
               label="Email"
               id="email"
               name="email"
-              value={employeeInput.email}
-              onChange={onChange}
               type="text"
               placeholder="Email"
+              register={register}
+              error={errors.email?.message}
             />
             <TextInput
               label="Repeat Email"
               id="repeatEmail"
               name="repeatEmail"
-              value={employeeInput.repeatEmail}
-              onChange={onChange}
+              register={register}
               type="text"
               placeholder="Repeat Email"
+              error={errors.repeatEmail?.message}
             />
             <TextInput
               label="Password"
               id="password"
               name="password"
-              value={employeeInput.password}
-              onChange={onChange}
-              type="password"
+              type={reveal ? 'text' : 'password'}
               placeholder="Password"
+              register={register}
+              error={errors.password?.message}
             />
             <TextInput
               label="Repeat Password"
               id="repeatPassword"
               name="repeatPassword"
-              value={employeeInput.repeatPassword}
-              onChange={onChange}
-              type="password"
+              register={register}
+              type={reveal ? 'text' : 'password'}
               placeholder="Repeat Password"
+              error={errors.repeatPassword?.message}
             />
           </div>
         </div>
         <div className={styles.butCont}>
+          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button
-            text="Cancel"
-            type="reset"
+            text={reveal ? 'Hide password' : 'Reveal password'}
+            type="button"
             variant="secondary"
-            onClick={() => {
-              history.goBack();
-            }}
+            onClick={revealFunc}
           />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
@@ -200,7 +194,7 @@ const SignUp = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
