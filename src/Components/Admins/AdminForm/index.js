@@ -15,7 +15,7 @@ import Spinner from '../../Shared/Spinner/spinner';
 const AdminForm = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [edit, setEdit] = useState(false);
+  const [isEditing, setEdit] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -67,10 +67,10 @@ const AdminForm = () => {
     ) {
       return (
         <div>
-          <h4>{edit ? 'Edit' : 'Add'} New Admin</h4>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
           <p>
-            Are you sure you want to {edit ? 'save' : 'add'} {getValues('name')}{' '}
-            {getValues('lastName')} {edit ? 'changes' : 'as Admin'}?
+            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
+            {getValues('lastName')} {isEditing ? 'changes' : 'as Admin'}?
           </p>
         </div>
       );
@@ -107,7 +107,7 @@ const AdminForm = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    if (!edit) {
+    if (!isEditing) {
       const reponse = await dispatch(
         postAdmin(data.name, data.lastName, data.email, data.password)
       );
@@ -146,7 +146,7 @@ const AdminForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
+      <h1>{isEditing ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
         <TextInput
           label="Name"
