@@ -51,14 +51,14 @@ const Table = ({ data, headers, values, onDelete, onRowClick }) => {
   );
 };
 
-const TextInput = ({ label, id, name, value, onChange, type, placeholder }) => {
+const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
   return (
     <TextInputComponent
       label={label}
       id={id}
       name={name}
-      value={value}
-      onChange={onChange}
+      register={register}
+      error={error}
       type={type}
       placeholder={placeholder}
     />
