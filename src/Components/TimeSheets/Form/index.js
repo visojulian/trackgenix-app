@@ -48,6 +48,7 @@ function Form() {
     watch,
     reset,
     trigger,
+    getValues,
     resetField,
     formState: { errors }
   } = useForm({
@@ -94,7 +95,15 @@ function Form() {
         </div>
       );
     }
-    if (!Object.values(errors).length) {
+    if (
+      !Object.values(errors).length &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project')
+    ) {
       return (
         <div>
           <h4>{isEditing ? 'Edit' : 'Add'} New Timesheet</h4>
@@ -105,18 +114,10 @@ function Form() {
         </div>
       );
     }
-    if (Object.values(errors).length) {
-      return (
-        <div>
-          <h4>Form fields have errors</h4>
-          <p>Please make sure to amend all errors before submit.</p>
-        </div>
-      );
-    }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please make sure to fill all fields before submit.</p>
+        <h4>Form fields have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
@@ -125,7 +126,15 @@ function Form() {
     e.preventDefault();
     trigger();
     setShowModal(true);
-    if (!Object.values(errors).length) {
+    if (
+      !Object.values(errors).length &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project')
+    ) {
       setIsActionModal(true);
     } else {
       setIsActionModal(false);
