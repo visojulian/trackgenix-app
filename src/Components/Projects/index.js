@@ -3,10 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProject, getProjects } from '../../redux/projects/thunks';
 import styles from './projects.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import Modal from '../Shared/Modal';
-import Spinner from '../Shared/Spinner/spinner';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
 const Projects = () => {
   const history = useHistory();

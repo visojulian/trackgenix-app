@@ -1,17 +1,41 @@
 import { useState, useEffect } from 'react';
-import Modal from '../../Shared/Modal';
-import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import Select from '../../Shared/Select';
-import TextInput from '../../Shared/TextInput/index';
 import { useHistory, useParams } from 'react-router-dom';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/time-sheets';
+import { useSelector, useDispatch } from 'react-redux';
+import styles from './form.module.css';
+import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeSheets/thunks';
+import { getEmployees } from '../../../redux/employees/thunks';
+import { getProjects } from '../../../redux/projects/thunks';
+import { getTasks } from '../../../redux/task/thunks';
+import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
+import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
 
 function Form() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const {
+    list: timesheets,
+    isLoading: loadingTimesheet,
+    error: timesheetError
+  } = useSelector((state) => state.timeSheets);
+  const {
+    list: tasks,
+    isLoading: loadingTasks,
+    error: taskError
+  } = useSelector((state) => state.tasks);
+  const {
+    list: employees,
+    isLoading: loadingEmployees,
+    error: employeeError
+  } = useSelector((state) => state.employees);
+  const {
+    list: projects,
+    isLoading: loadingProjects,
+    error: projectError
+  } = useSelector((state) => state.projects);
+  const [showModal, setShowModal] = useState(false);
+  const [isActionModal, setIsActionModal] = useState(false);
+  const [projectEmployees, setProjectEmployees] = useState();
   const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
     description: '',
     date: '',
@@ -20,31 +44,52 @@ function Form() {
     employee: '',
     project: ''
   });
-  const [isEditing, setIsEditing] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [employeesTotal, setEmployeesTotal] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [isActionModal, setIsActionModal] = useState(false);
-  const [serverError, setServerError] = useState();
+
+  const isEditing = Boolean(id);
+
+  useEffect(() => {
+    dispatch(getTasks());
+    dispatch(getEmployees());
+    dispatch(getProjects());
+    dispatch(getTimesheets());
+  }, []);
+
+  useEffect(() => {
+    if (timesheets.length > 0 && isEditing && projects.length > 0) {
+      const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
+      const selectedProject = projects.find(
+        (project) => project._id === currentTimeSheet.project._id
+      );
+      if (selectedProject) {
+        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
+        setProjectEmployees(projectEmployees);
+      }
+      setInputTimeSheetValue({
+        description: currentTimeSheet.description,
+        date: correctDate(currentTimeSheet.date),
+        hours: currentTimeSheet.hours,
+        task: currentTimeSheet.task['_id'],
+        employee: currentTimeSheet.employee['_id'],
+        project: currentTimeSheet.project['_id']
+      });
+    }
+  }, [id, isEditing, timesheets]);
 
   const onChangeInputValue = (e) => {
     setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
-
     if (e.target.name === 'project') {
       const selectedProject = projects.find((project) => project._id === e.target.value);
       const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      setEmployees(projectEmployees);
+      setProjectEmployees(projectEmployees);
     }
   };
 
   const getModalContent = () => {
-    if (serverError) {
+    if (timesheetError) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{serverError}</p>
+          <p>{timesheetError}</p>
         </div>
       );
     }
@@ -89,106 +134,45 @@ function Form() {
     }
   };
 
-  useEffect(async () => {
-    try {
-      const tasksResponse = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-        method: 'GET'
-      });
-      const tasks = await tasksResponse.json();
-      setTasks(tasks.data);
-      const employeesResponse = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        method: 'GET'
-      });
-      const employees = await employeesResponse.json();
-      setEmployeesTotal(employees.data);
-      const projectsResponse = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'GET'
-      });
-      const projects = await projectsResponse.json();
-      setProjects(projects.data);
-      if (id) {
-        const timeSheetResponse = await fetch(
-          `${process.env.REACT_APP_API_URL}/time-sheets/${id}`,
-          {
-            method: 'GET'
-          }
-        );
-        const timeSheet = await timeSheetResponse.json();
-        const selectedProject = projects.data.find(
-          (project) => project._id === timeSheet.data.project._id
-        );
-        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-        setEmployees(projectEmployees);
-        setIsEditing(true);
-        setInputTimeSheetValue({
-          description: timeSheet.data.description,
-          date: correctDate(timeSheet.data.date),
-          hours: timeSheet.data.hours,
-          task: timeSheet.data.task['_id'],
-          employee: timeSheet.data.employee['_id'],
-          project: timeSheet.data.project['_id']
-        });
-      }
-    } catch (error) {
-      setServerError(error);
-      setShowModal(true);
-    }
-  }, []);
-
   const correctDate = (date) => {
-    let dateFormated = date.substr(0, 10);
+    const dateFormated = date.substr(0, 10);
     return dateFormated;
   };
 
   const onSubmit = async () => {
+    const newTimesheet = {
+      description: inputTimeSheetValue.description,
+      date: inputTimeSheetValue.date,
+      hours: inputTimeSheetValue.hours,
+      task: inputTimeSheetValue.task,
+      employee: inputTimeSheetValue.employee,
+      project: inputTimeSheetValue.project
+    };
     if (!isEditing) {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: inputTimeSheetValue.description,
-          date: inputTimeSheetValue.date,
-          hours: inputTimeSheetValue.hours,
-          task: inputTimeSheetValue.task,
-          employee: inputTimeSheetValue.employee,
-          project: inputTimeSheetValue.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      const result = await dispatch(addTimesheet(newTimesheet));
+      if (result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
-      } else {
-        setServerError(content.message);
-        setShowModal(true);
       }
     } else {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: inputTimeSheetValue.description,
-          date: inputTimeSheetValue.date,
-          hours: inputTimeSheetValue.hours,
-          task: inputTimeSheetValue.task,
-          employee: inputTimeSheetValue.employee,
-          project: inputTimeSheetValue.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
+      const result = await dispatch(editTimesheet(newTimesheet, id));
+      if (result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
-      } else {
-        setServerError(content.message);
-        setShowModal(true);
       }
     }
   };
+
+  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects) {
+    return <Spinner isLoading={true} />;
+  }
+
+  if (timesheetError || taskError || projectError || employeeError) {
+    <Modal isOpen={true} handleClose={setShowModal} isActionModal={false}>
+      <div>
+        <h4>There was an error</h4>
+        <p>{timesheetError || taskError || projectError || employeeError}</p>
+      </div>
+    </Modal>;
+  }
 
   return (
     <div className={styles.container}>
@@ -197,7 +181,6 @@ function Form() {
         isOpen={showModal}
         handleClose={() => {
           setShowModal();
-          setServerError();
         }}
         isActionModal={isActionModal}
         action={onSubmit}
@@ -247,7 +230,7 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.task !== '' &&
-                tasks.find((task) => task._id === inputTimeSheetValue.task)._id
+                tasks.find((task) => task._id === inputTimeSheetValue.task)?._id
               }
             />
           </div>
@@ -264,28 +247,34 @@ function Form() {
               }))}
               value={
                 inputTimeSheetValue.project !== '' &&
-                projects.find((project) => project._id === inputTimeSheetValue.project)._id
+                projects.find((project) => project._id === inputTimeSheetValue.project)?._id
               }
             />
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            <Select
-              name="employee"
-              placeholder="Select an employee"
-              required
-              onSelect={onChangeInputValue}
-              data={employees.map((employee) => ({
-                id: employeesTotal.find((item) => item._id === employee)._id,
-                value: employeesTotal.find((item) => item._id === employee).name
-              }))}
-              value={
-                inputTimeSheetValue.employee !== '' &&
-                employees.map(
-                  (employee) => employeesTotal.find((item) => item._id === employee)._id
-                )
-              }
-            />
+            {projectEmployees ? (
+              <Select
+                name="employee"
+                placeholder="Select an employee"
+                required
+                onSelect={onChangeInputValue}
+                data={projectEmployees.map((employee) => ({
+                  id: employees.find((item) => item._id === employee)._id,
+                  value: employees.find((item) => item._id === employee).name
+                }))}
+                value={inputTimeSheetValue.employee}
+              />
+            ) : (
+              <Select
+                name="employee"
+                placeholder="Select a project first"
+                required
+                onSelect={onChangeInputValue}
+                data={['']}
+                value={inputTimeSheetValue.employee}
+              />
+            )}
           </div>
           <div className={styles.buttons}>
             <div>
@@ -307,5 +296,4 @@ function Form() {
     </div>
   );
 }
-
 export default Form;

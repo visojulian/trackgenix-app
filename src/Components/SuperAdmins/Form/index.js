@@ -1,5 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
 import {
   POST_SUPER_ADMIN_SUCCESS,
@@ -10,10 +11,6 @@ import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/super-admins';
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
 
 const Form = () => {
   const { id } = useParams();
