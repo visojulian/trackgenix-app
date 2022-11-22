@@ -1,22 +1,21 @@
 import Joi from 'joi';
 
-const employeeSchema = Joi.object({
-  employee: Joi.string().length(24).required().messages({
-    'string.required': 'Employee is required',
-    'string.empty': 'Employee cannot be empty',
-    'string.length': 'The ID of this employee is not valid.'
-  }),
-  role: Joi.string().required().valid().messages({
-    'string.required': 'Employee role is required',
-    'string.empty': 'Employee role cannot be empty',
-    'string.valid': 'The employee role must be DEV, PM, QA or TL'
-  }),
-  rate: Joi.number().required().positive().messages({
-    'number.required': 'Employee rate is required',
-    'number.empty': 'Employee rate cannot be empty',
-    'number.positive': 'Employee rate should be a positive number'
-  })
-});
+// const employeeSchema = Joi.object({
+//   employee: Joi.string().length(24).required().messages({
+//     'string.required': 'Employee is required',
+//     'string.empty': 'Employee cannot be empty',
+//     'string.length': 'The ID of this employee is not valid.'
+//   }),
+//   role: Joi.any().required().messages({
+//     'any.required': 'Employee role is required',
+//     'any.empty': 'Employee role cannot be empty'
+//   }),
+//   rate: Joi.number().required().positive().messages({
+//     'number.required': 'Employee rate is required',
+//     'number.empty': 'Employee rate cannot be empty',
+//     'number.positive': 'Employee rate should be a positive number'
+//   })
+// });
 
 export const schema = Joi.object({
   name: Joi.string().required().min(3).max(50).messages({
@@ -45,5 +44,18 @@ export const schema = Joi.object({
     'string.min': 'Client Name must have at least 3 characters',
     'string.max': 'Client Name cannot exceed 50 characters'
   }),
-  employees: Joi.array().items(employeeSchema)
+  employee: Joi.string().length(24).required().messages({
+    'string.required': 'Employee is required',
+    'string.empty': 'Employee cannot be empty',
+    'string.length': 'The ID of this employee is not valid.'
+  }),
+  role: Joi.any().required().messages({
+    'any.required': 'Employee role is required',
+    'any.empty': 'Employee role cannot be empty'
+  }),
+  rate: Joi.number().required().positive().messages({
+    'number.required': 'Employee rate is required',
+    'number.empty': 'Employee rate cannot be empty',
+    'number.positive': 'Employee rate should be a positive number'
+  })
 });

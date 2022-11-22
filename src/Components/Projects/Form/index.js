@@ -19,14 +19,14 @@ const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState();
+  // const [selectedEmployee, setSelectedEmployee] = useState();
   // const [nameValue, setNameValue] = useState();
   // const [descriptionValue, setDescriptionValue] = useState();
   // const [clientValue, setClientValue] = useState();
   // const [startDateValue, setStartDateValue] = useState();
   // const [endDateValue, setEndDateValue] = useState();
-  const [roleValue, setRoleValue] = useState();
-  const [rateValue, setRateValue] = useState();
+  // const [roleValue, setRoleValue] = useState();
+  // const [rateValue, setRateValue] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const roles = ['PM', 'QA', 'DEV', 'TL'];
@@ -38,6 +38,7 @@ const ProjectForm = () => {
     handleSubmit,
     register,
     getValues,
+    trigger,
     reset,
     formState: { errors }
   } = useForm({
@@ -71,6 +72,8 @@ const ProjectForm = () => {
           rate: item.rate
         };
       });
+      // console.log('employeeList', employeeList);
+      // console.log('currentProject', currentProject);
       reset({
         name: currentProject.name,
         description: currentProject.description,
@@ -93,8 +96,10 @@ const ProjectForm = () => {
           rate: employee.rate,
           _id: employee.employee
         });
+        // console.log('selectedEmployee', selectedEmployee);
       }
     });
+    // console.log('projectEmployees', projectEmployees);
     return headers;
   };
 
@@ -115,24 +120,24 @@ const ProjectForm = () => {
   // const onChangeEndDateInput = (event) => {
   //   setEndDateValue(event.target.value);
   // };
-  const onChangeRateInput = (event) => {
-    setRateValue(event.target.value);
-  };
-  const handleRoleChange = (event) => {
-    setRoleValue(event.target.value);
-  };
-  const handleEmployeeChange = (event) => {
-    setSelectedEmployee(event.target.value);
-  };
+  // const onChangeRateInput = (event) => {
+  //   setRateValue(event.target.value);
+  // };
+  // const handleRoleChange = (event) => {
+  //   setRoleValue(event.target.value);
+  // };
+  // const handleEmployeeChange = (event) => {
+  //   setSelectedEmployee(event.target.value);
+  // };
 
   const addEmployee = (e) => {
     e.preventDefault();
     setProjectEmployees([
       ...projectEmployees,
       {
-        employee: selectedEmployee,
-        rate: rateValue,
-        role: roleValue
+        employee: getValues('employee'),
+        rate: getValues('rate'),
+        role: getValues('role')
       }
     ]);
   };
@@ -146,6 +151,7 @@ const ProjectForm = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    trigger();
     if (!Object.values(errors).length) {
       setIsActionModal(true);
     } else {
@@ -265,10 +271,12 @@ const ProjectForm = () => {
             <div>
               <div className={styles.newEmployeeInputs}>
                 <Select
-                  name="employees"
+                  name="employee"
                   placeholder="Select an employee"
-                  required
-                  onSelect={handleEmployeeChange}
+                  // required
+                  // onSelect={handleEmployeeChange}
+                  register={register}
+                  error={errors.employee?.message}
                   data={employees.map((employee) => ({
                     id: employee._id,
                     value: employee.name
@@ -277,17 +285,21 @@ const ProjectForm = () => {
                 <Select
                   name="role"
                   placeholder="Select Role"
-                  required
-                  onSelect={handleRoleChange}
+                  // required
+                  // onSelect={handleRoleChange}
+                  register={register}
+                  error={errors.role?.message}
                   data={roles.map((role) => ({
                     value: role
                   }))}
                 />
-                <input
+                <TextInput
                   id="rate"
                   name="rate"
-                  value={rateValue}
-                  onChange={onChangeRateInput}
+                  // value={rateValue}
+                  // onChange={onChangeRateInput}
+                  register={register}
+                  error={errors.rate?.message}
                   type="text"
                   placeholder="Rate"
                 />
