@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
+import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
+import { getEmployees } from '../../../redux/employees/thunks';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/projects';
 import styles from './form.module.css';
 import Table from '../../Shared/Table';
 import Modal from '../../Shared/Modal';
@@ -8,25 +14,11 @@ import Button from '../../Shared/Button';
 import Select from '../../Shared/Select';
 import TextInput from '../../Shared/TextInput/index';
 import Spinner from '../../Shared/Spinner/spinner';
-import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
-import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
-import { getEmployees } from '../../../redux/employees/thunks';
-import { joiResolver } from '@hookform/resolvers/joi';
-import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/projects';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
-  // const [selectedEmployee, setSelectedEmployee] = useState();
-  // const [nameValue, setNameValue] = useState();
-  // const [descriptionValue, setDescriptionValue] = useState();
-  // const [clientValue, setClientValue] = useState();
-  // const [startDateValue, setStartDateValue] = useState();
-  // const [endDateValue, setEndDateValue] = useState();
-  // const [roleValue, setRoleValue] = useState();
-  // const [rateValue, setRateValue] = useState();
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const roles = ['PM', 'QA', 'DEV', 'TL'];
@@ -72,15 +64,13 @@ const ProjectForm = () => {
           rate: item.rate
         };
       });
-      // console.log('employeeList', employeeList);
-      // console.log('currentProject', currentProject);
+      setProjectEmployees(employeeList);
       reset({
         name: currentProject.name,
         description: currentProject.description,
         startDate: currentProject.startDate,
         endDate: currentProject.endDate,
-        clientName: currentProject.clientName,
-        setProjectEmployees: employeeList
+        clientName: currentProject.clientName
       });
     }
   }, [id, isEditing, projects]);
@@ -96,39 +86,12 @@ const ProjectForm = () => {
           rate: employee.rate,
           _id: employee.employee
         });
-        // console.log('selectedEmployee', selectedEmployee);
       }
     });
-    // console.log('projectEmployees', projectEmployees);
     return headers;
   };
 
   const onRowClick = () => {};
-
-  // const onChangeNameInput = (event) => {
-  //   setNameValue(event.target.value);
-  // };
-  // const onChangeDescriptionInput = (event) => {
-  //   setDescriptionValue(event.target.value);
-  // };
-  // const onChangeClientInput = (event) => {
-  //   setClientValue(event.target.value);
-  // };
-  // const onChangeStartDateInput = (event) => {
-  //   setStartDateValue(event.target.value);
-  // };
-  // const onChangeEndDateInput = (event) => {
-  //   setEndDateValue(event.target.value);
-  // };
-  // const onChangeRateInput = (event) => {
-  //   setRateValue(event.target.value);
-  // };
-  // const handleRoleChange = (event) => {
-  //   setRoleValue(event.target.value);
-  // };
-  // const handleEmployeeChange = (event) => {
-  //   setSelectedEmployee(event.target.value);
-  // };
 
   const addEmployee = (e) => {
     e.preventDefault();
@@ -273,8 +236,6 @@ const ProjectForm = () => {
                 <Select
                   name="employee"
                   placeholder="Select an employee"
-                  // required
-                  // onSelect={handleEmployeeChange}
                   register={register}
                   error={errors.employee?.message}
                   data={employees.map((employee) => ({
@@ -285,8 +246,6 @@ const ProjectForm = () => {
                 <Select
                   name="role"
                   placeholder="Select Role"
-                  // required
-                  // onSelect={handleRoleChange}
                   register={register}
                   error={errors.role?.message}
                   data={roles.map((role) => ({
@@ -296,8 +255,6 @@ const ProjectForm = () => {
                 <TextInput
                   id="rate"
                   name="rate"
-                  // value={rateValue}
-                  // onChange={onChangeRateInput}
                   register={register}
                   error={errors.rate?.message}
                   type="text"
