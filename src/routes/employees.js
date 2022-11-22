@@ -1,18 +1,27 @@
+import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
 const Employees = lazy(() => import('Components/Employees'));
 const EmployeesForm = lazy(() => import('Components/Employees/Form'));
 const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 
-const employees = () => {
+const routes = [
+  { name: 'home', path: '/employees' },
+  { name: 'timesheets', path: '/employees/timesheets/:id' }
+];
+const EmployeesRouter = () => {
+  const { url } = useRouteMatch();
   return (
-    <Switch>
-      <Route exact path="/employees" component={Employees} />
-      <Route exact path="/employees/form" component={EmployeesForm} />
-      <Route path="/employees/form/:id" component={EmployeesForm} />
-      <Route path="/employees/timesheets/:id" component={Timesheets} />
-    </Switch>
+    <Layout routes={routes}>
+      <Switch>
+        <Route exact path={`${url}/`} component={Employees} />
+        <Route exact path={`${url}/form`} component={EmployeesForm} />
+        <Route path={`${url}/form/:id`} component={EmployeesForm} />
+        <Route path={`${url}/timesheets/:id`} component={Timesheets} />
+      </Switch>
+    </Layout>
   );
 };
 
-export default employees;
+export default EmployeesRouter;
