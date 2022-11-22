@@ -54,8 +54,8 @@ const Form = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setShowModal(true);
     trigger();
+    setShowModal(true);
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -110,6 +110,8 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
+    delete data.repeatEmail;
+    delete data.repeatPassword;
     if (!isEditing) {
       const res = await dispatch(postSuperAdmin(data));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
