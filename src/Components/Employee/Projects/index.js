@@ -69,26 +69,24 @@ const Projects = () => {
     return <Spinner isLoading={isLoading} />;
   }
   return (
-    <>
-      <div className={styles.container}>
-        <h1>Projects</h1>
-        <Table
-          data={tableData}
-          headers={headers}
-          values={values}
-          onDelete={() => {}}
-          onRowClick={() => {}}
-        />
-        <Button
-          text="Go Back"
-          type="button"
-          variant="secondary"
-          onClick={() => {
-            history.goBack();
-          }}
-        />
-      </div>
-    </>
+    <div className={styles.container}>
+      <h1>Projects</h1>
+      <Table
+        data={tableData}
+        headers={headers}
+        values={values}
+        onDelete={() => {}}
+        onRowClick={() => {}}
+      />
+      <Button
+        text="Go Back"
+        type="button"
+        variant="secondary"
+        onClick={() => {
+          history.goBack();
+        }}
+      />
+    </div>
   );
 };
 
