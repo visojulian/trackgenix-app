@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
-import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
+import { putEmployee, getEmployees } from '../../../redux/employees/thunks';
+import { PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
+import styles from './employee.module.css';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/employees';
-import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
-import styles from './form.module.css';
 
-const Form = () => {
+const EditEmployee = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const [reveal, setReveal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
 
@@ -22,7 +21,6 @@ const Form = () => {
     handleSubmit,
     register,
     getValues,
-    trigger,
     reset,
     formState: { errors }
   } = useForm({
@@ -30,16 +28,23 @@ const Form = () => {
     resolver: joiResolver(schema)
   });
 
+  const revealFunc = () => {
+    setReveal(reveal ? false : true);
+  };
+
   const {
     list: employees,
-    isLoading: loading,
+    isLoading,
     error: employeeError
   } = useSelector((state) => state.employees);
 
   useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
+
+  useEffect(() => {
     if (employees.length > 0 && id) {
       const currentEmployee = employees.find((employee) => employee._id === id);
-      setIsEditing(true);
       reset({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
@@ -55,14 +60,12 @@ const Form = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    trigger();
     if (
       getValues('name') &&
       getValues('lastName') &&
-      getValues('phone') &&
       getValues('email') &&
-      getValues('password') &&
-      !Object.values(errors).length
+      getValues('phone') &&
+      getValues('password')
     ) {
       setIsActionModal(true);
     }
@@ -82,24 +85,14 @@ const Form = () => {
       getValues('lastName') &&
       getValues('phone') &&
       getValues('email') &&
-      getValues('password') &&
-      !Object.values(errors).length
+      getValues('password')
     ) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Employee</h4>
+          <h4>Edit Employee</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
-            {getValues('lastName')} {isEditing ? 'changes' : ''}?
+            Are you sure you want to edit {getValues('name')} {getValues('lastName')}?
           </p>
-        </div>
-      );
-    }
-    if (Object.values(errors).length) {
-      return (
-        <div>
-          <h4>Form fields have errors</h4>
-          <p>Please make sure to amend all errors before submit.</p>
         </div>
       );
     }
@@ -112,38 +105,23 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
-    if (!isEditing) {
-      const res = await dispatch(
-        postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
-      );
-      if (res.type === POST_EMPLOYEE_SUCCESS) {
-        history.goBack();
-      } else {
-        setShowModal(true);
-      }
+    const res = await dispatch(
+      putEmployee(data.name, data.lastName, data.phone, data.email, data.password, id)
+    );
+    if (res.type === PUT_EMPLOYEE_SUCCESS) {
+      history.push(`/employees/employee-profile/${id}`);
     } else {
-      const res = await dispatch(
-        putEmployee(data.name, data.lastName, data.phone, data.email, data.password, id)
-      );
-      if (res.type === PUT_EMPLOYEE_SUCCESS) {
-        history.goBack();
-      } else {
-        setShowModal(true);
-      }
+      setShowModal(true);
     }
   };
 
-  const revealPassword = () => {
-    setReveal(reveal ? false : true);
-  };
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
   }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{isEditing ? 'Edit employee' : 'Add employee'}</h1>
+      <h1 className={styles.title}>Edit employee</h1>
       <form className={styles.form} onSubmit={onSubmit}>
         <TextInput
           label="Name"
@@ -182,40 +160,30 @@ const Form = () => {
           error={errors.email?.message}
         />
         <TextInput
-          label="Repeat Email"
+          label="Repeat email"
           id="repeatEmail"
           name="repeatEmail"
-          register={register}
           type="text"
           placeholder="Repeat Email"
+          register={register}
           error={errors.repeatEmail?.message}
         />
-        <div className={styles.revealPassword}>
-          <TextInput
-            label="Password"
-            id="password"
-            name="password"
-            register={register}
-            type={reveal ? 'text' : 'password'}
-            placeholder="Password"
-            error={errors.password?.message}
-          />
-          <div className={styles.revealButton}>
-            <Button
-              text={reveal ? 'Hide password' : 'Reveal password'}
-              type="button"
-              variant="secondary"
-              onClick={revealPassword}
-            />
-          </div>
-        </div>
+        <TextInput
+          label="Password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          type={reveal ? 'text' : 'password'}
+          register={register}
+          error={errors.password?.message}
+        />
         <TextInput
           label="Repeat Password"
           id="repeatPassword"
           name="repeatPassword"
-          register={register}
           type={reveal ? 'text' : 'password'}
           placeholder="Repeat Password"
+          register={register}
           error={errors.repeatPassword?.message}
         />
         <div className={styles.butCont}>
@@ -228,6 +196,12 @@ const Form = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
+          <Button
+            text={reveal ? 'Hide password' : 'Reveal password'}
+            type="button"
+            variant="secondary"
+            onClick={revealFunc}
+          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
@@ -244,4 +218,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default EditEmployee;

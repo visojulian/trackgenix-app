@@ -1,16 +1,22 @@
+import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
 const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
 
-const admins = () => {
+const routes = [{ name: 'home', path: '/admins' }];
+const AdminsRouter = () => {
+  const { url } = useRouteMatch();
   return (
-    <Switch>
-      <Route exact path="/admins" component={Admins} />
-      <Route exact path="/admins/form" component={AdminForm} />
-      <Route path="/admins/form/:id" component={AdminForm} />
-    </Switch>
+    <Layout routes={routes}>
+      <Switch>
+        <Route exact path={`${url}/`} component={Admins} />
+        <Route exact path={`${url}/form`} component={AdminForm} />
+        <Route path={`${url}/form/:id`} component={AdminForm} />
+      </Switch>
+    </Layout>
   );
 };
 
-export default admins;
+export default AdminsRouter;
