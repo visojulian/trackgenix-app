@@ -1,6 +1,26 @@
+.box {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 80%;
+  padding-left: 40px;
+}
+
 select {
   box-sizing: border-box;
   display: block;
   padding: 1%;
-  width: 75%;
+  padding-left: 100px;
+  margin-bottom: 5px;
+  width: 100%;
+  border-style: none;
+  border: 1px solid #373867;
+  border-radius: 4px;
+}
+
+.error {
+  color: orange;
+  margin: 0px 0px 10px 0px;
+  font-size: 15px;
 }
