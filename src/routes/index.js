@@ -6,6 +6,7 @@ const SuperAdminsRouter = lazy(() => import('./superAdmins'));
 const EmployeeRouter = lazy(() => import('./employees'));
 const TimeSheetsRouter = lazy(() => import('./timeSheets'));
 const ProjectsRouter = lazy(() => import('./projects'));
+const TasksRouter = lazy(() => import('./tasks'));
 
 const HomeRouter = lazy(() => import('./home'));
 
@@ -19,6 +20,7 @@ const Routes = () => {
           <Route path="/employees" component={EmployeeRouter} />
           <Route path="/time-sheets" component={TimeSheetsRouter} />
           <Route path="/projects" component={ProjectsRouter} />
+          <Route path="/tasks" component={TasksRouter} />
           <Route path="/home" component={HomeRouter}></Route>
           <Redirect to="/home"></Redirect>
         </Switch>
