@@ -2,10 +2,10 @@ import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
-const Projects = lazy(() => import('Components/Projects'));
-const ProjectsForm = lazy(() => import('Components/Projects/ProjectsForm'));
+const Projects = lazy(() => import('Components/Projects/index'));
+const ProjectsForm = lazy(() => import('Components/Projects/Form/index'));
 
-const routes = [{ name: 'Projects', path: '/projects' }];
+const routes = [{ name: 'projects', path: '/projects' }];
 const ProjectsRouter = () => {
   const { url } = useRouteMatch();
   return (
