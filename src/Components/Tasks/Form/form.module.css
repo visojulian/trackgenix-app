@@ -21,7 +21,7 @@ h1 {
 
 .buttonsFlexBox {
   display: flex;
-  width: 290px;
+  width: 90%;
   justify-content: space-between;
   margin-top: 15px;
   margin-bottom: 20px;
