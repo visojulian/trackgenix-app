@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects, postProject, putProject } from '../../../redux/projects/thunks';
-import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from '../../../redux/projects/constants';
-import { getEmployees } from '../../../redux/employees/thunks';
+import { getProjects, postProject, putProject } from 'redux/projects/thunks';
+import { POST_PROJECT_SUCCESS, PUT_PROJECT_SUCCESS } from 'redux/projects/constants';
+import { getEmployees } from 'redux/employees/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/projects';
+import { schema } from 'validations/projects';
 import { Button, Modal, Select, Spinner, Table, TextInput } from 'Components/Shared';
 import styles from './form.module.css';
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimesheets, deleteTimesheet } from '../../redux/timeSheets/thunks';
+import { getTimesheets, deleteTimesheet } from 'redux/timeSheets/thunks';
 import styles from './list.module.css';
 import { Button, Modal, Table, Spinner } from 'Components/Shared';
 

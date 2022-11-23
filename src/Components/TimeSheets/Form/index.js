@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
-import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeSheets/thunks';
-import { getEmployees } from '../../../redux/employees/thunks';
-import { getProjects } from '../../../redux/projects/thunks';
-import { getTasks } from '../../../redux/task/thunks';
+import { addTimesheet, editTimesheet, getTimesheets } from 'redux/timeSheets/thunks';
+import { getEmployees } from 'redux/employees/thunks';
+import { getProjects } from 'redux/projects/thunks';
+import { getTasks } from 'redux/task/thunks';
 import { Button, Modal, Spinner, TextInput, Select } from 'Components/Shared';
-import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
+import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from 'redux/timeSheets/constants';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/time-sheets';
+import { schema } from 'validations/time-sheets';
 
 function Form() {
   const dispatch = useDispatch();

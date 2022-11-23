@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
 import styles from './employees.module.css';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 

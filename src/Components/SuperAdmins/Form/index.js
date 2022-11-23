@@ -3,14 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import styles from './form.module.css';
-import { postSuperAdmin, putSuperAdmin } from '../../../redux/superAdmins/thunks';
-import {
-  POST_SUPER_ADMIN_SUCCESS,
-  PUT_SUPER_ADMIN_SUCCESS
-} from '../../../redux/superAdmins/constants';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/super-admins';
+import { postSuperAdmin, putSuperAdmin } from 'redux/superAdmins/thunks';
+import { POST_SUPER_ADMIN_SUCCESS, PUT_SUPER_ADMIN_SUCCESS } from 'redux/superAdmins/constants';
 
 const Form = () => {
   const { id } = useParams();
