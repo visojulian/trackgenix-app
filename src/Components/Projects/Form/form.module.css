@@ -49,8 +49,8 @@
 }
 
 .listContainer {
-  margin-bottom: 30px;
-  width: 100%;
+  margin: 0 auto 30px auto;
+  width: 90%;
   border: 1px solid #000000;
   padding: 1%;
 }
@@ -82,12 +82,17 @@
   background-color: #373867;
 }
 
+.employeeList table th{
+  max-width: 900px;
+}
+
 .table {
   width: 60%;
   margin: 30px auto 20px auto;
   border: 1px solid #DFE4DE;
   border-radius: 5px;
   border-collapse: collapse;
+  overflow: hidden;
 }
 
 .table th {

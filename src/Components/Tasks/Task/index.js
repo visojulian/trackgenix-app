@@ -1,4 +1,4 @@
-import Button from '../../Shared/Button';
+import { Button } from 'Components/Shared';
 
 const Task = ({ task, setShowModal, setTaskId, onClickTask }) => {
   return (

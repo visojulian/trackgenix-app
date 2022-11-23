@@ -1,7 +1,7 @@
 import styles from './footer.module.css';
 import { Link, withRouter } from 'react-router-dom';
 
-function Footer() {
+function Footer(props) {
   return (
     <footer className={styles.container}>
       <div className={styles.main}>
@@ -9,24 +9,11 @@ function Footer() {
           Track<span>GENIX</span>
         </div>
         <ul className={styles.rutes}>
-          <li>
-            <Link to="/admins">admins</Link>
-          </li>
-          <li>
-            <Link to="/super-admins">super admins</Link>
-          </li>
-          <li>
-            <Link to="/employees">employees</Link>
-          </li>
-          <li>
-            <Link to="/projects">projects</Link>
-          </li>
-          <li>
-            <Link to="/time-sheets">timesheets</Link>
-          </li>
-          <li>
-            <Link to="/tasks">tasks</Link>
-          </li>
+          {props.routes.map((route) => (
+            <li key={route.name}>
+              <Link to={route.path}>{route.name}</Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles.license}>
