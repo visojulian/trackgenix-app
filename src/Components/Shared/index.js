@@ -23,13 +23,13 @@ const Modal = ({ children, isOpen, handleClose, isActionModal, action, actionBut
   );
 };
 
-const Select = ({ name, onSelect, placeholder, data }) => {
+const Select = ({ name, placeholder, data, register, error }) => {
   return (
     <SelectComponent
       name={name}
       placeholder={placeholder}
-      required
-      onSelect={onSelect}
+      register={register}
+      error={error}
       data={data}
     />
   );
@@ -57,10 +57,10 @@ const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
       label={label}
       id={id}
       name={name}
-      register={register}
-      error={error}
       type={type}
       placeholder={placeholder}
+      register={register}
+      error={error}
     />
   );
 };

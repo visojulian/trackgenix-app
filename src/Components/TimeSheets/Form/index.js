@@ -6,8 +6,11 @@ import { addTimesheet, editTimesheet, getTimesheets } from '../../../redux/timeS
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getProjects } from '../../../redux/projects/thunks';
 import { getTasks } from '../../../redux/task/thunks';
-import { Modal, Button, Select, Spinner, TextInput } from 'Components/Shared';
+import { Button, Modal, Spinner, TextInput, Select } from 'Components/Shared';
 import { POST_TIMESHEET_SUCCESS, PUT_TIMESHEET_SUCCESS } from '../../../redux/timeSheets/constants';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/time-sheets';
 
 function Form() {
   const dispatch = useDispatch();
@@ -35,16 +38,22 @@ function Form() {
   } = useSelector((state) => state.projects);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const [projectEmployees, setProjectEmployees] = useState();
-  const [inputTimeSheetValue, setInputTimeSheetValue] = useState({
-    description: '',
-    date: '',
-    hours: '',
-    task: '',
-    employee: '',
-    project: ''
+  const {
+    handleSubmit,
+    register,
+    watch,
+    reset,
+    trigger,
+    getValues,
+    resetField,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
   });
-
+  const selectedProjectId = watch('project');
+  const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
+  const currentProject = projects.find((project) => project._id === selectedProjectId);
   const isEditing = Boolean(id);
 
   useEffect(() => {
@@ -55,34 +64,23 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    if (timesheets.length > 0 && isEditing && projects.length > 0) {
-      const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
-      const selectedProject = projects.find(
-        (project) => project._id === currentTimeSheet.project._id
-      );
-      if (selectedProject) {
-        const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-        setProjectEmployees(projectEmployees);
-      }
-      setInputTimeSheetValue({
+    if (currentTimeSheet) {
+      reset({
         description: currentTimeSheet.description,
         date: correctDate(currentTimeSheet.date),
         hours: currentTimeSheet.hours,
-        task: currentTimeSheet.task['_id'],
-        employee: currentTimeSheet.employee['_id'],
-        project: currentTimeSheet.project['_id']
+        task: currentTimeSheet.task._id,
+        employee: currentTimeSheet.employee._id,
+        project: currentTimeSheet.project._id
       });
     }
-  }, [id, isEditing, timesheets]);
+  }, [currentTimeSheet]);
 
-  const onChangeInputValue = (e) => {
-    setInputTimeSheetValue({ ...inputTimeSheetValue, [e.target.name]: e.target.value });
-    if (e.target.name === 'project') {
-      const selectedProject = projects.find((project) => project._id === e.target.value);
-      const projectEmployees = selectedProject.employees.map((employee) => employee.employee);
-      setProjectEmployees(projectEmployees);
+  useEffect(() => {
+    if (currentTimeSheet?.project !== selectedProjectId) {
+      resetField('employee');
     }
-  };
+  }, [currentTimeSheet, selectedProjectId]);
 
   const getModalContent = () => {
     if (timesheetError) {
@@ -94,12 +92,13 @@ function Form() {
       );
     }
     if (
-      inputTimeSheetValue.description &&
-      inputTimeSheetValue.date &&
-      inputTimeSheetValue.hours &&
-      inputTimeSheetValue.task &&
-      inputTimeSheetValue.employee &&
-      inputTimeSheetValue.project
+      !Object.values(errors).length &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project')
     ) {
       return (
         <div>
@@ -113,24 +112,28 @@ function Form() {
     }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
+        <h4>Form fields have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
+    trigger();
     setShowModal(true);
     if (
-      inputTimeSheetValue.description &&
-      inputTimeSheetValue.date &&
-      inputTimeSheetValue.hours &&
-      inputTimeSheetValue.task &&
-      inputTimeSheetValue.employee &&
-      inputTimeSheetValue.project
+      !Object.values(errors).length &&
+      getValues('description') &&
+      getValues('date') &&
+      getValues('hours') &&
+      getValues('task') &&
+      getValues('employee') &&
+      getValues('project')
     ) {
       setIsActionModal(true);
+    } else {
+      setIsActionModal(false);
     }
   };
 
@@ -139,22 +142,14 @@ function Form() {
     return dateFormated;
   };
 
-  const onSubmit = async () => {
-    const newTimesheet = {
-      description: inputTimeSheetValue.description,
-      date: inputTimeSheetValue.date,
-      hours: inputTimeSheetValue.hours,
-      task: inputTimeSheetValue.task,
-      employee: inputTimeSheetValue.employee,
-      project: inputTimeSheetValue.project
-    };
+  const onSubmit = async (data) => {
     if (!isEditing) {
-      const result = await dispatch(addTimesheet(newTimesheet));
+      const result = await dispatch(addTimesheet(data));
       if (result.type === POST_TIMESHEET_SUCCESS) {
         history.goBack();
       }
     } else {
-      const result = await dispatch(editTimesheet(newTimesheet, id));
+      const result = await dispatch(editTimesheet(data, id));
       if (result.type === PUT_TIMESHEET_SUCCESS) {
         history.goBack();
       }
@@ -183,7 +178,7 @@ function Form() {
           setShowModal();
         }}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
@@ -194,8 +189,8 @@ function Form() {
             label="Time Sheet description"
             id="description"
             name="description"
-            value={inputTimeSheetValue.description}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.description?.message}
             type="text"
             placeholder="Time Sheet Description"
           />
@@ -203,8 +198,8 @@ function Form() {
             label="Date"
             id="date"
             name="date"
-            value={inputTimeSheetValue.date}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.date?.message}
             type="date"
             placeholder="Date"
           />
@@ -212,8 +207,8 @@ function Form() {
             label="Hours"
             id="hours"
             name="hours"
-            value={inputTimeSheetValue.hours}
-            onChange={onChangeInputValue}
+            register={register}
+            error={errors.hours?.message}
             type="number"
             placeholder="Hours spend in the taks"
           />
@@ -222,16 +217,12 @@ function Form() {
             <Select
               name="task"
               placeholder="Select a task"
-              required
-              onSelect={onChangeInputValue}
+              register={register}
+              error={errors.task?.message}
               data={tasks.map((task) => ({
                 id: task._id,
                 value: task.description
               }))}
-              value={
-                inputTimeSheetValue.task !== '' &&
-                tasks.find((task) => task._id === inputTimeSheetValue.task)?._id
-              }
             />
           </div>
           <div className={styles.box}>
@@ -239,42 +230,33 @@ function Form() {
             <Select
               name="project"
               placeholder="Select a project"
-              required
-              onSelect={onChangeInputValue}
+              register={register}
+              error={errors.project?.message}
               data={projects.map((project) => ({
                 id: project._id,
                 value: project.name
               }))}
-              value={
-                inputTimeSheetValue.project !== '' &&
-                projects.find((project) => project._id === inputTimeSheetValue.project)?._id
-              }
             />
           </div>
           <div className={styles.box}>
             <label>Employee</label>
-            {projectEmployees ? (
-              <Select
-                name="employee"
-                placeholder="Select an employee"
-                required
-                onSelect={onChangeInputValue}
-                data={projectEmployees.map((employee) => ({
-                  id: employees.find((item) => item._id === employee)._id,
-                  value: employees.find((item) => item._id === employee).name
-                }))}
-                value={inputTimeSheetValue.employee}
-              />
-            ) : (
-              <Select
-                name="employee"
-                placeholder="Select a project first"
-                required
-                onSelect={onChangeInputValue}
-                data={['']}
-                value={inputTimeSheetValue.employee}
-              />
-            )}
+            <Select
+              name="employee"
+              placeholder="Select an employee"
+              register={register}
+              error={errors.employee?.message}
+              data={
+                currentProject
+                  ? currentProject.employees.map(({ employee }) => {
+                      const currentEmployee = employees.find((item) => item._id === employee);
+                      return {
+                        id: currentEmployee._id,
+                        value: currentEmployee.name
+                      };
+                    })
+                  : []
+              }
+            />
           </div>
           <div className={styles.buttons}>
             <div>
@@ -288,7 +270,7 @@ function Form() {
               />
             </div>
             <div>
-              <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+              <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
             </div>
           </div>
         </div>

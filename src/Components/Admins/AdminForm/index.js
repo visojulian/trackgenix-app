@@ -1,45 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import styles from './adminForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
 import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/constants';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { schema } from '../../../validations/admins';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
-
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import { useForm } from 'react-hook-form';
-// import { schema } from '../../../validations/admins';
+import styles from './adminForm.module.css';
 
 const AdminForm = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [edit, setEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const { list: admins, isLoading, error } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const onChangeLastName = (e) => {
-    setLastName(e.target.value);
-  };
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    reset,
+    trigger,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    if (name && lastName && email && password) {
+    trigger();
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('password') &&
+      !Object.values(errors).length
+    ) {
       setIsActionModal(true);
     }
   };
@@ -53,58 +55,70 @@ const AdminForm = () => {
         </div>
       );
     }
-    if (name && lastName && email && password) {
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('password') &&
+      !Object.values(errors).length
+    ) {
       return (
         <div>
-          <h4>{edit ? 'Edit' : 'Add'} New Admin</h4>
+          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
           <p>
-            Are you sure you want to {edit ? 'save' : 'add'} {name} {lastName}{' '}
-            {edit ? 'changes' : 'as Admin'}?
+            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
+            {getValues('lastName')} {isEditing ? 'changes' : 'as Admin'}?
           </p>
         </div>
       );
     }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
+        <h4>Form fields have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
 
-  useEffect(async () => {
-    try {
-      if (id) {
-        setEdit(true);
-        const currentAdmin = admins.find((item) => item._id === id);
-        setName(currentAdmin.name);
-        setLastName(currentAdmin.lastName);
-        setEmail(currentAdmin.email);
-        setPassword(currentAdmin.password);
-      } else {
-        setEdit(false);
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      const currentAdmin = admins.find((item) => item._id === id);
+      reset({
+        name: currentAdmin.name,
+        lastName: currentAdmin.lastName,
+        email: currentAdmin.email,
+        repeatEmail: currentAdmin.email,
+        password: currentAdmin.password,
+        repeatPassword: currentAdmin.password
+      });
     }
   }, []);
 
-  const onSubmit = async () => {
-    if (!edit) {
-      const reponse = await dispatch(postAdmin(name, lastName, email, password));
+  const onSubmit = async (data) => {
+    if (!isEditing) {
+      const reponse = await dispatch(
+        postAdmin(data.name, data.lastName, data.email, data.password)
+      );
       if (reponse.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const reponse = await dispatch(putAdmin(name, lastName, email, password, id));
+      const reponse = await dispatch(
+        putAdmin(data.name, data.lastName, data.email, data.password, id)
+      );
       if (reponse.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     }
+  };
+
+  const showPassword = () => {
+    setReveal(reveal ? false : true);
   };
 
   if (isLoading) {
@@ -121,43 +135,71 @@ const AdminForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1>{edit ? 'Edit Admin' : 'Create new Admin'}</h1>
+      <h1>{isEditing ? 'Edit Admin' : 'Create new Admin'}</h1>
       <form onSubmit={onSubmit} className={styles.form}>
         <TextInput
           label="Name"
           id="name"
           name="name"
-          value={name}
-          onChange={onChangeName}
+          register={register}
           type="text"
           placeholder="Name"
+          error={errors.name?.message}
         />
         <TextInput
           label="Last Name"
           id="lastName"
           name="lastName"
-          value={lastName}
-          onChange={onChangeLastName}
+          register={register}
           type="text"
           placeholder="Last Name"
+          error={errors.lastName?.message}
         />
         <TextInput
           label="Email"
           id="email"
           name="email"
-          value={email}
-          onChange={onChangeEmail}
+          register={register}
           type="text"
           placeholder="Email"
+          error={errors.email?.message}
         />
         <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={onChangePassword}
+          label="Repeat Email"
+          id="repeatEmail"
+          name="repeatEmail"
+          register={register}
           type="text"
-          placeholder="Password"
+          placeholder="Repeat Email"
+          error={errors.repeatEmail?.message}
+        />
+        <div className={styles.passwordDiv}>
+          <TextInput
+            label="Password"
+            id="password"
+            name="password"
+            register={register}
+            type={reveal ? 'text' : 'password'}
+            placeholder="Password"
+            error={errors.password?.message}
+          />
+          <div className={styles.revealButton}>
+            <Button
+              text={reveal ? 'Hide password' : 'Reveal password'}
+              type="button"
+              variant="secondary"
+              onClick={showPassword}
+            />
+          </div>
+        </div>
+        <TextInput
+          label="Repeat Password"
+          id="repeatPassword"
+          name="repeatPassword"
+          register={register}
+          type={reveal ? 'text' : 'password'}
+          placeholder="Repeat Password"
+          error={errors.repeatPassword?.message}
         />
         <div className={styles.butCont}>
           <Button
@@ -168,6 +210,7 @@ const AdminForm = () => {
               history.goBack();
             }}
           />
+          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
@@ -175,7 +218,7 @@ const AdminForm = () => {
         isOpen={showModal}
         handleClose={setShowModal}
         isActionModal={isActionModal}
-        action={onSubmit}
+        action={handleSubmit(onSubmit)}
         actionButton="Submit"
       >
         {getModalContent()}
