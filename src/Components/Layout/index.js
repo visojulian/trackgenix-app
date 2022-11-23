@@ -1,32 +1,17 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { Spinner } from 'Components/Shared';
+import { lazy } from 'react';
 import styles from './layout.module.css';
 
 const Header = lazy(() => import('Components/Header'));
 const Footer = lazy(() => import('Components/Footer'));
-const Home = lazy(() => import('Components/Home'));
-const admins = lazy(() => import('routes/admins'));
-const superAdmins = lazy(() => import('routes/superAdmins'));
-const employees = lazy(() => import('routes/employees'));
 
-const Layout = () => {
+const Layout = (props) => {
   return (
-    <Router>
-      <Suspense fallback={<Spinner isLoading={true} />}>
-        <div className={styles.container}>
-          <Header />
-          <Switch>
-            <Route path="/admins" component={admins} />
-            <Route path="/super-admins" component={superAdmins} />
-            <Route path="/employees" component={employees} />
-            <Route exact path="/" component={Home} />
-            <Redirect to="/home" />
-          </Switch>
-          <Footer />
-        </div>
-      </Suspense>
-    </Router>
+    <div className={styles.container}>
+      <Header routes={props.routes} />
+      <div>{props.children}</div>
+      <Footer routes={props.routes} />
+    </div>
   );
 };
+
 export default Layout;
