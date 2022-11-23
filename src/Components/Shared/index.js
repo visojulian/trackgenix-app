@@ -57,10 +57,10 @@ const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
       label={label}
       id={id}
       name={name}
-      register={register}
-      error={error}
       type={type}
       placeholder={placeholder}
+      register={register}
+      error={error}
     />
   );
 };
