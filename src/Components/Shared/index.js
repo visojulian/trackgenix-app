@@ -23,15 +23,14 @@ const Modal = ({ children, isOpen, handleClose, isActionModal, action, actionBut
   );
 };
 
-const Select = ({ name, onSelect, placeholder, data, value }) => {
+const Select = ({ name, placeholder, data, register, error }) => {
   return (
     <SelectComponent
       name={name}
       placeholder={placeholder}
-      required
-      onSelect={onSelect}
+      register={register}
+      error={error}
       data={data}
-      value={value}
     />
   );
 };
@@ -52,16 +51,16 @@ const Table = ({ data, headers, values, onDelete, onRowClick }) => {
   );
 };
 
-const TextInput = ({ label, id, name, value, onChange, type, placeholder }) => {
+const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
   return (
     <TextInputComponent
       label={label}
       id={id}
       name={name}
-      value={value}
-      onChange={onChange}
       type={type}
       placeholder={placeholder}
+      register={register}
+      error={error}
     />
   );
 };
