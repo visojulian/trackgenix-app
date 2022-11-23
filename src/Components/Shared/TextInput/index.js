@@ -11,7 +11,6 @@ const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
         className={styles.input}
         type={type}
         placeholder={placeholder}
-        required
       />
       {error && <p className={styles.error}>{error}</p>}
     </div>

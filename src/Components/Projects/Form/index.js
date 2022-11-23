@@ -7,13 +7,8 @@ import { getEmployees } from '../../../redux/employees/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/projects';
+import { Button, Modal, Select, Spinner, Table, TextInput } from 'Components/Shared';
 import styles from './form.module.css';
-import Table from '../../Shared/Table';
-import Modal from '../../Shared/Modal';
-import Button from '../../Shared/Button';
-import Select from '../../Shared/Select';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
 
 const ProjectForm = () => {
   const { id } = useParams();
