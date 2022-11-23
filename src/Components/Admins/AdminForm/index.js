@@ -6,11 +6,8 @@ import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from '../../../redux/admins/con
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from '../../../validations/admins';
-import Button from '../../Shared/Button';
-import Modal from '../../Shared/Modal';
+import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import styles from './adminForm.module.css';
-import TextInput from '../../Shared/TextInput/index';
-import Spinner from '../../Shared/Spinner/spinner';
 
 const AdminForm = () => {
   const { id } = useParams();
@@ -75,18 +72,10 @@ const AdminForm = () => {
         </div>
       );
     }
-    if (Object.values(errors).length) {
-      return (
-        <div>
-          <h4>Form fields have errors</h4>
-          <p>Please make sure to amend all errors before submit.</p>
-        </div>
-      );
-    }
     return (
       <div>
-        <h4>Form incomplete</h4>
-        <p>Please make sure to fill all fields before submit.</p>
+        <h4>Form fields have errors</h4>
+        <p>Please make sure to amend all errors before submit.</p>
       </div>
     );
   };
