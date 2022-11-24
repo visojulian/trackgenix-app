@@ -86,6 +86,7 @@ const TimeSheets = () => {
     );
   } else {
     dispatch(getTimesheets());
+    return null;
   }
 };
 
