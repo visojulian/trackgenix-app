@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProject, getProjects } from '../../redux/projects/thunks';
+import { deleteProject, getProjects } from 'redux/projects/thunks';
 import styles from './projects.module.css';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 

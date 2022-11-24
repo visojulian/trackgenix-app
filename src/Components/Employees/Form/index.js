@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postEmployee, putEmployee } from '../../../redux/employees/thunks';
-import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
+import { postEmployee, putEmployee } from 'redux/employees/thunks';
+import { POST_EMPLOYEE_SUCCESS, PUT_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/employees';
+import { schema } from 'validations/employees';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import styles from './form.module.css';
 

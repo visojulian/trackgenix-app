@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees, deleteEmployee } from '../../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
-// import {} from '../../../redux/employees/constants';
-// import { getProjects } from 'redux/projects/thunks';
 
 const EmployeeProfile = () => {
   const history = useHistory();

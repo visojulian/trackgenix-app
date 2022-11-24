@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { putEmployee, getEmployees } from '../../../redux/employees/thunks';
-import { PUT_EMPLOYEE_SUCCESS } from '../../../redux/employees/constants';
+import { putEmployee, getEmployees } from 'redux/employees/thunks';
+import { PUT_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
 import styles from './employee.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/employees';
+import { schema } from 'validations/employees';
 
 const EditEmployee = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
-import DeleteImg from '../assets/trash.png';
-import Button from '../../Shared/Button';
+import DeleteImg from 'assets/trash.png';
+import Button from 'Shared/Button';
 import { useHistory } from 'react-router-dom';
 
 const EmployeesList = (props) => {

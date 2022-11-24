@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
 import styles from './admins.module.css';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 
