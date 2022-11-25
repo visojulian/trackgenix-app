@@ -10,10 +10,11 @@ const ProjectsRouter = lazy(() => import('./projects'));
 const TasksRouter = lazy(() => import('./tasks'));
 const HomeRouter = lazy(() => import('./home'));
 
-useEffect(() => {
-  tokenListener();
-}, []);
 const Routes = () => {
+  useEffect(() => {
+    tokenListener();
+  }, []);
+
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Loading..</div>}>
