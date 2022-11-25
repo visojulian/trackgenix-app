@@ -1,4 +1,5 @@
-import { lazy, Suspense } from 'react';
+import { tokenListener } from 'helpers/firebase';
+import { lazy, Suspense, useEffect } from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 const AdminsRoutes = lazy(() => import('./admins'));
@@ -7,10 +8,13 @@ const EmployeeRouter = lazy(() => import('./employees'));
 const TimeSheetsRouter = lazy(() => import('./timeSheets'));
 const ProjectsRouter = lazy(() => import('./projects'));
 const TasksRouter = lazy(() => import('./tasks'));
-
 const HomeRouter = lazy(() => import('./home'));
 
 const Routes = () => {
+  useEffect(() => {
+    tokenListener();
+  }, []);
+
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Loading..</div>}>
