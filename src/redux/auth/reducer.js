@@ -5,14 +5,10 @@ import {
   LOGOUT_PENDING,
   LOGOUT_SUCCESS,
   LOGOUT_ERROR
-  //SIGNUP_PENDING,
-  //SIGNUP_SUCCESS,
-  //SIGNUP_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
   email: null,
-  //password: null,
   role: null,
   isLoading: false,
   error: null

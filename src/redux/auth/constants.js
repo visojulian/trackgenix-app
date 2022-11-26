@@ -4,6 +4,3 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT_PENDING = 'LOGOUT_PENDING';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_ERROR = 'LOGOUT_ERROR';
-// export const SIGNUP_PENDING = 'SIGNUP_PENDING';
-// export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-// export const SIGNUP_ERROR = 'SIGNUP_ERROR';

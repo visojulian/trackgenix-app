@@ -5,9 +5,6 @@ import {
   LOGOUT_PENDING,
   LOGOUT_SUCCESS,
   LOGOUT_ERROR
-  //SIGNUP_PENDING,
-  //SIGNUP_SUCCESS,
-  //SIGNUP_ERROR
 } from './constants';
 
 export const loginPending = () => {
