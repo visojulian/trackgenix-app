@@ -26,6 +26,7 @@ export const tokenListener = () => {
         } = await user.getIdTokenResult();
         if (token) {
           // store.dispatch(setLoggedIn({ role, email }));
+          //sessionStorage.setItem('token', token);
         }
       } catch (error) {
         throw new Error(error.toString());
