@@ -1,3 +1,4 @@
+import { Spinner } from 'Components/Shared';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom/cjs/react-router-dom';
@@ -12,7 +13,7 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
       {...rest}
       render={(routeProps) => {
         if (auth.isLoading) {
-          return <></>;
+          return <Spinner />;
         }
         if (auth.role === rest.role) {
           return <RouteComponent {...routeProps} />;
