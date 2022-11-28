@@ -13,7 +13,7 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
       {...rest}
       render={(routeProps) => {
         if (auth.isLoading) {
-          return <Spinner />;
+          return <Spinner isLoading={auth.isLoading} />;
         }
         if (auth.role === rest.role) {
           return <RouteComponent {...routeProps} />;

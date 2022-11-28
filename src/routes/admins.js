@@ -1,7 +1,6 @@
 import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
+import { useRouteMatch, Redirect, Route, Switch } from 'react-router-dom';
 const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
 
@@ -14,6 +13,7 @@ const AdminsRouter = () => {
         <Route exact path={`${url}/`} component={Admins} />
         <Route exact path={`${url}/form`} component={AdminForm} />
         <Route path={`${url}/form/:id`} component={AdminForm} />
+        <Redirect to={`${url}/`} />
       </Switch>
     </Layout>
   );
