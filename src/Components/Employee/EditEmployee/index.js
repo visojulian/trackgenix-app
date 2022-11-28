@@ -29,7 +29,7 @@ const EditEmployee = () => {
   });
 
   const revealFunc = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
 
   const {

@@ -134,7 +134,7 @@ const Form = () => {
   };
 
   const revealPassword = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
 
   if (loading) {

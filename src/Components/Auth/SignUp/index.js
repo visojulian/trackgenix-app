@@ -99,7 +99,7 @@ const SignUp = () => {
   };
 
   const revealFunc = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
 
   if (loading) {

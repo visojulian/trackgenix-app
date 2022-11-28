@@ -22,7 +22,7 @@ const Login = () => {
     mode: 'onBlur'
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     if (Object.values(errors).length === 0) {
       dispatch(login(data)).then((data) => {
         if (data.type === LOGIN_SUCCESS) {
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   const revealFunc = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
 
   return (
