@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onIdTokenChanged } from 'firebase/auth';
-// import store from 'redux/store';
-// import { setLoggedIn, setLoggedOut } from 'redux/auth/actions';
+import store from 'redux/store';
+import { setLoggedIn, setLoggedOut } from 'redux/auth/actions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,18 +21,18 @@ export const tokenListener = () => {
     if (user) {
       try {
         const {
-          token
-          // claims: { role, email }
+          token,
+          claims: { role, email }
         } = await user.getIdTokenResult();
         if (token) {
-          // store.dispatch(setLoggedIn({ role, email }));
-          //sessionStorage.setItem('token', token);
+          store.dispatch(setLoggedIn({ role, email }));
+          sessionStorage.setItem('token', token);
         }
       } catch (error) {
         throw new Error(error.toString());
       }
     } else {
-      // store.dispatch(setLoggedOut());
+      store.dispatch(setLoggedOut());
     }
   });
 };
