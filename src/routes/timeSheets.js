@@ -1,6 +1,7 @@
 import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
 const TimeSheets = lazy(() => import('Components/TimeSheets'));
 const TimeSheetsForm = lazy(() => import('Components/TimeSheets/Form'));
 
