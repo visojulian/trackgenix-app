@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   const revealFunc = () => {
-    setReveal(!reveal);
+    setReveal(reveal ? false : true);
   };
 
   return (

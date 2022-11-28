@@ -97,19 +97,19 @@ const AdminForm = () => {
 
   const onSubmit = async (data) => {
     if (!isEditing) {
-      const response = await dispatch(
+      const reponse = await dispatch(
         postAdmin(data.name, data.lastName, data.email, data.password)
       );
-      if (response.type === POST_ADMIN_SUCCESS) {
+      if (reponse.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
       }
     } else {
-      const response = await dispatch(
+      const reponse = await dispatch(
         putAdmin(data.name, data.lastName, data.email, data.password, id)
       );
-      if (response.type === PUT_ADMIN_SUCCESS) {
+      if (reponse.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
         setShowModal(true);
@@ -118,7 +118,7 @@ const AdminForm = () => {
   };
 
   const showPassword = () => {
-    setReveal(!reveal);
+    setReveal(reveal ? false : true);
   };
 
   if (isLoading) {
