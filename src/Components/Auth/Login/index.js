@@ -22,7 +22,7 @@ const Login = () => {
     mode: 'onBlur'
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (Object.values(errors).length === 0) {
       dispatch(login(data)).then((data) => {
         if (data.type === LOGIN_SUCCESS) {
