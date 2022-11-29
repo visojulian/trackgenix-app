@@ -16,10 +16,8 @@ const Timesheets = () => {
     error: timesheetsError
   } = useSelector((state) => state.timeSheets);
 
-  const token = sessionStorage.getItem('token');
-
   useEffect(() => {
-    dispatch(getTimesheets(token));
+    dispatch(getTimesheets());
   }, []);
 
   const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === id);

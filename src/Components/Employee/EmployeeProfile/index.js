@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
+import { deleteEmployee } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
 import { logout } from '../../../redux/auth/thunks';
@@ -22,11 +22,11 @@ const EmployeeProfile = () => {
     password: ''
   });
   const currentEmployee = employees.find((employee) => employee._id === id);
-  const token = sessionStorage.getItem('token');
+  // const token = sessionStorage.getItem('token');
 
-  useEffect(() => {
-    dispatch(getEmployees(token));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEmployees(token));
+  // }, []);
 
   useEffect(() => {
     if (currentEmployee && id) {

@@ -1,101 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
 import { login } from 'redux/auth/thunks';
-import { Button, Spinner, TextInput } from 'Components/Shared';
-import { getEmployees } from 'redux/employees/thunks';
-import { getAdmins } from 'redux/admins/thunks';
-import { getSuperAdmins } from 'redux/superAdmins/thunks';
+import { Button, TextInput } from 'Components/Shared';
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const error = useSelector((state) => state.auth.error);
   const [reveal, setReveal] = useState(false);
-  const [entity, setEntity] = useState();
-  const { list: employees, isLoading: employeesIsLoading } = useSelector(
-    (state) => state.employees
-  );
-  const { list: superAdmins, isLoading: superAdminsIsLoading } = useSelector(
-    (state) => state.superAdmins
-  );
-  const { list: admins, isLoading: adminsIsLoading } = useSelector((state) => state.admins);
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(loginSchema),
     mode: 'onBlur'
   });
-  const token = sessionStorage.getItem('token');
-  const email = getValues('email');
+  // const token = sessionStorage.getItem('token');
 
-  useEffect(() => {
-    dispatch(getEmployees(token));
-    dispatch(getAdmins(token));
-    dispatch(getSuperAdmins(token));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEmployees(token));
+  //   dispatch(getAdmins(token));
+  //   dispatch(getSuperAdmins(token));
+  // }, []);
 
-  useEffect(() => {
-    if (email) {
-      if (employees) {
-        if (employees.length > 0) {
-          const currentEmployee = employees.find((employee) => employee.email === email);
-          setEntity(currentEmployee);
-          console.log(currentEmployee);
-          console.log(currentEmployee.email === email);
-        }
-      }
-      if (admins) {
-        if (admins.length > 0) {
-          const currentAdmin = admins.find((admin) => admin.email === email);
-          setEntity(currentAdmin);
-        }
-      }
-      if (superAdmins) {
-        if (superAdmins.length > 0) {
-          const currentSuperAdmin = superAdmins.find((superAdmin) => superAdmin.email === email);
-          setEntity(currentSuperAdmin);
-        }
-      }
-    }
-  }, [email]);
+  // useEffect(() => {
+  //   if (email) {
+  //     if (employees?.length > 0) {
+  //       const currentEmployee = employees.find((employee) => employee.email === email);
+  //       setEntity(currentEmployee);
+  //     }
+  //     if (admins?.length > 0) {
+  //       const currentAdmin = admins.find((admin) => admin.email === email);
+  //       setEntity(currentAdmin);
+  //     }
+  //     if (superAdmins?.length > 0) {
+  //       const currentSuperAdmin = superAdmins.find((superAdmin) => superAdmin.email === email);
+  //       setEntity(currentSuperAdmin);
+  //     }
+  //   }
+  // }, [email]);
 
   const onSubmit = (inputData) => {
-    if (Object.values(errors).length === 0 && entity) {
-      console.log(entity);
-      dispatch(login(inputData)).then((data) => {
-        switch (data) {
-          case 'SUPER_ADMIN':
-            history.push('/super-admin');
-            break;
-          case 'ADMIN':
-            history.push('/admin');
-            break;
-          case 'EMPLOYEE':
-            // history.push('/employee');
-            history.push(`/employee/${entity._id}`);
-            break;
-          default:
-            history.push('/');
-            break;
-        }
-      });
-    }
+    dispatch(login(inputData)).then((data) => {
+      console.log(data);
+      switch (data) {
+        case 'SUPER_ADMIN':
+          history.push('/super-admin');
+          break;
+        case 'ADMIN':
+          history.push('/admin');
+          break;
+        case 'EMPLOYEE':
+          history.push(`/employee`);
+          break;
+        default:
+          history.push('/');
+          break;
+      }
+    });
   };
 
   const revealFunc = () => {
     setReveal(reveal ? false : true);
   };
-
-  if (adminsIsLoading || superAdminsIsLoading || employeesIsLoading) {
-    return <Spinner isLoading={true} />;
-  }
 
   return (
     <div>

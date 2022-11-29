@@ -21,10 +21,9 @@ const Projects = () => {
     'Role',
     'Rate'
   ];
-  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    dispatch(getProjects(token));
+    dispatch(getProjects());
   }, []);
 
   const newArr = () => {

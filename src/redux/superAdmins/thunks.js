@@ -16,7 +16,7 @@ import {
 const getSuperAdmins = (token) => {
   return (dispatch) => {
     dispatch(getSuperAdminsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/superAdmins`, {
+    fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       headers: {
         token
       }

@@ -1,4 +1,11 @@
-import { loginPending, loginError, logoutPending, logoutError } from './actions';
+import {
+  loginPending,
+  loginError,
+  logoutPending,
+  logoutError,
+  setLoggedIn,
+  setLoggedOut
+} from './actions';
 
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../helpers/firebase';
@@ -11,13 +18,14 @@ export const login = (data) => {
 
       const {
         token,
-        claims: { role }
+        claims: { role, email }
       } = await userCredentials.user.getIdTokenResult();
 
       sessionStorage.setItem('token', token);
+      dispatch(setLoggedIn(email, role));
       return role;
     } catch (error) {
-      return dispatch(loginError());
+      return dispatch(loginError(error.toString()));
     }
   };
 };
@@ -26,6 +34,9 @@ export const logout = () => {
   return (dispatch) => {
     dispatch(logoutPending());
     return signOut(auth)
+      .then(() => {
+        dispatch(setLoggedOut());
+      })
       .then(() => {
         sessionStorage.clear();
       })

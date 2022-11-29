@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { putEmployee, getEmployees } from 'redux/employees/thunks';
+import { putEmployee } from 'redux/employees/thunks';
 import { PUT_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
 import styles from './employee.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
@@ -16,7 +16,6 @@ const EditEmployee = () => {
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const token = sessionStorage.getItem('token');
 
   const {
     handleSubmit,
@@ -39,9 +38,9 @@ const EditEmployee = () => {
     error: employeeError
   } = useSelector((state) => state.employees);
 
-  useEffect(() => {
-    dispatch(getEmployees(token));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEmployees(token));
+  // }, []);
 
   useEffect(() => {
     if (employees.length > 0 && id) {
