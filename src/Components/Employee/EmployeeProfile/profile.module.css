@@ -38,4 +38,7 @@ h1 {
   justify-content: space-evenly;
 }
 
-
+.logout {
+  align-self: flex-end;
+  margin-right: 100px;
+}
