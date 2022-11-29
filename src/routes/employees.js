@@ -1,7 +1,6 @@
 import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
 import { useRouteMatch, Redirect, Route, Switch } from 'react-router-dom';
-const Employees = lazy(() => import('Components/Employees'));
 const EmployeesForm = lazy(() => import('Components/Employees/Form'));
 const SignUp = lazy(() => import('Components/Employee/SignUp'));
 const Projects = lazy(() => import('Components/Employee/Projects'));
@@ -22,7 +21,7 @@ const EmployeesRouter = () => {
   return (
     <Layout routes={routes}>
       <Switch>
-        <Route exact path={`${url}/`} component={Employees} />
+        <Route path={`${url}/:id`} component={EmployeeProfile} />
         <Route path={`${url}/employee-profile/:id`} component={EmployeeProfile} />
         <Route exact path={`${url}/form`} component={EmployeesForm} />
         <Route path={`${url}/form/:id`} component={EmployeesForm} />

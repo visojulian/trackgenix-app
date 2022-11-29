@@ -13,10 +13,14 @@ import {
   editTimesheetError
 } from './actions';
 
-export const getTimesheets = () => {
+export const getTimesheets = (token) => {
   return (dispatch) => {
     dispatch(getTimesheetsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/time-sheets`)
+    fetch(`${process.env.REACT_APP_API_URL}/timeSheet`, {
+      headers: {
+        token
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

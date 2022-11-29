@@ -13,10 +13,14 @@ import {
   putTaskError
 } from './actions';
 
-export const getTasks = () => {
+export const getTasks = (token) => {
   return (dispatch) => {
     dispatch(getTasksPending());
-    fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+    fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      headers: {
+        token
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

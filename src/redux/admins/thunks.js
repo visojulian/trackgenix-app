@@ -13,10 +13,14 @@ import {
   postAdminError
 } from './actions';
 
-export const getAdmins = () => {
+export const getAdmins = (token) => {
   return (dispatch) => {
     dispatch(getAdminsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/admins`)
+    fetch(`${process.env.REACT_APP_API_URL}/admins`, {
+      headers: {
+        token
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

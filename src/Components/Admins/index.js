@@ -15,9 +15,10 @@ const Admins = () => {
   const headers = ['Name', 'Last Name', 'Email'];
   const error = useSelector((state) => state.admins.error);
   const dispatch = useDispatch();
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    dispatch(getAdmins());
+    dispatch(getAdmins(token));
   }, []);
 
   const onDelete = (id, showModal) => {
