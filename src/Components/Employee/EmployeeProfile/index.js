@@ -107,8 +107,8 @@ const EmployeeProfile = () => {
         actionButton="Delete"
       >
         <div>
-          <h4>Delete employee</h4>
-          <p>Are you sure you want to delete this employee?</p>
+          <h4>Delete account</h4>
+          <p>Are you sure you want to delete your account?</p>
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
