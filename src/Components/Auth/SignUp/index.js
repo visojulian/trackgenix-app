@@ -122,26 +122,6 @@ const SignUp = () => {
               error={errors.name?.message}
             />
             <TextInput
-              label="Last Name"
-              id="lastName"
-              name="lastName"
-              type="text"
-              placeholder="Last Name"
-              register={register}
-              error={errors.lastName?.message}
-            />
-            <TextInput
-              label="Phone"
-              id="phone"
-              name="phone"
-              type="text"
-              placeholder="Phone"
-              register={register}
-              error={errors.phone?.message}
-            />
-          </div>
-          <div>
-            <TextInput
               label="Email"
               id="email"
               name="email"
@@ -149,6 +129,26 @@ const SignUp = () => {
               placeholder="Email"
               register={register}
               error={errors.email?.message}
+            />
+            <TextInput
+              label="Password"
+              id="password"
+              name="password"
+              type={reveal ? 'text' : 'password'}
+              placeholder="Password"
+              register={register}
+              error={errors.password?.message}
+            />
+          </div>
+          <div>
+            <TextInput
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              type="text"
+              placeholder="Last Name"
+              register={register}
+              error={errors.lastName?.message}
             />
             <TextInput
               label="Repeat Email"
@@ -160,15 +160,6 @@ const SignUp = () => {
               error={errors.repeatEmail?.message}
             />
             <TextInput
-              label="Password"
-              id="password"
-              name="password"
-              type={reveal ? 'text' : 'password'}
-              placeholder="Password"
-              register={register}
-              error={errors.password?.message}
-            />
-            <TextInput
               label="Repeat Password"
               id="repeatPassword"
               name="repeatPassword"
@@ -176,6 +167,15 @@ const SignUp = () => {
               type={reveal ? 'text' : 'password'}
               placeholder="Repeat Password"
               error={errors.repeatPassword?.message}
+            />
+            <TextInput
+              label="Phone"
+              id="phone"
+              name="phone"
+              type="text"
+              placeholder="Phone"
+              register={register}
+              error={errors.phone?.message}
             />
           </div>
         </div>
