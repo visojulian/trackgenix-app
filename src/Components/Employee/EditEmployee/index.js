@@ -16,6 +16,7 @@ const EditEmployee = () => {
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
+  const token = sessionStorage.getItem('token');
 
   const {
     handleSubmit,
@@ -39,7 +40,7 @@ const EditEmployee = () => {
   } = useSelector((state) => state.employees);
 
   useEffect(() => {
-    dispatch(getEmployees());
+    dispatch(getEmployees(token));
   }, []);
 
   useEffect(() => {
