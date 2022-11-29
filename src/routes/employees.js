@@ -10,12 +10,12 @@ const EditEmployee = lazy(() => import('Components/Employee/EditEmployee'));
 const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 
 const routes = [
-  { name: 'home', path: '/employees' },
-  { name: 'profile', path: '/employees/employee-profile/:id' },
-  { name: 'edit', path: '/employees/edit-employee/:id' },
-  { name: 'sign up', path: '/employees/sign-up' },
-  { name: 'projects', path: '/employees/projects/:id' },
-  { name: 'timesheets', path: '/employees/timesheets/:id' }
+  { name: 'home', path: '/employee' },
+  { name: 'profile', path: '/employee/employee-profile/:id' },
+  { name: 'edit', path: '/employee/edit-employee/:id' },
+  { name: 'sign up', path: '/employee/sign-up' },
+  { name: 'projects', path: '/employee/projects/:id' },
+  { name: 'timesheets', path: '/employee/timesheets/:id' }
 ];
 const EmployeesRouter = () => {
   const { url } = useRouteMatch();

@@ -14,7 +14,7 @@ export const login = (data) => {
         claims: { role }
       } = await userCredentials.user.getIdTokenResult();
 
-      sessionStorage.setItem(('token', token));
+      sessionStorage.setItem('token', token);
       return role;
     } catch (error) {
       return dispatch(loginError());
