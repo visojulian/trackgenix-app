@@ -16,7 +16,11 @@ import {
 export const getTimesheets = () => {
   return (dispatch) => {
     dispatch(getTimesheetsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/time-sheets`)
+    fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

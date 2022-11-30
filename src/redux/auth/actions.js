@@ -13,13 +13,10 @@ export const loginPending = () => {
   };
 };
 
-export const setLoggedIn = (role, email) => {
+export const setLoggedIn = (payload) => {
   return {
     type: LOGIN_SUCCESS,
-    payload: {
-      role,
-      email
-    }
+    payload
   };
 };
 

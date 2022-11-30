@@ -10,7 +10,7 @@ import {
 const INITIAL_STATE = {
   email: null,
   role: null,
-  isLoading: false,
+  isLoading: true,
   error: null
 };
 

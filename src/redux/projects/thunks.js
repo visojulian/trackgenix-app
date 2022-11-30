@@ -16,7 +16,11 @@ import {
 const getProjects = () => {
   return (dispatch) => {
     dispatch(getProjectPending());
-    fetch(`${process.env.REACT_APP_API_URL}/projects`)
+    fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {

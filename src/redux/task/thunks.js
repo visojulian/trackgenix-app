@@ -16,7 +16,11 @@ import {
 export const getTasks = () => {
   return (dispatch) => {
     dispatch(getTasksPending());
-    fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+    fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

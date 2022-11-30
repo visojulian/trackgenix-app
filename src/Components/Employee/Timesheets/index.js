@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimesheets } from 'redux/timeSheets/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
@@ -7,7 +7,6 @@ import styles from './list.module.css';
 
 const Timesheets = () => {
   const history = useHistory();
-  const { id } = useParams();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const {
@@ -15,12 +14,13 @@ const Timesheets = () => {
     isLoading: timesheetsIsLoading,
     error: timesheetsError
   } = useSelector((state) => state.timeSheets);
+  const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getTimesheets());
   }, []);
 
-  const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === id);
+  const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === user._id);
 
   const tableData = employeeTimesheets.map((timesheet) => {
     return {
@@ -32,11 +32,11 @@ const Timesheets = () => {
     };
   });
 
-  if (timesheetsIsLoading) {
+  if (timesheetsIsLoading || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
 
-  if (timesheetsError) {
+  if (timesheetsError || userError) {
     return (
       <Modal
         isOpen={showModal}

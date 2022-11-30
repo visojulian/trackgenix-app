@@ -92,7 +92,7 @@ const SignUp = () => {
       postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
     );
     if (res.type === POST_EMPLOYEE_SUCCESS) {
-      history.goBack();
+      history.push('auth/login');
     } else {
       setShowModal(true);
     }

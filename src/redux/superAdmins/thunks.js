@@ -16,7 +16,11 @@ import {
 const getSuperAdmins = () => {
   return (dispatch) => {
     dispatch(getSuperAdminsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
+    fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {

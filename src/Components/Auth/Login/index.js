@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
 import { login } from 'redux/auth/thunks';
-import { LOGIN_SUCCESS } from 'redux/auth/constants';
 import { Button, TextInput } from 'Components/Shared';
 
 const Login = () => {
@@ -22,27 +21,23 @@ const Login = () => {
     mode: 'onBlur'
   });
 
-  const onSubmit = (data) => {
-    if (Object.values(errors).length === 0) {
-      dispatch(login(data)).then((data) => {
-        if (data.type === LOGIN_SUCCESS) {
-          switch (data.payload.role) {
-            case 'SUPER_ADMIN':
-              history.push('/super-admin');
-              break;
-            case 'ADMIN':
-              history.push('/admin');
-              break;
-            case 'EMPLOYEE':
-              history.push('/employee');
-              break;
-            default:
-              history.push('/');
-              break;
-          }
-        }
-      });
-    }
+  const onSubmit = (inputData) => {
+    dispatch(login(inputData)).then((data) => {
+      switch (data) {
+        case 'SUPER_ADMIN':
+          history.push('/super-admin');
+          break;
+        case 'ADMIN':
+          history.push('/admin');
+          break;
+        case 'EMPLOYEE':
+          history.push(`/employee`);
+          break;
+        default:
+          history.push('/');
+          break;
+      }
+    });
   };
 
   const revealFunc = () => {
