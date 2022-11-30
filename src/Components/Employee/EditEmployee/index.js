@@ -38,10 +38,6 @@ const EditEmployee = () => {
     error: employeeError
   } = useSelector((state) => state.employees);
 
-  // useEffect(() => {
-  //   dispatch(getEmployees(token));
-  // }, []);
-
   useEffect(() => {
     if (employees.length > 0 && id) {
       const currentEmployee = employees.find((employee) => employee._id === id);

@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './projects.module.css';
+import { getUserProfile } from 'redux/user/thunks';
 
 const Projects = () => {
-  const { id } = useParams();
   const history = useHistory();
-  const { list: projects, isLoading, error } = useSelector((state) => state.projects);
+  const {
+    list: projects,
+    isLoading: projectsIsLoading,
+    error: projectsError
+  } = useSelector((state) => state.projects);
+  const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const values = ['name', 'clientName', 'description', 'startDate', 'endDate', 'role', 'rate'];
@@ -24,12 +29,13 @@ const Projects = () => {
 
   useEffect(() => {
     dispatch(getProjects());
+    dispatch(getUserProfile());
   }, []);
 
   const newArr = () => {
     const newArr = [];
     projects.map((project) => {
-      const employeeProjects = project.employees.find((employee) => employee.employee === id);
+      const employeeProjects = project.employees.find((employee) => employee.employee === user._id);
       if (employeeProjects) {
         newArr.push({ ...project, employees: employeeProjects });
       }
@@ -50,7 +56,7 @@ const Projects = () => {
     };
   });
 
-  if (error) {
+  if (projectsError || userError) {
     return (
       <Modal
         isOpen={showModal}
@@ -65,8 +71,8 @@ const Projects = () => {
     );
   }
 
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
+  if (projectsIsLoading || userIsLoading) {
+    return <Spinner isLoading={true} />;
   }
   return (
     <div className={styles.container}>

@@ -1,6 +1,8 @@
 import { tokenListener } from 'helpers/firebase';
 import { lazy, Suspense, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { getUserProfile } from 'redux/user/thunks';
 
 const AdminsRoutes = lazy(() => import('./admins'));
 const SuperAdminsRouter = lazy(() => import('./superAdmins'));
@@ -9,9 +11,18 @@ const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const AuthRoutes = lazy(() => import('./auth'));
 
 const Routes = () => {
+  const authenticated = useSelector((store) => store.auth.role);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     tokenListener();
   }, []);
+
+  useEffect(() => {
+    if (authenticated) {
+      dispatch(getUserProfile());
+    }
+  }, [authenticated]);
 
   return (
     <BrowserRouter>

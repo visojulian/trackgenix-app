@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
 import { logout } from '../../../redux/auth/thunks';
+import { getUserProfile } from 'redux/user/thunks';
 
 const EmployeeProfile = () => {
   const history = useHistory();
-  const { id } = useParams();
   const dispatch = useDispatch();
   const logoutUser = () => dispatch(logout());
   const [showModal, setShowModal] = useState(false);
   const [employeeId, setEmployeeId] = useState();
   const { list: employees, isLoading: employeeIsLoading } = useSelector((state) => state.employees);
+  const { user } = useSelector((state) => state.user);
   const [employeeAccount, setEmployeeAccount] = useState({
     name: '',
     lastName: '',
@@ -21,11 +22,15 @@ const EmployeeProfile = () => {
     phone: '',
     password: ''
   });
-  const currentEmployee = employees.find((employee) => employee._id === id);
+  const currentEmployee = employees.find((employee) => employee._id === user._id);
 
   useEffect(() => {
-    if (currentEmployee && id) {
-      setEmployeeId(id);
+    dispatch(getUserProfile());
+  }, []);
+
+  useEffect(() => {
+    if (currentEmployee) {
+      setEmployeeId(user._id);
       setEmployeeAccount({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
@@ -34,7 +39,7 @@ const EmployeeProfile = () => {
         password: currentEmployee.password
       });
     }
-  }, [currentEmployee, id]);
+  }, [currentEmployee, user]);
 
   if (employeeIsLoading) {
     return <Spinner isLoading={true} />;
@@ -82,7 +87,7 @@ const EmployeeProfile = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            editAccount(id);
+            editAccount(user._id);
           }}
         />
         <Button

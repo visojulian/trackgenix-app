@@ -13,12 +13,12 @@ import {
   putProjectError
 } from './actions';
 
-const getProjects = (token) => {
+const getProjects = () => {
   return (dispatch) => {
     dispatch(getProjectPending());
     fetch(`${process.env.REACT_APP_API_URL}/projects`, {
       headers: {
-        token
+        token: sessionStorage.getItem('token')
       }
     })
       .then((res) => res.json())
