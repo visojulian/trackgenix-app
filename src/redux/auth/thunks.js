@@ -1,4 +1,4 @@
-import { loginPending, loginError, logoutPending, logoutError, setLoggedOut } from './actions';
+import { loginPending, loginError, logoutPending, logoutError } from './actions';
 
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../helpers/firebase';
@@ -26,9 +26,6 @@ export const logout = () => {
   return (dispatch) => {
     dispatch(logoutPending());
     return signOut(auth)
-      .then(() => {
-        dispatch(setLoggedOut());
-      })
       .then(() => {
         sessionStorage.clear();
       })

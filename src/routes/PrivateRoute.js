@@ -15,7 +15,7 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
         if (auth.isLoading) {
           return <Spinner isLoading={auth.isLoading} />;
         }
-        if (auth.role.role === rest.role) {
+        if (auth.role === rest.role) {
           return <RouteComponent {...routeProps} />;
         }
         return <Redirect to={'/auth/login'} />;
