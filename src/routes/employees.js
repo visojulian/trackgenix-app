@@ -18,11 +18,11 @@ const EmployeesRouter = () => {
   return (
     <Layout routes={routes}>
       <Switch>
-        <Route path={`${url}`} component={EmployeeProfile} />
-        <Route path={`${url}/profile`} component={EmployeeProfile} />
-        <Route path={`${url}/projects`} component={Projects} />
-        <Route path={`${url}/timesheets`} component={Timesheets} />
-        <Route path={`${url}/edit-profile`} component={EditEmployee} />
+        <Route exact path={`${url}`} component={EmployeeProfile} />
+        <Route exact path={`${url}/profile`} component={EmployeeProfile} />
+        <Route exact path={`${url}/projects`} component={Projects} />
+        <Route exact path={`${url}/timesheets`} component={Timesheets} />
+        <Route exact path={`${url}/edit-profile`} component={EditEmployee} />
         <Redirect to={`${url}`} />
       </Switch>
     </Layout>

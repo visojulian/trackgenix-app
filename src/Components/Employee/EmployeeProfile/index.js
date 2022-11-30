@@ -22,11 +22,6 @@ const EmployeeProfile = () => {
     password: ''
   });
   const currentEmployee = employees.find((employee) => employee._id === id);
-  // const token = sessionStorage.getItem('token');
-
-  // useEffect(() => {
-  //   dispatch(getEmployees(token));
-  // }, []);
 
   useEffect(() => {
     if (currentEmployee && id) {

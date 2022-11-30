@@ -20,8 +20,8 @@ const Routes = () => {
           <PrivateRoute path="/admin" role="ADMIN" component={AdminsRoutes} />
           <PrivateRoute path="/super-admin" role="SUPER_ADMIN" component={SuperAdminsRouter} />
           <PrivateRoute path="/employee" role="EMPLOYEE" component={EmployeeRouter} />
-          <Route path="/auth" component={AuthRoutes}></Route>
-          <Redirect to="/auth"></Redirect>
+          <Route path="/auth" component={AuthRoutes} />
+          <Redirect to="/auth" />
         </Switch>
       </Suspense>
     </BrowserRouter>

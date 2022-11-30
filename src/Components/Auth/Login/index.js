@@ -20,34 +20,9 @@ const Login = () => {
     resolver: joiResolver(loginSchema),
     mode: 'onBlur'
   });
-  // const token = sessionStorage.getItem('token');
-
-  // useEffect(() => {
-  //   dispatch(getEmployees(token));
-  //   dispatch(getAdmins(token));
-  //   dispatch(getSuperAdmins(token));
-  // }, []);
-
-  // useEffect(() => {
-  //   if (email) {
-  //     if (employees?.length > 0) {
-  //       const currentEmployee = employees.find((employee) => employee.email === email);
-  //       setEntity(currentEmployee);
-  //     }
-  //     if (admins?.length > 0) {
-  //       const currentAdmin = admins.find((admin) => admin.email === email);
-  //       setEntity(currentAdmin);
-  //     }
-  //     if (superAdmins?.length > 0) {
-  //       const currentSuperAdmin = superAdmins.find((superAdmin) => superAdmin.email === email);
-  //       setEntity(currentSuperAdmin);
-  //     }
-  //   }
-  // }, [email]);
 
   const onSubmit = (inputData) => {
     dispatch(login(inputData)).then((data) => {
-      console.log(data);
       switch (data) {
         case 'SUPER_ADMIN':
           history.push('/super-admin');
