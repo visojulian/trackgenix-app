@@ -13,12 +13,12 @@ import {
   putSuperAdminError
 } from './actions';
 
-const getSuperAdmins = (token) => {
+const getSuperAdmins = () => {
   return (dispatch) => {
     dispatch(getSuperAdminsPending());
     fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       headers: {
-        token
+        token: sessionStorage.getItem('token')
       }
     })
       .then((response) => response.json())
