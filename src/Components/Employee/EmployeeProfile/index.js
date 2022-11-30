@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEmployee } from 'redux/employees/thunks';
+import { deleteEmployee, getEmployees } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
 import { logout } from '../../../redux/auth/thunks';
@@ -14,7 +14,7 @@ const EmployeeProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [employeeId, setEmployeeId] = useState();
   const { list: employees, isLoading: employeeIsLoading } = useSelector((state) => state.employees);
-  const { user } = useSelector((state) => state.user);
+  const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
   const [employeeAccount, setEmployeeAccount] = useState({
     name: '',
     lastName: '',
@@ -26,10 +26,11 @@ const EmployeeProfile = () => {
 
   useEffect(() => {
     dispatch(getUserProfile());
+    dispatch(getEmployees());
   }, []);
 
   useEffect(() => {
-    if (currentEmployee) {
+    if (currentEmployee && user) {
       setEmployeeId(user._id);
       setEmployeeAccount({
         name: currentEmployee.name,
@@ -41,12 +42,12 @@ const EmployeeProfile = () => {
     }
   }, [currentEmployee, user]);
 
-  if (employeeIsLoading) {
+  if (employeeIsLoading || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
 
-  const editAccount = (id) => {
-    history.push(`/employees/edit-employee/${id}`);
+  const editAccount = () => {
+    history.push(`/employee/edit-profile`);
   };
 
   const goBack = () => {
@@ -87,7 +88,7 @@ const EmployeeProfile = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            editAccount(user._id);
+            editAccount();
           }}
         />
         <Button

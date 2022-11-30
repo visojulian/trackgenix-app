@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { putEmployee } from 'redux/employees/thunks';
 import { PUT_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
@@ -10,13 +10,11 @@ import { useForm } from 'react-hook-form';
 import { schema } from 'validations/employees';
 
 const EditEmployee = () => {
-  const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-
   const {
     handleSubmit,
     register,
@@ -31,10 +29,12 @@ const EditEmployee = () => {
   const revealFunc = () => {
     setReveal(reveal ? false : true);
   };
+  const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
+  const id = user._id;
 
   const {
     list: employees,
-    isLoading,
+    isLoading: employeesIsLoading,
     error: employeeError
   } = useSelector((state) => state.employees);
 
@@ -111,8 +111,8 @@ const EditEmployee = () => {
     }
   };
 
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
+  if (employeesIsLoading || userIsLoading) {
+    return <Spinner isLoading={true} />;
   }
 
   return (

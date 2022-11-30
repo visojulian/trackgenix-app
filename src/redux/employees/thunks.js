@@ -13,12 +13,12 @@ import {
   putEmployeeError
 } from './actions';
 
-const getEmployees = (token) => {
+const getEmployees = () => {
   return (dispatch) => {
     dispatch(getEmployeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees`, {
       headers: {
-        token
+        token: sessionStorage.getItem('token')
       }
     })
       .then((response) => response.json())

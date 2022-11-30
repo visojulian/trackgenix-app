@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './projects.module.css';
-import { getUserProfile } from 'redux/user/thunks';
 
 const Projects = () => {
   const history = useHistory();
@@ -29,7 +28,6 @@ const Projects = () => {
 
   useEffect(() => {
     dispatch(getProjects());
-    dispatch(getUserProfile());
   }, []);
 
   const newArr = () => {

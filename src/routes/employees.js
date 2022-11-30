@@ -8,7 +8,6 @@ const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 
 const routes = [
   { name: 'home', path: '/employee' },
-  { name: 'profile', path: '/employee/profile' },
   { name: 'edit', path: '/employee/edit-profile' },
   { name: 'projects', path: '/employee/projects' },
   { name: 'timesheets', path: '/employee/timesheets' }
@@ -19,7 +18,6 @@ const EmployeesRouter = () => {
     <Layout routes={routes}>
       <Switch>
         <Route exact path={`${url}`} component={EmployeeProfile} />
-        <Route exact path={`${url}/profile`} component={EmployeeProfile} />
         <Route exact path={`${url}/projects`} component={Projects} />
         <Route exact path={`${url}/timesheets`} component={Timesheets} />
         <Route exact path={`${url}/edit-profile`} component={EditEmployee} />
