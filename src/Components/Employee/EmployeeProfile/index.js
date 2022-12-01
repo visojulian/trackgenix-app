@@ -5,7 +5,6 @@ import { deleteEmployee, getEmployees } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
 import { logout } from '../../../redux/auth/thunks';
-import { getUserProfile } from 'redux/user/thunks';
 
 const EmployeeProfile = () => {
   const history = useHistory();
@@ -25,7 +24,6 @@ const EmployeeProfile = () => {
   const currentEmployee = employees.find((employee) => employee._id === user._id);
 
   useEffect(() => {
-    dispatch(getUserProfile());
     dispatch(getEmployees());
   }, []);
 
@@ -109,8 +107,8 @@ const EmployeeProfile = () => {
         actionButton="Delete"
       >
         <div>
-          <h4>Delete employee</h4>
-          <p>Are you sure you want to delete this employee?</p>
+          <h4>Delete account</h4>
+          <p>Are you sure you want to delete your account?</p>
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
