@@ -10,6 +10,7 @@
 
 .confirm:hover {
   background-color: #373867;
+  cursor: pointer;
 }
 
 .cancel {
