@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
 import { login } from 'redux/auth/thunks';
-import { Button, TextInput } from 'Components/Shared';
+import { Button, Modal, TextInput } from 'Components/Shared';
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const error = useSelector((state) => state.auth.error);
   const [reveal, setReveal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -44,9 +45,17 @@ const Login = () => {
     setReveal(reveal ? false : true);
   };
 
+  useEffect(() => {
+    if (error) {
+      setShowModal(true);
+    }
+  }, [error]);
+
   return (
     <div>
-      {error && <div>{error}</div>}
+      <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
+        {error}
+      </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           label="Email"
