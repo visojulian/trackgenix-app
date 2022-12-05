@@ -13,7 +13,6 @@ const routes = [
 ];
 const SuperAdminsRouter = () => {
   const { url } = useRouteMatch();
-  console.log(url);
   return (
     <Layout routes={routes}>
       <Switch>
