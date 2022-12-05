@@ -68,7 +68,7 @@ const Form = () => {
     if (error) {
       return (
         <div>
-          <h4>Server error</h4>
+          <h4>An error occurred</h4>
           <p>{error}</p>
         </div>
       );
@@ -114,6 +114,7 @@ const Form = () => {
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     } else {
@@ -121,6 +122,7 @@ const Form = () => {
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     }
@@ -130,16 +132,14 @@ const Form = () => {
     setReveal(reveal ? false : true);
   };
 
+  useEffect(() => {
+    if (error) {
+      setShowModal(true);
+    }
+  }, [error]);
+
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
-  }
-
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <h1>{error}</h1>
-      </div>
-    );
   }
 
   return (
