@@ -6,6 +6,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
 import { login } from 'redux/auth/thunks';
 import { Button, Modal, TextInput } from 'Components/Shared';
+import styles from 'Components/Employee/SignUp/sing-up.module.css';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Login = () => {
           history.push(`/employee`);
           break;
         default:
-          history.push('/');
+          history.push('/auth/login');
           break;
       }
     });
@@ -54,7 +55,7 @@ const Login = () => {
   return (
     <div>
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
-        {error}
+        <div className={styles.container}>{error}</div>
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
