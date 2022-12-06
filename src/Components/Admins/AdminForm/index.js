@@ -50,7 +50,7 @@ const AdminForm = () => {
     if (error) {
       return (
         <div>
-          <h4>Server error</h4>
+          <h4>An error occurred</h4>
           <p>{error}</p>
         </div>
       );
@@ -60,14 +60,30 @@ const AdminForm = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
+      !isEditing &&
       !Object.values(errors).length
     ) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Admin</h4>
+          <h4>Add New Admin</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
-            {getValues('lastName')} {isEditing ? 'changes' : 'as Admin'}?
+            Are you sure you want to add {getValues('name')} {getValues('lastName')} as Admin?
+          </p>
+        </div>
+      );
+    }
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      isEditing &&
+      !Object.values(errors).length
+    ) {
+      return (
+        <div>
+          <h4>Edit New Admin</h4>
+          <p>
+            Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
         </div>
       );
@@ -97,40 +113,40 @@ const AdminForm = () => {
 
   const onSubmit = async (data) => {
     if (!isEditing) {
-      const reponse = await dispatch(
+      const response = await dispatch(
         postAdmin(data.name, data.lastName, data.email, data.password)
       );
-      if (reponse.type === POST_ADMIN_SUCCESS) {
+      if (response.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     } else {
-      const reponse = await dispatch(
+      const response = await dispatch(
         putAdmin(data.name, data.lastName, data.email, data.password, id)
       );
-      if (reponse.type === PUT_ADMIN_SUCCESS) {
+      if (response.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     }
   };
 
   const showPassword = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
+
+  useEffect(() => {
+    if (error) {
+      setShowModal(true);
+    }
+  }, [error]);
 
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
-  }
-
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <h1>{error}</h1>
-      </div>
-    );
   }
 
   return (
@@ -173,34 +189,40 @@ const AdminForm = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <div className={styles.passwordDiv}>
-          <TextInput
-            label="Password"
-            id="password"
-            name="password"
-            register={register}
-            type={reveal ? 'text' : 'password'}
-            placeholder="Password"
-            error={errors.password?.message}
-          />
-          <div className={styles.revealButton}>
-            <Button
-              text={reveal ? 'Hide password' : 'Reveal password'}
-              type="button"
-              variant="secondary"
-              onClick={showPassword}
+        {!isEditing ? (
+          <>
+            <div className={styles.passwordDiv}>
+              <TextInput
+                label="Password"
+                id="password"
+                name="password"
+                register={register}
+                type={reveal ? 'text' : 'password'}
+                placeholder="Password"
+                error={errors.password?.message}
+              />
+              <div className={styles.revealButton}>
+                <Button
+                  text={reveal ? 'Hide password' : 'Reveal password'}
+                  type="button"
+                  variant="secondary"
+                  onClick={showPassword}
+                />
+              </div>
+            </div>
+            <TextInput
+              label="Repeat Password"
+              id="repeatPassword"
+              name="repeatPassword"
+              register={register}
+              type={reveal ? 'text' : 'password'}
+              placeholder="Repeat Password"
+              error={errors.repeatPassword?.message}
             />
-          </div>
-        </div>
-        <TextInput
-          label="Repeat Password"
-          id="repeatPassword"
-          name="repeatPassword"
-          register={register}
-          type={reveal ? 'text' : 'password'}
-          placeholder="Repeat Password"
-          error={errors.repeatPassword?.message}
-        />
+          </>
+        ) : (
+          ''
+        )}
         <div className={styles.butCont}>
           <Button
             text="Cancel"

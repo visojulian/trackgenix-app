@@ -78,14 +78,30 @@ const Form = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
+      !isEditing &&
       !Object.values(errors).length
     ) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Superadmin</h4>
+          <h4>Add New Super Admin</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
-            {getValues('lastName')} {isEditing ? 'changes' : 'as Superadmin'}?
+            Are you sure you want to add {getValues('name')} {getValues('lastName')} as Super Admin?
+          </p>
+        </div>
+      );
+    }
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      isEditing &&
+      !Object.values(errors).length
+    ) {
+      return (
+        <div>
+          <h4>Edit New Super Admin</h4>
+          <p>
+            Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
         </div>
       );
@@ -129,7 +145,7 @@ const Form = () => {
   };
 
   const showPassword = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
 
   useEffect(() => {
@@ -182,41 +198,47 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <div className={styles.passwordDiv}>
-          <TextInput
-            label="Password"
-            id="password"
-            name="password"
-            register={register}
-            type={reveal ? 'text' : 'password'}
-            placeholder="Password"
-            error={errors.password?.message}
-          />
-          <div className={styles.revealButton}>
-            <Button
-              text={reveal ? 'Hide password' : 'Reveal password'}
-              type="button"
-              variant="secondary"
-              onClick={showPassword}
+        {!isEditing ? (
+          <>
+            <div className={styles.passwordDiv}>
+              <TextInput
+                label="Password"
+                id="password"
+                name="password"
+                register={register}
+                type={reveal ? 'text' : 'password'}
+                placeholder="Password"
+                error={errors.password?.message}
+              />
+              <div className={styles.revealButton}>
+                <Button
+                  text={reveal ? 'Hide password' : 'Reveal password'}
+                  type="button"
+                  variant="secondary"
+                  onClick={showPassword}
+                />
+              </div>
+            </div>
+            <TextInput
+              label="Repeat Password"
+              id="repeatPassword"
+              name="repeatPassword"
+              register={register}
+              type={reveal ? 'text' : 'password'}
+              placeholder="Repeat Password"
+              error={errors.repeatPassword?.message}
             />
-          </div>
-        </div>
-        <TextInput
-          label="Repeat Password"
-          id="repeatPassword"
-          name="repeatPassword"
-          register={register}
-          type={reveal ? 'text' : 'password'}
-          placeholder="Repeat Password"
-          error={errors.repeatPassword?.message}
-        />
+          </>
+        ) : (
+          ''
+        )}
         <div className={styles.butCont}>
           <Button
             text="Cancel"
             type="reset"
             variant="secondary"
             onClick={() => {
-              history.push('/super-admin');
+              history.goBack();
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />

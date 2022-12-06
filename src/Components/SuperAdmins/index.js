@@ -75,7 +75,7 @@ const SuperAdmins = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            history.push('super-admin/form');
+            history.push('/super-admin/form');
           }}
         />
       </div>
