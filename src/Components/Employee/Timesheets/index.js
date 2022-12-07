@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimesheets } from 'redux/timeSheets/thunks';
+import { getTimesheets, deleteTimesheet } from 'redux/timeSheets/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './list.module.css';
 
@@ -15,6 +15,7 @@ const Timesheets = () => {
     error: timesheetsError
   } = useSelector((state) => state.timeSheets);
   const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
+  const [timeSheetId, setTimeSheetId] = useState();
 
   useEffect(() => {
     dispatch(getTimesheets());
@@ -24,6 +25,7 @@ const Timesheets = () => {
 
   const tableData = employeeTimesheets.map((timesheet) => {
     return {
+      _id: timesheet._id,
       hours: timesheet.hours,
       task: timesheet.task.description,
       project: timesheet.project.name,
@@ -31,6 +33,15 @@ const Timesheets = () => {
       date: timesheet.date
     };
   });
+
+  const onDelete = (id, showModal) => {
+    setTimeSheetId(id);
+    setShowModal(showModal);
+  };
+
+  const onRowClick = (id) => {
+    history.push(`timesheets/form/${id}`);
+  };
 
   if (timesheetsIsLoading || userIsLoading) {
     return <Spinner isLoading={true} />;
@@ -53,13 +64,34 @@ const Timesheets = () => {
 
   return (
     <div className={styles.container}>
-      <h2>List of worked hours by projects and tasks</h2>
+      <h2>Time Sheets</h2>
       <Table
         data={tableData}
         headers={['Timesheet', 'Project', 'Task', 'Hours', 'Date']}
         values={['description', 'project', 'task', 'hours', 'date']}
-        onDelete={() => {}}
-        onRowClick={() => {}}
+        onDelete={onDelete}
+        onRowClick={onRowClick}
+      />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Timesheet</h4>
+          <p>Are you sure you want to delete this timesheet?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
+      <Button
+        text="Add Timesheet"
+        type="submit"
+        variant="primary"
+        onClick={() => {
+          history.push(`timesheets/form`);
+        }}
       />
       <Button
         text="Go Back"

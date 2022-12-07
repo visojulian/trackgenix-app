@@ -38,7 +38,12 @@ export const deleteTimesheet = (timesheetId) => {
   return (dispatch) => {
     dispatch(deleteTimesheetPending());
     fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timesheetId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token'),
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
       .then(async (response) => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
@@ -61,6 +66,7 @@ export const addTimesheet = (timesheet) => {
     return fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
@@ -85,6 +91,7 @@ export const editTimesheet = (timesheet, id) => {
     return fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
