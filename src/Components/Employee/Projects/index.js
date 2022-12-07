@@ -44,6 +44,7 @@ const Projects = () => {
   const employeeProjects = newArr();
   const tableData = employeeProjects.map((project) => {
     return {
+      _id: project._id,
       name: project.name,
       clientName: project.clientName,
       description: project.description,
@@ -53,6 +54,13 @@ const Projects = () => {
       startDate: project.startDate
     };
   });
+
+  const handleRowClick = (id) => {
+    const role = employeeProjects.find((project) => project._id === id).employees.role;
+    if (role === 'PM') {
+      history.push(`projects/form/${id}`);
+    }
+  };
 
   if (projectsError || userError) {
     return (
@@ -80,7 +88,7 @@ const Projects = () => {
         headers={headers}
         values={values}
         onDelete={() => {}}
-        onRowClick={() => {}}
+        onRowClick={handleRowClick}
       />
       <Button
         text="Go Back"
