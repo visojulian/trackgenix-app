@@ -16,6 +16,7 @@ const Timesheets = () => {
   } = useSelector((state) => state.timeSheets);
   const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const [timeSheetId, setTimeSheetId] = useState();
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     dispatch(getTimesheets());
@@ -23,16 +24,20 @@ const Timesheets = () => {
 
   const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === user._id);
 
-  const tableData = employeeTimesheets.map((timesheet) => {
-    return {
-      _id: timesheet._id,
-      hours: timesheet.hours,
-      task: timesheet.task.description,
-      project: timesheet.project.name,
-      description: timesheet.description,
-      date: timesheet.date
-    };
-  });
+  useEffect(() => {
+    setTableData(
+      employeeTimesheets.map((timesheet) => {
+        return {
+          _id: timesheet._id,
+          hours: timesheet.hours,
+          task: timesheet.task.description,
+          project: timesheet.project.name,
+          description: timesheet.description,
+          date: timesheet.date
+        };
+      })
+    );
+  }, [timesheets]);
 
   const onDelete = (id, showModal) => {
     setTimeSheetId(id);
@@ -62,47 +67,54 @@ const Timesheets = () => {
     );
   }
 
-  return (
-    <div className={styles.container}>
-      <h2>Time Sheets</h2>
-      <Table
-        data={tableData}
-        headers={['Timesheet', 'Project', 'Task', 'Hours', 'Date']}
-        values={['description', 'project', 'task', 'hours', 'date']}
-        onDelete={onDelete}
-        onRowClick={onRowClick}
-      />
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => timeSheetId && dispatch(deleteTimesheet(timeSheetId))}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Timesheet</h4>
-          <p>Are you sure you want to delete this timesheet?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
-      <Button
-        text="Add Timesheet"
-        type="submit"
-        variant="primary"
-        onClick={() => {
-          history.push(`timesheets/form`);
-        }}
-      />
-      <Button
-        text="Go Back"
-        type="button"
-        variant="secondary"
-        onClick={() => {
-          history.goBack();
-        }}
-      />
-    </div>
-  );
+  if (timesheets.length) {
+    return (
+      <div className={styles.container}>
+        <h2>Time Sheets</h2>
+        <Table
+          data={tableData}
+          headers={['Timesheet', 'Project', 'Task', 'Hours', 'Date']}
+          values={['description', 'project', 'task', 'hours', 'date']}
+          onDelete={onDelete}
+          onRowClick={onRowClick}
+        />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => {
+            timeSheetId && dispatch(deleteTimesheet(timeSheetId));
+          }}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Timesheet</h4>
+            <p>Are you sure you want to delete this timesheet?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <Button
+          text="Add Timesheet"
+          type="submit"
+          variant="primary"
+          onClick={() => {
+            history.push(`timesheets/form`);
+          }}
+        />
+        <Button
+          text="Go Back"
+          type="button"
+          variant="secondary"
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+      </div>
+    );
+  } else {
+    dispatch(getTimesheets());
+    return null;
+  }
 };
 
 export default Timesheets;
