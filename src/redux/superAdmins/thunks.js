@@ -39,7 +39,10 @@ const deleteSuperAdmin = (superAdminId) => {
   return (dispatch) => {
     dispatch(deleteSuperAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
@@ -62,6 +65,7 @@ const postSuperAdmin = (superAdmin) => {
     return fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
@@ -87,6 +91,7 @@ const putSuperAdmin = (superAdmin, superAdminId) => {
     return fetch(`${process.env.REACT_APP_API_URL}/super-admins/${superAdminId}`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },

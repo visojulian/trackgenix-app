@@ -9,7 +9,13 @@ const SuperAdmins = () => {
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
-  const { list: superAdmins, isLoading, error } = useSelector((state) => state.superAdmins);
+  const {
+    list: superAdmins,
+    isLoading: superAdminsIsLoading,
+    error: superAdminsError
+  } = useSelector((state) => state.superAdmins);
+  const { isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const values = ['name', 'lastName', 'email'];
   const headers = ['Name', 'Last Name', 'Email'];
@@ -24,18 +30,18 @@ const SuperAdmins = () => {
   };
 
   const onRowClick = (id) => {
-    history.push(`/super-admins/form/${id}`);
+    history.push(`/super-admin/form/${id}`);
   };
 
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
+  if (superAdminsIsLoading || userIsLoading) {
+    return <Spinner isLoading={true} />;
   }
 
-  if (error) {
+  if (superAdminsError || userError) {
     return (
       <div className={styles.error}>
         <h4>There was an error</h4>
-        <p>{error}</p>
+        <p>{superAdminsError || userError}</p>
       </div>
     );
   }
@@ -69,7 +75,7 @@ const SuperAdmins = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            history.push('super-admins/form');
+            history.push('super-admin/form');
           }}
         />
       </div>

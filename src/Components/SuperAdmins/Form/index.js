@@ -216,7 +216,7 @@ const Form = () => {
             type="reset"
             variant="secondary"
             onClick={() => {
-              history.push('/super-admins');
+              history.push('/super-admin');
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />

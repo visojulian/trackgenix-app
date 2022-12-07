@@ -7,9 +7,9 @@ const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
 
 const routes = [
-  { name: 'Home', path: '/super-admins' },
-  { name: 'Super Admins', path: '/super-admins' },
-  { name: 'Admins', path: '/super-admins/admins' }
+  { name: 'Home', path: '/super-admin' },
+  { name: 'Super Admins', path: '/super-admin' },
+  { name: 'Admins', path: '/super-admin/admins' }
 ];
 const SuperAdminsRouter = () => {
   const { url } = useRouteMatch();
