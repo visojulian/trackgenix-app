@@ -99,7 +99,6 @@ const putSuperAdmin = (superAdmin, superAdminId) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (response.error) {
           throw new Error(response.message);
         } else {
@@ -107,7 +106,6 @@ const putSuperAdmin = (superAdmin, superAdminId) => {
         }
       })
       .catch((error) => {
-        console.log(error);
         return dispatch(putSuperAdminError(error.toString()));
       });
   };
