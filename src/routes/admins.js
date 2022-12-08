@@ -10,10 +10,10 @@ const Tasks = lazy(() => import('Components/Tasks/index'));
 const TasksForm = lazy(() => import('Components/Tasks/Form/index'));
 
 const routes = [
-  { name: 'Home', path: '/admins' },
-  { name: 'Employees', path: '/admins/employees' },
-  { name: 'Projects', path: '/admins/projects' },
-  { name: 'Tasks', path: '/admins/tasks' }
+  { name: 'Home', path: '/admin' },
+  { name: 'Employees', path: '/admin/employees' },
+  { name: 'Projects', path: '/admin/projects' },
+  { name: 'Tasks', path: '/admin/tasks' }
 ];
 const AdminsRouter = () => {
   const { url } = useRouteMatch();
@@ -23,12 +23,12 @@ const AdminsRouter = () => {
         <Route exact path={`${url}/`} component={AdminProfile} />
         <Route exact path={`${url}/employees`} component={Employees} />
         <Route path={`${url}/employees/form/:id`} component={EmployeeForm} />
-        <Route exact path={`${url}/admins/projects`} component={Projects} />
-        <Route exact path={`${url}/admins/projects/form`} component={ProjectsForm} />
-        <Route path={`${url}/admins/projects/form/:id`} component={ProjectsForm} />
-        <Route exact path={`${url}/admins/tasks`} component={Tasks} />
-        <Route exact path={`${url}/admins/tasks/form`} component={TasksForm} />
-        <Route path={`${url}/admins/tasks/form/:id`} component={TasksForm} />
+        <Route exact path={`${url}/projects`} component={Projects} />
+        <Route exact path={`${url}/projects/form`} component={ProjectsForm} />
+        <Route path={`${url}/projects/form/:id`} component={ProjectsForm} />
+        <Route exact path={`${url}/tasks`} component={Tasks} />
+        <Route exact path={`${url}/tasks/form`} component={TasksForm} />
+        <Route path={`${url}/tasks/form/:id`} component={TasksForm} />
         <Redirect to={`${url}/`} />
       </Switch>
     </Layout>
