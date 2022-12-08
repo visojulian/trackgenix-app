@@ -26,7 +26,7 @@ const Tasks = () => {
   };
 
   const onRowClick = (id) => {
-    history.push(`/tasks/form/${id}`);
+    history.push(`tasks/form/${id}`);
   };
 
   if (isLoading) {
@@ -69,7 +69,7 @@ const Tasks = () => {
         type="submit"
         variant="primary"
         onClick={() => {
-          history.push(`/tasks/form`);
+          history.push(`tasks/form`);
         }}
       />
     </section>

@@ -24,7 +24,7 @@ function Employees() {
   };
 
   const onRowClick = (id) => {
-    history.push(`/employees/form/${id}`);
+    history.push(`employees/form/${id}`);
   };
 
   if (isLoading) {
@@ -69,7 +69,7 @@ function Employees() {
           type="submit"
           variant="primary"
           onClick={() => {
-            history.push(`/employees/form`);
+            history.push(`employees/form`);
           }}
         />
       </div>

@@ -105,7 +105,7 @@ const EditEmployee = () => {
       putEmployee(data.name, data.lastName, data.phone, data.email, data.password, id)
     );
     if (res.type === PUT_EMPLOYEE_SUCCESS) {
-      history.push(`/employees/employee-profile/${id}`);
+      history.push(`employees/employee-profile/${id}`);
     } else {
       setShowModal(true);
     }
