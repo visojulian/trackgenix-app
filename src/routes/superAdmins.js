@@ -3,6 +3,7 @@ import React, { lazy } from 'react';
 import { useRouteMatch, Redirect, Route, Switch } from 'react-router-dom';
 const SuperAdmins = lazy(() => import('Components/SuperAdmins'));
 const SuperAdminProfile = lazy(() => import('Components/SuperAdmins/SuperAdminProfile'));
+const EditSuperAdmin = lazy(() => import('Components/SuperAdmins/EditSuperAdmin'));
 const SuperAdminsForm = lazy(() => import('Components/SuperAdmins/Form'));
 const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
@@ -18,6 +19,7 @@ const SuperAdminsRouter = () => {
     <Layout routes={routes}>
       <Switch>
         <Route exact path={`${url}/`} component={SuperAdminProfile} />
+        <Route exact path={`${url}/edit-profile`} component={EditSuperAdmin} />
         <Route exact path={`${url}/list`} component={SuperAdmins} />
         <Route exact path={`${url}/form`} component={SuperAdminsForm} />
         <Route path={`${url}/form/:id`} component={SuperAdminsForm} />

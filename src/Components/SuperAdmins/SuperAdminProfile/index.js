@@ -59,7 +59,7 @@ const SuperAdminProfile = () => {
   };
 
   const editAccount = () => {
-    history.push(`/super-admin/form/${superAdminId}`);
+    history.push('/super-admin/edit-profile');
   };
 
   const goBack = () => {

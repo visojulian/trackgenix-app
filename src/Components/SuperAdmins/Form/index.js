@@ -6,7 +6,7 @@ import { postSuperAdmin, putSuperAdmin } from 'redux/superAdmins/thunks';
 import { POST_SUPER_ADMIN_SUCCESS, PUT_SUPER_ADMIN_SUCCESS } from 'redux/superAdmins/constants';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/super-admins';
+import { schema } from 'validations/super-admins';
 import React, { useState, useEffect } from 'react';
 
 const Form = () => {
