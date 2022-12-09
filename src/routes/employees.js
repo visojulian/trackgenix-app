@@ -2,7 +2,7 @@ import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
 import { useRouteMatch, Redirect, Route, Switch } from 'react-router-dom';
 const Projects = lazy(() => import('Components/Employee/Projects'));
-const ProjectForm = lazy(() => import('Components/Projects/Form'));
+const ProjectForm = lazy(() => import('Components/Employee/Projects/Form'));
 const EmployeeProfile = lazy(() => import('Components/Employee/EmployeeProfile'));
 const EditEmployee = lazy(() => import('Components/Employee/EditEmployee'));
 const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
