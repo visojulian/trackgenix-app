@@ -99,7 +99,7 @@ const Form = () => {
     ) {
       return (
         <div>
-          <h4>Edit New Super Admin</h4>
+          <h4>Edit Super Admin</h4>
           <p>
             Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
@@ -123,10 +123,19 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
-    delete data.repeatEmail;
-    delete data.repeatPassword;
+    const createData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password
+    };
+    const editData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
     if (!isEditing) {
-      const res = await dispatch(postSuperAdmin(data));
+      const res = await dispatch(postSuperAdmin(createData));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
@@ -134,7 +143,7 @@ const Form = () => {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putSuperAdmin(data, id));
+      const res = await dispatch(putSuperAdmin(editData, id));
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
@@ -198,7 +207,7 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        {!isEditing ? (
+        {!isEditing && (
           <>
             <div className={styles.passwordDiv}>
               <TextInput
@@ -229,8 +238,6 @@ const Form = () => {
               error={errors.repeatPassword?.message}
             />
           </>
-        ) : (
-          ''
         )}
         <div className={styles.butCont}>
           <Button
