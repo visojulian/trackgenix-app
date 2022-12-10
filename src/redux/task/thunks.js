@@ -39,7 +39,10 @@ export const deleteTask = (taskId) => {
   return (dispatch) => {
     dispatch(deleteTaskPending());
     fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
@@ -62,6 +65,7 @@ export const postTask = (description) => {
     return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         'Content-type': 'application/json'
       },
       body: JSON.stringify({ description: description })
@@ -86,6 +90,7 @@ export const putTask = (description, taskId) => {
     return fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-type': 'application/json'
       },

@@ -45,7 +45,7 @@ const EmployeeProfile = () => {
   }
 
   const editAccount = () => {
-    history.push(`/employee/edit-profile`);
+    history.push(`employee/edit-profile`);
   };
 
   const goBack = () => {
