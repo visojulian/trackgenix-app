@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile } from 'redux/user/thunks';
 import styles from './profile.module.css';
 import { Button, Spinner } from 'Components/Shared';
 import { logout } from '../../../redux/auth/thunks';
@@ -14,10 +13,6 @@ const AdminProfile = () => {
     lastName: '',
     email: ''
   });
-
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, []);
 
   useEffect(() => {
     if (user) {
