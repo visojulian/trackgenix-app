@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
 import styles from './employees.module.css';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { Modal, Spinner, Table } from 'Components/Shared';
 
 function Employees() {
   const [employeeId, setEmployeeId] = useState();
@@ -64,14 +64,6 @@ function Employees() {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <Button
-          text="Add Employee"
-          type="submit"
-          variant="primary"
-          onClick={() => {
-            history.push(`employees/form`);
-          }}
-        />
       </div>
     </>
   );
