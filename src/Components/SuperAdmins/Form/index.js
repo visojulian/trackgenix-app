@@ -6,7 +6,7 @@ import { postSuperAdmin, putSuperAdmin } from 'redux/superAdmins/thunks';
 import { POST_SUPER_ADMIN_SUCCESS, PUT_SUPER_ADMIN_SUCCESS } from 'redux/superAdmins/constants';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from 'validations/super-admins';
+import { editSchema, schema } from 'validations/super-admins';
 import React, { useState, useEffect } from 'react';
 
 const Form = () => {
@@ -29,7 +29,7 @@ const Form = () => {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema)
+    resolver: joiResolver(isEditing ? editSchema : schema)
   });
 
   useEffect(async () => {
@@ -40,8 +40,7 @@ const Form = () => {
           name: foundSuperAdmin.name,
           lastName: foundSuperAdmin.lastName,
           email: foundSuperAdmin.email,
-          password: foundSuperAdmin.password,
-          repeatPassword: foundSuperAdmin.password
+          repeatEmail: foundSuperAdmin.repeatEmail
         });
       }
     } catch (error) {
@@ -53,6 +52,15 @@ const Form = () => {
     e.preventDefault();
     trigger();
     setShowModal(true);
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('repeatEmail') &&
+      !Object.values(errors).length
+    ) {
+      setIsActionModal(true);
+    }
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -99,7 +107,7 @@ const Form = () => {
     ) {
       return (
         <div>
-          <h4>Edit New Super Admin</h4>
+          <h4>Edit Super Admin</h4>
           <p>
             Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
@@ -123,10 +131,21 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
-    delete data.repeatEmail;
-    delete data.repeatPassword;
+    const editData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
+
+    const createData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password
+    };
+
     if (!isEditing) {
-      const res = await dispatch(postSuperAdmin(data));
+      const res = await dispatch(postSuperAdmin(createData));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
@@ -134,7 +153,7 @@ const Form = () => {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putSuperAdmin(data, id));
+      const res = await dispatch(putSuperAdmin(editData, id));
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {

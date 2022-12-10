@@ -31,7 +31,6 @@ const SuperAdmins = () => {
 
   const onRowClick = (id) => {
     if (id === user._id) {
-      console.log('son iguales');
       history.push('/super-admin/edit-profile');
     } else {
       history.push(`/super-admin/form/${id}`);
