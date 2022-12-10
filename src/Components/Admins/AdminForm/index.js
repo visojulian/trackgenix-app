@@ -6,7 +6,7 @@ import { POST_ADMIN_SUCCESS, PUT_ADMIN_SUCCESS } from 'redux/admins/constants';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/admins';
+import { schema, editSchema } from 'validations/admins';
 import styles from './adminForm.module.css';
 
 const AdminForm = () => {
@@ -18,6 +18,7 @@ const AdminForm = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const { list: admins, isLoading, error } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
+  const currentAdmin = admins.find((item) => item._id === id);
 
   const {
     handleSubmit,
@@ -28,13 +29,34 @@ const AdminForm = () => {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema)
+    resolver: joiResolver(isEditing ? editSchema : schema)
   });
+
+  useEffect(() => {
+    if (id && currentAdmin) {
+      setIsEditing(true);
+      reset({
+        name: currentAdmin.name,
+        lastName: currentAdmin.lastName,
+        email: currentAdmin.email,
+        repeatEmail: currentAdmin.email
+      });
+    }
+  }, [id, currentAdmin]);
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
     trigger();
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('repeatEmail') &&
+      !Object.values(errors).length
+    ) {
+      setIsActionModal(true);
+    }
     if (
       getValues('name') &&
       getValues('lastName') &&
@@ -81,7 +103,7 @@ const AdminForm = () => {
     ) {
       return (
         <div>
-          <h4>Edit New Admin</h4>
+          <h4>Edit Admin</h4>
           <p>
             Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
@@ -96,26 +118,21 @@ const AdminForm = () => {
     );
   };
 
-  useEffect(() => {
-    if (id) {
-      setIsEditing(true);
-      const currentAdmin = admins.find((item) => item._id === id);
-      reset({
-        name: currentAdmin.name,
-        lastName: currentAdmin.lastName,
-        email: currentAdmin.email,
-        repeatEmail: currentAdmin.email,
-        password: currentAdmin.password,
-        repeatPassword: currentAdmin.password
-      });
-    }
-  }, []);
-
   const onSubmit = async (data) => {
+    const editData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
+
+    const createData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password
+    };
     if (!isEditing) {
-      const response = await dispatch(
-        postAdmin(data.name, data.lastName, data.email, data.password)
-      );
+      const response = await dispatch(postAdmin(createData));
       if (response.type === POST_ADMIN_SUCCESS) {
         history.goBack();
       } else {
@@ -123,9 +140,7 @@ const AdminForm = () => {
         setShowModal(true);
       }
     } else {
-      const response = await dispatch(
-        putAdmin(data.name, data.lastName, data.email, data.password, id)
-      );
+      const response = await dispatch(putAdmin(editData, id));
       if (response.type === PUT_ADMIN_SUCCESS) {
         history.goBack();
       } else {

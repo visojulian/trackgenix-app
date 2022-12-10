@@ -39,7 +39,10 @@ export const deleteAdmin = (adminId) => {
   return (dispatch) => {
     dispatch(deleteAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
@@ -56,16 +59,18 @@ export const deleteAdmin = (adminId) => {
   };
 };
 
-export const putAdmin = (name, lastName, email, password, adminId) => {
+export const putAdmin = (admin, adminId) => {
   return (dispatch) => {
+    console.log(adminId);
     dispatch(putAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
+      body: JSON.stringify(admin)
     })
       .then((response) => response.json())
       .then((response) => {
@@ -76,20 +81,22 @@ export const putAdmin = (name, lastName, email, password, adminId) => {
         }
       })
       .catch((err) => {
+        console.log(err);
         return dispatch(putAdminError(err.toString()));
       });
   };
 };
 
-export const postAdmin = (name, lastName, email, password) => {
+export const postAdmin = (admin) => {
   return (dispatch) => {
     dispatch(postAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ name: name, lastName: lastName, email: email, password: password })
+      body: JSON.stringify(admin)
     })
       .then((response) => response.json())
       .then((response) => {
