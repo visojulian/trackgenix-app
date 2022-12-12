@@ -6,7 +6,7 @@ import { postSuperAdmin, putSuperAdmin } from 'redux/superAdmins/thunks';
 import { POST_SUPER_ADMIN_SUCCESS, PUT_SUPER_ADMIN_SUCCESS } from 'redux/superAdmins/constants';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../../validations/super-admins';
+import { schema } from 'validations/super-admins';
 import React, { useState, useEffect } from 'react';
 
 const Form = () => {
@@ -68,7 +68,7 @@ const Form = () => {
     if (error) {
       return (
         <div>
-          <h4>Server error</h4>
+          <h4>An error occurred</h4>
           <p>{error}</p>
         </div>
       );
@@ -78,14 +78,30 @@ const Form = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('password') &&
+      !isEditing &&
       !Object.values(errors).length
     ) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Superadmin</h4>
+          <h4>Add New Super Admin</h4>
           <p>
-            Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
-            {getValues('lastName')} {isEditing ? 'changes' : 'as Superadmin'}?
+            Are you sure you want to add {getValues('name')} {getValues('lastName')} as Super Admin?
+          </p>
+        </div>
+      );
+    }
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      isEditing &&
+      !Object.values(errors).length
+    ) {
+      return (
+        <div>
+          <h4>Edit Super Admin</h4>
+          <p>
+            Are you sure you want to save {getValues('name')} {getValues('lastName')} changes?
           </p>
         </div>
       );
@@ -107,39 +123,48 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
-    delete data.repeatEmail;
-    delete data.repeatPassword;
+    const createData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password
+    };
+    const editData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
     if (!isEditing) {
-      const res = await dispatch(postSuperAdmin(data));
+      const res = await dispatch(postSuperAdmin(createData));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putSuperAdmin(data, id));
+      const res = await dispatch(putSuperAdmin(editData, id));
       if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
         history.goBack();
       } else {
+        setIsActionModal(false);
         setShowModal(true);
       }
     }
   };
 
   const showPassword = () => {
-    setReveal(reveal ? false : true);
+    setReveal(!reveal);
   };
+
+  useEffect(() => {
+    if (error) {
+      setShowModal(true);
+    }
+  }, [error]);
 
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;
-  }
-
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <h1>{error}</h1>
-      </div>
-    );
   }
 
   return (
@@ -182,41 +207,45 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        <div className={styles.passwordDiv}>
-          <TextInput
-            label="Password"
-            id="password"
-            name="password"
-            register={register}
-            type={reveal ? 'text' : 'password'}
-            placeholder="Password"
-            error={errors.password?.message}
-          />
-          <div className={styles.revealButton}>
-            <Button
-              text={reveal ? 'Hide password' : 'Reveal password'}
-              type="button"
-              variant="secondary"
-              onClick={showPassword}
+        {!isEditing && (
+          <>
+            <div className={styles.passwordDiv}>
+              <TextInput
+                label="Password"
+                id="password"
+                name="password"
+                register={register}
+                type={reveal ? 'text' : 'password'}
+                placeholder="Password"
+                error={errors.password?.message}
+              />
+              <div className={styles.revealButton}>
+                <Button
+                  text={reveal ? 'Hide password' : 'Reveal password'}
+                  type="button"
+                  variant="secondary"
+                  onClick={showPassword}
+                />
+              </div>
+            </div>
+            <TextInput
+              label="Repeat Password"
+              id="repeatPassword"
+              name="repeatPassword"
+              register={register}
+              type={reveal ? 'text' : 'password'}
+              placeholder="Repeat Password"
+              error={errors.repeatPassword?.message}
             />
-          </div>
-        </div>
-        <TextInput
-          label="Repeat Password"
-          id="repeatPassword"
-          name="repeatPassword"
-          register={register}
-          type={reveal ? 'text' : 'password'}
-          placeholder="Repeat Password"
-          error={errors.repeatPassword?.message}
-        />
+          </>
+        )}
         <div className={styles.butCont}>
           <Button
             text="Cancel"
             type="reset"
             variant="secondary"
             onClick={() => {
-              history.push('/super-admin');
+              history.goBack();
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />

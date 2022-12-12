@@ -14,7 +14,7 @@ const SuperAdmins = () => {
     isLoading: superAdminsIsLoading,
     error: superAdminsError
   } = useSelector((state) => state.superAdmins);
-  const { isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
+  const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const values = ['name', 'lastName', 'email'];
@@ -30,7 +30,11 @@ const SuperAdmins = () => {
   };
 
   const onRowClick = (id) => {
-    history.push(`/super-admin/form/${id}`);
+    if (id === user._id) {
+      history.push('/super-admin/edit-profile');
+    } else {
+      history.push(`/super-admin/form/${id}`);
+    }
   };
 
   if (superAdminsIsLoading || userIsLoading) {
@@ -75,7 +79,7 @@ const SuperAdmins = () => {
           type="submit"
           variant="primary"
           onClick={() => {
-            history.push('super-admin/form');
+            history.push('/super-admin/form');
           }}
         />
       </div>
