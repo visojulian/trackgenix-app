@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const editSchema = Joi.object({
+export const schema = Joi.object({
   name: Joi.string()
     .required()
     .min(3)
@@ -66,7 +66,7 @@ export const editSchema = Joi.object({
   })
 });
 
-export const schema = Joi.object({
+export const editSchema = Joi.object({
   name: Joi.string()
     .required()
     .min(3)

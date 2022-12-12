@@ -95,9 +95,7 @@ const EditEmployee = () => {
   };
 
   const onSubmit = async (data) => {
-    const res = await dispatch(
-      putEmployee(data.name, data.lastName, data.phone, data.email, data.password, id)
-    );
+    const res = await dispatch(putEmployee(data.name, data.lastName, data.phone, data.email, id));
     if (res.type === PUT_EMPLOYEE_SUCCESS) {
       history.push(`employees/employee-profile/${id}`);
     } else {
