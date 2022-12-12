@@ -5,8 +5,8 @@ import styles from '../Form/form.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from 'validations/super-admins';
-import { PUT_SUPER_ADMIN_PENDING } from 'redux/superAdmins/constants';
+import { editSchema } from 'validations/super-admins';
+import { PUT_SUPER_ADMIN_SUCCESS } from 'redux/superAdmins/constants';
 import { putSuperAdmin } from 'redux/superAdmins/thunks';
 
 const EditSuperAdmin = () => {
@@ -22,7 +22,7 @@ const EditSuperAdmin = () => {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema)
+    resolver: joiResolver(editSchema)
   });
 
   const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
@@ -40,11 +40,8 @@ const EditSuperAdmin = () => {
       reset({
         name: currentSuperAdmins.name,
         lastName: currentSuperAdmins.lastName,
-        phone: currentSuperAdmins.phone,
         email: currentSuperAdmins.email,
-        repeatEmail: currentSuperAdmins.repeatEmail,
-        password: currentSuperAdmins.password,
-        repeatPassword: currentSuperAdmins.repeatPassword
+        repeatEmail: currentSuperAdmins.repeatEmail
       });
     }
   }, [superAdmins.length, id]);
@@ -52,7 +49,12 @@ const EditSuperAdmin = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
-    if (getValues('name') && getValues('lastName') && getValues('email') && getValues('phone')) {
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('repeatEmail')
+    ) {
       setIsActionModal(true);
     }
   };
@@ -66,7 +68,12 @@ const EditSuperAdmin = () => {
         </div>
       );
     }
-    if (getValues('name') && getValues('lastName') && getValues('phone') && getValues('email')) {
+    if (
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('email') &&
+      getValues('repeatEmail')
+    ) {
       return (
         <div>
           <h4>Edit User</h4>
@@ -85,9 +92,13 @@ const EditSuperAdmin = () => {
   };
 
   const onSubmit = async (data) => {
-    delete data.repeatEmail;
-    const res = await dispatch(putSuperAdmin(data, id));
-    if (res.type === PUT_SUPER_ADMIN_PENDING) {
+    const correctData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
+    const res = await dispatch(putSuperAdmin(correctData, id));
+    if (res.type === PUT_SUPER_ADMIN_SUCCESS) {
       history.goBack();
     } else {
       setIsActionModal(false);
