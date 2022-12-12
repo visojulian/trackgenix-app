@@ -7,12 +7,11 @@ import styles from './employee.module.css';
 import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { schema } from 'validations/employees';
+import { editSchema } from 'validations/employees';
 
 const EditEmployee = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const {
@@ -23,12 +22,9 @@ const EditEmployee = () => {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema)
+    resolver: joiResolver(editSchema)
   });
 
-  const revealFunc = () => {
-    setReveal(reveal ? false : true);
-  };
   const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
   const id = user._id;
 
@@ -46,9 +42,7 @@ const EditEmployee = () => {
         lastName: currentEmployee.lastName,
         phone: currentEmployee.phone,
         email: currentEmployee.email,
-        repeatEmail: currentEmployee.repeatEmail,
-        password: currentEmployee.password,
-        repeatPassword: currentEmployee.repeatPassword
+        repeatEmail: currentEmployee.repeatEmail
       });
     }
   }, [employees.length, id]);
@@ -61,7 +55,7 @@ const EditEmployee = () => {
       getValues('lastName') &&
       getValues('email') &&
       getValues('phone') &&
-      getValues('password')
+      getValues('repeatEmail')
     ) {
       setIsActionModal(true);
     }
@@ -81,11 +75,11 @@ const EditEmployee = () => {
       getValues('lastName') &&
       getValues('phone') &&
       getValues('email') &&
-      getValues('password')
+      getValues('repeatEmail')
     ) {
       return (
         <div>
-          <h4>Edit Employee</h4>
+          <h4>Edit profile</h4>
           <p>
             Are you sure you want to edit {getValues('name')} {getValues('lastName')}?
           </p>
@@ -164,24 +158,7 @@ const EditEmployee = () => {
           register={register}
           error={errors.repeatEmail?.message}
         />
-        <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          type={reveal ? 'text' : 'password'}
-          register={register}
-          error={errors.password?.message}
-        />
-        <TextInput
-          label="Repeat Password"
-          id="repeatPassword"
-          name="repeatPassword"
-          type={reveal ? 'text' : 'password'}
-          placeholder="Repeat Password"
-          register={register}
-          error={errors.repeatPassword?.message}
-        />
+
         <div className={styles.butCont}>
           <Button
             text="Cancel"
@@ -192,12 +169,6 @@ const EditEmployee = () => {
             }}
           />
           <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
-          <Button
-            text={reveal ? 'Hide password' : 'Reveal password'}
-            type="button"
-            variant="secondary"
-            onClick={revealFunc}
-          />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
