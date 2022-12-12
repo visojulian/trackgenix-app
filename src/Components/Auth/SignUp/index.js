@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee } from 'redux/employees/thunks';
@@ -16,6 +16,7 @@ const SignUp = () => {
   const [isActionModal, setIsActionModal] = useState(false);
   const { isLoading: loading, error: employeeError } = useSelector((state) => state.employees);
   const [reveal, setReveal] = useState(false);
+  const error = useSelector((state) => state.auth.error);
 
   const {
     handleSubmit,
@@ -29,24 +30,39 @@ const SignUp = () => {
     resolver: joiResolver(schema)
   });
 
+  useEffect(() => {
+    if (error || Object.values(errors).length) {
+      setShowModal(true);
+    }
+  }, [error]);
+
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
     trigger();
     if (
+      !Object.values(errors).length &&
       getValues('name') &&
       getValues('lastName') &&
       getValues('phone') &&
       getValues('email') &&
-      getValues('password') &&
-      !Object.values(errors).length
+      getValues('password')
     ) {
       setIsActionModal(true);
+    } else {
+      setIsActionModal(false);
     }
   };
-
   const getModalContent = () => {
-    if (employeeError) {
+    if (Object.values(errors).length) {
+      return (
+        <div>
+          <h4>Form fields have errors</h4>
+          <p>Please make sure to amend all errors before submit.</p>
+        </div>
+      );
+    }
+    if (employeeError && !isActionModal) {
       return (
         <div>
           <h4>Server error</h4>
@@ -71,14 +87,6 @@ const SignUp = () => {
         </div>
       );
     }
-    if (Object.values(errors).length) {
-      return (
-        <div>
-          <h4>Form fields have errors</h4>
-          <p>Please make sure to amend all errors before submit.</p>
-        </div>
-      );
-    }
     return (
       <div>
         <h4>Form incomplete</h4>
@@ -92,9 +100,10 @@ const SignUp = () => {
       postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
     );
     if (res.type === POST_EMPLOYEE_SUCCESS) {
-      history.push('auth/login');
+      history.push('login');
     } else {
       setShowModal(true);
+      setIsActionModal(false);
     }
   };
 

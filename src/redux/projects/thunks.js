@@ -39,7 +39,10 @@ const deleteProject = (projectId) => {
   return (dispatch) => {
     dispatch(deleteProjectPending());
     fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (res) => {
         const isJson = res.headers.get('res-type')?.includes('application/json');
@@ -62,6 +65,7 @@ const postProject = (body) => {
     return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
@@ -87,6 +91,7 @@ const putProject = (body, id) => {
     return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}/update`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },

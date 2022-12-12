@@ -61,7 +61,6 @@ export const deleteAdmin = (adminId) => {
 
 export const putAdmin = (admin, adminId) => {
   return (dispatch) => {
-    console.log(adminId);
     dispatch(putAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins/${adminId}`, {
       method: 'PUT',

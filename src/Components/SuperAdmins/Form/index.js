@@ -131,19 +131,17 @@ const Form = () => {
   };
 
   const onSubmit = async (data) => {
-    const editData = {
-      name: data.name,
-      lastName: data.lastName,
-      email: data.email
-    };
-
     const createData = {
       name: data.name,
       lastName: data.lastName,
       email: data.email,
       password: data.password
     };
-
+    const editData = {
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email
+    };
     if (!isEditing) {
       const res = await dispatch(postSuperAdmin(createData));
       if (res.type === POST_SUPER_ADMIN_SUCCESS) {
@@ -217,7 +215,7 @@ const Form = () => {
           placeholder="Repeat Email"
           error={errors.repeatEmail?.message}
         />
-        {!isEditing ? (
+        {!isEditing && (
           <>
             <div className={styles.passwordDiv}>
               <TextInput
@@ -248,8 +246,6 @@ const Form = () => {
               error={errors.repeatPassword?.message}
             />
           </>
-        ) : (
-          ''
         )}
         <div className={styles.butCont}>
           <Button

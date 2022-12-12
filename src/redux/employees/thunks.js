@@ -39,7 +39,10 @@ const deleteEmployee = (employeeId) => {
   return (dispatch) => {
     dispatch(deleteEmployeePending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        token: sessionStorage.getItem('token')
+      }
     })
       .then(async (response) => {
         const json = response.headers.get('content-type')?.includes('application/json');
@@ -62,6 +65,7 @@ const postEmployee = (name, lastName, phone, email, password) => {
     return fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
       method: 'POST',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-type': 'application/json'
       },
@@ -93,6 +97,7 @@ const putEmployee = (name, lastName, phone, email, password, employeeId) => {
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
       method: 'PUT',
       headers: {
+        token: sessionStorage.getItem('token'),
         Accept: 'application/json',
         'Content-type': 'application/json'
       },

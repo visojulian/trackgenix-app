@@ -5,6 +5,7 @@ export const schema = Joi.object({
     .required()
     .min(3)
     .max(20)
+    .trim()
     .pattern(/^[a-zA-Z]{3,50}$/)
     .messages({
       'strig.required': 'Name is required',
@@ -17,6 +18,7 @@ export const schema = Joi.object({
     .required()
     .min(3)
     .max(25)
+    .trim()
     .pattern(/^[a-zA-Z]{3,50}$/)
     .messages({
       'strig.required': 'Last Name is required',
@@ -28,6 +30,7 @@ export const schema = Joi.object({
   phone: Joi.string()
     .required()
     .length(10)
+    .trim()
     .pattern(/^[0-9]+$/)
     .messages({
       'string.required': ' Phone is required',
@@ -38,6 +41,7 @@ export const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required()
+    .trim()
     .messages({
       'string.required': 'Email is required',
       'string.empty': 'Email cannot be empty',
@@ -49,6 +53,7 @@ export const schema = Joi.object({
   password: Joi.string()
     .required()
     .min(8)
+    .trim()
     .pattern(/^[a-zA-Z0-9]{8,30}$/)
     .messages({
       'string.required': 'Password is required',
