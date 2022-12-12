@@ -91,7 +91,7 @@ const postEmployee = (name, lastName, phone, email, password) => {
   };
 };
 
-const putEmployee = (name, lastName, phone, email, password, employeeId) => {
+const putEmployee = (name, lastName, phone, email, employeeId) => {
   return (dispatch) => {
     dispatch(putEmployeePending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
@@ -105,8 +105,7 @@ const putEmployee = (name, lastName, phone, email, password, employeeId) => {
         name: name,
         lastName: lastName,
         phone: phone,
-        email: email,
-        password: password
+        email: email
       })
     })
       .then((response) => response.json())
