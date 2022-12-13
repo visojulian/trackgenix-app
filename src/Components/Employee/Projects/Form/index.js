@@ -138,7 +138,7 @@ const ProjectForm = () => {
     if (!Object.values(errors).length) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
+          <h4>{isEditing ? 'Edit' : 'Add'} Project</h4>
           <p>
             Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
             {isEditing ? 'changes' : ''}?
