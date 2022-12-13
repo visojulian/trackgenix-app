@@ -7,16 +7,23 @@ import { getEmployees } from 'redux/employees/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from 'validations/projects';
-import { Button, Modal, Select, Spinner, Table, TextInput } from 'Components/Shared';
-import styles from './form.module.css';
+import { Button, Modal, Spinner, Table, TextInput } from 'Components/Shared';
+import styles from 'Components/Projects/Form/form.module.css';
+import { getTimesheets } from 'redux/timeSheets/thunks';
+import EmployeeForm from './employeeForm';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
+  const [clickedEmployee, setClickedEmployee] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
-  const roles = ['PM', 'QA', 'DEV', 'TL'];
+  const {
+    list: timesheets,
+    isLoading: timesheetsIsLoading,
+    error: timesheetsError
+  } = useSelector((state) => state.timeSheets);
 
   const isEditing = Boolean(id);
   const dispatch = useDispatch();
@@ -47,6 +54,7 @@ const ProjectForm = () => {
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getEmployees());
+    dispatch(getTimesheets());
   }, []);
 
   useEffect(() => {
@@ -70,7 +78,7 @@ const ProjectForm = () => {
     }
   }, [id, isEditing, projects]);
 
-  const newArr = () => {
+  const thisProjectEmployees = () => {
     const headers = [];
     projectEmployees.map((employee) => {
       const selectedEmployee = employees.find((item) => item._id === employee.employee);
@@ -86,18 +94,11 @@ const ProjectForm = () => {
     return headers;
   };
 
-  const onRowClick = () => {};
+  const projectTimesheets = timesheets.filter((timesheet) => timesheet.project._id === id);
 
-  const addEmployee = (e) => {
-    e.preventDefault();
-    setProjectEmployees([
-      ...projectEmployees,
-      {
-        employee: getValues('employee'),
-        rate: getValues('rate'),
-        role: getValues('role')
-      }
-    ]);
+  const onRowClick = (id) => {
+    const employee = thisProjectEmployees().find((employee) => employee._id === id);
+    setClickedEmployee(employee);
   };
 
   const handleDelete = (index) => {
@@ -108,8 +109,8 @@ const ProjectForm = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setShowModal(true);
     trigger();
+    setShowModal(true);
     if (!Object.values(errors).length) {
       setIsActionModal(true);
     } else {
@@ -118,18 +119,18 @@ const ProjectForm = () => {
   };
 
   const getModalContent = () => {
-    if (errorProjects || errorEmployees) {
+    if (errorProjects || errorEmployees || timesheetsError) {
       return (
         <div>
           <h4>Server error</h4>
-          <p>{errorProjects || errorEmployees}</p>
+          <p>{errorProjects || errorEmployees || timesheetsError}</p>
         </div>
       );
     }
     if (!Object.values(errors).length) {
       return (
         <div>
-          <h4>{isEditing ? 'Edit' : 'Add'} New Project</h4>
+          <h4>{isEditing ? 'Edit' : 'Add'} Project</h4>
           <p>
             Are you sure you want to {isEditing ? 'save' : 'add'} {getValues('name')}{' '}
             {isEditing ? 'changes' : ''}?
@@ -171,7 +172,7 @@ const ProjectForm = () => {
     }
   };
 
-  if (projectsIsLoading || employeesIsLoading) {
+  if (projectsIsLoading || employeesIsLoading || timesheetsIsLoading) {
     return <Spinner isLoading={true} />;
   }
   return (
@@ -226,44 +227,15 @@ const ProjectForm = () => {
         <div className={styles.listContainer}>
           <div>
             <h4>Employees</h4>
-            <div>
-              <div className={styles.newEmployeeInputs}>
-                <Select
-                  name="employee"
-                  placeholder="Select an employee"
-                  register={register}
-                  error={errors.employee?.message}
-                  data={employees.map((employee) => ({
-                    id: employee._id,
-                    value: employee.name
-                  }))}
-                />
-                <Select
-                  name="role"
-                  placeholder="Select Role"
-                  register={register}
-                  error={errors.role?.message}
-                  data={roles.map((role) => ({
-                    value: role
-                  }))}
-                />
-                <TextInput
-                  id="rate"
-                  name="rate"
-                  register={register}
-                  error={errors.rate?.message}
-                  type="text"
-                  placeholder="Rate"
-                />
-              </div>
-              <div className={styles.buttonAssign}>
-                <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
-              </div>
-            </div>
+            <EmployeeForm
+              selectedEmployee={clickedEmployee}
+              employees={projectEmployees}
+              setEmployees={setProjectEmployees}
+            />
             <Table
               className={styles.employeeList}
-              data={newArr()}
-              headers={['name', 'role', 'rate']}
+              data={thisProjectEmployees()}
+              headers={['Employee', 'Role', 'Rate']}
               onDelete={handleDelete}
               onRowClick={onRowClick}
               values={['name', 'role', 'rate']}
@@ -292,6 +264,28 @@ const ProjectForm = () => {
           </div>
         </div>
       </form>
+      <div className={styles.listContainer}>
+        <div>
+          <h2>This project timesheets:</h2>
+          {projectTimesheets.length ? (
+            <Table
+              data={projectTimesheets.map((project) => ({
+                name: project.description,
+                employee: `${project.employee.name} ${project.employee.lastName}`,
+                hours: project.hours,
+                task: project.task.description,
+                date: project.date.slice(0, 10)
+              }))}
+              headers={['Project Name', 'Employee Name', 'Hours', 'Task', 'Date']}
+              onDelete={handleDelete}
+              onRowClick={onRowClick}
+              values={['name', 'employee', 'hours', 'task', 'date']}
+            />
+          ) : (
+            <h3>This project has not timesheets loaded yet.</h3>
+          )}
+        </div>
+      </div>
     </>
   );
 };

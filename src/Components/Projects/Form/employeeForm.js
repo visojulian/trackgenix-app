@@ -128,7 +128,11 @@ const employeeForm = (props) => {
         />
       </div>
       <div className={styles.buttonAssign}>
-        <Button text="Assign new employee" variant="secondary" onClick={handleConfirmModal} />
+        <Button
+          text={isEditing ? 'Save changes' : 'Assign new employee'}
+          variant="secondary"
+          onClick={handleConfirmModal}
+        />
       </div>
       <Modal
         isOpen={showModal}

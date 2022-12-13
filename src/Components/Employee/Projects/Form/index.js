@@ -10,7 +10,7 @@ import { schema } from 'validations/projects';
 import { Button, Modal, Spinner, Table, TextInput } from 'Components/Shared';
 import styles from 'Components/Projects/Form/form.module.css';
 import { getTimesheets } from 'redux/timeSheets/thunks';
-import EmployeeForm from './employeeForm';
+import EmployeeForm from 'Components/Projects/Form/employeeForm';
 
 const ProjectForm = () => {
   const { id } = useParams();
