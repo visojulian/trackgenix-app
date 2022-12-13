@@ -7,14 +7,16 @@ import { getEmployees } from 'redux/employees/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from 'validations/projects';
-import { Button, Modal, Select, Spinner, Table, TextInput } from 'Components/Shared';
+import { Button, Modal, Spinner, Table, TextInput } from 'Components/Shared';
 import styles from 'Components/Projects/Form/form.module.css';
 import { getTimesheets } from 'redux/timeSheets/thunks';
+import EmployeeForm from './employeeForm';
 
 const ProjectForm = () => {
   const { id } = useParams();
   const history = useHistory();
   const [projectEmployees, setProjectEmployees] = useState([]);
+  const [clickedEmployee, setClickedEmployee] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const {
@@ -22,7 +24,6 @@ const ProjectForm = () => {
     isLoading: timesheetsIsLoading,
     error: timesheetsError
   } = useSelector((state) => state.timeSheets);
-  const roles = ['PM', 'QA', 'DEV', 'TL'];
 
   const isEditing = Boolean(id);
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ const ProjectForm = () => {
     }
   }, [id, isEditing, projects]);
 
-  const newArr = () => {
+  const thisProjectEmployees = () => {
     const headers = [];
     projectEmployees.map((employee) => {
       const selectedEmployee = employees.find((item) => item._id === employee.employee);
@@ -95,18 +96,9 @@ const ProjectForm = () => {
 
   const projectTimesheets = timesheets.filter((timesheet) => timesheet.project._id === id);
 
-  const onRowClick = () => {};
-
-  const addEmployee = (e) => {
-    e.preventDefault();
-    setProjectEmployees([
-      ...projectEmployees,
-      {
-        employee: getValues('employee'),
-        rate: getValues('rate'),
-        role: getValues('role')
-      }
-    ]);
+  const onRowClick = (id) => {
+    const employee = thisProjectEmployees().find((employee) => employee._id === id);
+    setClickedEmployee(employee);
   };
 
   const handleDelete = (index) => {
@@ -117,8 +109,8 @@ const ProjectForm = () => {
 
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setShowModal(true);
     trigger();
+    setShowModal(true);
     if (!Object.values(errors).length) {
       setIsActionModal(true);
     } else {
@@ -235,43 +227,14 @@ const ProjectForm = () => {
         <div className={styles.listContainer}>
           <div>
             <h4>Employees</h4>
-            <div>
-              <div className={styles.newEmployeeInputs}>
-                <Select
-                  name="employee"
-                  placeholder="Select an employee"
-                  register={() => {}}
-                  error={errors.employee?.message}
-                  data={employees.map((employee) => ({
-                    id: employee._id,
-                    value: employee.name
-                  }))}
-                />
-                <Select
-                  name="role"
-                  placeholder="Select Role"
-                  register={() => {}}
-                  error={errors.role?.message}
-                  data={roles.map((role) => ({
-                    value: role
-                  }))}
-                />
-                <TextInput
-                  id="rate"
-                  name="rate"
-                  register={() => {}}
-                  error={errors.rate?.message}
-                  type="text"
-                  placeholder="Rate"
-                />
-              </div>
-              <div className={styles.buttonAssign}>
-                <Button text="Assign new employee" variant="secondary" onClick={addEmployee} />
-              </div>
-            </div>
+            <EmployeeForm
+              selectedEmployee={clickedEmployee}
+              employees={projectEmployees}
+              setEmployees={setProjectEmployees}
+            />
             <Table
               className={styles.employeeList}
-              data={newArr()}
+              data={thisProjectEmployees()}
               headers={['Employee', 'Role', 'Rate']}
               onDelete={handleDelete}
               onRowClick={onRowClick}
