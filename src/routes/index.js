@@ -11,7 +11,7 @@ const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const AuthRoutes = lazy(() => import('./auth'));
 
 const Routes = () => {
-  const authenticated = useSelector((store) => store.auth.role);
+  const authenticated = useSelector((store) => store.auth.logged);
   const dispatch = useDispatch();
 
   useEffect(() => {

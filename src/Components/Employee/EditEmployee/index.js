@@ -42,7 +42,7 @@ const EditEmployee = () => {
         lastName: currentEmployee.lastName,
         phone: currentEmployee.phone,
         email: currentEmployee.email,
-        repeatEmail: currentEmployee.repeatEmail
+        repeatEmail: currentEmployee.email
       });
     }
   }, [employees.length, id]);

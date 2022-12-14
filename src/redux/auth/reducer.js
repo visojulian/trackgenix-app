@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   email: null,
   role: null,
   isLoading: true,
-  error: null
+  error: null,
+  logged: false
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -35,7 +36,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         role: action.payload.role,
         email: action.payload.email,
-        error: null
+        error: null,
+        logged: true
       };
     case LOGOUT_SUCCESS:
       return {
@@ -43,7 +45,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         role: null,
         email: null,
-        error: null
+        error: null,
+        logged: false
       };
     default:
       return state;
