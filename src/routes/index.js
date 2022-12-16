@@ -9,6 +9,7 @@ const SuperAdminsRouter = lazy(() => import('./superAdmins'));
 const EmployeeRouter = lazy(() => import('./employees'));
 const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const AuthRoutes = lazy(() => import('./auth'));
+const HomeRouter = lazy(() => import('./home'));
 
 const Routes = () => {
   const authenticated = useSelector((store) => store.auth.role);
@@ -32,7 +33,8 @@ const Routes = () => {
           <PrivateRoute path="/super-admin" role="SUPER_ADMIN" component={SuperAdminsRouter} />
           <PrivateRoute path="/employee" role="EMPLOYEE" component={EmployeeRouter} />
           <Route path="/auth" component={AuthRoutes} />
-          <Redirect to="/auth" />
+          <Route path="/home" component={HomeRouter} />
+          <Redirect to="/home" />
         </Switch>
       </Suspense>
     </BrowserRouter>
