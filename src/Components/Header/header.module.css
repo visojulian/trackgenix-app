@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 5%;
-  height: 50px;
-  background-color: #EA3354;
+  /* height: 50px; */
+  /* background-color: #EA3354; */
 }
 
 .brand {
@@ -22,7 +22,7 @@
   align-items: center;
   padding: 0 5%;
   min-height: 100px;
-  background-color: #F0F4F9;
+  background-color: #f0f4f9;
 }
 
 .appName {
