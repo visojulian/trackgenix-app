@@ -1,5 +1,6 @@
 import styles from './header.module.css';
 import { Link, withRouter } from 'react-router-dom';
+import Rocket from 'assets/rocket.png';
 
 function Header(props) {
   return (
@@ -29,7 +30,10 @@ function Header(props) {
       </div>
       <nav className={styles.navbar}>
         <div className={styles.appName}>
-          Track<span>GENIX</span>
+          <img src={Rocket} className={styles.headerImage} />
+          <p>
+            Track<span>GENIX</span>
+          </p>
         </div>
         <ul className={styles.rutes}>
           {props.routes.map((route) => (
