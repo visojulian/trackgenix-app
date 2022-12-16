@@ -1,4 +1,8 @@
 import styles from './home.module.css';
+import Clock from 'assets/clock.png';
+import Group from 'assets/group.png';
+import Resources from 'assets/human-resources.png';
+import User from 'assets/user.png';
 
 const Home = () => {
   return (
@@ -46,6 +50,29 @@ const Home = () => {
           </ul>
         </div>
       </section>
+      <div className={styles.secondBox}>
+        <div className={styles.title}>
+          <h2>Services </h2>
+        </div>
+        <div className={styles.services}>
+          <div>
+            <h3>Hours Registry</h3>
+            <img src={Clock} className={styles.servicesImage} />
+          </div>
+          <div>
+            <h3>Multiple Roles</h3>
+            <img src={Group} className={styles.servicesImage} />
+          </div>
+          <div>
+            <h3>Reports</h3>
+            <img src={Resources} className={styles.servicesImage} />
+          </div>
+          <div>
+            <h3>Resources Managment</h3>
+            <img src={User} className={styles.servicesImage} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
