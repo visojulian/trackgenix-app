@@ -5,8 +5,13 @@ const Spinner = (props) => {
 
   if (isLoading) {
     return (
-      <div className={styles.center}>
-        <div className={styles.loader} />;
+      <div className={styles.container}>
+        <div className={styles.box}>
+          <div className={styles.ring} />
+          <div className={styles.ring} />
+          <div className={styles.ring} />
+          <span className={styles.loading}>Loading..</span>
+        </div>
       </div>
     );
   } else return null;
