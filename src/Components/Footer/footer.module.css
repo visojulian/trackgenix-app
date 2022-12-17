@@ -1,72 +1,20 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: #000000;
+  height: 150px;
+  background-color: #f0f4f9;
 }
 
-.main {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-  width: 90%;
-  height: 50px;
+.container a {
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.rutes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style-type: none;
-}
-
-.rutes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  text-transform: capitalize;
-  color: #fff;
-}
-
-.license {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  width: 90%;
-  padding: 0 20px;
-  background-color: #ea3354;
-}
-
-.copyright {
-  font-size: 0.7rem;
-  font-style: italic;
-}
-
-.socialIcon {
-  margin-left: 5px;
-}
-
-@media screen and (min-width: 750px) {
-  .main {
-    padding: 0 20%;
-    width: unset;
-  }
-
-  .license {
-    padding: 0 20px;
-    width: calc(60% - 40px);
-  }
-
-  .socialIcon {
-    margin-left: 15px;
-  }
+.container p {
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #373867;
 }

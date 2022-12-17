@@ -3,11 +3,12 @@ import Clock from 'assets/clock.png';
 import Group from 'assets/group.png';
 import Resources from 'assets/human-resources.png';
 import User from 'assets/user.png';
+import Work from 'assets/worka.png';
 
 const Home = () => {
   return (
     <div className={styles.container}>
-      <section>
+      <section className={styles.mainContainer}>
         <div className={styles.appName}>
           <h1>
             Track<span>GENIX</span>
@@ -50,7 +51,7 @@ const Home = () => {
           </ul>
         </div>
       </section>
-      <div className={styles.secondBox}>
+      <section className={styles.secondBox}>
         <div className={styles.title}>
           <h2>Services </h2>
         </div>
@@ -72,10 +73,27 @@ const Home = () => {
             <img src={User} className={styles.servicesImage} />
           </div>
         </div>
-      </div>
-      <div className={styles.boxWhy}>
+      </section>
+      <section className={styles.boxWhy}>
         <section>
-          <h3>Why Trackgenix?</h3>
+          <div className={styles.whyDiv}>
+            <img src={Work} />
+            <div>
+              <h3>Why Trackgenix?</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industrys standard dummy text ever since the 1500s.
+              </p>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industrys standard dummy text ever since the 1500s.
+              </p>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industrys standard dummy text ever since the 1500s.
+              </p>
+            </div>
+          </div>
           <div className={styles.custom}>
             <svg
               data-name="Layer 1"
@@ -90,25 +108,38 @@ const Home = () => {
             </svg>
           </div>
         </section>
-      </div>
-      <section className={styles.contact}>
-        <h3>Contact</h3>
       </section>
-      <div className={styles.customContact}>
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className={styles.shapeContact}
-          ></path>
-        </svg>
-      </div>
       <section className={styles.story}>
-        <h3>Our Story</h3>
+        <div>
+          <h3>Our Story</h3>
+          <div className={styles.glass}>
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industrys standard dummy text ever since the 1500s. Lorem Ipsum is simply
+              dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industrys standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text
+              of the printing and typesetting industry. Lorem Ipsum has been the industrys standard
+              dummy text ever since the 1500s.
+            </p>
+          </div>
+        </div>
+        <div>
+          <div className={styles.storyAnimation}>
+            <div className={styles.moon}>
+              <div className={styles.craterOne}></div>
+              <div className={styles.craterTwo}></div>
+              <div className={styles.craterThree}></div>
+              <div className={styles.craterFour}></div>
+              <div className={styles.craterFive}></div>
+              <div className={styles.shadow}></div>
+            </div>
+            <div className={styles.orbit}>
+              <div className={styles.miniRocket}>
+                <div className={styles.windowAnimation}></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
