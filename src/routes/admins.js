@@ -12,18 +12,18 @@ const TimeSheets = lazy(() => import('Components/Admins/TimeSheets'));
 
 const routes = [
   { name: 'Home', path: '/admin' },
-  { name: 'Employees', path: '/admin/employees' },
   { name: 'Projects', path: '/admin/projects' },
   { name: 'Tasks', path: '/admin/tasks' },
-  { name: 'Timesheets', path: '/admin/timesheets' }
+  { name: 'Timesheets', path: '/admin/timesheets' },
+  { name: 'Profile', path: '/admin/profile' }
 ];
 const AdminsRouter = () => {
   const { url } = useRouteMatch();
   return (
     <Layout routes={routes}>
       <Switch>
-        <Route exact path={`${url}/`} component={AdminProfile} />
-        <Route exact path={`${url}/employees`} component={Employees} />
+        <Route exact path={`${url}/`} component={Employees} />
+        <Route exact path={`${url}/profile`} component={AdminProfile} />
         <Route exact path={`${url}/employees/form`} component={EmployeeForm} />
         <Route path={`${url}/employees/form/:id`} component={EmployeeForm} />
         <Route exact path={`${url}/projects`} component={Projects} />
