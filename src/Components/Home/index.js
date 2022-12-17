@@ -9,46 +9,49 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <section className={styles.mainContainer}>
+        <div>
+          <div className={styles.box}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className={styles.rocket}>
+            <div className={styles.rocketBody}>
+              <div className={styles.body}></div>
+              <div className={styles.finLeft}></div>
+              <div className={styles.finRight}></div>
+              <div className={styles.window}></div>
+            </div>
+            <div className={styles.exhaustFlame}></div>
+            <ul className={styles.exhaustFumes}>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
         <div className={styles.appName}>
           <h1>
             Track<span>GENIX</span>
           </h1>
-          <p>AN EASY SYSTEM TO TRACK YOUR TEAM´S TIMES AND PROJECTS</p>
+          <p>AN EASY SYSTEM TO TRACK YOUR TEAM IS TIMES AND PROJECTS</p>
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-            has been the industrys standard dummy text ever since the 1500s.
+            Trackgenix is a web system where you can create new projects with your team. Everyone
+            can update all the hours they are working, on the different projects in an easy and
+            simple way and provides information to the companies so they can make better decisions.
           </p>
-        </div>
-        <div className={styles.box}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div className={styles.rocket}>
-          <div className={styles.rocketBody}>
-            <div className={styles.body}></div>
-            <div className={styles.finLeft}></div>
-            <div className={styles.finRight}></div>
-            <div className={styles.window}></div>
-          </div>
-          <div className={styles.exhaustFlame}></div>
-          <ul className={styles.exhaustFumes}>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
         </div>
       </section>
       <section className={styles.secondBox}>
@@ -77,7 +80,7 @@ const Home = () => {
       <section className={styles.boxWhy}>
         <section>
           <div className={styles.whyDiv}>
-            <img src={Work} />
+            <img src={Work} className={styles.whyImg} />
             <div>
               <h3>Why Trackgenix?</h3>
               <p>

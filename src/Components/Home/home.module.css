@@ -16,7 +16,8 @@
   letter-spacing: 8px;
   font-weight: bold;
   margin-top: 180px;
-  margin-left: 630px;
+  margin-left: 200px;
+  text-align: center;
 }
 
 .appName p:nth-child(2) {
@@ -24,19 +25,16 @@
   font-size: 20px;
   font-weight: 400;
   margin-top: 30px;
-  margin-left: 630px;
+  margin-left: 45%;
   margin-right: 50px;
 }
 
 .appName p:nth-child(3) {
   color: white;
   font-size: 16px;
-  /* font-family: poppins; */
-  /* transform: translate(-50%, -50%); */
   font-weight: 300;
-  /* margin-top: 10px; */
-  margin-left: 630px;
-  margin-right: 70px;
+  margin-left: 45%;
+  margin-right: 136px;
 }
 
 .box div {
@@ -177,7 +175,6 @@
   height: 55px;
   width: 50px;
   background: linear-gradient(to right top, #8360c3, #2ebf91);
-  /* z-index: -100; */
 }
 
 .rocket .finLeft {
@@ -388,17 +385,16 @@
 
 .boxWhy section {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
   min-height: 400px;
-  padding: 50px 20vh 100px 20vh;
+  padding: 50px 0 100px 0;
   background-color: white;
 }
 
 .whyDiv {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 100px;
 }
 
@@ -408,7 +404,8 @@
 }
 
 .whyDiv div {
-  margin-left: 80px;
+  max-width: 300px;
+  margin: 15px;
 }
 
 .whyDiv p {
@@ -441,7 +438,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   min-height: 100vh;
+  padding-left: 80px;
   background-color: #373867;
 }
 
@@ -600,15 +599,102 @@
   width: 500px;
   height: 300px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .glass p {
   color: #ffffff;
   margin: 20px;
   letter-spacing: 2px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    background-image: linear-gradient(90deg, #373867 35%, #18182e 100%);
+    overflow: hidden;
+  }
+
+  .mainContainer {
+    display: block;
+    min-height: 150vh;
+  }
+
+  .secondBox {
+    height: 1100px;
+  }
+
+  .secondBox,
+  .services {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .title h2 {
+    margin: 0;
+    padding-bottom: 30px;
+  }
+
+  .whyDiv img {
+    display: none;
+  }
+
+  .whyDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0;
+  }
+
+  .whyDiv h3 {
+    font-size: 20px;
+  }
+
+  .whyDiv div {
+    margin-left: 0;
+  }
+
+  .story {
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .story h3 {
+    text-align: center;
+  }
+
+  .appName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+
+  .appName h1 {
+    font-size: 40px;
+    text-align: center;
+    margin: 40px;
+  }
+
+  .appName p:nth-child(2) {
+    font-size: 20px;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .appName p:nth-child(3) {
+    font-size: 20px;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .rocket {
+    top: 80%;
+    left: calc(50% - 54px);
+  }
 }

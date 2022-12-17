@@ -7,7 +7,9 @@ function Header(props) {
     <header>
       <nav className={styles.navbar}>
         <div className={styles.appName}>
-          <img src={Rocket} className={styles.headerImage} />
+          <a>
+            <img src={Rocket} className={styles.headerImage} />
+          </a>
           <p>
             Track<span>GENIX</span>
           </p>
