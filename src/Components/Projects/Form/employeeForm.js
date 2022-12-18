@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../projects.module.css';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Button, Modal, Select, TextInput } from 'Components/Shared';
+import { ButtonAdd, Modal, Select, TextInput } from 'Components/Shared';
 import { schema } from 'validations/projectEmployees';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -128,9 +128,9 @@ const employeeForm = (props) => {
         />
       </div>
       <div className={styles.buttonAssign}>
-        <Button
+        <ButtonAdd
           text={isEditing ? 'Save changes' : 'Assign new employee'}
-          variant="secondary"
+          variant="main"
           onClick={handleConfirmModal}
         />
       </div>

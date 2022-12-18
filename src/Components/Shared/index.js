@@ -4,7 +4,7 @@ import SelectComponent from './Select';
 import SpinnerComponent from './Spinner/spinner';
 import TableComponent from './Table';
 import TextInputComponent from './TextInput';
-import ButtonAddComponent from './TextInput';
+import ButtonAddComponent from './ButtonAdd';
 
 const Button = ({ text, onClick, type, variant }) => {
   return <ButtonComponent text={text} type={type} variant={variant} onClick={onClick} />;
