@@ -1,0 +1,27 @@
+.main {
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #606197;
+}
+
+.main:hover {
+  background-color: #373867;
+}
+
+.form {
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: #373867;
+  background-color: #fff;
+}
+
+.form:hover {
+  background-color: rgb(206, 206, 206);
+}

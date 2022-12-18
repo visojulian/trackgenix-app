@@ -4,9 +4,14 @@ import SelectComponent from './Select';
 import SpinnerComponent from './Spinner/spinner';
 import TableComponent from './Table';
 import TextInputComponent from './TextInput';
+import ButtonAddComponent from './TextInput';
 
 const Button = ({ text, onClick, type, variant }) => {
   return <ButtonComponent text={text} type={type} variant={variant} onClick={onClick} />;
+};
+
+const ButtonAdd = ({ text, onClick, type, variant }) => {
+  return <ButtonAddComponent text={text} type={type} variant={variant} onClick={onClick} />;
 };
 
 const Modal = ({ children, isOpen, handleClose, isActionModal, action, actionButton }) => {
@@ -65,4 +70,4 @@ const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
   );
 };
 
-export { Button, Modal, Select, Spinner, Table, TextInput };
+export { Button, Modal, Select, Spinner, Table, TextInput, ButtonAdd };
