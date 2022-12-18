@@ -11,19 +11,19 @@ const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
 const routes = [
   { name: 'Home', path: '/super-admin' },
   { name: 'Super Admins', path: '/super-admin/list' },
-  { name: 'Admins', path: '/super-admin/admins' }
+  { name: 'Profile', path: '/super-admin/profile' }
 ];
 const SuperAdminsRouter = () => {
   const { url } = useRouteMatch();
   return (
     <Layout routes={routes}>
       <Switch>
-        <Route exact path={`${url}/`} component={SuperAdminProfile} />
+        <Route exact path={`${url}/`} component={Admins} />
         <Route exact path={`${url}/edit-profile`} component={EditSuperAdmin} />
+        <Route exact path={`${url}/profile`} component={SuperAdminProfile} />
         <Route exact path={`${url}/list`} component={SuperAdmins} />
         <Route exact path={`${url}/form`} component={SuperAdminsForm} />
         <Route path={`${url}/form/:id`} component={SuperAdminsForm} />
-        <Route exact path={`${url}/admins`} component={Admins} />
         <Route exact path={`${url}/admins/form`} component={AdminForm} />
         <Route path={`${url}/admins/form/:id`} component={AdminForm} />
         <Redirect to={`${url}/`} />
