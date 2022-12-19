@@ -4,12 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from 'redux/employees/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
-import { logout } from '../../../redux/auth/thunks';
 
 const EmployeeProfile = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const logoutUser = () => dispatch(logout());
   const [showModal, setShowModal] = useState(false);
   const [employeeId, setEmployeeId] = useState();
   const { list: employees, isLoading: employeeIsLoading } = useSelector((state) => state.employees);
@@ -54,9 +52,6 @@ const EmployeeProfile = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.logout}>
-        <Button variant="secondary" text="Logout" onClick={logoutUser} />
-      </div>
       <h1>Profile information</h1>
       <div className={styles.info}>
         <div className={styles.box1}>
