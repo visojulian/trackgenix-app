@@ -8,7 +8,7 @@ const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 const TimeSheetsForm = lazy(() => import('Components/TimeSheets/Form'));
 
 const routes = [
-  { name: 'Home', path: '/employee' },
+  { name: 'Home', path: '/employee/timesheets' },
   { name: 'Projects', path: '/employee/projects' },
   { name: 'Profile', path: '/employee/profile' }
 ];
@@ -17,13 +17,14 @@ const EmployeesRouter = () => {
   return (
     <Layout routes={routes}>
       <Switch>
-        <Route exact path={`${url}/`} component={Timesheets} />
+        <Route exact path={`${url}/employee/timesheets`} component={Timesheets} />
         <Route exact path={`${url}/projects`} component={Projects} />
         <Route exact path={`${url}/profile`} component={EmployeeProfile} />
         <Route exact path={`${url}/projects/form/:id`} component={ProjectForm} />
+        <Route exact path={`${url}/timesheets`} component={Timesheets} />
         <Route exact path={`${url}/timesheets/form`} component={TimeSheetsForm} />
         <Route path={`${url}/timesheets/form/:id`} component={TimeSheetsForm} />
-        <Redirect to={`${url}`} />
+        <Redirect to={`${url}/timesheets`} />
       </Switch>
     </Layout>
   );
