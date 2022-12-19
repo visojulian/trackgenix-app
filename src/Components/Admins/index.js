@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
 import styles from './admins.module.css';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { ButtonAdd, Modal, Spinner, Table } from 'Components/Shared';
 
 const Admins = () => {
   const history = useHistory();
@@ -65,10 +65,10 @@ const Admins = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <Button
+        <ButtonAdd
           text="Add Admin"
           type="submit"
-          variant="primary"
+          variant="main"
           onClick={() => {
             history.push(`admins/form`);
           }}

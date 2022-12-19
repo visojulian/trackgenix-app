@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './super-admins.module.css';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { ButtonAdd, Modal, Spinner, Table } from 'Components/Shared';
 import { getSuperAdmins, deleteSuperAdmin } from 'redux/superAdmins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -74,10 +74,10 @@ const SuperAdmins = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <Button
+        <ButtonAdd
           text="Add Super Admin"
           type="submit"
-          variant="primary"
+          variant="main"
           onClick={() => {
             history.push('/super-admin/form');
           }}
