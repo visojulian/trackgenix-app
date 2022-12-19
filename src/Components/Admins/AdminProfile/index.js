@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './profile.module.css';
 import { Spinner } from 'Components/Shared';
-// import { logout } from '../../../redux/auth/thunks';
 
 const AdminProfile = () => {
-  // const dispatch = useDispatch();
-  // const logoutUser = () => dispatch(logout());
   const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
   const [adminAccount, setAdminAccount] = useState({
     name: '',
@@ -30,9 +27,6 @@ const AdminProfile = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.logout}>
-        {/* <Button variant="secondary" text="Logout" onClick={logoutUser} /> */}
-      </div>
       <h1>Profile information</h1>
       <div className={styles.info}>
         <div className={styles.box1}>
