@@ -130,7 +130,7 @@ const Form = () => {
             error={errors.description?.message}
           />
         </div>
-        <div className={styles.buttonsFlexBox}>
+        <div className={styles.butCont}>
           <div>
             <Button
               type="button"
@@ -140,11 +140,6 @@ const Form = () => {
                 history.goBack();
               }}
             />
-          </div>
-          <div>
-            <Button type="button" text="Reset field" variant="secondary" onClick={() => reset()} />
-          </div>
-          <div>
             <Button text="Confirm" type="submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>

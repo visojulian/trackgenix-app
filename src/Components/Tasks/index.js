@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { getTasks, deleteTask } from 'redux/task/thunks';
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { ButtonAdd, Modal, Spinner, Table } from 'Components/Shared';
 
 const Tasks = () => {
   const history = useHistory();
@@ -64,10 +64,10 @@ const Tasks = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <Button
+      <ButtonAdd
         text="Add new task"
         type="submit"
-        variant="primary"
+        variant="main"
         onClick={() => {
           history.push(`tasks/form`);
         }}

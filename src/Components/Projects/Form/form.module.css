@@ -82,14 +82,14 @@
   background-color: #373867;
 }
 
-.employeeList table th{
+.employeeList table th {
   max-width: 900px;
 }
 
 .table {
   width: 60%;
   margin: 30px auto 20px auto;
-  border: 1px solid #DFE4DE;
+  border: 1px solid #dfe4de;
   border-radius: 5px;
   border-collapse: collapse;
   overflow: hidden;
@@ -106,11 +106,11 @@
   color: #373867;
   text-align: center;
   height: 40px;
-  border-top: 1px solid #DFE4DE;
+  border-top: 1px solid #dfe4de;
 }
 
 .listContainer table tr:hover {
-  background-color: #DFE4DE;
+  background-color: #dfe4de;
 }
 
 .formButtons {
@@ -150,7 +150,9 @@ h4 {
   color: #fff;
 }
 
-.buttonAssign {
+.buttonAddEmployee {
+  display: flex;
+  justify-content: center;
   text-align: center;
   margin-top: 20px;
 }

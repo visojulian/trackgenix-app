@@ -5,14 +5,13 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
 import { login } from 'redux/auth/thunks';
-import { Button, Modal, TextInput } from 'Components/Shared';
-import styles from 'Components/Employee/SignUp/sing-up.module.css';
+import { ButtonAdd, Modal, TextInput } from 'Components/Shared';
+import styles from './login.module.css';
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const error = useSelector((state) => state.auth.error);
-  const [reveal, setReveal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -42,10 +41,6 @@ const Login = () => {
     });
   };
 
-  const revealFunc = () => {
-    setReveal(reveal ? false : true);
-  };
-
   useEffect(() => {
     if (error) {
       setShowModal(true);
@@ -71,18 +66,22 @@ const Login = () => {
           label="Password"
           id="password"
           name="password"
-          type={reveal ? 'text' : 'password'}
+          type="password"
           placeholder="Password"
           register={register}
           error={errors.password?.message}
         />
-        <Button
-          text={reveal ? 'Hide password' : 'Reveal password'}
-          type="button"
-          variant="secondary"
-          onClick={revealFunc}
-        />
-        <Button text="Sign In" type="submit" variant="primary" />
+        <div className={styles.butCont}>
+          <ButtonAdd
+            text="Cancel"
+            type="reset"
+            variant="second"
+            onClick={() => {
+              history.push('/home');
+            }}
+          />
+          <ButtonAdd text="Sign In" type="submit" variant="main" />
+        </div>
       </form>
     </div>
   );

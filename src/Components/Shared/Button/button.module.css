@@ -2,26 +2,28 @@
   text-align: center;
   width: 100px;
   height: 50px;
+  margin: 10px;
   border: none;
   border-radius: 5px;
   color: #fff;
-  background-color: #606197;
+  background-color: #46a37c;
 }
 
 .confirm:hover {
-  background-color: #373867;
-  cursor: pointer;
+  background-color: rgb(72, 189, 140);
 }
 
 .cancel {
   text-align: center;
   width: 100px;
   height: 50px;
-  border: 1px solid #606197;
+  margin: 10px;
+  border: none;
   border-radius: 5px;
-  color: #606197;
+  color: #fff;
+  background-color: #f04c2a;
 }
 
 .cancel:hover {
-  background-color: #afafb7;
+  background-color: rgb(255, 103, 72);
 }

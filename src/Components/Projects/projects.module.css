@@ -34,3 +34,8 @@
 .button:hover {
   background-color: #373867;
 }
+
+.buttonAddEmployee {
+  display: flex;
+  justify-content: center;
+}

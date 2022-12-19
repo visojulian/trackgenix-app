@@ -159,7 +159,6 @@ const EditSuperAdmin = () => {
               history.goBack();
             }}
           />
-          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
