@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './superAdminProfile.module.css';
 import { Button, Modal, Spinner } from 'Components/Shared';
-import { logout } from 'redux/auth/thunks';
+// import { logout } from 'redux/auth/thunks';
 import { deleteSuperAdmin, getSuperAdmins } from 'redux/superAdmins/thunks';
 
 const SuperAdminProfile = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const logoutUser = () => dispatch(logout());
+  // const logoutUser = () => dispatch(logout());
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
   const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
@@ -63,7 +63,7 @@ const SuperAdminProfile = () => {
   };
 
   const goBack = () => {
-    logoutUser();
+    // logoutUser();
     history.push('/auth/login');
   };
 
@@ -73,7 +73,7 @@ const SuperAdminProfile = () => {
   return (
     <div className={styles.container}>
       <div className={styles.logout}>
-        <Button variant="secondary" text="Logout" onClick={logoutUser} />
+        {/* <Button variant="secondary" text="Logout" onClick={logoutUser} /> */}
       </div>
       <h1>Profile information</h1>
       <div className={styles.info}>
