@@ -95,8 +95,8 @@ export const editSchema = Joi.object({
     }),
   phone: Joi.string()
     .required()
-    .length(10)
     .pattern(/^[0-9]*$/)
+    .length(10)
     .messages({
       'string.required': 'Phone is required',
       'string.empty': 'Phone cannot be empty',
