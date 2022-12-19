@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProject, getProjects } from 'redux/projects/thunks';
 import styles from './projects.module.css';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { ButtonAdd, Modal, Spinner, Table } from 'Components/Shared';
 
 const Projects = () => {
   const history = useHistory();
@@ -54,10 +54,10 @@ const Projects = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <Button
+        <ButtonAdd
           text="Add Project"
           type="submit"
-          variant="primary"
+          variant="main"
           onClick={() => {
             history.push(`projects/form`);
           }}

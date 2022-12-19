@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEmployee } from 'redux/employees/thunks';
 import { POST_EMPLOYEE_SUCCESS } from 'redux/employees/constants';
-import styles from 'Components/Employee/SignUp/sing-up.module.css';
-import { Button, Modal, Spinner, TextInput } from 'Components/Shared';
+import styles from './sign-up.module.css';
+import { ButtonAdd, Modal, Spinner, TextInput } from 'Components/Shared';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from 'validations/employees';
@@ -15,7 +15,6 @@ const SignUp = () => {
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
   const { isLoading: loading, error: employeeError } = useSelector((state) => state.employees);
-  const [reveal, setReveal] = useState(false);
   const error = useSelector((state) => state.auth.error);
 
   const {
@@ -23,7 +22,6 @@ const SignUp = () => {
     register,
     getValues,
     trigger,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -107,10 +105,6 @@ const SignUp = () => {
     }
   };
 
-  const revealFunc = () => {
-    setReveal(reveal ? false : true);
-  };
-
   if (loading) {
     return <Spinner isLoading={loading} />;
   }
@@ -143,8 +137,8 @@ const SignUp = () => {
               label="Password"
               id="password"
               name="password"
-              type={reveal ? 'text' : 'password'}
               placeholder="Password"
+              type="password"
               register={register}
               error={errors.password?.message}
             />
@@ -173,7 +167,7 @@ const SignUp = () => {
               id="repeatPassword"
               name="repeatPassword"
               register={register}
-              type={reveal ? 'text' : 'password'}
+              type="password"
               placeholder="Repeat Password"
               error={errors.repeatPassword?.message}
             />
@@ -189,22 +183,15 @@ const SignUp = () => {
           </div>
         </div>
         <div className={styles.butCont}>
-          <Button
+          <ButtonAdd
             text="Cancel"
             type="reset"
-            variant="secondary"
+            variant="second"
             onClick={() => {
-              history.goBack();
+              history.push('/home');
             }}
           />
-          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
-          <Button
-            text={reveal ? 'Hide password' : 'Reveal password'}
-            type="button"
-            variant="secondary"
-            onClick={revealFunc}
-          />
-          <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
+          <ButtonAdd text="Sign Up" type="submit" variant="main" onClick={handleConfirmModal} />
         </div>
       </form>
       <Modal

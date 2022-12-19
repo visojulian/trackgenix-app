@@ -1,4 +1,5 @@
-.container, .form {
+.container,
+.form {
   padding: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -7,21 +8,20 @@
   align-items: center;
 }
 
-.form div{
+.form div {
   display: flex;
   flex-direction: row;
 }
-.form div div{
+.form div div {
   display: flex;
   flex-direction: column;
 }
 
 .butCont {
-  width: 90%;
   padding: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 h1 {

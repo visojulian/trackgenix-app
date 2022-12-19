@@ -14,7 +14,6 @@ const Form = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { list: superAdmins, error, isLoading } = useSelector((state) => state.superAdmins);
-  const [reveal, setReveal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
@@ -161,10 +160,6 @@ const Form = () => {
     }
   };
 
-  const showPassword = () => {
-    setReveal(!reveal);
-  };
-
   useEffect(() => {
     if (error) {
       setShowModal(true);
@@ -217,31 +212,23 @@ const Form = () => {
         />
         {!isEditing && (
           <>
-            <div className={styles.passwordDiv}>
+            <div>
               <TextInput
                 label="Password"
                 id="password"
                 name="password"
                 register={register}
-                type={reveal ? 'text' : 'password'}
+                type="password"
                 placeholder="Password"
                 error={errors.password?.message}
               />
-              <div className={styles.revealButton}>
-                <Button
-                  text={reveal ? 'Hide password' : 'Reveal password'}
-                  type="button"
-                  variant="secondary"
-                  onClick={showPassword}
-                />
-              </div>
             </div>
             <TextInput
               label="Repeat Password"
               id="repeatPassword"
               name="repeatPassword"
               register={register}
-              type={reveal ? 'text' : 'password'}
+              type="password"
               placeholder="Repeat Password"
               error={errors.repeatPassword?.message}
             />
@@ -256,7 +243,6 @@ const Form = () => {
               history.goBack();
             }}
           />
-          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>
