@@ -10,7 +10,7 @@
 }
 
 .confirm:hover {
-  background-color: #3bc189;
+  background-color: rgb(72, 189, 140);
 }
 
 .cancel {
@@ -25,5 +25,5 @@
 }
 
 .cancel:hover {
-  background-color: #ff5938;
+  background-color: rgb(255, 103, 72);
 }
