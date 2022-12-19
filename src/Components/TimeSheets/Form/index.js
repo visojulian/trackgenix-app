@@ -38,6 +38,7 @@ function Form() {
   } = useSelector((state) => state.projects);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
+  const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const {
     handleSubmit,
     register,
@@ -75,6 +76,19 @@ function Form() {
       });
     }
   }, [currentTimeSheet]);
+
+  const newArr = () => {
+    const newArr = [];
+    projects.map((project) => {
+      const employeeProjects = project.employees.find((employee) => employee.employee === user._id);
+      if (employeeProjects) {
+        newArr.push({ ...project, employees: employeeProjects });
+      }
+    });
+    return newArr;
+  };
+
+  const employeeProjects = newArr();
 
   useEffect(() => {
     if (currentTimeSheet?.project !== selectedProjectId) {
@@ -156,15 +170,15 @@ function Form() {
     }
   };
 
-  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects) {
+  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
 
-  if (timesheetError || taskError || projectError || employeeError) {
+  if (timesheetError || taskError || projectError || employeeError || userError) {
     <Modal isOpen={true} handleClose={setShowModal} isActionModal={false}>
       <div>
         <h4>There was an error</h4>
-        <p>{timesheetError || taskError || projectError || employeeError}</p>
+        <p>{timesheetError || taskError || projectError || employeeError || userError}</p>
       </div>
     </Modal>;
   }
@@ -210,8 +224,21 @@ function Form() {
             register={register}
             error={errors.hours?.message}
             type="number"
-            placeholder="Hours spend in the taks"
+            placeholder="Hours spend in the task"
           />
+          <div className={styles.box}>
+            <label>Project</label>
+            <Select
+              name="project"
+              placeholder="Select a project"
+              register={register}
+              error={errors.project?.message}
+              data={employeeProjects.map((project) => ({
+                id: project._id,
+                value: project.name
+              }))}
+            />
+          </div>
           <div className={styles.box}>
             <label>Task</label>
             <Select
@@ -222,19 +249,6 @@ function Form() {
               data={tasks.map((task) => ({
                 id: task._id,
                 value: task.description
-              }))}
-            />
-          </div>
-          <div className={styles.box}>
-            <label>Project</label>
-            <Select
-              name="project"
-              placeholder="Select a project"
-              register={register}
-              error={errors.project?.message}
-              data={projects.map((project) => ({
-                id: project._id,
-                value: project.name
               }))}
             />
           </div>
