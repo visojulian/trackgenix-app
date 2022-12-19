@@ -127,7 +127,7 @@ const employeeForm = (props) => {
           placeholder="Rate"
         />
       </div>
-      <div className={styles.buttonAssign}>
+      <div className={styles.buttonAddEmployee}>
         <ButtonAdd
           text={isEditing ? 'Save changes' : 'Assign new employee'}
           variant="main"
