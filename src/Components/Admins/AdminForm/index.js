@@ -26,10 +26,15 @@ const AdminForm = () => {
     reset,
     trigger,
     formState: { errors }
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(isEditing ? editSchema : schema)
-  });
+  } = !isEditing
+    ? useForm({
+        mode: 'onChange',
+        resolver: joiResolver(schema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(editSchema)
+      });
 
   useEffect(() => {
     if (id && currentAdmin) {
@@ -47,23 +52,29 @@ const AdminForm = () => {
     e.preventDefault();
     setShowModal(true);
     trigger();
-    if (
-      getValues('name') &&
-      getValues('lastName') &&
-      getValues('email') &&
-      getValues('repeatEmail') &&
-      !Object.values(errors).length
-    ) {
-      setIsActionModal(true);
-    }
-    if (
-      getValues('name') &&
-      getValues('lastName') &&
-      getValues('email') &&
-      getValues('password') &&
-      !Object.values(errors).length
-    ) {
-      setIsActionModal(true);
+    setIsActionModal(false);
+    if (isEditing) {
+      if (
+        getValues('name') &&
+        getValues('lastName') &&
+        getValues('email') &&
+        getValues('repeatEmail') &&
+        !Object.values(errors).length
+      ) {
+        setIsActionModal(true);
+      }
+    } else {
+      if (
+        getValues('name') &&
+        getValues('lastName') &&
+        getValues('email') &&
+        getValues('repeatEmail') &&
+        getValues('password') &&
+        getValues('repeatPassword') &&
+        !Object.values(errors).length
+      ) {
+        setIsActionModal(false);
+      }
     }
   };
 
@@ -80,7 +91,9 @@ const AdminForm = () => {
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
+      getValues('repeatEmail') &&
       getValues('password') &&
+      getValues('repeatPassword') &&
       !isEditing &&
       !Object.values(errors).length
     ) {
@@ -97,6 +110,7 @@ const AdminForm = () => {
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
+      getValues('repeatEmail') &&
       isEditing &&
       !Object.values(errors).length
     ) {
