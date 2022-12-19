@@ -11,7 +11,7 @@ import styles from './login.module.css';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const error = useSelector((state) => state.auth.error);
+  const { error, isLoading } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -42,10 +42,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (error && !isLoading) {
       setShowModal(true);
     }
-  }, [error]);
+  }, [error, isLoading]);
 
   return (
     <div>
