@@ -12,7 +12,7 @@ const AuthRoutes = lazy(() => import('./auth'));
 const HomeRouter = lazy(() => import('./home'));
 
 const Routes = () => {
-  const authenticated = useSelector((store) => store.auth.role);
+  const authenticated = useSelector((store) => store.auth.logged);
   const dispatch = useDispatch();
 
   useEffect(() => {
