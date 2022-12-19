@@ -7,14 +7,14 @@
   align-items: center;
 }
 
-h1 {
+/* h1 {
   margin-bottom: 20px;
   font-size: 25px;
   font-style: normal;
   font-weight: 400;
-  color: #373867;
+  color: white;
   text-align: center;
-}
+} */
 
 .info {
   display: flex;

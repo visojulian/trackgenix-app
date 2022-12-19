@@ -119,7 +119,7 @@ const SignUp = () => {
         </p>
       </div>
       <div className={styles.box2}>
-        <h4 className={styles.title}>Create a New Account</h4>
+        <h4 className={styles.title}>Create a new account</h4>
         <form className={styles.form} onSubmit={onSubmit}>
           <div>
             <div>

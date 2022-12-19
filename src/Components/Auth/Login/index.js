@@ -64,6 +64,7 @@ const Login = () => {
         <h4>Login</h4>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
+            className={styles.input}
             label="Email"
             id="email"
             name="email"
@@ -73,6 +74,7 @@ const Login = () => {
             error={errors.email?.message}
           />
           <TextInput
+            className={styles.input}
             label="Password"
             id="password"
             name="password"
