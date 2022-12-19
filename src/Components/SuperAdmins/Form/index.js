@@ -39,7 +39,7 @@ const Form = () => {
           name: foundSuperAdmin.name,
           lastName: foundSuperAdmin.lastName,
           email: foundSuperAdmin.email,
-          repeatEmail: foundSuperAdmin.repeatEmail
+          repeatEmail: foundSuperAdmin.email
         });
       }
     } catch (error) {
@@ -101,6 +101,7 @@ const Form = () => {
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
+      getValues('repeatEmail') &&
       isEditing &&
       !Object.values(errors).length
     ) {
