@@ -55,7 +55,7 @@ const SuperAdmins = () => {
       <div className={styles.container}>
         <h1>Super Admins</h1>
         <Table
-          data={superAdmins}
+          data={superAdmins.filter((admin) => admin._id !== user._id)}
           headers={headers}
           values={values}
           onDelete={onDelete}
