@@ -33,7 +33,7 @@ const Timesheets = () => {
           task: timesheet.task.description,
           project: timesheet.project.name,
           description: timesheet.description,
-          date: timesheet.date
+          date: timesheet.date.slice(0, 10)
         };
       })
     );

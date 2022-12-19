@@ -27,7 +27,7 @@ function Form() {
     error: taskError
   } = useSelector((state) => state.tasks);
   const {
-    list: employees,
+    // list: employees,
     isLoading: loadingEmployees,
     error: employeeError
   } = useSelector((state) => state.employees);
@@ -68,7 +68,7 @@ function Form() {
     if (currentTimeSheet) {
       reset({
         description: currentTimeSheet.description,
-        date: correctDate(currentTimeSheet.date),
+        date: currentTimeSheet.date,
         hours: currentTimeSheet.hours,
         task: currentTimeSheet.task._id,
         employee: currentTimeSheet.employee._id,
@@ -149,11 +149,6 @@ function Form() {
     } else {
       setIsActionModal(false);
     }
-  };
-
-  const correctDate = (date) => {
-    const dateFormated = date.substr(0, 10);
-    return dateFormated;
   };
 
   const onSubmit = async (data) => {
@@ -262,11 +257,12 @@ function Form() {
               data={
                 currentProject
                   ? currentProject.employees.map(({ employee }) => {
-                      const currentEmployee = employees.find((item) => item._id === employee);
-                      return {
-                        id: currentEmployee._id,
-                        value: currentEmployee.name
-                      };
+                      if (employee) {
+                        return {
+                          id: user._id,
+                          value: user.name
+                        };
+                      }
                     })
                   : []
               }
