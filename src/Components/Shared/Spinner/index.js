@@ -1,6 +1,6 @@
 import styles from './spinner.module.css';
 
-const Ruedita = (props) => {
+const Spinner = (props) => {
   const { isLoading } = props;
 
   if (isLoading) {
@@ -17,4 +17,4 @@ const Ruedita = (props) => {
   } else return null;
 };
 
-export default Ruedita;
+export default Spinner;
