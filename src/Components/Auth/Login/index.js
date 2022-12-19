@@ -50,7 +50,10 @@ const Login = () => {
   return (
     <div>
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
-        <div className={styles.container}>{error}</div>
+        <div className={styles.container}>
+          <h2>Error trying to login:</h2>
+          {error}
+        </div>
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
