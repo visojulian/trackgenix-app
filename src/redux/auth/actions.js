@@ -23,7 +23,7 @@ export const setLoggedIn = (payload) => {
 export const loginError = (error) => {
   return {
     type: LOGIN_ERROR,
-    payload: error
+    payload: error.code
   };
 };
 

@@ -7,6 +7,7 @@ const SignUp = lazy(() => import('Components/Auth/SignUp'));
 const Home = lazy(() => import('Components/Home'));
 
 const routes = [
+  { name: 'Home', path: '/home' },
   {
     name: 'Home',
     path: '/home'

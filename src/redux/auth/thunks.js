@@ -17,7 +17,8 @@ export const login = (data) => {
       sessionStorage.setItem('token', token);
       return role;
     } catch (error) {
-      return dispatch(loginError(error.toString()));
+      console.log(error.code);
+      return dispatch(loginError(error));
     }
   };
 };

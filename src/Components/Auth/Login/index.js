@@ -12,11 +12,13 @@ import styles from './login.module.css';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState();
   const { error, isLoading } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(loginSchema),
@@ -43,8 +45,17 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error && !isLoading) {
+    if (error && !isLoading && getValues('email') && getValues('password')) {
       setShowModal(true);
+      if (error === 'auth/user-not-found') {
+        setErrorMessage('The entered email is not registered');
+      } else if (error === 'auth/wrong-password') {
+        setErrorMessage('The entered password is incorrect');
+      } else if (error === 'auth/too-many-requests') {
+        setErrorMessage('Too many failed attempts. He tries again later');
+      } else {
+        setErrorMessage('An error has occurred. Please try again');
+      }
     }
   }, [error, isLoading]);
 
@@ -53,7 +64,7 @@ const Login = () => {
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
         <div className={styles.container}>
           <h2>Error trying to login:</h2>
-          {error}
+          {errorMessage}
         </div>
       </Modal>
       <div className={styles.box1}>
