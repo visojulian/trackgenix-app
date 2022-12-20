@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from 'redux/employees/thunks';
 import styles from './profile.module.css';
-import { Button, Modal, Spinner } from 'Components/Shared';
+import { Button, Modal, Spinner, Animation } from 'Components/Shared';
 
 const EmployeeProfile = () => {
   const history = useHistory();
@@ -51,62 +51,65 @@ const EmployeeProfile = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Profile information</h2>
-      <div className={styles.info}>
-        <div className={styles.box1}>
-          <div className={styles.fields}>
-            <h5>Name</h5>
-            <p>{employeeAccount.name}</p>
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
+        <h2>Profile information</h2>
+        <div className={styles.info}>
+          <div className={styles.box1}>
+            <div className={styles.fields}>
+              <h5>Name</h5>
+              <p>{employeeAccount.name}</p>
+            </div>
+            <div className={styles.fields}>
+              <h5>Last Name</h5>
+              <p>{employeeAccount.lastName}</p>
+            </div>
           </div>
-          <div className={styles.fields}>
-            <h5>Last Name</h5>
-            <p>{employeeAccount.lastName}</p>
+          <div className={styles.box2}>
+            <div className={styles.fields}>
+              <h5>Email</h5>
+              <p>{employeeAccount.email}</p>
+            </div>
+            <div className={styles.fields}>
+              <h5>Phone</h5>
+              <p>{employeeAccount.phone}</p>
+            </div>
           </div>
         </div>
-        <div className={styles.box2}>
-          <div className={styles.fields}>
-            <h5>Email</h5>
-            <p>{employeeAccount.email}</p>
-          </div>
-          <div className={styles.fields}>
-            <h5>Phone</h5>
-            <p>{employeeAccount.phone}</p>
-          </div>
+        <div className={styles.buttons}>
+          <Button
+            text="Edit"
+            type="submit"
+            variant="primary"
+            onClick={() => {
+              editAccount();
+            }}
+          />
+          <Button
+            text="Delete"
+            type="submit"
+            variant="secondary"
+            onClick={() => setShowModal(true)}
+          />
         </div>
-      </div>
-      <div className={styles.buttons}>
-        <Button
-          text="Edit"
-          type="submit"
-          variant="primary"
-          onClick={() => {
-            editAccount();
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => {
+            employeeId && dispatch(deleteEmployee(employeeId));
+            goBack();
           }}
-        />
-        <Button
-          text="Delete"
-          type="submit"
-          variant="secondary"
-          onClick={() => setShowModal(true)}
-        />
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete account</h4>
+            <p>Are you sure you want to delete your account?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
       </div>
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => {
-          employeeId && dispatch(deleteEmployee(employeeId));
-          goBack();
-        }}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete account</h4>
-          <p>Are you sure you want to delete your account?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
+      <Animation />
     </div>
   );
 };
