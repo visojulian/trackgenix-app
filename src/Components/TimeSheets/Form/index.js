@@ -27,7 +27,7 @@ function Form() {
     error: taskError
   } = useSelector((state) => state.tasks);
   const {
-    list: employees,
+    // list: employees,
     isLoading: loadingEmployees,
     error: employeeError
   } = useSelector((state) => state.employees);
@@ -38,6 +38,7 @@ function Form() {
   } = useSelector((state) => state.projects);
   const [showModal, setShowModal] = useState(false);
   const [isActionModal, setIsActionModal] = useState(false);
+  const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const {
     handleSubmit,
     register,
@@ -67,7 +68,7 @@ function Form() {
     if (currentTimeSheet) {
       reset({
         description: currentTimeSheet.description,
-        date: correctDate(currentTimeSheet.date),
+        date: currentTimeSheet.date,
         hours: currentTimeSheet.hours,
         task: currentTimeSheet.task._id,
         employee: currentTimeSheet.employee._id,
@@ -75,6 +76,19 @@ function Form() {
       });
     }
   }, [currentTimeSheet]);
+
+  const newArr = () => {
+    const newArr = [];
+    projects.map((project) => {
+      const employeeProjects = project.employees.find((employee) => employee.employee === user._id);
+      if (employeeProjects) {
+        newArr.push({ ...project, employees: employeeProjects });
+      }
+    });
+    return newArr;
+  };
+
+  const employeeProjects = newArr();
 
   useEffect(() => {
     if (currentTimeSheet?.project !== selectedProjectId) {
@@ -137,11 +151,6 @@ function Form() {
     }
   };
 
-  const correctDate = (date) => {
-    const dateFormated = date.substr(0, 10);
-    return dateFormated;
-  };
-
   const onSubmit = async (data) => {
     if (!isEditing) {
       const result = await dispatch(addTimesheet(data));
@@ -156,15 +165,15 @@ function Form() {
     }
   };
 
-  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects) {
+  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
 
-  if (timesheetError || taskError || projectError || employeeError) {
+  if (timesheetError || taskError || projectError || employeeError || userError) {
     <Modal isOpen={true} handleClose={setShowModal} isActionModal={false}>
       <div>
         <h4>There was an error</h4>
-        <p>{timesheetError || taskError || projectError || employeeError}</p>
+        <p>{timesheetError || taskError || projectError || employeeError || userError}</p>
       </div>
     </Modal>;
   }
@@ -210,8 +219,21 @@ function Form() {
             register={register}
             error={errors.hours?.message}
             type="number"
-            placeholder="Hours spend in the taks"
+            placeholder="Hours spend in the task"
           />
+          <div className={styles.box}>
+            <label>Project</label>
+            <Select
+              name="project"
+              placeholder="Select a project"
+              register={register}
+              error={errors.project?.message}
+              data={employeeProjects.map((project) => ({
+                id: project._id,
+                value: project.name
+              }))}
+            />
+          </div>
           <div className={styles.box}>
             <label>Task</label>
             <Select
@@ -226,19 +248,6 @@ function Form() {
             />
           </div>
           <div className={styles.box}>
-            <label>Project</label>
-            <Select
-              name="project"
-              placeholder="Select a project"
-              register={register}
-              error={errors.project?.message}
-              data={projects.map((project) => ({
-                id: project._id,
-                value: project.name
-              }))}
-            />
-          </div>
-          <div className={styles.box}>
             <label>Employee</label>
             <Select
               name="employee"
@@ -248,11 +257,12 @@ function Form() {
               data={
                 currentProject
                   ? currentProject.employees.map(({ employee }) => {
-                      const currentEmployee = employees.find((item) => item._id === employee);
-                      return {
-                        id: currentEmployee._id,
-                        value: currentEmployee.name
-                      };
+                      if (employee) {
+                        return {
+                          id: user._id,
+                          value: user.name
+                        };
+                      }
                     })
                   : []
               }
