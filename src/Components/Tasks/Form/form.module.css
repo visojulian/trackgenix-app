@@ -17,6 +17,7 @@ h1 {
 
 .formFlexBox {
   display: flex;
+  width: 340px;
   flex-direction: column;
   align-items: center;
   padding: 10px;

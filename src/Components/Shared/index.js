@@ -5,6 +5,7 @@ import SpinnerComponent from './Spinner';
 import TableComponent from './Table';
 import TextInputComponent from './TextInput';
 import ButtonAddComponent from './ButtonAdd';
+import AnimationComponent from './Animation';
 
 const Button = ({ text, onClick, type, variant }) => {
   return <ButtonComponent text={text} type={type} variant={variant} onClick={onClick} />;
@@ -44,6 +45,10 @@ const Spinner = (props) => {
   return <SpinnerComponent props={props} />;
 };
 
+const Animation = () => {
+  return <AnimationComponent />;
+};
+
 const Table = ({ data, headers, values, onDelete, onRowClick, showDelete }) => {
   return (
     <TableComponent
@@ -71,4 +76,4 @@ const TextInput = ({ label, id, name, type, placeholder, register, error }) => {
   );
 };
 
-export { Button, Modal, Select, Spinner, Table, TextInput, ButtonAdd };
+export { Button, Modal, Select, Spinner, Table, TextInput, ButtonAdd, Animation };

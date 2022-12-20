@@ -22,7 +22,8 @@
   background-color: #373867;
   padding: 1em;
   color: white;
-  border-radius: 5px;
+  border-radius: 20px;
+  border: 1px solid white;
   margin-bottom: 2em;
 }
 
@@ -49,4 +50,17 @@
   font-style: normal;
   font-weight: 400;
   color: #ffffff;
+}
+
+.containerBox {
+  display: flex;
+  min-width: 80%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .containerBox {
+    flex-direction: column-reverse;
+  }
 }

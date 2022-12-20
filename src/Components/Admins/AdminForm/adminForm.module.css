@@ -9,6 +9,7 @@
 
 .form {
   padding: 10px;
+  width: 350px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
