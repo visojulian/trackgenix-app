@@ -9,7 +9,7 @@ const Layout = (props) => {
     <div className={styles.container}>
       <Header routes={props.routes} />
       <div>{props.children}</div>
-      <Footer routes={props.routes} />
+      <Footer />
     </div>
   );
 };

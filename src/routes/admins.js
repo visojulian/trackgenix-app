@@ -9,24 +9,25 @@ const ProjectsForm = lazy(() => import('Components/Projects/Form/index'));
 const Tasks = lazy(() => import('Components/Tasks/index'));
 const TasksForm = lazy(() => import('Components/Tasks/Form/index'));
 const TimeSheets = lazy(() => import('Components/Admins/TimeSheets'));
-// const LogoutEntity = lazy(() => import('Components/Auth/Logout/index'));
+const Home = lazy(() => import('Components/Home/index'));
 
-const routes = [
-  { name: 'Home', path: '/admin/projects' },
+export const routes = [
+  { name: 'Home', path: '/home' },
+  { name: 'Projects', path: '/admin/projects' },
   { name: 'Employees', path: '/admin/employees' },
   { name: 'Tasks', path: '/admin/tasks' },
   { name: 'Timesheets', path: '/admin/timesheets' },
   { name: 'Profile', path: '/admin/profile' }
-  // { path: '/auth', icon: <PoweroffOutlined /> }
 ];
+
 const AdminsRouter = () => {
   const { url } = useRouteMatch();
   return (
     <Layout routes={routes}>
       <Switch>
+        <Route exact path={`${url}/home`} component={Home} />
         <Route exact path={`${url}/admin/projects`} component={Projects} />
         <Route exact path={`${url}/profile`} component={AdminProfile} />
-        {/* <Route exact path={`${url}/auth`} component={LogoutEntity} /> */}
         <Route exact path={`${url}/employees/form`} component={EmployeeForm} />
         <Route path={`${url}/employees/form/:id`} component={EmployeeForm} />
         <Route exact path={`${url}/employees`} component={Employees} />

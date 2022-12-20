@@ -26,9 +26,9 @@ const AuthRoutes = () => {
   return (
     <Layout routes={routes}>
       <Switch>
+        <Route exact path={`${url}/`} component={Home} />
         <Route path={`${url}/login`} component={Login} />
         <Route path={`${url}/sign-up`} component={SignUp} />
-        <Route path={`${url}/home`} component={Home} />
         <Redirect path={`${url}/login`} />
       </Switch>
     </Layout>
