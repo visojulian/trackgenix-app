@@ -42,9 +42,9 @@ const Form = () => {
       reset({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
-        phone: currentEmployee.phone,
+        phone: currentEmployee.phone.toString(),
         email: currentEmployee.email,
-        repeatEmail: currentEmployee.repeatEmail
+        repeatEmail: currentEmployee.email
       });
     }
   }, [employees.length, id]);
@@ -110,7 +110,7 @@ const Form = () => {
   const onSubmit = async (data) => {
     if (!isEditing) {
       const res = await dispatch(
-        postEmployee(data.name, data.lastName, data.phone, data.email, data.password)
+        postEmployee(data.name, data.lastName, data.phone.toString(), data.email, data.password)
       );
       if (res.type === POST_EMPLOYEE_SUCCESS) {
         history.goBack();
@@ -118,7 +118,9 @@ const Form = () => {
         setShowModal(true);
       }
     } else {
-      const res = await dispatch(putEmployee(data.name, data.lastName, data.phone, data.email, id));
+      const res = await dispatch(
+        putEmployee(data.name, data.lastName, data.phone.toString(), data.email, id)
+      );
       if (res.type === PUT_EMPLOYEE_SUCCESS) {
         history.goBack();
       } else {

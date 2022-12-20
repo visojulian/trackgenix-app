@@ -1,11 +1,19 @@
 .container {
   margin: 0 auto;
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
   padding: 10px;
   margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .container h2 {
@@ -50,9 +58,16 @@
 
 .listContainer {
   margin: 0 auto 30px auto;
-  width: 90%;
-  border: 1px solid #000000;
+  width: 80%;
   padding: 1%;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+.employeeList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .newEmployeeInputs {
@@ -125,7 +140,6 @@
   height: 30px;
   border: none;
   color: #fff;
-  background-color: #606197;
 }
 
 .formButtons button.cancel {
@@ -137,17 +151,31 @@
 }
 
 h1 {
+  margin: 40px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  align-self: center;
+}
+
+h4 {
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   color: #373867;
   text-align: center;
 }
 
-h4 {
+h5 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
   text-align: center;
-  color: #fff;
 }
 
 .buttonAddEmployee {
@@ -155,4 +183,8 @@ h4 {
   justify-content: center;
   text-align: center;
   margin-top: 20px;
+}
+
+h3 {
+  text-align: center;
 }

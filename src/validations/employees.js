@@ -31,12 +31,12 @@ export const schema = Joi.object({
     .required()
     .length(10)
     .trim()
-    .pattern(/^[0-9]+$/)
+    .pattern(/^[0-9]*$/)
     .messages({
-      'string.required': ' Phone is required',
+      'string.required': 'Phone is required',
       'string.empty': 'Phone cannot be empty',
-      'string.length': ' Phone cannot exceed 10 numbers',
-      'string.pattern.base': ' Phone can only have numbers'
+      'string.length': ' Phone must have 10 digits',
+      'string.pattern.base': 'Phone can only have numbers'
     }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
@@ -95,14 +95,13 @@ export const editSchema = Joi.object({
     }),
   phone: Joi.string()
     .required()
+    .pattern(/^[0-9]*$/)
     .length(10)
-    .trim()
-    .pattern(/^[0-9]+$/)
     .messages({
-      'string.required': ' Phone is required',
+      'string.required': 'Phone is required',
       'string.empty': 'Phone cannot be empty',
-      'string.length': ' Phone cannot exceed 10 numbers',
-      'string.pattern.base': ' Phone can only have numbers'
+      'string.length': 'Phone must have 10 digits',
+      'string.pattern.base': 'Phone can only have numbers'
     }),
   email: Joi.string()
     .email({ tlds: { allow: false } })

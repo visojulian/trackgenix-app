@@ -27,21 +27,21 @@ const AdminProfile = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Profile information</h1>
+      <h2>Profile information</h2>
       <div className={styles.info}>
         <div className={styles.box1}>
           <div className={styles.fields}>
-            <h4>Name</h4>
+            <h5>Name</h5>
             <p>{adminAccount.name}</p>
           </div>
           <div className={styles.fields}>
-            <h4>Last Name</h4>
+            <h5>Last Name</h5>
             <p>{adminAccount.lastName}</p>
           </div>
         </div>
         <div className={styles.box2}>
           <div className={styles.fields}>
-            <h4>Email</h4>
+            <h5>Email</h5>
             <p>{adminAccount.email}</p>
           </div>
         </div>

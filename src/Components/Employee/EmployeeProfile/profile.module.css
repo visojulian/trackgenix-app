@@ -7,12 +7,16 @@
   align-items: center;
 }
 
-h1 {
+.container h1 {
+  color: #ffffff;
+}
+
+h2 {
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -35,10 +39,18 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .logout {
   align-self: flex-end;
   margin-right: 100px;
+}
+
+.fields h5 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #ffffff;
 }

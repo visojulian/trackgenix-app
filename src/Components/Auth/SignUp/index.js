@@ -29,7 +29,14 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (error || Object.values(errors).length) {
+    if (
+      (error || Object.values(errors).length) &&
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password')
+    ) {
       setShowModal(true);
     }
   }, [error]);
@@ -85,12 +92,6 @@ const SignUp = () => {
         </div>
       );
     }
-    return (
-      <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
-      </div>
-    );
   };
 
   const onSubmit = async (data) => {
@@ -111,89 +112,106 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Create a New Account</h1>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <div>
+      <div className={styles.box1}>
+        <h1>Trackgenix</h1>
+        <p>
+          Time tracking software used by millions. Trackgenix is a time tracker and timesheet app
+          that lets you track work hours across different projects!
+        </p>
+      </div>
+      <div className={styles.box2}>
+        <h4 className={styles.title}>Create a new account</h4>
+        <form className={styles.form} onSubmit={onSubmit}>
           <div>
-            <TextInput
-              label="Name"
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Name"
-              register={register}
-              error={errors.name?.message}
-            />
-            <TextInput
-              label="Email"
-              id="email"
-              name="email"
-              type="text"
-              placeholder="Email"
-              register={register}
-              error={errors.email?.message}
-            />
-            <TextInput
-              label="Password"
-              id="password"
-              name="password"
-              placeholder="Password"
-              type="password"
-              register={register}
-              error={errors.password?.message}
-            />
+            <div>
+              <TextInput
+                className={styles.input}
+                label="Name"
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Name"
+                register={register}
+                error={errors.name?.message}
+              />
+              <TextInput
+                className={styles.input}
+                label="Email"
+                id="email"
+                name="email"
+                type="text"
+                placeholder="Email"
+                register={register}
+                error={errors.email?.message}
+              />
+              <TextInput
+                className={styles.input}
+                label="Password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                type="password"
+                register={register}
+                error={errors.password?.message}
+              />
+            </div>
+            <div>
+              <TextInput
+                className={styles.input}
+                label="Last Name"
+                id="lastName"
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+                register={register}
+                error={errors.lastName?.message}
+              />
+              <TextInput
+                className={styles.input}
+                label="Repeat Email"
+                id="repeatEmail"
+                name="repeatEmail"
+                register={register}
+                type="text"
+                placeholder="Repeat Email"
+                error={errors.repeatEmail?.message}
+              />
+              <TextInput
+                className={styles.input}
+                label="Repeat Password"
+                id="repeatPassword"
+                name="repeatPassword"
+                register={register}
+                type="password"
+                placeholder="Repeat Password"
+                error={errors.repeatPassword?.message}
+              />
+              <TextInput
+                className={styles.input}
+                label="Phone"
+                id="phone"
+                name="phone"
+                type="text"
+                placeholder="Phone"
+                register={register}
+                error={errors.phone?.message}
+              />
+            </div>
           </div>
-          <div>
-            <TextInput
-              label="Last Name"
-              id="lastName"
-              name="lastName"
-              type="text"
-              placeholder="Last Name"
-              register={register}
-              error={errors.lastName?.message}
+          <div className={styles.butCont}>
+            <ButtonAdd
+              text="Cancel"
+              type="reset"
+              variant="second"
+              onClick={() => {
+                history.push('/home');
+              }}
             />
-            <TextInput
-              label="Repeat Email"
-              id="repeatEmail"
-              name="repeatEmail"
-              register={register}
-              type="text"
-              placeholder="Repeat Email"
-              error={errors.repeatEmail?.message}
-            />
-            <TextInput
-              label="Repeat Password"
-              id="repeatPassword"
-              name="repeatPassword"
-              register={register}
-              type="password"
-              placeholder="Repeat Password"
-              error={errors.repeatPassword?.message}
-            />
-            <TextInput
-              label="Phone"
-              id="phone"
-              name="phone"
-              type="text"
-              placeholder="Phone"
-              register={register}
-              error={errors.phone?.message}
-            />
+            <ButtonAdd text="Sign Up" type="submit" variant="main" onClick={handleConfirmModal} />
           </div>
-        </div>
-        <div className={styles.butCont}>
-          <ButtonAdd
-            text="Cancel"
-            type="reset"
-            variant="second"
-            onClick={() => {
-              history.push('/home');
-            }}
-          />
-          <ButtonAdd text="Sign Up" type="submit" variant="main" onClick={handleConfirmModal} />
-        </div>
-      </form>
+        </form>
+      </div>
+
       <Modal
         isOpen={showModal}
         handleClose={setShowModal}

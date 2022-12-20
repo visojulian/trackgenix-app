@@ -41,7 +41,7 @@ const EditSuperAdmin = () => {
         name: currentSuperAdmins.name,
         lastName: currentSuperAdmins.lastName,
         email: currentSuperAdmins.email,
-        repeatEmail: currentSuperAdmins.repeatEmail
+        repeatEmail: currentSuperAdmins.email
       });
     }
   }, [superAdmins.length, id]);
@@ -112,7 +112,7 @@ const EditSuperAdmin = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Edit User</h1>
+      <h2 className={styles.title}>Edit User</h2>
       <form className={styles.form} onSubmit={onSubmit}>
         <TextInput
           label="Name"

@@ -192,10 +192,10 @@ function Form() {
       >
         {getModalContent()}
       </Modal>
-      <form>
+      <form className={styles.form}>
         <div>
           <TextInput
-            label="Time Sheet description"
+            label="Timesheet"
             id="description"
             name="description"
             register={register}

@@ -70,7 +70,7 @@ const Timesheets = () => {
   if (timesheets.length) {
     return (
       <div className={styles.container}>
-        <h2>Time Sheets</h2>
+        <h2>Timesheets</h2>
         <Table
           data={tableData}
           headers={['Timesheet', 'Project', 'Task', 'Hours', 'Date']}
@@ -93,22 +93,24 @@ const Timesheets = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <Button
-          text="Add Timesheet"
-          type="submit"
-          variant="primary"
-          onClick={() => {
-            history.push(`timesheets/form`);
-          }}
-        />
-        <Button
-          text="Go Back"
-          type="button"
-          variant="secondary"
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <div className={styles.buttons}>
+          <Button
+            text="Add Timesheet"
+            type="submit"
+            variant="primary"
+            onClick={() => {
+              history.push(`timesheets/form`);
+            }}
+          />
+          <Button
+            text="Go Back"
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </div>
       </div>
     );
   } else {

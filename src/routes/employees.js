@@ -4,11 +4,12 @@ import { useRouteMatch, Redirect, Route, Switch } from 'react-router-dom';
 const Projects = lazy(() => import('Components/Employee/Projects'));
 const ProjectForm = lazy(() => import('Components/Employee/Projects/Form'));
 const EmployeeProfile = lazy(() => import('Components/Employee/EmployeeProfile'));
+const EmployeeProfileEdit = lazy(() => import('Components/Employee/EditEmployee'));
 const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 const TimeSheetsForm = lazy(() => import('Components/TimeSheets/Form'));
-const HomeRouter = lazy(() => import('./home'));
+const Home = lazy(() => import('Components/Home/index'));
 
-const routes = [
+export const routes = [
   { name: 'Home', path: '/home' },
   { name: 'Timesheets', path: '/employee/timesheets' },
   { name: 'Projects', path: '/employee/projects' },
@@ -19,14 +20,15 @@ const EmployeesRouter = () => {
   return (
     <Layout routes={routes}>
       <Switch>
+        <Route exact path={`${url}/home`} component={Home} />
         <Route exact path={`${url}/employee/timesheets`} component={Timesheets} />
         <Route exact path={`${url}/projects`} component={Projects} />
         <Route exact path={`${url}/profile`} component={EmployeeProfile} />
+        <Route exact path={`${url}/profile/edit`} component={EmployeeProfileEdit} />
         <Route exact path={`${url}/projects/form/:id`} component={ProjectForm} />
         <Route exact path={`${url}/timesheets`} component={Timesheets} />
         <Route exact path={`${url}/timesheets/form`} component={TimeSheetsForm} />
         <Route path={`${url}/timesheets/form/:id`} component={TimeSheetsForm} />
-        <Route path="/home" component={HomeRouter} />
         <Redirect to={`${url}/timesheets`} />
       </Switch>
     </Layout>

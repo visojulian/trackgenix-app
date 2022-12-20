@@ -69,7 +69,7 @@ const SuperAdminProfile = () => {
   }
   return (
     <div className={styles.container}>
-      <h1>Profile information</h1>
+      <h2>Profile information</h2>
       <div className={styles.info}>
         <div className={styles.box1}>
           <div className={styles.fields}>
