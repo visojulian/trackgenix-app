@@ -7,15 +7,6 @@
   align-items: center;
 }
 
-h1 {
-  margin-bottom: 20px;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 400;
-  color: #373867;
-  text-align: center;
-}
-
 .info {
   display: flex;
   flex-direction: row;

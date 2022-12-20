@@ -3,8 +3,7 @@ import { Button } from 'Components/Shared';
 import styles from './modal.module.css';
 
 const Modal = (props) => {
-  // const { children, isOpen, handleClose, action } = props;
-  const { children, isOpen, handleClose, isActionModal, action, actionButton } = props;
+  const { children, isOpen, handleClose, action, isActionModal } = props;
   if (!isOpen) {
     return null;
   }
@@ -15,31 +14,30 @@ const Modal = (props) => {
         {children}
         <div className={styles.buttonsWrapper}>
           <div className={styles.buttonsList}>
-            <Button
-              text={isActionModal ? 'Cancel' : 'Accept'}
-              onClick={() => handleClose()}
-              type="button"
-              variant={isActionModal ? 'secondary' : 'primary'}
-            />
-            {/* <Button text="Cancel" onClick={() => handleClose()} type="button" variant="secondary" /> */}
-            {/* <Button
-              text="Confirm"
-              onClick={() => {
-                action();
-                handleClose();
-              }}
-              type="button"
-              variant="primary"
-            /> */}
-            {isActionModal && (
+            {isActionModal ? (
+              <>
+                <Button
+                  text="Cancel"
+                  onClick={() => handleClose()}
+                  type="button"
+                  variant="secondary"
+                />
+                <Button
+                  text="Confirm"
+                  onClick={() => {
+                    action();
+                    handleClose();
+                  }}
+                  type="button"
+                  variant="primary"
+                />
+              </>
+            ) : (
               <Button
-                text={actionButton}
-                onClick={() => {
-                  action();
-                  handleClose();
-                }}
+                text="Accept"
+                onClick={() => handleClose()}
                 type="button"
-                variant="primary"
+                variant="secondary"
               />
             )}
           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import styles from './home.module.css';
 import Clock from 'assets/clock.png';
 import Group from 'assets/group.png';
@@ -46,11 +47,11 @@ const Home = () => {
           <h1>
             Track<span>GENIX</span>
           </h1>
-          <p>AN EASY SYSTEM TO TRACK YOUR TEAM IS TIMES AND PROJECTS</p>
+          <p>AN EASY SYSTEM TO TRACK YOUR TEAM'S TIME AND PROJECTS</p>
           <p>
             Trackgenix is a web system where you can create new projects with your team. Everyone
-            can update all the hours they are working, on the different projects in an easy and
-            simple way and provides information to the companies so they can make better decisions.
+            can update their worked hours on different projects in an easy and simple way, the app
+            also provides information to the companies so they can make better decisions.
           </p>
         </div>
       </section>
@@ -84,16 +85,16 @@ const Home = () => {
             <div>
               <h3>Why Trackgenix?</h3>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industrys standard dummy text ever since the 1500s.
+                When you start tracking time with Trackgenix, you'll have real data that shows you
+                exactly where your time goes so you can improve your productivity.
               </p>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industrys standard dummy text ever since the 1500s.
+                Successful time tracking is all about recording data in your business, then using
+                that data to work as productively and profitably as possible.
               </p>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industrys standard dummy text ever since the 1500s.
+                We'll help you gain a better insight into how you spend your time, so you can
+                prioritize better!
               </p>
             </div>
           </div>
@@ -117,12 +118,13 @@ const Home = () => {
           <h3>Our Story</h3>
           <div className={styles.glass}>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-              has been the industrys standard dummy text ever since the 1500s. Lorem Ipsum is simply
-              dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industrys standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text
-              of the printing and typesetting industry. Lorem Ipsum has been the industrys standard
-              dummy text ever since the 1500s.
+              Trackgenix was officially launched in 2022. Back then, we were charging clients by the
+              hour, so we needed to know how much time we were spending on projects. Nothing fancy
+              or intrusive. We just needed a record of how much time each project took so we know
+              how much to bill each client. So, we built our own time tracker and offered it for
+              free to everyone. Why? We know that each dollar counts when you're a startup and we
+              believe every team deserved a simple and affordable system to track work and billable
+              hours.
             </p>
           </div>
         </div>

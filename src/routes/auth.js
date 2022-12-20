@@ -4,10 +4,14 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom/cjs/rea
 const Layout = lazy(() => import('Components/Layout'));
 const Login = lazy(() => import('Components/Auth/Login'));
 const SignUp = lazy(() => import('Components/Auth/SignUp'));
-const HomeRouter = lazy(() => import('./home'));
+const Home = lazy(() => import('Components/Home'));
 
 const routes = [
   { name: 'Home', path: '/home' },
+  {
+    name: 'Home',
+    path: '/home'
+  },
   {
     name: 'Login',
     path: '/auth/login'
@@ -25,7 +29,7 @@ const AuthRoutes = () => {
       <Switch>
         <Route path={`${url}/login`} component={Login} />
         <Route path={`${url}/sign-up`} component={SignUp} />
-        <Route path="/home" component={HomeRouter} />
+        <Route path={`${url}/home`} component={Home} />
         <Redirect path={`${url}/login`} />
       </Switch>
     </Layout>
