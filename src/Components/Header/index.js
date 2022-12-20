@@ -16,16 +16,14 @@ function Header(props) {
   return (
     <header>
       <nav className={styles.navbar}>
-        <div className={styles.appName}>
-          <a href="/home">
+        <Link to="/home" className={styles.link}>
+          <div className={styles.appName}>
             <img src={Rocket} className={styles.headerImage} />
-          </a>
-          <a href="/home" className={styles.link}>
             <p>
               Track<span>GENIX</span>
             </p>
-          </a>
-        </div>
+          </div>
+        </Link>
         <ul className={styles.rutes}>
           {props.routes.map((route) => (
             <li key={route.name}>
