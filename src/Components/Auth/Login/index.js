@@ -12,10 +12,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const error = useSelector((state) => state.auth.error);
+  const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(loginSchema),
@@ -42,15 +44,24 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (error && getValues('email') && getValues('password')) {
       setShowModal(true);
+      if (error === 'auth/user-not-found') {
+        setErrorMessage('The entered email is not registered');
+      } else if (error === 'auth/wrong-password') {
+        setErrorMessage('The entered password is incorrect');
+      } else if (error === 'auth/too-many-requests') {
+        setErrorMessage('Too many failed attempts. He tries again later');
+      } else {
+        setErrorMessage('An error has occurred. Please try again');
+      }
     }
   }, [error]);
-
+  console.log(error, getValues('email'), getValues('password'));
   return (
     <div>
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
-        <div className={styles.container}>{error}</div>
+        <div className={styles.container}>{errorMessage}</div>
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput

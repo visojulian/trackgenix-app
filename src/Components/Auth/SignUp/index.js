@@ -29,7 +29,14 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (error || Object.values(errors).length) {
+    if (
+      (error || Object.values(errors).length) &&
+      getValues('name') &&
+      getValues('lastName') &&
+      getValues('phone') &&
+      getValues('email') &&
+      getValues('password')
+    ) {
       setShowModal(true);
     }
   }, [error]);
@@ -85,12 +92,6 @@ const SignUp = () => {
         </div>
       );
     }
-    return (
-      <div>
-        <h4>Form incomplete</h4>
-        <p>Please complete all fields before submit.</p>
-      </div>
-    );
   };
 
   const onSubmit = async (data) => {
