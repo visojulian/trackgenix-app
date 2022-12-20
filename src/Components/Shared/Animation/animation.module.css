@@ -1,0 +1,157 @@
+.story {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  padding-left: 80px;
+  background-color: #373867;
+}
+
+.story h3 {
+  font-size: 40px;
+  letter-spacing: 8px;
+  color: white;
+}
+
+.storyAnimation {
+  height: 370px;
+  width: 370px;
+  position: relative;
+  /* margin-top: 60px; */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.moon {
+  background-color: #39beff;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.craterOne,
+.craterTwo,
+.craterThree,
+.craterFour,
+.craterFive {
+  background-color: #31b4ff;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.craterOne::before,
+.craterTwo:before,
+.craterThree:before,
+.craterFour:before,
+.craterFive:before {
+  content: '';
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  box-shadow: -5px 0 0 2px #1ca4f9;
+  top: 2px;
+  left: 7px;
+}
+
+.craterOne {
+  top: 27px;
+  left: 90px;
+  transform: scale(0.9);
+}
+
+.craterTwo {
+  bottom: 15px;
+  left: 61px;
+  transform: scale(0.6);
+}
+
+.craterThree {
+  left: 15px;
+  transform: 0.75;
+}
+
+.craterFour {
+  top: 107px;
+  left: 32px;
+  transform: scale(1.18);
+}
+
+.craterFive {
+  left: 33px;
+  bottom: 4px;
+  transform: scale(0.65);
+}
+
+.orbit {
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  animation: spin 5s infinite linear;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.miniRocket {
+  position: relative;
+  height: 70px;
+  width: 35px;
+  border-radius: 50% 50% 0 0;
+  left: -11px;
+  top: 115px;
+  background-color: #fff;
+}
+
+.miniRocket:before {
+  position: absolute;
+  content: '';
+  height: 20px;
+  width: 55px;
+  bottom: 0;
+  right: -10px;
+  border-radius: 50% 50% 0 0;
+  background-color: #39beff;
+}
+
+.miniRocket:after {
+  position: absolute;
+  content: '';
+  height: 4px;
+  width: 15px;
+  border-radius: 0 0 2px 2px;
+  bottom: -4;
+  left: 4.3px;
+}
+
+.windowAnimation {
+  position: relative;
+  height: 10px;
+  width: 10px;
+  top: 17px;
+  left: 5px;
+  border: 2px solid #8360c3;
+  border-radius: 50%;
+  background-color: #18182e;
+}

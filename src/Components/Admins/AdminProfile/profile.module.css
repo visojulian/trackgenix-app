@@ -50,3 +50,10 @@
   font-weight: 400;
   color: #ffffff;
 }
+
+.containerBox {
+  display: flex;
+  min-width: 80%;
+  justify-content: space-evenly;
+  align-items: center;
+}
