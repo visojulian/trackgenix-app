@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './superAdminProfile.module.css';
-import { Button, Modal, Spinner } from 'Components/Shared';
+import { Button, Modal, Spinner, Animation } from 'Components/Shared';
 import { deleteSuperAdmin, getSuperAdmins } from 'redux/superAdmins/thunks';
 
 const SuperAdminProfile = () => {
@@ -68,54 +68,57 @@ const SuperAdminProfile = () => {
     return <Spinner isLoading={true} />;
   }
   return (
-    <div className={styles.container}>
-      <h2>Profile information</h2>
-      <div className={styles.info}>
-        <div className={styles.box1}>
-          <div className={styles.fields}>
-            <h4>Name</h4>
-            <p>{superAdminAccount.name}</p>
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
+        <h2>Profile information</h2>
+        <div className={styles.info}>
+          <div className={styles.box1}>
+            <div className={styles.fields}>
+              <h4>Name</h4>
+              <p>{superAdminAccount.name}</p>
+            </div>
+            <div className={styles.fields}>
+              <h4>Last Name</h4>
+              <p>{superAdminAccount.lastName}</p>
+            </div>
           </div>
-          <div className={styles.fields}>
-            <h4>Last Name</h4>
-            <p>{superAdminAccount.lastName}</p>
+          <div className={styles.box2}>
+            <div className={styles.fields}>
+              <h4>Email</h4>
+              <p>{superAdminAccount.email}</p>
+            </div>
           </div>
         </div>
-        <div className={styles.box2}>
-          <div className={styles.fields}>
-            <h4>Email</h4>
-            <p>{superAdminAccount.email}</p>
-          </div>
+        <div className={styles.buttons}>
+          <Button
+            text="Edit"
+            type="submit"
+            variant="primary"
+            onClick={() => {
+              editAccount();
+            }}
+          />
+          <Button
+            text="Delete"
+            type="submit"
+            variant="secondary"
+            onClick={() => setShowModal(true)}
+          />
         </div>
-      </div>
-      <div className={styles.buttons}>
-        <Button
-          text="Edit"
-          type="submit"
-          variant="primary"
-          onClick={() => {
-            editAccount();
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => {
+            superAdminId && dispatch(deleteSuperAdmin(superAdminId));
+            goBack();
           }}
-        />
-        <Button
-          text="Delete"
-          type="submit"
-          variant="secondary"
-          onClick={() => setShowModal(true)}
-        />
+          actionButton="Delete"
+        >
+          {getModalContent()}
+        </Modal>
       </div>
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => {
-          superAdminId && dispatch(deleteSuperAdmin(superAdminId));
-          goBack();
-        }}
-        actionButton="Delete"
-      >
-        {getModalContent()}
-      </Modal>
+      <Animation />
     </div>
   );
 };
