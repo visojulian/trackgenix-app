@@ -1,4 +1,4 @@
-.container, .form {
+.container {
   padding: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -7,20 +7,31 @@
   align-items: center;
 }
 
+.form {
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
 .butCont {
   width: 290px;
   padding: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-h1 {
+h2 {
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
 

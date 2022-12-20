@@ -7,10 +7,19 @@
 }
 
 .container h1 {
-  margin-bottom: 20px;
+  margin: 40px;
   font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
+}
+
+.label {
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.buttonGoBack {
+  margin-top: 20px;
 }

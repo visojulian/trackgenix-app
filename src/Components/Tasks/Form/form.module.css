@@ -7,8 +7,12 @@
 }
 
 h1 {
-  color: #373867;
-  font-size: 25px;
+  margin: 40px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
 }
 
 .formFlexBox {
@@ -17,6 +21,8 @@ h1 {
   align-items: center;
   padding: 10px;
   margin: 20px;
+  border-radius: 20px;
+  background-color: white;
 }
 
 .buttonsFlexBox {

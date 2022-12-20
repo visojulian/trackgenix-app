@@ -108,7 +108,7 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Create a New Account</h1>
+      <h2 className={styles.title}>Create a New Account</h2>
       <form className={styles.form} onSubmit={onSubmit}>
         <div>
           <div>

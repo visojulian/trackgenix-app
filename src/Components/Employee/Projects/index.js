@@ -104,7 +104,9 @@ const Projects = () => {
             value={onlyManager}
             onClick={() => setOnlyManager(!onlyManager)}
           />
-          <label htmlFor="onlyManager">Show only my PM projects</label>
+          <label htmlFor="onlyManager" className={styles.label}>
+            Show only my PM projects
+          </label>
         </div>
       )}
       <Table
@@ -114,14 +116,16 @@ const Projects = () => {
         onDelete={() => {}}
         onRowClick={handleRowClick}
       />
-      <Button
-        text="Go Back"
-        type="button"
-        variant="secondary"
-        onClick={() => {
-          history.goBack();
-        }}
-      />
+      <div className={styles.buttonGoBack}>
+        <Button
+          text="Go Back"
+          type="button"
+          variant="secondary"
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+      </div>
     </div>
   );
 };

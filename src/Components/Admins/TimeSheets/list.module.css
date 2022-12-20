@@ -7,10 +7,10 @@
 }
 
 .container h1 {
-  margin-bottom: 20px;
+  margin: 40px;
   font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
