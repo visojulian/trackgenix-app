@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from 'redux/projects/thunks';
+import { deleteProject, getProjects } from 'redux/projects/thunks';
 import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './projects.module.css';
 
@@ -15,6 +15,7 @@ const Projects = () => {
   const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [projectId, setProjectId] = useState();
   const [onlyManager, setOnlyManager] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isManager, setIsManager] = useState(false);
@@ -75,6 +76,13 @@ const Projects = () => {
     }
   };
 
+  const onDelete = (id, showModal) => {
+    if (employeeProjects.find((project) => project._id === id).employees.role === 'PM') {
+      setProjectId(id);
+      setShowModal(showModal);
+    }
+  };
+
   if (projectsError || userError) {
     return (
       <Modal
@@ -97,7 +105,7 @@ const Projects = () => {
     <div className={styles.container}>
       <h1>Projects</h1>
       {isManager && (
-        <div>
+        <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
             id="onlyManager"
@@ -113,9 +121,23 @@ const Projects = () => {
         data={tableData}
         headers={headers}
         values={values}
-        onDelete={() => {}}
+        onDelete={onDelete}
         onRowClick={handleRowClick}
+        showDelete={true}
       />
+      <Modal
+        isOpen={showModal}
+        handleClose={setShowModal}
+        isActionModal={true}
+        action={() => projectId && dispatch(deleteProject(projectId))}
+        actionButton="Delete"
+      >
+        <div>
+          <h4>Delete Project</h4>
+          <p>Are you sure you want to remove project?</p>
+          <p>Changes cannot be undone.</p>
+        </div>
+      </Modal>
       <div className={styles.buttonGoBack}>
         <Button
           text="Go Back"

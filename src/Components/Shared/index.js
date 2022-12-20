@@ -44,7 +44,7 @@ const Spinner = (props) => {
   return <SpinnerComponent props={props} />;
 };
 
-const Table = ({ data, headers, values, onDelete, onRowClick }) => {
+const Table = ({ data, headers, values, onDelete, onRowClick, showDelete }) => {
   return (
     <TableComponent
       data={data}
@@ -52,6 +52,7 @@ const Table = ({ data, headers, values, onDelete, onRowClick }) => {
       values={values}
       onDelete={onDelete}
       onRowClick={onRowClick}
+      showDelete={showDelete}
     />
   );
 };
