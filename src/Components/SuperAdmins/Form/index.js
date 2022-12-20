@@ -172,7 +172,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <h1>{isEditing ? 'Edit super admin' : 'Create super admin'}</h1>
+      <h2>{isEditing ? 'Edit super admin' : 'Create super admin'}</h2>
       <form className={styles.form}>
         <TextInput
           label="Name"

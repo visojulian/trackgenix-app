@@ -53,7 +53,7 @@ const SuperAdmins = () => {
   return (
     <>
       <div className={styles.container}>
-        <h1>Super Admins</h1>
+        <h2>Super Admins</h2>
         <Table
           data={superAdmins}
           headers={headers}

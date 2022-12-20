@@ -14,3 +14,12 @@
   color: #ffffff;
   text-align: center;
 }
+
+.label {
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.buttonGoBack {
+  margin-top: 20px;
+}

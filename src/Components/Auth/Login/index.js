@@ -62,7 +62,7 @@ const Login = () => {
       </div>
       <div className={styles.box2}>
         <h4>Login</h4>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.formLogin}>
           <TextInput
             className={styles.input}
             label="Email"

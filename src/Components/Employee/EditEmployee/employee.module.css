@@ -14,6 +14,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
+  background-color: #ffffff;
 }
 
 .butCont {
@@ -21,15 +23,15 @@
   padding: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-h1 {
+h2 {
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
 

@@ -7,6 +7,15 @@
   align-items: center;
 }
 
+.container h2 {
+  margin: 40px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+}
+
 .info {
   display: flex;
   flex-direction: row;

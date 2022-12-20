@@ -25,11 +25,11 @@
   justify-content: space-between;
 }
 
-h1 {
+h2 {
   margin: 40px;
-  font-size: 25px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   color: #ffffff;
   text-align: center;
 }
