@@ -148,6 +148,7 @@ const Projects = () => {
           }}
         />
       </div>
+      <div className={styles.buttonGoBack}></div>
     </div>
   );
 };
