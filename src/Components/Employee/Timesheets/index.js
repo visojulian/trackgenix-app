@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimesheets, deleteTimesheet } from 'redux/timeSheets/thunks';
-import { Button, Modal, Spinner, Table } from 'Components/Shared';
+import { Button, ButtonAdd, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './list.module.css';
 
 const Timesheets = () => {
@@ -33,7 +33,7 @@ const Timesheets = () => {
           task: timesheet.task.description,
           project: timesheet.project.name,
           description: timesheet.description,
-          date: timesheet.date
+          date: timesheet.date.slice(0, 10)
         };
       })
     );
@@ -95,19 +95,19 @@ const Timesheets = () => {
         </Modal>
         <div className={styles.buttons}>
           <Button
-            text="Add Timesheet"
-            type="submit"
-            variant="primary"
-            onClick={() => {
-              history.push(`timesheets/form`);
-            }}
-          />
-          <Button
             text="Go Back"
             type="button"
             variant="secondary"
             onClick={() => {
               history.goBack();
+            }}
+          />
+          <ButtonAdd
+            text="Add Timesheet"
+            type="submit"
+            variant="main"
+            onClick={() => {
+              history.push(`timesheets/form`);
             }}
           />
         </div>
