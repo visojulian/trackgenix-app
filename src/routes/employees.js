@@ -8,7 +8,7 @@ const Timesheets = lazy(() => import('Components/Employee/Timesheets'));
 const TimeSheetsForm = lazy(() => import('Components/TimeSheets/Form'));
 const Home = lazy(() => import('Components/Home/index'));
 
-const routes = [
+export const routes = [
   { name: 'Home', path: '/home' },
   { name: 'Timesheets', path: '/employee/timesheets' },
   { name: 'Projects', path: '/employee/projects' },

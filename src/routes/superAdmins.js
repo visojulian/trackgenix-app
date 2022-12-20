@@ -9,7 +9,7 @@ const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
 const Home = lazy(() => import('Components/Home/index'));
 
-const routes = [
+export const routes = [
   { name: 'Home', path: '/home' },
   { name: 'Admins', path: '/super-admin/admins' },
   { name: 'Super Admins', path: '/super-admin/list' },
