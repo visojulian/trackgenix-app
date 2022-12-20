@@ -7,8 +7,11 @@
 }
 
 h1 {
-  color: #373867;
-  font-size: 25px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
 }
 
 .formFlexBox {
