@@ -22,7 +22,8 @@
   background-color: #373867;
   padding: 1em;
   color: white;
-  border-radius: 5px;
+  border-radius: 20px;
+  border: 1px solid white;
   margin-bottom: 2em;
 }
 
