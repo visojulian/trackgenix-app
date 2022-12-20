@@ -41,7 +41,7 @@ const EditSuperAdmin = () => {
         name: currentSuperAdmins.name,
         lastName: currentSuperAdmins.lastName,
         email: currentSuperAdmins.email,
-        repeatEmail: currentSuperAdmins.repeatEmail
+        repeatEmail: currentSuperAdmins.email
       });
     }
   }, [superAdmins.length, id]);
