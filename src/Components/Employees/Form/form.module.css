@@ -1,4 +1,12 @@
-.container,
+.container {
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .form {
   padding: 10px;
   margin-bottom: 20px;
@@ -6,6 +14,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
+  background-color: white;
 }
 
 .butCont {
@@ -16,11 +26,11 @@
 }
 
 h1 {
-  margin-bottom: 20px;
-  font-size: 25px;
+  margin: 40px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
 

@@ -176,62 +176,67 @@ const ProjectForm = () => {
     return <Spinner isLoading={true} />;
   }
   return (
-    <>
+    <div className={styles.container}>
       <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
-      <form className={styles.container}>
-        <TextInput
-          label="Project Name"
-          id="name"
-          name="name"
-          type="text"
-          placeholder="Project Name"
-          register={register}
-          error={errors.name?.message}
-        />
-        <TextInput
-          label="Client Name"
-          id="clientName"
-          name="clientName"
-          type="text"
-          placeholder="Client Name"
-          register={register}
-          error={errors.clientName?.message}
-        />
-        <TextInput
-          label="Description"
-          id="description"
-          name="description"
-          type="text"
-          placeholder="Description"
-          register={register}
-          error={errors.description?.message}
-        />
-        <TextInput
-          label="Start date"
-          id="startDate"
-          name="startDate"
-          type="date"
-          placeholder="Start date"
-          register={register}
-          error={errors.startDate?.message}
-        />
-        <TextInput
-          label="End date"
-          id="endDate"
-          name="endDate"
-          type="date"
-          placeholder="End date"
-          register={register}
-          error={errors.endDate?.message}
-        />
+      <div className={styles.box}>
+        <form className={styles.form}>
+          <TextInput
+            label="Project Name"
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Project Name"
+            register={register}
+            error={errors.name?.message}
+          />
+          <TextInput
+            label="Client Name"
+            id="clientName"
+            name="clientName"
+            type="text"
+            placeholder="Client Name"
+            register={register}
+            error={errors.clientName?.message}
+          />
+          <TextInput
+            label="Description"
+            id="description"
+            name="description"
+            type="text"
+            placeholder="Description"
+            register={register}
+            error={errors.description?.message}
+          />
+          <TextInput
+            label="Start date"
+            id="startDate"
+            name="startDate"
+            type="date"
+            placeholder="Start date"
+            register={register}
+            error={errors.startDate?.message}
+          />
+          <TextInput
+            label="End date"
+            id="endDate"
+            name="endDate"
+            type="date"
+            placeholder="End date"
+            register={register}
+            error={errors.endDate?.message}
+          />
+        </form>
         <div className={styles.listContainer}>
           <div>
             <h4>Employees</h4>
-            <EmployeeForm
-              selectedEmployee={clickedEmployee}
-              employees={projectEmployees}
-              setEmployees={setProjectEmployees}
-            />
+            <div>
+              <EmployeeForm
+                selectedEmployee={clickedEmployee}
+                employees={projectEmployees}
+                setEmployees={setProjectEmployees}
+                className={styles.EmployeeContainer}
+              />
+            </div>
             <Table
               className={styles.employeeList}
               data={thisProjectEmployees()}
@@ -259,11 +264,10 @@ const ProjectForm = () => {
                 history.goBack();
               }}
             />
-            <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
             <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
-      </form>
+      </div>
       <div className={styles.listContainer}>
         <div>
           <h2>This project timesheets:</h2>
@@ -286,7 +290,7 @@ const ProjectForm = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

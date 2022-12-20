@@ -6,12 +6,12 @@
   margin-bottom: 50px;
 }
 
-.container h1 {
-  margin-bottom: 20px;
+.container h2 {
+  margin: 40px;
   font-size: 30px;
   font-style: normal;
-  font-weight: 400;
-  color: #373867;
+  font-weight: 300;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -21,7 +21,7 @@
   align-self: center;
   width: 50%;
   border-radius: 10px;
-  background-color: #F0F4F9;
+  background-color: #f0f4f9;
 }
 
 .error h4 {

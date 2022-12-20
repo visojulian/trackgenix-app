@@ -122,7 +122,7 @@ const EditEmployee = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Edit employee</h1>
+      <h2 className={styles.title}>Edit employee</h2>
       <form className={styles.form} onSubmit={onSubmit}>
         <TextInput
           label="Name"
@@ -179,7 +179,6 @@ const EditEmployee = () => {
               history.goBack();
             }}
           />
-          <Button text="Reset fields" type="button" variant="secondary" onClick={() => reset()} />
           <Button text="Submit" type="submit" variant="primary" onClick={handleConfirmModal} />
         </div>
       </form>

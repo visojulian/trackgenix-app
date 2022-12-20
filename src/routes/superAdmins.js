@@ -7,9 +7,11 @@ const EditSuperAdmin = lazy(() => import('Components/SuperAdmins/EditSuperAdmin'
 const SuperAdminsForm = lazy(() => import('Components/SuperAdmins/Form'));
 const Admins = lazy(() => import('Components/Admins'));
 const AdminForm = lazy(() => import('Components/Admins/AdminForm'));
+const Home = lazy(() => import('Components/Home/index'));
 
-const routes = [
-  { name: 'Home', path: '/super-admin/admins' },
+export const routes = [
+  { name: 'Home', path: '/home' },
+  { name: 'Admins', path: '/super-admin/admins' },
   { name: 'Super Admins', path: '/super-admin/list' },
   { name: 'Profile', path: '/super-admin/profile' }
 ];
@@ -18,6 +20,7 @@ const SuperAdminsRouter = () => {
   return (
     <Layout routes={routes}>
       <Switch>
+        <Route exact path={`${url}/home`} component={Home} />
         <Route exact path={`${url}/super-admin/admins`} component={Admins} />
         <Route exact path={`${url}/edit-profile`} component={EditSuperAdmin} />
         <Route exact path={`${url}/profile`} component={SuperAdminProfile} />
