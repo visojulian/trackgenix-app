@@ -80,7 +80,6 @@ export const putAdmin = (admin, adminId) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         return dispatch(putAdminError(err.toString()));
       });
   };

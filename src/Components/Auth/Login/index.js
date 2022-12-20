@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { loginSchema } from 'validations/login';
@@ -11,7 +12,7 @@ import styles from './login.module.css';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const error = useSelector((state) => state.auth.error);
+  const { error, isLoading } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -42,47 +43,68 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (error && !isLoading) {
       setShowModal(true);
     }
-  }, [error]);
+  }, [error, isLoading]);
 
   return (
-    <div>
+    <div className={styles.loginContainer}>
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
-        <div className={styles.container}>{error}</div>
-      </Modal>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextInput
-          label="Email"
-          id="email"
-          name="email"
-          type="text"
-          placeholder="Email"
-          register={register}
-          error={errors.email?.message}
-        />
-        <TextInput
-          label="Password"
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          register={register}
-          error={errors.password?.message}
-        />
-        <div className={styles.butCont}>
-          <ButtonAdd
-            text="Cancel"
-            type="reset"
-            variant="second"
-            onClick={() => {
-              history.push('/home');
-            }}
-          />
-          <ButtonAdd text="Sign In" type="submit" variant="main" />
+        <div className={styles.container}>
+          <h2>Error trying to login:</h2>
+          {error}
         </div>
-      </form>
+      </Modal>
+      <div className={styles.box1}>
+        <h1>Trackgenix</h1>
+        <p>
+          Time tracking software used by millions. Trackgenix is a time tracker and timesheet app
+          that lets you track work hours across different projects!
+        </p>
+      </div>
+      <div className={styles.box2}>
+        <h4>Login</h4>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextInput
+            className={styles.input}
+            label="Email"
+            id="email"
+            name="email"
+            type="text"
+            placeholder="Email"
+            register={register}
+            error={errors.email?.message}
+          />
+          <TextInput
+            className={styles.input}
+            label="Password"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            register={register}
+            error={errors.password?.message}
+          />
+          <div className={styles.butCont}>
+            <ButtonAdd
+              text="Cancel"
+              type="reset"
+              variant="second"
+              onClick={() => {
+                history.push('/home');
+              }}
+            />
+            <ButtonAdd text="Sign In" type="submit" variant="main" />
+          </div>
+          <p>
+            Don't have an account?{' '}
+            <Link className={styles.link} to="sign-up">
+              Register Here
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

@@ -40,7 +40,7 @@ const EditEmployee = () => {
       reset({
         name: currentEmployee.name,
         lastName: currentEmployee.lastName,
-        phone: currentEmployee.phone,
+        phone: currentEmployee.phone.toString(),
         email: currentEmployee.email,
         repeatEmail: currentEmployee.email
       });
@@ -50,12 +50,14 @@ const EditEmployee = () => {
   const handleConfirmModal = (e) => {
     e.preventDefault();
     setShowModal(true);
+    setIsActionModal(false);
     if (
       getValues('name') &&
       getValues('lastName') &&
       getValues('email') &&
       getValues('phone') &&
-      getValues('repeatEmail')
+      getValues('repeatEmail') &&
+      !Object.values(errors).length
     ) {
       setIsActionModal(true);
     }
@@ -70,12 +72,21 @@ const EditEmployee = () => {
         </div>
       );
     }
+    if (Object.values(errors).length) {
+      return (
+        <div>
+          <h4>Input form error</h4>
+          <p>Please fix all errors before submit.</p>
+        </div>
+      );
+    }
     if (
       getValues('name') &&
       getValues('lastName') &&
       getValues('phone') &&
       getValues('email') &&
-      getValues('repeatEmail')
+      getValues('repeatEmail') &&
+      !Object.values(errors).length
     ) {
       return (
         <div>
@@ -95,9 +106,11 @@ const EditEmployee = () => {
   };
 
   const onSubmit = async (data) => {
-    const res = await dispatch(putEmployee(data.name, data.lastName, data.phone, data.email, id));
+    const res = await dispatch(
+      putEmployee(data.name, data.lastName, data.phone.toString(), data.email, id)
+    );
     if (res.type === PUT_EMPLOYEE_SUCCESS) {
-      history.push(`employees/employee-profile/${id}`);
+      history.goBack();
     } else {
       setShowModal(true);
     }

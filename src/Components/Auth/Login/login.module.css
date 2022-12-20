@@ -1,6 +1,81 @@
 .butCont {
-  padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 20px;
+  margin-top: 2vw;
+}
+
+.loginContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.box1 {
+  width: 20%;
+  padding-left: 1.5vw;
+  padding-top: 1.5vw;;
+  align-self: center;
+  color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.box2 {
+  display: flex;
+  width: 35%;
+  height: 30vw;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));;
+  background-color: white;
+  border-radius: 2%;
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.box2 form {
+  margin-top: 4vw;
+}
+
+.box2 p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  /* background-color: aqua; */
+  margin-bottom: 4vw;
+}
+
+.box2 h4 {
+  align-self: flex-start;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.link {
+  color: #373867;
+}
+
+.link:visited {
+  color: #373867;
+}
+
+.link:hover {
+  color: #3F8073;
+}
+
+.link:link {
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.input {
+  margin: 50%;
 }
