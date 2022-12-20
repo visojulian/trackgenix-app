@@ -16,8 +16,6 @@
 .table {
   height: auto;
   margin: 15px auto;
-  /* border: 1px solid #DFE4DE;
-  border-radius: 5px; */
   border-collapse: collapse;
 }
 
@@ -46,7 +44,7 @@
 }
 
 .table tr:hover {
-  background-color: rgb(241, 241, 241);
+  background-color: rgb(233, 233, 233);
   cursor: pointer;
 }
 
