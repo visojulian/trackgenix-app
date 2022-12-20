@@ -12,7 +12,7 @@ import styles from './login.module.css';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const error = useSelector((state) => state.auth.error);
+  const { error, isLoading } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -43,15 +43,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (error && !isLoading) {
       setShowModal(true);
     }
-  }, [error]);
+  }, [error, isLoading]);
 
   return (
     <div className={styles.loginContainer}>
       <Modal isOpen={showModal} handleClose={setShowModal} isActionModal={false}>
-        <div className={styles.container}>{error}</div>
+        <div className={styles.container}>
+          <h2>Error trying to login:</h2>
+          {error}
+        </div>
       </Modal>
       <div className={styles.box1}>
         <h1>Trackgenix</h1>
