@@ -5,6 +5,7 @@ import Group from 'assets/group.png';
 import Resources from 'assets/human-resources.png';
 import User from 'assets/user.png';
 import Work from 'assets/worka.png';
+import { Animation } from 'Components/Shared';
 
 const Home = () => {
   return (
@@ -129,20 +130,8 @@ const Home = () => {
           </div>
         </div>
         <div>
-          <div className={styles.storyAnimation}>
-            <div className={styles.moon}>
-              <div className={styles.craterOne}></div>
-              <div className={styles.craterTwo}></div>
-              <div className={styles.craterThree}></div>
-              <div className={styles.craterFour}></div>
-              <div className={styles.craterFive}></div>
-              <div className={styles.shadow}></div>
-            </div>
-            <div className={styles.orbit}>
-              <div className={styles.miniRocket}>
-                <div className={styles.windowAnimation}></div>
-              </div>
-            </div>
+          <div className={styles.animation}>
+            <Animation />
           </div>
         </div>
       </section>
