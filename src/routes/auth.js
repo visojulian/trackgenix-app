@@ -7,7 +7,6 @@ const SignUp = lazy(() => import('Components/Auth/SignUp'));
 const Home = lazy(() => import('Components/Home'));
 
 const routes = [
-  { name: 'Home', path: '/home' },
   {
     name: 'Home',
     path: '/home'
@@ -30,7 +29,6 @@ const AuthRoutes = () => {
         <Route exact path={`${url}/`} component={Home} />
         <Route path={`${url}/login`} component={Login} />
         <Route path={`${url}/sign-up`} component={SignUp} />
-        <Route path={`${url}/home`} component={Home} />
         <Redirect path={`${url}/login`} />
       </Switch>
     </Layout>
