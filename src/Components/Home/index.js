@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import styles from './home.module.css';
 import Clock from 'assets/clock.png';
 import Group from 'assets/group.png';
@@ -46,11 +47,11 @@ const Home = () => {
           <h1>
             Track<span>GENIX</span>
           </h1>
-          <p>AN EASY SYSTEM TO TRACK YOUR TEAM IS TIMES AND PROJECTS</p>
+          <p>AN EASY SYSTEM TO TRACK YOUR TEAM'S TIME AND PROJECTS</p>
           <p>
             Trackgenix is a web system where you can create new projects with your team. Everyone
-            can update all the hours they are working, on the different projects in an easy and
-            simple way and provides information to the companies so they can make better decisions.
+            can update their worked hours on different projects in an easy and simple way, the app
+            also provides information to the companies so they can make better decisions.
           </p>
         </div>
       </section>
