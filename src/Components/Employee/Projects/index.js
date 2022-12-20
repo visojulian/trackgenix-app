@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProject, getProjects } from 'redux/projects/thunks';
-import { Modal, Spinner, Table } from 'Components/Shared';
+import { Button, Modal, Spinner, Table } from 'Components/Shared';
 import styles from './projects.module.css';
 
 const Projects = () => {
@@ -138,6 +138,16 @@ const Projects = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
+      <div className={styles.buttonGoBack}>
+        <Button
+          text="Go Back"
+          type="button"
+          variant="secondary"
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+      </div>
       <div className={styles.buttonGoBack}></div>
     </div>
   );
