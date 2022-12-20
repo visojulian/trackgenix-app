@@ -52,7 +52,7 @@ const Login = () => {
       } else if (error === 'auth/wrong-password') {
         setErrorMessage('The entered password is incorrect');
       } else if (error === 'auth/too-many-requests') {
-        setErrorMessage('Too many failed attempts. He tries again later');
+        setErrorMessage('Too many failed attempts. Try again later');
       } else {
         setErrorMessage('An error has occurred. Please try again');
       }
@@ -106,7 +106,7 @@ const Login = () => {
                 history.push('/home');
               }}
             />
-            <ButtonAdd text="Sign In" type="submit" variant="main" />
+            <ButtonAdd text="Login" type="submit" variant="main" />
           </div>
           <p>
             Don't have an account?{' '}
