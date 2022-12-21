@@ -101,56 +101,64 @@ const Projects = () => {
   if (projectsIsLoading || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
-  return (
-    <div className={styles.container}>
-      <h1>Projects</h1>
-      {isManager && (
-        <div className={styles.checkboxContainer}>
-          <input
-            type="checkbox"
-            id="onlyManager"
-            value={onlyManager}
-            onClick={() => setOnlyManager(!onlyManager)}
-          />
-          <label htmlFor="onlyManager" className={styles.label}>
-            Show only my PM projects
-          </label>
-        </div>
-      )}
-      <Table
-        data={tableData}
-        headers={headers}
-        values={values}
-        onDelete={onDelete}
-        onRowClick={handleRowClick}
-        showDelete={true}
-      />
-      <Modal
-        isOpen={showModal}
-        handleClose={setShowModal}
-        isActionModal={true}
-        action={() => projectId && dispatch(deleteProject(projectId))}
-        actionButton="Delete"
-      >
-        <div>
-          <h4>Delete Project</h4>
-          <p>Are you sure you want to remove project?</p>
-          <p>Changes cannot be undone.</p>
-        </div>
-      </Modal>
-      <div className={styles.buttonGoBack}>
-        <Button
-          text="Go Back"
-          type="button"
-          variant="secondary"
-          onClick={() => {
-            history.goBack();
-          }}
+  if (tableData.length) {
+    return (
+      <div className={styles.container}>
+        <h1>Projects</h1>
+        {isManager && (
+          <div className={styles.checkboxContainer}>
+            <input
+              type="checkbox"
+              id="onlyManager"
+              value={onlyManager}
+              onClick={() => setOnlyManager(!onlyManager)}
+            />
+            <label htmlFor="onlyManager" className={styles.label}>
+              Show only my PM projects
+            </label>
+          </div>
+        )}
+        <Table
+          data={tableData}
+          headers={headers}
+          values={values}
+          onDelete={onDelete}
+          onRowClick={handleRowClick}
+          showDelete={true}
         />
+        <Modal
+          isOpen={showModal}
+          handleClose={setShowModal}
+          isActionModal={true}
+          action={() => projectId && dispatch(deleteProject(projectId))}
+          actionButton="Delete"
+        >
+          <div>
+            <h4>Delete Project</h4>
+            <p>Are you sure you want to remove project?</p>
+            <p>Changes cannot be undone.</p>
+          </div>
+        </Modal>
+        <div className={styles.buttonGoBack}>
+          <Button
+            text="Go Back"
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </div>
+        <div className={styles.buttonGoBack}></div>
       </div>
-      <div className={styles.buttonGoBack}></div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className={styles.container}>
+        <h2>The user is not linked to any projects </h2>
+      </div>
+    );
+  }
 };
 
 export default Projects;
