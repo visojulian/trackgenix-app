@@ -72,7 +72,7 @@ export const editSchema = Joi.object({
     .min(3)
     .max(20)
     .trim()
-    .pattern(/^[a-zA-Z]{3,50}$/)
+    .pattern(/^[a-zA-Z\s]*$/)
     .messages({
       'strig.required': 'Name is required',
       'string.empty': 'Name cannot be empty',
@@ -85,7 +85,7 @@ export const editSchema = Joi.object({
     .min(3)
     .max(25)
     .trim()
-    .pattern(/^[a-zA-Z]{3,50}$/)
+    .pattern(/^[a-zA-Z\s]*$/)
     .messages({
       'strig.required': 'Last Name is required',
       'string.empty': 'Last Name cannot be empty',
