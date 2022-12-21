@@ -77,7 +77,7 @@ const Form = () => {
         getValues('repeatPassword') &&
         !Object.values(errors).length
       ) {
-        setIsActionModal(false);
+        setIsActionModal(true);
       }
     }
   };
