@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './superAdminProfile.module.css';
 import { Button, Modal, Spinner, Animation } from 'Components/Shared';
 import { deleteSuperAdmin, getSuperAdmins } from 'redux/superAdmins/thunks';
+import { logout } from 'redux/auth/thunks';
 
 const SuperAdminProfile = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const logoutUser = () => dispatch(logout());
   const [showModal, setShowModal] = useState(false);
   const [superAdminId, setSuperAdminId] = useState();
   const { user, isLoading: userIsLoading } = useSelector((state) => state.user);
@@ -110,7 +112,7 @@ const SuperAdminProfile = () => {
           handleClose={setShowModal}
           isActionModal={true}
           action={() => {
-            superAdminId && dispatch(deleteSuperAdmin(superAdminId));
+            superAdminId && dispatch(deleteSuperAdmin(superAdminId) && logoutUser);
             goBack();
           }}
           actionButton="Delete"
