@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from 'redux/employees/thunks';
+import { logout } from 'redux/auth/thunks';
 import styles from './profile.module.css';
 import { Button, Modal, Spinner, Animation } from 'Components/Shared';
 
 const EmployeeProfile = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const logoutUser = () => dispatch(logout());
   const [showModal, setShowModal] = useState(false);
   const [employeeId, setEmployeeId] = useState();
   const { list: employees, isLoading: employeeIsLoading } = useSelector((state) => state.employees);
@@ -97,7 +99,7 @@ const EmployeeProfile = () => {
           handleClose={setShowModal}
           isActionModal={true}
           action={() => {
-            employeeId && dispatch(deleteEmployee(employeeId));
+            employeeId && dispatch(deleteEmployee(employeeId) && logoutUser);
             goBack();
           }}
           actionButton="Delete"
