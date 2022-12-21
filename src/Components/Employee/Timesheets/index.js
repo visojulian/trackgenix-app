@@ -67,7 +67,7 @@ const Timesheets = () => {
     );
   }
 
-  if (timesheets.length) {
+  if (tableData.length) {
     return (
       <div className={styles.container}>
         <h2>Timesheets</h2>
@@ -114,8 +114,11 @@ const Timesheets = () => {
       </div>
     );
   } else {
-    dispatch(getTimesheets());
-    return null;
+    return (
+      <div className={styles.container}>
+        <h2>The user is not linked to any timesheets </h2>
+      </div>
+    );
   }
 };
 
