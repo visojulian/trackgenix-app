@@ -16,11 +16,12 @@ const Timesheets = () => {
   } = useSelector((state) => state.timeSheets);
   const { user, isLoading: userIsLoading, error: userError } = useSelector((state) => state.user);
   const [timeSheetId, setTimeSheetId] = useState();
+  const [update, setUpdate] = useState(false);
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     dispatch(getTimesheets());
-  }, []);
+  }, [update]);
 
   const employeeTimesheets = timesheets.filter((timesheet) => timesheet.employee._id === user._id);
 
@@ -84,6 +85,7 @@ const Timesheets = () => {
           isActionModal={true}
           action={() => {
             timeSheetId && dispatch(deleteTimesheet(timeSheetId));
+            setUpdate(!update);
           }}
           actionButton="Delete"
         >
