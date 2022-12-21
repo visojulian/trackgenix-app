@@ -3,8 +3,7 @@ import Joi from 'joi';
 const name = Joi.string()
   .min(3)
   .max(20)
-  .trim()
-  .pattern(/^[a-zA-Z\s]*$/)
+  .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
   .required()
   .messages({
     'string.empty': 'Name cannot be empty',
@@ -16,8 +15,7 @@ const name = Joi.string()
 const lastName = Joi.string()
   .min(3)
   .max(25)
-  .trim()
-  .pattern(/^[a-zA-Z\s]*$/)
+  .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
   .required()
   .messages({
     'string.empty': 'Last Name cannot be empty',

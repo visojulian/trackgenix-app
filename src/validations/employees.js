@@ -5,8 +5,7 @@ export const schema = Joi.object({
     .required()
     .min(3)
     .max(20)
-    .trim()
-    .pattern(/^[a-zA-Z\s]*$/)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
     .messages({
       'strig.required': 'Name is required',
       'string.empty': 'Name cannot be empty',
@@ -18,8 +17,7 @@ export const schema = Joi.object({
     .required()
     .min(3)
     .max(25)
-    .trim()
-    .pattern(/^[a-zA-Z\s]*$/)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
     .messages({
       'strig.required': 'Last Name is required',
       'string.empty': 'Last Name cannot be empty',
@@ -71,8 +69,7 @@ export const editSchema = Joi.object({
     .required()
     .min(3)
     .max(20)
-    .trim()
-    .pattern(/^[a-zA-Z\s]*$/)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
     .messages({
       'strig.required': 'Name is required',
       'string.empty': 'Name cannot be empty',
@@ -84,8 +81,7 @@ export const editSchema = Joi.object({
     .required()
     .min(3)
     .max(25)
-    .trim()
-    .pattern(/^[a-zA-Z\s]*$/)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/)
     .messages({
       'strig.required': 'Last Name is required',
       'string.empty': 'Last Name cannot be empty',
