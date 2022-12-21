@@ -1,0 +1,190 @@
+.container {
+  margin: 0 auto;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
+
+.button {
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+  background-color: #606197;
+}
+
+.button:hover {
+  background-color: #373867;
+}
+
+.label {
+  display: block;
+  width: 100%;
+}
+
+.labelContainer {
+  margin: 10px 0;
+  display: block;
+  width: 45%;
+}
+
+.labelContainer textarea {
+  box-sizing: border-box;
+  display: block;
+  padding: 1%;
+  width: 90%;
+}
+
+.listContainer {
+  margin: 0 auto 30px auto;
+  width: 80%;
+  padding: 1%;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+.employeeList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newEmployeeInputs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.newEmployeeInputs select {
+  box-sizing: border-box;
+  display: block;
+  padding: 1%;
+  width: 25%;
+}
+
+.newEmployeeButton {
+  margin: 1% 5%;
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+  background-color: #606197;
+  float: right;
+}
+
+.newEmployeeButton:hover {
+  background-color: #373867;
+}
+
+.employeeList table th {
+  max-width: 900px;
+}
+
+.table {
+  width: 60%;
+  margin: 30px auto 20px auto;
+  border: 1px solid #dfe4de;
+  border-radius: 5px;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.table th {
+  height: 50px;
+  font-weight: 500;
+  background-color: #373867;
+  color: #fff;
+}
+
+.table td {
+  color: #373867;
+  text-align: center;
+  height: 40px;
+  border-top: 1px solid #dfe4de;
+}
+
+.listContainer table tr:hover {
+  background-color: #dfe4de;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.formButtons button {
+  margin-left: 100px;
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: #fff;
+}
+
+.formButtons button.cancel {
+  background-color: #f13312;
+}
+
+.formButtons button.cancel:hover {
+  background-color: #f1331230;
+}
+
+h1 {
+  margin: 40px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  align-self: center;
+}
+
+h4 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
+
+h5 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #373867;
+  text-align: center;
+}
+
+.buttonAddEmployee {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+h3 {
+  text-align: center;
+}

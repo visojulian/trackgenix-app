@@ -31,6 +31,15 @@
   margin: 2em;
 }
 
+.fields h5 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: start;
+  color: #ffffff;
+}
+
 .buttons {
   display: flex;
   flex-direction: row;
