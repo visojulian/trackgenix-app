@@ -27,11 +27,6 @@ function Form() {
     error: taskError
   } = useSelector((state) => state.tasks);
   const {
-    // list: employees,
-    isLoading: loadingEmployees,
-    error: employeeError
-  } = useSelector((state) => state.employees);
-  const {
     list: projects,
     isLoading: loadingProjects,
     error: projectError
@@ -54,7 +49,6 @@ function Form() {
   });
   const selectedProjectId = watch('project');
   const currentTimeSheet = timesheets.find((timesheet) => timesheet._id === id);
-  const currentProject = projects.find((project) => project._id === selectedProjectId);
   const isEditing = Boolean(id);
 
   useEffect(() => {
@@ -165,15 +159,15 @@ function Form() {
     }
   };
 
-  if (loadingTimesheet || loadingEmployees || loadingTasks || loadingProjects || userIsLoading) {
+  if (loadingTimesheet || loadingTasks || loadingProjects || userIsLoading) {
     return <Spinner isLoading={true} />;
   }
 
-  if (timesheetError || taskError || projectError || employeeError || userError) {
+  if (timesheetError || taskError || projectError || userError) {
     <Modal isOpen={true} handleClose={setShowModal} isActionModal={false}>
       <div>
         <h4>There was an error</h4>
-        <p>{timesheetError || taskError || projectError || employeeError || userError}</p>
+        <p>{timesheetError || taskError || projectError || userError}</p>
       </div>
     </Modal>;
   }
@@ -254,18 +248,7 @@ function Form() {
               placeholder="Select an employee"
               register={register}
               error={errors.employee?.message}
-              data={
-                currentProject
-                  ? currentProject.employees.map(({ employee }) => {
-                      if (employee) {
-                        return {
-                          id: user._id,
-                          value: user.name
-                        };
-                      }
-                    })
-                  : []
-              }
+              data={[{ id: user._id, value: `${user.name} ${user.lastName}` }]}
             />
           </div>
           <div className={styles.buttons}>
