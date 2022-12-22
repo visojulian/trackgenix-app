@@ -80,25 +80,25 @@ const employeeForm = (props) => {
   };
   return (
     <div>
+      {isEditing && (
+        <div className={styles.editingEmployee}>
+          <h5>You are editing employee: {selectedEmployee.name}</h5>
+          <button
+            className={styles.button}
+            onClick={() => {
+              setIsEditing(false);
+              reset({
+                employee: '',
+                rate: '',
+                role: ''
+              });
+            }}
+          >
+            x
+          </button>
+        </div>
+      )}
       <div className={styles.newEmployeeInputs}>
-        {isEditing && (
-          <div className={styles.editingEmployee}>
-            <h5>You are editing employee: {selectedEmployee.name}</h5>
-            <button
-              className={styles.button}
-              onClick={() => {
-                setIsEditing(false);
-                reset({
-                  employee: '',
-                  rate: '',
-                  role: ''
-                });
-              }}
-            >
-              x
-            </button>
-          </div>
-        )}
         <Select
           name="employee"
           placeholder="Select an employee"

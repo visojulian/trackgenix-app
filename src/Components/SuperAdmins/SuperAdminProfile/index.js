@@ -76,17 +76,17 @@ const SuperAdminProfile = () => {
         <div className={styles.info}>
           <div className={styles.box1}>
             <div className={styles.fields}>
-              <h4>Name</h4>
+              <h5>Name</h5>
               <p>{superAdminAccount.name}</p>
             </div>
             <div className={styles.fields}>
-              <h4>Last Name</h4>
+              <h5>Last Name</h5>
               <p>{superAdminAccount.lastName}</p>
             </div>
           </div>
           <div className={styles.box2}>
             <div className={styles.fields}>
-              <h4>Email</h4>
+              <h5>Email</h5>
               <p>{superAdminAccount.email}</p>
             </div>
           </div>

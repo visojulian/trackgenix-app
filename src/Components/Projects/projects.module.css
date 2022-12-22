@@ -21,6 +21,11 @@
   align-items: center;
 }
 
+.containerEditEmployee {
+  display: flex;
+  flex-direction: column;
+}
+
 .button {
   margin-left: 20px;
   width: 20px;
@@ -43,4 +48,13 @@
 .newEmployeeInputs {
   display: flex;
   align-items: center;
+}
+
+.editingEmployee h5 {
+  margin: 5px;
+  font-size: 16px;
+}
+
+.buttonMargin {
+  margin-top: 20px;
 }

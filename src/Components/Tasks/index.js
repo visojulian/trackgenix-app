@@ -64,14 +64,16 @@ const Tasks = () => {
           <p>Changes cannot be undone.</p>
         </div>
       </Modal>
-      <ButtonAdd
-        text="Add new task"
-        type="submit"
-        variant="main"
-        onClick={() => {
-          history.push(`tasks/form`);
-        }}
-      />
+      <div className={styles.buttonMargin}>
+        <ButtonAdd
+          text="Add new task"
+          type="submit"
+          variant="main"
+          onClick={() => {
+            history.push(`tasks/form`);
+          }}
+        />
+      </div>
     </section>
   );
 };

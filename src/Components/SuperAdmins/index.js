@@ -74,14 +74,16 @@ const SuperAdmins = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <ButtonAdd
-          text="Add Super Admin"
-          type="submit"
-          variant="main"
-          onClick={() => {
-            history.push('/super-admin/form');
-          }}
-        />
+        <div className={styles.buttonMargin}>
+          <ButtonAdd
+            text="Add Super Admin"
+            type="submit"
+            variant="main"
+            onClick={() => {
+              history.push('/super-admin/form');
+            }}
+          />
+        </div>
       </div>
     </>
   );

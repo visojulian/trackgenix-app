@@ -8,7 +8,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { schema } from 'validations/projects';
 import { Button, Modal, Spinner, Table, TextInput } from 'Components/Shared';
-import styles from 'Components/Projects/Form/form.module.css';
+import styles from './form.module.css';
 import { getTimesheets } from 'redux/timeSheets/thunks';
 import EmployeeForm from 'Components/Projects/Form/employeeForm';
 
@@ -176,62 +176,66 @@ const ProjectForm = () => {
     return <Spinner isLoading={true} />;
   }
   return (
-    <>
+    <div className={styles.container}>
       <h1>{isEditing ? 'Edit' : 'Add'} Project</h1>
-      <form className={styles.container}>
-        <TextInput
-          label="Project Name"
-          id="name"
-          name="name"
-          type="text"
-          placeholder="Project Name"
-          register={register}
-          error={errors.name?.message}
-        />
-        <TextInput
-          label="Client Name"
-          id="clientName"
-          name="clientName"
-          type="text"
-          placeholder="Client Name"
-          register={register}
-          error={errors.clientName?.message}
-        />
-        <TextInput
-          label="Description"
-          id="description"
-          name="description"
-          type="text"
-          placeholder="Description"
-          register={register}
-          error={errors.description?.message}
-        />
-        <TextInput
-          label="Start date"
-          id="startDate"
-          name="startDate"
-          type="date"
-          placeholder="Start date"
-          register={register}
-          error={errors.startDate?.message}
-        />
-        <TextInput
-          label="End date"
-          id="endDate"
-          name="endDate"
-          type="date"
-          placeholder="End date"
-          register={register}
-          error={errors.endDate?.message}
-        />
+      <div className={styles.box}>
+        <form className={styles.form}>
+          <TextInput
+            label="Project Name"
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Project Name"
+            register={register}
+            error={errors.name?.message}
+          />
+          <TextInput
+            label="Client Name"
+            id="clientName"
+            name="clientName"
+            type="text"
+            placeholder="Client Name"
+            register={register}
+            error={errors.clientName?.message}
+          />
+          <TextInput
+            label="Description"
+            id="description"
+            name="description"
+            type="text"
+            placeholder="Description"
+            register={register}
+            error={errors.description?.message}
+          />
+          <TextInput
+            label="Start date"
+            id="startDate"
+            name="startDate"
+            type="date"
+            placeholder="Start date"
+            register={register}
+            error={errors.startDate?.message}
+          />
+          <TextInput
+            label="End date"
+            id="endDate"
+            name="endDate"
+            type="date"
+            placeholder="End date"
+            register={register}
+            error={errors.endDate?.message}
+          />
+        </form>
         <div className={styles.listContainer}>
           <div>
             <h4>Employees</h4>
-            <EmployeeForm
-              selectedEmployee={clickedEmployee}
-              employees={projectEmployees}
-              setEmployees={setProjectEmployees}
-            />
+            <div>
+              <EmployeeForm
+                selectedEmployee={clickedEmployee}
+                employees={projectEmployees}
+                setEmployees={setProjectEmployees}
+              />
+            </div>
             <Table
               className={styles.employeeList}
               data={thisProjectEmployees()}
@@ -263,7 +267,7 @@ const ProjectForm = () => {
             <Button text="Submit" variant="primary" onClick={handleConfirmModal} />
           </div>
         </div>
-      </form>
+      </div>
       <div className={styles.listContainer}>
         <div>
           <h2>This project timesheets:</h2>
@@ -286,7 +290,7 @@ const ProjectForm = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

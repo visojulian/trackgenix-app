@@ -65,14 +65,16 @@ const Admins = () => {
             <p>Changes cannot be undone.</p>
           </div>
         </Modal>
-        <ButtonAdd
-          text="Add Admin"
-          type="submit"
-          variant="main"
-          onClick={() => {
-            history.push(`admins/form`);
-          }}
-        />
+        <div className={styles.buttonMargin}>
+          <ButtonAdd
+            text="Add Admin"
+            type="submit"
+            variant="main"
+            onClick={() => {
+              history.push(`admins/form`);
+            }}
+          />
+        </div>
       </div>
     </>
   );
